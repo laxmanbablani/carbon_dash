@@ -127,7 +127,10 @@ function processJSXElement(node) {
             if (text) children.push(escapePythonString(text));
         } else if (child.type === 'JSXElement') {
             const childResult = processJSXElement(child);
-            if (childResult) children.push(childResult);
+            if (childResult) {
+                if (Array.isArray(childResult)) children.push(...childResult);
+                else children.push(childResult);
+            }
         } else if (child.type === 'JSXExpressionContainer') {
             if (child.expression.type === 'StringLiteral') {
                 children.push(escapePythonString(child.expression.value));
@@ -166,15 +169,9 @@ function processJSXElement(node) {
         return `carbon_dash.${elementName}(${filteredProps.join(', ')})`;
     }
     
-    // Fallback to html.Div for unknown components to keep the app running
-    // We filter out props that are not allowed on html.Div
-    const allowedDivProps = ["accessKey", "children", "className", "contentEditable", "dir", "disable_n_clicks", "draggable", "hidden", "id", "key", "lang", "n_clicks", "n_clicks_timestamp", "role", "spellCheck", "style", "tabIndex", "title"];
-    const filteredProps = props.filter(p => {
-        if (!p.includes('=')) return true; // positional or already formatted
-        const propName = p.split('=')[0];
-        return allowedDivProps.includes(propName) || propName.startsWith('aria-') || propName.startsWith('data-');
-    });
-    return `html.Div(${filteredProps.join(', ')})`;
+    // NO FALLBACK - if it's not a Carbon component we know about, it fails fast
+    console.warn(`Warning: Unknown component ${elementName} encountered in stories. Skipping.`);
+    return null;
 }
 
 for (const folder of componentFolders) {

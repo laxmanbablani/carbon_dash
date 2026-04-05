@@ -31,16 +31,32 @@ function extractPropsFromSource(name) {
 
   // Regex to find props in function signature: function Component({ prop1, prop2 = default })
   // This is a simplified regex but should capture most destructured props in Carbon
-  const funcPattern = new RegExp(`(?:function|const)\\s+${name}\\s*(?:=\\s*)?\\(\\s*{([^}]*)}\\s*\\)`, 's');
+  const funcPattern = new RegExp(`(?:function|const)\\s+${name}(?:\\s*:[^=]+)?\\s*(?:=\\s*)?\\(\\s*{([^}]*)}\\s*\\)`, 's');
   const match = source.match(funcPattern);
   
   if (match && match[1]) {
     const propLines = match[1].split(',');
     propLines.forEach(line => {
-        const propMatch = line.trim().match(/^([a-zA-Z0-9_]+)(?:\s*[:=]\s*.*)?$/);
+        // Strip comments and handle { prop: alias }
+        const cleanLine = line.replace(/\/\*.*?\*\/|\/\/.*/g, '').trim();
+        const propMatch = cleanLine.match(/^([a-zA-Z0-9_]+)(?:\s*[:=]\s*.*)?$/);
         if (propMatch && propMatch[1] && propMatch[1] !== 'rest' && propMatch[1] !== 'other') {
             props[propMatch[1]] = 'PropTypes.any';
         }
+    });
+  }
+
+  // Also look for TypeScript interface/type definitions
+  const interfacePattern = new RegExp(`(?:interface|type)\\s+${name}Props(?:\\s*=\\s*{|\\s*{)([^}]*)}`, 's');
+  const interfaceMatch = source.match(interfacePattern);
+  if (interfaceMatch && interfaceMatch[1]) {
+    const ptLines = interfaceMatch[1].split('\n');
+    ptLines.forEach(line => {
+      // prop?: type or prop: type
+      const lineMatch = line.trim().match(/^([a-zA-Z0-9_]+)\??\s*:/);
+      if (lineMatch && lineMatch[1]) {
+        props[lineMatch[1]] = 'PropTypes.any';
+      }
     });
   }
 
@@ -103,6 +119,21 @@ async function generateComponent(name, CarbonComponent, compConfig) {
 
   const reservedKeywords = ['as', 'from', 'class', 'def', 'if', 'else', 'elif', 'for', 'while', 'try', 'except', 'finally', 'with', 'import', 'pass', 'break', 'continue', 'return', 'yield', 'lambda', 'and', 'or', 'not', 'is', 'in', 'del', 'global', 'nonlocal', 'assert', 'raise', 'True', 'False', 'None'];
 
+  const defaultProps = {};
+  for (const [propName, propDef] of Object.entries(injectProps)) {
+    let defVal = propDef.default;
+    if (typeof defVal === 'string') {
+        defVal = `'${defVal}'`;
+    } else if (defVal === null) {
+        defVal = 'null';
+    } else if (Array.isArray(defVal)) {
+        defVal = JSON.stringify(defVal);
+    } else if (typeof defVal === 'object') {
+        defVal = JSON.stringify(defVal);
+    }
+    defaultProps[propName] = defVal;
+  }
+
   let fragmentCode = `import React from 'react';
 import { ${name} as Carbon${name}${hasAILabel ? ', AILabel' : ''} } from '@carbon/react';
 
@@ -111,7 +142,7 @@ const ${name} = (props) => {
         id,
         setProps,
         children,
-        className,
+        className = ${defaultProps.className || "''"},
         style,
 `;
 
@@ -120,11 +151,11 @@ const ${name} = (props) => {
     if (['id', 'children', 'className', 'style'].includes(propName)) continue;
     
     if (reservedKeywords.includes(propName)) {
-        fragmentDestructuring.push(`${propName}_: ${propName}_alias`);
+        fragmentDestructuring.push(`${propName}_: ${propName}_alias = ${defaultProps[propName]}`);
         fragmentPassThrough.push(`${propName}={${propName}_alias}`);
     } else {
         const carbonPropName = propMap[propName] || propName;
-        fragmentDestructuring.push(propName);
+        fragmentDestructuring.push(`${propName} = ${defaultProps[propName]}`);
         fragmentPassThrough.push(`${carbonPropName}={${propName}}`);
     }
   }
@@ -169,52 +200,75 @@ const ${name} = (props) => {
     );
 };
 
-${name}.defaultProps = {\n`;
+export default ${name};
+`;
 
-  const defaultPropsLines = [];
-  for (const [propName, propDef] of Object.entries(injectProps)) {
-    let defVal = propDef.default;
-    if (typeof defVal === 'string') {
-        defVal = `'${defVal}'`;
-    } else if (defVal === null) {
-        defVal = 'null';
-    } else if (Array.isArray(defVal)) {
-        defVal = JSON.stringify(defVal);
-    } else if (typeof defVal === 'object') {
-        defVal = JSON.stringify(defVal);
-    }
-    defaultPropsLines.push(`    ${propName}: ${defVal}`);
+  // Only generate a new fragment if it doesn't already exist or we want to overwrite it
+  // Actually, we should probably keep custom fragments and only generate if missing
+  const fragmentPath = path.join(DEST_FRAGMENTS_DIR, `${name}.react.js`);
+  if (!fs.existsSync(fragmentPath)) {
+    console.log(`  Generating NEW fragment for ${name}...`);
+    await fs.writeFile(fragmentPath, fragmentCode);
+  } else {
+    console.log(`  Skipping fragment generation for ${name} (custom fragment exists).`);
   }
-  fragmentCode += defaultPropsLines.join(',\n');
-  fragmentCode += `\n};\n\nexport default ${name};\n`;
-
-  await fs.writeFile(path.join(DEST_FRAGMENTS_DIR, `${name}.react.js`), fragmentCode);
 
   // Generate Component Wrapper (for dash-generate-components)
-  let componentCode = `import React from 'react';
+  let componentCode = `import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as LazyLoader from '../LazyLoader';
 
 /**
  * ${name} is a wrapper for the Carbon ${name} component.
  */
-const ${name} = (props) => {
-    const RealComponent = LazyLoader['${name}'];
-    if (!RealComponent) {
-        return null;
+export default class ${name} extends Component {
+    render() {
+        const {
+            className,
+            ...otherProps
+        } = this.props;
+`;
+
+  for (const propName of Object.keys(injectProps)) {
+      if (['id', 'children', 'className', 'style'].includes(propName)) continue;
+      componentCode += `        const { ${propName} } = this.props;\n`;
+  }
+
+  componentCode += `
+        const RealComponent = LazyLoader['${name}'];
+        if (!RealComponent) {
+            return null;
+        }
+
+        return (
+            <React.Suspense fallback={null}>
+                <RealComponent 
+                    className={className}
+`;
+
+  for (const propName of Object.keys(injectProps)) {
+      if (['id', 'children', 'className', 'style'].includes(propName)) continue;
+      componentCode += `                    ${propName}={${propName}}\n`;
+  }
+
+  componentCode += `                    {...otherProps}
+                />
+            </React.Suspense>
+        );
     }
+}
 
-    return (
-        <React.Suspense fallback={null}>
-            <RealComponent {...props}/>
-        </React.Suspense>
-    );
-};
-
-${name}.defaultProps = {\n`;
+${name}.defaultProps = {
+    className: ${defaultProps.className || "''"},\n`;
   
-  componentCode += defaultPropsLines.join(',\n');
-  componentCode += `\n};\n\n${name}.propTypes = {\n`;
+  for (const propName of Object.keys(injectProps)) {
+      if (['id', 'children', 'className', 'style'].includes(propName)) continue;
+      componentCode += `    ${propName}: ${defaultProps[propName]},\n`;
+  }
+
+  componentCode += `};\n\n`;
+
+  componentCode += `${name}.propTypes = {\n`;
   componentCode += `    /**
      * The ID used to identify this component in Dash callbacks.
      */
@@ -295,7 +349,7 @@ ${name}.defaultProps = {\n`;
     componentCode += `    /**\n     * ${propName}\n     */\n    ${pythonPropName}: ${pt},\n\n`;
   }
 
-  componentCode += `};\n\nexport default ${name};\n\nexport const defaultProps = ${name}.defaultProps;\nexport const propTypes = ${name}.propTypes;\n`;
+  componentCode += `};\n`;
   
   await fs.writeFile(path.join(DEST_COMPONENTS_DIR, `${name}.react.js`), componentCode);
 
@@ -397,7 +451,7 @@ async function main() {
   
   // Clean up all existing generated files first to ensure a perfectly clean state
   console.log('Cleaning up existing generated files...');
-  [DEST_FRAGMENTS_DIR, DEST_COMPONENTS_DIR].forEach(dir => {
+  [DEST_COMPONENTS_DIR].forEach(dir => {
     if (fs.existsSync(dir)) {
       fs.readdirSync(dir).forEach(file => {
         if (file.endsWith('.react.js')) {
@@ -406,6 +460,12 @@ async function main() {
       });
     }
   });
+  
+  // Only cleanup fragments if they are NOT custom
+  // Actually, we'll let the generator handle it (it won't overwrite existing ones)
+  // For now, let's keep all fragments to be safe, but this might lead to stale fragments.
+  // Ideally, fragments would have a header indicating if they were auto-generated.
+  // For this project, we'll assume anything in fragments that we want to keep was manually edited.
   
   const pythonDir = path.resolve(__dirname, '../carbon_dash');
   if (fs.existsSync(pythonDir)) {

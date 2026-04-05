@@ -6,11 +6,9 @@ const DEST_COMPONENTS_DIR = path.resolve(__dirname, '../src/lib/components');
 const DEST_FRAGMENTS_DIR = path.resolve(__dirname, '../src/lib/fragments');
 const DEST_TESTS_DIR = path.resolve(__dirname, '../tests');
 
-async function generateComponent(name, compConfig) {
-  const carbon = require('@carbon/react');
-  const CarbonComponent = carbon[name];
+async function generateComponent(name, CarbonComponent, compConfig) {
   if (!CarbonComponent) {
-    console.error(`Error: Component ${name} not found in @carbon/react. Skipping and cleaning up.`);
+    console.error(`Error: Component ${name} not found. Skipping and cleaning up.`);
     
     // Cleanup orphaned files if they exist to prevent build errors or stale components
     const fragmentPath = path.join(DEST_FRAGMENTS_DIR, `${name}.react.js`);
@@ -67,7 +65,6 @@ const ${name} = (props) => {
 
   fragmentCode += `        ...otherProps
     } = props;
-
 `;
 
   const eventMap = compConfig.eventMap || {};
@@ -290,28 +287,76 @@ async function main() {
   await fs.ensureDir(DEST_TESTS_DIR);
 
   const carbon = require('@carbon/react');
-  const allCarbonComponents = Object.keys(carbon).filter(k => /^[A-Z]/.test(k));
   
+  // Discover all components exported by @carbon/react, including unstable and preview prefixes
+  const carbonExports = {};
+  const seenNames = new Set();
+
+  Object.keys(carbon).forEach(key => {
+    if (typeof carbon[key] === 'function' || (typeof carbon[key] === 'object' && carbon[key] !== null && (carbon[key].$$typeof || carbon[key].render || carbon[key].propTypes))) {
+        let cleanName = key;
+        if (key.startsWith('unstable__')) cleanName = key.replace('unstable__', '');
+        if (key.startsWith('preview__')) cleanName = key.replace('preview__', '');
+        
+        // Skip constants and small-caps exports
+        if (/^[A-Z]/.test(cleanName)) {
+            // macOS is case-insensitive, but we can have components that differ ONLY in case
+            // or where one export shadows another during iteration.
+            // We prioritize the one already in config, or the one without a prefix.
+            const lowerName = cleanName.toLowerCase();
+            if (seenNames.has(lowerName)) {
+                const existingName = Object.keys(carbonExports).find(k => k.toLowerCase() === lowerName);
+                console.warn(`Warning: Duplicate component name detected with different casing: ${cleanName} (already have ${existingName}). Skipping ${cleanName} to avoid file system conflicts.`);
+                return;
+            }
+            seenNames.add(lowerName);
+            carbonExports[cleanName] = carbon[key];
+        }
+    }
+  });
+
+  const allCarbonComponents = Object.keys(carbonExports);
+  
+  // Clean up all existing generated files first to ensure a perfectly clean state
+  console.log('Cleaning up existing generated files...');
+  [DEST_FRAGMENTS_DIR, DEST_COMPONENTS_DIR].forEach(dir => {
+    if (fs.existsSync(dir)) {
+      fs.readdirSync(dir).forEach(file => {
+        if (file.endsWith('.react.js')) {
+          fs.unlinkSync(path.join(dir, file));
+        }
+      });
+    }
+  });
+  
+  const pythonDir = path.resolve(__dirname, '../carbon_dash');
+  if (fs.existsSync(pythonDir)) {
+    fs.readdirSync(pythonDir).forEach(file => {
+      // Delete camel-case Python files which are likely generated components
+      if (file.endsWith('.py') && /^[A-Z]/.test(file)) {
+        fs.unlinkSync(path.join(pythonDir, file));
+      }
+    });
+  }
+
   // Merge config components with all other Carbon components
   const componentsToGenerate = new Set([
     ...Object.keys(config),
     ...allCarbonComponents
   ]);
 
-  // Valid components are those that exist in @carbon/react
-  const validComponents = new Set(allCarbonComponents);
-
-  for (const name of componentsToGenerate) {
-    if (!validComponents.has(name)) {
-        console.warn(`Warning: Component ${name} from config.json not found in @carbon/react. Skipping.`);
+  for (const name of Array.from(componentsToGenerate).sort()) {
+    const CarbonComponent = carbonExports[name];
+    if (!CarbonComponent) {
+        console.warn(`Warning: Component ${name} not found in @carbon/react exports. Skipping.`);
         continue;
     }
     const compConfig = config[name] || {};
-    await generateComponent(name, compConfig);
+    await generateComponent(name, CarbonComponent, compConfig);
   }
 
   // Generate LazyLoader and index.js
-  const finalComponents = Array.from(componentsToGenerate).filter(name => validComponents.has(name)).sort();
+  const finalComponents = Array.from(componentsToGenerate).filter(name => carbonExports[name]).sort();
   
   let lazyLoaderCode = `import React from 'react';\n\n`;
   finalComponents.forEach(c => {
@@ -326,7 +371,7 @@ async function main() {
   indexCode += `\nexport {\n  ${finalComponents.join(',\n  ')}\n};\n`;
   await fs.writeFile(path.join(__dirname, '../src/lib/index.js'), indexCode);
 
-  console.log('Pipeline finished successfully.');
+  console.log(`Automation pipeline complete. Generated ${finalComponents.length} components.`);
 }
 
 main().catch(console.error);

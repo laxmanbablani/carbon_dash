@@ -7,6 +7,7 @@ const DOCS_DIR = 'docs';
 if (!fs.existsSync(DOCS_DIR)) fs.mkdirSync(DOCS_DIR);
 
 const carbonReact = require('@carbon/react');
+const carbonIcons = require('@carbon/react/icons');
 
 const componentsDir = path.resolve('_ref/carbon-design-system/packages/react/src/components');
 const componentFolders = fs.readdirSync(componentsDir).filter(f => fs.statSync(path.join(componentsDir, f)).isDirectory());
@@ -110,7 +111,17 @@ function processJSXElement(node) {
                         valueStr = escapePythonString(attr.value.expression.value);
                     } else {
                         // For complex expressions we just use empty string to avoid crashes
-                        return; // skip prop
+                        if (attr.value.expression.type === 'Identifier') {
+                            const idName = attr.value.expression.name;
+                            if (carbonIcons[idName]) {
+                                const iconKebab = idName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+                                valueStr = `dash_iconify.DashIconify(icon="carbon:${iconKebab}")`;
+                            } else {
+                                return;
+                            }
+                        } else {
+                            return; // skip prop
+                        }
                     }
                 }
             }
@@ -170,6 +181,10 @@ function processJSXElement(node) {
     }
     
     // NO FALLBACK - if it's not a Carbon component we know about, it fails fast
+    if (carbonIcons[elementName]) {
+        const iconKebab = elementName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        return `dash_iconify.DashIconify(icon="carbon:${iconKebab}")`;
+    }
     console.warn(`Warning: Unknown component ${elementName} encountered in stories. Skipping.`);
     return null;
 }
@@ -285,7 +300,7 @@ for (const folder of componentFolders) {
 }
 
 // Generate Python Docs
-let pythonDocs = `import carbon_dash
+let pythonDocs = `import carbon_dash\nimport dash_iconify
 from dash import Dash, html, dcc, Input, Output
 
 app = Dash(__name__)

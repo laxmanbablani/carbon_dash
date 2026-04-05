@@ -1,4 +1,5 @@
 import carbon_dash
+import dash_iconify
 from dash import Dash, html, dcc, Input, Output
 
 app = Dash(__name__)
@@ -127,7 +128,7 @@ stories_dict['node-combobutton'] = html.Div([
         html.H3("WithDanger"),
         carbon_dash.ComboButton(label='Primary action', children=[carbon_dash.MenuItem(label='Second action with a long label description'), carbon_dash.MenuItem(label='Third action'), carbon_dash.MenuItem(label='Fourth action'), carbon_dash.MenuItemDivider(), carbon_dash.MenuItem(label='Danger action', kind='danger')]),
         html.H3("WithIcons"),
-        carbon_dash.ComboButton(label='Save record', children=[carbon_dash.MenuItem(label='Save as a copy'), carbon_dash.MenuItem(label='Export')]),
+        carbon_dash.ComboButton(label='Save record', children=[carbon_dash.MenuItem(label='Save as a copy', renderIcon=dash_iconify.DashIconify(icon="carbon:copy-file")), carbon_dash.MenuItem(label='Export', renderIcon=dash_iconify.DashIconify(icon="carbon:export"))]),
         html.H3("WithMenuAlignment"),
         carbon_dash.ComboButton(id='combobutton-withmenualignment'),
     ])
@@ -173,7 +174,7 @@ stories_dict['node-containedlist'] = html.Div([
         html.H3("WithListTitleDecorators"),
         carbon_dash.ContainedList(kind='on-page', children=[carbon_dash.ContainedListItem(children='List item'), carbon_dash.ContainedListItem(children='List item'), carbon_dash.ContainedListItem(children='List item'), carbon_dash.ContainedListItem(children='List item')]),
         html.H3("WithIcons"),
-        carbon_dash.ContainedList(label='List title', kind='on-page', children=[carbon_dash.ContainedListItem(children='List item'), carbon_dash.ContainedListItem(children='List item'), carbon_dash.ContainedListItem(children='List item'), carbon_dash.ContainedListItem(children='List item')]),
+        carbon_dash.ContainedList(label='List title', kind='on-page', children=[carbon_dash.ContainedListItem(renderIcon=dash_iconify.DashIconify(icon="carbon:apple"), children='List item'), carbon_dash.ContainedListItem(renderIcon=dash_iconify.DashIconify(icon="carbon:wheat"), children='List item'), carbon_dash.ContainedListItem(renderIcon=dash_iconify.DashIconify(icon="carbon:strawberry"), children='List item'), carbon_dash.ContainedListItem(renderIcon=dash_iconify.DashIconify(icon="carbon:fish"), children='List item')]),
         html.H3("_WithLayer"),
         carbon_dash.ContainedList(id='containedlist-_withlayer'),
         html.H3("UsageExamples"),
@@ -185,13 +186,13 @@ stories_dict['node-contentswitcher'] = html.Div([
         html.H3("_WithLayer"),
         carbon_dash.ContentSwitcher(id='contentswitcher-_withlayer'),
         html.H3("IconOnly"),
-        carbon_dash.ContentSwitcher(children=[carbon_dash.IconSwitch(name='one', text='Table of Contents'), carbon_dash.IconSwitch(name='two', text='Workspace Test'), carbon_dash.IconSwitch(name='three', text='View Mode')]),
+        carbon_dash.ContentSwitcher(children=[carbon_dash.IconSwitch(name='one', text='Table of Contents', children=dash_iconify.DashIconify(icon="carbon:table-of-contents")), carbon_dash.IconSwitch(name='two', text='Workspace Test', children=dash_iconify.DashIconify(icon="carbon:workspace")), carbon_dash.IconSwitch(name='three', text='View Mode', children=dash_iconify.DashIconify(icon="carbon:view-mode_2"))]),
         html.H3("IconOnlyWithLayer"),
         carbon_dash.ContentSwitcher(id='contentswitcher-icononlywithlayer'),
         html.H3("lowContrast"),
         carbon_dash.ContentSwitcher(lowContrast=True, children=[carbon_dash.Switch(name='one', text='First section'), carbon_dash.Switch(name='two', text='Second section'), carbon_dash.Switch(name='three', text='Third section')]),
         html.H3("lowContrastIconOnly"),
-        carbon_dash.ContentSwitcher(lowContrast=True, children=[carbon_dash.IconSwitch(name='one', text='Table of Contents'), carbon_dash.IconSwitch(name='two', text='Workspace Test'), carbon_dash.IconSwitch(name='three', text='View Mode')]),
+        carbon_dash.ContentSwitcher(lowContrast=True, children=[carbon_dash.IconSwitch(name='one', text='Table of Contents', children=dash_iconify.DashIconify(icon="carbon:table-of-contents")), carbon_dash.IconSwitch(name='two', text='Workspace Test', children=dash_iconify.DashIconify(icon="carbon:workspace")), carbon_dash.IconSwitch(name='three', text='View Mode', children=dash_iconify.DashIconify(icon="carbon:view-mode_2"))]),
     ])
 
 stories_dict['node-datatable'] = html.Div([
@@ -527,7 +528,7 @@ stories_dict['node-menubutton'] = html.Div([
         html.H3("WithDividers"),
         carbon_dash.MenuButton(label='Actions', children=[carbon_dash.MenuItem(label='Create service request'), carbon_dash.MenuItem(label='Create work order'), carbon_dash.MenuItemDivider(), carbon_dash.MenuItem(label='Add plan'), carbon_dash.MenuItem(label='Add flag'), carbon_dash.MenuItemDivider(), carbon_dash.MenuItem(label='Edit source location'), carbon_dash.MenuItem(label='Recalculate source')]),
         html.H3("WithIcons"),
-        carbon_dash.MenuButton(label='Add', children=[carbon_dash.MenuItem(label='Asset'), carbon_dash.MenuItem(label='User'), carbon_dash.MenuItem(label='User group')]),
+        carbon_dash.MenuButton(label='Add', children=[carbon_dash.MenuItem(label='Asset', renderIcon=dash_iconify.DashIconify(icon="carbon:asset")), carbon_dash.MenuItem(label='User', renderIcon=dash_iconify.DashIconify(icon="carbon:user")), carbon_dash.MenuItem(label='User group', renderIcon=dash_iconify.DashIconify(icon="carbon:group"))]),
         html.H3("WithNestedMenu"),
         carbon_dash.MenuButton(label='Actions', children=[carbon_dash.MenuItem(label='Save', shortcut='⌘S'), carbon_dash.MenuItem(label='Save as', shortcut='⌥⌘S'), carbon_dash.MenuItem(label='Export as', children=[carbon_dash.MenuItem(label='PDF'), carbon_dash.MenuItem(label='JPG'), carbon_dash.MenuItem(label='PNG')]), carbon_dash.MenuItemDivider(), carbon_dash.MenuItem(label='Delete', kind='danger')]),
         html.H3("WithMenuAlignment"),
@@ -629,7 +630,7 @@ stories_dict['node-overflowmenu'] = html.Div([
         html.H3("Default"),
         carbon_dash.OverflowMenu(focusTrap=False, open=False, id='overflowmenu-default'),
         html.H3("RenderCustomIcon"),
-        carbon_dash.OverflowMenu(children=[carbon_dash.OverflowMenuItem(itemText='Filter A'), carbon_dash.OverflowMenuItem(itemText='Filter B')]),
+        carbon_dash.OverflowMenu(renderIcon=dash_iconify.DashIconify(icon="carbon:filter"), children=[carbon_dash.OverflowMenuItem(itemText='Filter A'), carbon_dash.OverflowMenuItem(itemText='Filter B')]),
     ])
 
 stories_dict['node-pagination'] = html.Div([
@@ -773,21 +774,21 @@ stories_dict['node-tabs'] = html.Div([
         html.H3("DismissableWithIcons"),
         carbon_dash.Tabs(id='tabs-dismissablewithicons'),
         html.H3("WithIcons"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(activation='manual', children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(activation='manual', children=[carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:dashboard"), children='Dashboard'), carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:cloud-monitoring"), children='Monitoring'), carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:activity"), children='Activity'), carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:ibm-watson-discovery"), children='Analyze'), carbon_dash.Tab(disabled=True, renderIcon=dash_iconify.DashIconify(icon="carbon:settings"), children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("Manual"),
         carbon_dash.Tabs(children=[carbon_dash.TabList(activation='manual', children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("Icon20Only"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='lg', children=[carbon_dash.IconTab(label='Analyze'), carbon_dash.IconTab(label='Activity'), carbon_dash.IconTab(label='New Notifications'), carbon_dash.IconTab(label='Chat')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='lg', children=[carbon_dash.IconTab(label='Analyze', children=dash_iconify.DashIconify(icon="carbon:ibm-watson-discovery")), carbon_dash.IconTab(label='Activity', children=dash_iconify.DashIconify(icon="carbon:activity")), carbon_dash.IconTab(label='New Notifications', children=dash_iconify.DashIconify(icon="carbon:notification")), carbon_dash.IconTab(label='Chat', children=dash_iconify.DashIconify(icon="carbon:chat"))]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
         html.H3("IconOnly"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='default', children=[carbon_dash.IconTab(label='Analyze'), carbon_dash.IconTab(label='Activity'), carbon_dash.IconTab(label='New Notifications'), carbon_dash.IconTab(label='Chat')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='default', children=[carbon_dash.IconTab(label='Analyze', children=dash_iconify.DashIconify(icon="carbon:ibm-watson-discovery")), carbon_dash.IconTab(label='Activity', children=dash_iconify.DashIconify(icon="carbon:activity")), carbon_dash.IconTab(label='New Notifications', children=dash_iconify.DashIconify(icon="carbon:notification")), carbon_dash.IconTab(label='Chat', children=dash_iconify.DashIconify(icon="carbon:chat"))]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
         html.H3("Contained"),
         carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("ContainedWithIcons"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:dashboard"), children='Dashboard'), carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:cloud-monitoring"), children='Monitoring'), carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:activity"), children='Activity'), carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:ibm-watson-discovery"), children='Analyze'), carbon_dash.Tab(disabled=True, renderIcon=dash_iconify.DashIconify(icon="carbon:settings"), children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("ContainedWithSecondaryLabels"),
         carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(secondaryLabel='(21/25)', children='Engage'), carbon_dash.Tab(secondaryLabel='(12/16)', children='Analyze'), carbon_dash.Tab(secondaryLabel='(0/7)', children='Remediate'), carbon_dash.Tab(secondaryLabel='(4/12)', children='Assets'), carbon_dash.Tab(disabled=True, secondaryLabel='(0/10)', children='Monitoring')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("ContainedWithSecondaryLabelsAndIcons"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(secondaryLabel='(21/25', children='Engage'), carbon_dash.Tab(secondaryLabel='(12/16)', children='Analyze'), carbon_dash.Tab(disabled=True, secondaryLabel='(0/7)', children='Remediate'), carbon_dash.Tab(secondaryLabel='(4/12)', children='Assets'), carbon_dash.Tab(secondaryLabel='(1/23)', children='Monitoring')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:task"), secondaryLabel='(21/25', children='Engage'), carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:ibm-watson-discovery"), secondaryLabel='(12/16)', children='Analyze'), carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:restart"), disabled=True, secondaryLabel='(0/7)', children='Remediate'), carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:dashboard"), secondaryLabel='(4/12)', children='Assets'), carbon_dash.Tab(renderIcon=dash_iconify.DashIconify(icon="carbon:cloud-monitoring"), secondaryLabel='(1/23)', children='Monitoring')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("ContainedFullWidth"),
         carbon_dash.Grid(condensed=True, children=carbon_dash.Column(lg=16, md=8, sm=4, children=carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, fullWidth=True, children=[carbon_dash.Tab(children='TLS'), carbon_dash.Tab(children='Origin'), carbon_dash.Tab(disabled=True, children='Rate limiting'), carbon_dash.Tab(children='WAF'), carbon_dash.Tab(children='IP Firewall'), carbon_dash.Tab(children='Firewall rules'), carbon_dash.Tab(children='Range'), carbon_dash.Tab(children='Mutual TLS')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5'), carbon_dash.TabPanel(children='Tab Panel 6'), carbon_dash.TabPanel(children='Tab Panel 7'), carbon_dash.TabPanel(children='Tab Panel 8')])]))),
         html.H3("Vertical"),
@@ -795,9 +796,9 @@ stories_dict['node-tabs'] = html.Div([
         html.H3("Skeleton"),
         carbon_dash.Tabs(id='tabs-skeleton'),
         html.H3("Icon20OnlyVisualSnapshots"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='lg', children=[carbon_dash.IconTab(label='Analyze'), carbon_dash.IconTab(label='Activity'), carbon_dash.IconTab(label='New Notifications'), carbon_dash.IconTab(label='Chat')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='lg', children=[carbon_dash.IconTab(label='Analyze', children=dash_iconify.DashIconify(icon="carbon:ibm-watson-discovery")), carbon_dash.IconTab(label='Activity', children=dash_iconify.DashIconify(icon="carbon:activity")), carbon_dash.IconTab(label='New Notifications', children=dash_iconify.DashIconify(icon="carbon:notification")), carbon_dash.IconTab(label='Chat', children=dash_iconify.DashIconify(icon="carbon:chat"))]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
         html.H3("IconOnlyVisualSnapshots"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='default', children=[carbon_dash.IconTab(label='Analyze'), carbon_dash.IconTab(label='Activity'), carbon_dash.IconTab(label='New Notifications'), carbon_dash.IconTab(label='Chat')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='default', children=[carbon_dash.IconTab(label='Analyze', children=dash_iconify.DashIconify(icon="carbon:ibm-watson-discovery")), carbon_dash.IconTab(label='Activity', children=dash_iconify.DashIconify(icon="carbon:activity")), carbon_dash.IconTab(label='New Notifications', children=dash_iconify.DashIconify(icon="carbon:notification")), carbon_dash.IconTab(label='Chat', children=dash_iconify.DashIconify(icon="carbon:chat"))]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
     ])
 
 stories_dict['node-tag'] = html.Div([
@@ -881,7 +882,7 @@ stories_dict['node-tile'] = html.Div([
         html.H3("DefaultWithLayer"),
         carbon_dash.Tile(id='tile-defaultwithlayer'),
         html.H3("ClickableWithCustomIcon"),
-        carbon_dash.ClickableTile(id='clickable-tile-1', href='https://www.carbondesignsystem.com/', children='Clickable Tile'),
+        carbon_dash.ClickableTile(id='clickable-tile-1', href='https://www.carbondesignsystem.com/', renderIcon=dash_iconify.DashIconify(icon="carbon:launch"), children='Clickable Tile'),
         html.H3("withAILabel"),
         carbon_dash.Tile(id='tile-withailabel'),
     ])

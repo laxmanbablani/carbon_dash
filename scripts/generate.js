@@ -184,6 +184,7 @@ async function generateComponent(name, CarbonComponent, compConfig) {
 
   let fragmentCode = `import React from 'react';
 import { ${name} as Carbon${name}${hasAILabel ? ', AILabel' : ''} } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
 
 const getLoadingState = (loading_state) => {
     if (loading_state && loading_state.is_loading) {
@@ -209,11 +210,19 @@ const ${name} = (props) => {
     
     if (reservedKeywords.includes(propName)) {
         fragmentDestructuring.push(`${propName}_: ${propName}_alias = ${defaultProps[propName]}`);
-        fragmentPassThrough.push(`${propName}={${propName}_alias}`);
+        if (['renderIcon', 'icon', 'defaultIcon', 'leftSection', 'rightSection'].includes(propName)) {
+            fragmentPassThrough.push(`${propName}={resolveIcon(${propName}_alias)}`);
+        } else {
+            fragmentPassThrough.push(`${propName}={${propName}_alias}`);
+        }
     } else {
         const carbonPropName = propMap[propName] || propName;
         fragmentDestructuring.push(`${propName} = ${defaultProps[propName]}`);
-        fragmentPassThrough.push(`${carbonPropName}={${propName}}`);
+        if (['renderIcon', 'icon', 'defaultIcon', 'leftSection', 'rightSection'].includes(propName)) {
+            fragmentPassThrough.push(`${carbonPropName}={resolveIcon(${propName})}`);
+        } else {
+            fragmentPassThrough.push(`${carbonPropName}={${propName}}`);
+        }
     }
   }
 
@@ -351,7 +360,7 @@ ${name}.defaultProps = {
     // unless we find a better way to map them.
     if (propName.includes('-')) continue;
     
-    let pt = 'PropTypes.any';
+    let pt = (propName.toLowerCase().includes('icon') || propName === 'children' || propName === 'leftSection' || propName === 'rightSection') ? 'PropTypes.node' : 'PropTypes.any';
     if (typeof ptValue === 'string' && ptValue.startsWith('PropTypes')) {
         pt = ptValue;
     } else if (typeof ptValue === 'object' && ptValue.type) {
@@ -361,9 +370,9 @@ ${name}.defaultProps = {
         if (ptValue.type === 'node') pt = 'PropTypes.node';
         if (ptValue.type === 'array') pt = 'PropTypes.array';
     } else if (ptValue && ptValue.isRequired !== undefined) {
-        pt = 'PropTypes.any';
+        pt = (propName.toLowerCase().includes('icon') || propName === 'children' || propName === 'leftSection' || propName === 'rightSection') ? 'PropTypes.node' : 'PropTypes.any';
     } else {
-        pt = 'PropTypes.any';
+        pt = (propName.toLowerCase().includes('icon') || propName === 'children' || propName === 'leftSection' || propName === 'rightSection') ? 'PropTypes.node' : 'PropTypes.any';
     }
     
     const reservedKeywords = ['as', 'from', 'class', 'def', 'if', 'else', 'elif', 'for', 'while', 'try', 'except', 'finally', 'with', 'import', 'pass', 'break', 'continue', 'return', 'yield', 'lambda', 'and', 'or', 'not', 'is', 'in', 'del', 'global', 'nonlocal', 'assert', 'raise', 'True', 'False', 'None'];

@@ -1,22 +1,33 @@
 import React from 'react';
 import { Column as CarbonColumn } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const Column = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = undefined,
+        loading_state,
         style,
-        sm,
-        md,
-        lg,
-        xlg,
-        max,
+        sm = null,
+        md = null,
+        lg = null,
+        xlg = null,
+        max = null,
         ...otherProps
     } = props;
     return (
         <CarbonColumn
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -31,7 +42,5 @@ const Column = (props) => {
         </CarbonColumn>
     );
 };
-
-
 
 export default Column;

@@ -1,15 +1,25 @@
 import React from 'react';
 import { AccordionItem as CarbonAccordionItem } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const AccordionItem = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = undefined,
+        loading_state,
         style,
-        title,
-        open,
+        title = 'Accordion Title',
+        open = null,
         ...otherProps
     } = props;
     const onHeadingClick = (...args) => {
@@ -22,6 +32,7 @@ const AccordionItem = (props) => {
 
     return (
         <CarbonAccordionItem
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -34,7 +45,5 @@ const AccordionItem = (props) => {
         </CarbonAccordionItem>
     );
 };
-
-
 
 export default AccordionItem;

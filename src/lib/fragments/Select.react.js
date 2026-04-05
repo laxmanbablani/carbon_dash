@@ -1,15 +1,25 @@
 import React from 'react';
 import { Select as CarbonSelect } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const Select = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = undefined,
+        loading_state,
         style,
-        value,
-        label,
+        value = '',
+        label = 'Select',
         ...otherProps
     } = props;
     const onChange = (...args) => {
@@ -22,6 +32,7 @@ const Select = (props) => {
 
     return (
         <CarbonSelect
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -34,7 +45,5 @@ const Select = (props) => {
         </CarbonSelect>
     );
 };
-
-
 
 export default Select;

@@ -1,29 +1,42 @@
 import React from 'react';
 import { TreeNode as CarbonTreeNode } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const TreeNode = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = undefined,
+        loading_state,
         style,
-        
+        value = '',
+        selected = null,
+        active = null,
         ...otherProps
     } = props;
     return (
         <CarbonTreeNode
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
-            
+            value={value}
+            selected={selected}
+            active={active}
             {...otherProps}
         >
             {children}
         </CarbonTreeNode>
     );
 };
-
-
 
 export default TreeNode;

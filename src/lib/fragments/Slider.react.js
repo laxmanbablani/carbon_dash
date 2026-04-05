@@ -1,17 +1,27 @@
 import React from 'react';
 import { Slider as CarbonSlider } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const Slider = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = undefined,
+        loading_state,
         style,
-        value,
-        min,
-        max,
-        label,
+        value = null,
+        min = null,
+        max = 100,
+        label = 'Slider',
         ...otherProps
     } = props;
     const onChange = (...args) => {
@@ -24,6 +34,7 @@ const Slider = (props) => {
 
     return (
         <CarbonSlider
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -38,7 +49,5 @@ const Slider = (props) => {
         </CarbonSlider>
     );
 };
-
-
 
 export default Slider;

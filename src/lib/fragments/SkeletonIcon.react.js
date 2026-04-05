@@ -1,18 +1,29 @@
 import React from 'react';
 import { SkeletonIcon as CarbonSkeletonIcon } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const SkeletonIcon = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = '',
+        loading_state,
         style,
         
         ...otherProps
     } = props;
     return (
         <CarbonSkeletonIcon
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -23,7 +34,5 @@ const SkeletonIcon = (props) => {
         </CarbonSkeletonIcon>
     );
 };
-
-
 
 export default SkeletonIcon;

@@ -1,18 +1,29 @@
 import React from 'react';
 import { ToggletipLabel as CarbonToggletipLabel } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const ToggletipLabel = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = undefined,
+        loading_state,
         style,
         
         ...otherProps
     } = props;
     return (
         <CarbonToggletipLabel
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -23,7 +34,5 @@ const ToggletipLabel = (props) => {
         </CarbonToggletipLabel>
     );
 };
-
-
 
 export default ToggletipLabel;

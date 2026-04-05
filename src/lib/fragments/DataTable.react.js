@@ -1,103 +1,53 @@
 import React from 'react';
-import {
-    DataTable as CarbonDataTable,
-    Table,
-    TableHead,
-    TableRow,
-    TableHeader,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableExpandHeader,
-    TableExpandRow,
-    TableExpandedRow,
-    TableSelectAll,
-    TableSelectRow
-} from '@carbon/react';
+import { DataTable as CarbonDataTable } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const DataTable = (props) => {
     const {
         id,
         setProps,
         children,
-        className = '',
+        className = undefined,
+        loading_state,
         style,
         rows = [],
         headers = [],
-        useZebraStyles = false,
+        useZebraStyles = null,
         size = 'lg',
         title = '',
         description = '',
-        isSortable = false,
-        withSelection = false,
-        withExpansion = false,
+        isSortable = null,
+        withSelection = null,
+        withExpansion = null,
         ...otherProps
     } = props;
-
     return (
         <CarbonDataTable
+            data-dash-is-loading={getLoadingState(loading_state)}
+            id={id}
+            className={className}
+            style={style}
             rows={rows}
             headers={headers}
+            useZebraStyles={useZebraStyles}
+            size={size}
+            title={title}
+            description={description}
             isSortable={isSortable}
-            render={({
-                rows,
-                headers,
-                getHeaderProps,
-                getRowProps,
-                getTableProps,
-                getSelectionProps,
-                getExpandProps
-            }) => (
-                <TableContainer title={title} description={description} className={className} style={style}>
-                    <Table {...getTableProps()} useZebraStyles={useZebraStyles} size={size}>
-                        <TableHead>
-                            <TableRow>
-                                {withExpansion && <TableExpandHeader />}
-                                {withSelection && (
-                                    <TableSelectAll {...getSelectionProps()} />
-                                )}
-                                {headers.map((header) => (
-                                    <TableHeader {...getHeaderProps({ header })}>
-                                        {header.header}
-                                    </TableHeader>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <React.Fragment key={row.id}>
-                                    {withExpansion ? (
-                                        <TableExpandRow {...getRowProps({ row })} {...getExpandProps({ row })}>
-                                            {withSelection && (
-                                                <TableSelectRow {...getSelectionProps({ row })} />
-                                            )}
-                                            {row.cells.map((cell) => (
-                                                <TableCell key={cell.id}>{cell.value}</TableCell>
-                                            ))}
-                                        </TableExpandRow>
-                                    ) : (
-                                        <TableRow {...getRowProps({ row })}>
-                                            {withSelection && (
-                                                <TableSelectRow {...getSelectionProps({ row })} />
-                                            )}
-                                            {row.cells.map((cell) => (
-                                                <TableCell key={cell.id}>{cell.value}</TableCell>
-                                            ))}
-                                        </TableRow>
-                                    )}
-                                    {withExpansion && row.isExpanded && (
-                                        <TableExpandedRow colSpan={headers.length + (withSelection ? 2 : 1)}>
-                                            {row.expansionContent || 'No expansion content provided'}
-                                        </TableExpandedRow>
-                                    )}
-                                </React.Fragment>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            )}
+            withSelection={withSelection}
+            withExpansion={withExpansion}
             {...otherProps}
-        />
+        >
+            {children}
+        </CarbonDataTable>
     );
 };
 

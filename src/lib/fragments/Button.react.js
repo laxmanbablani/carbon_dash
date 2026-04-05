@@ -1,14 +1,24 @@
 import React from 'react';
 import { Button as CarbonButton } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const Button = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = undefined,
+        loading_state,
         style,
-        n_clicks,
+        n_clicks = null,
         ...otherProps
     } = props;
     const onClick = (...args) => {
@@ -21,6 +31,7 @@ const Button = (props) => {
 
     return (
         <CarbonButton
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -32,7 +43,5 @@ const Button = (props) => {
         </CarbonButton>
     );
 };
-
-
 
 export default Button;

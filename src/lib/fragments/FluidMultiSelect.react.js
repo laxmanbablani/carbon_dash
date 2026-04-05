@@ -1,18 +1,29 @@
 import React from 'react';
 import { FluidMultiSelect as CarbonFluidMultiSelect } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const FluidMultiSelect = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = '',
+        loading_state,
         style,
         
         ...otherProps
     } = props;
     return (
         <CarbonFluidMultiSelect
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -23,7 +34,5 @@ const FluidMultiSelect = (props) => {
         </CarbonFluidMultiSelect>
     );
 };
-
-
 
 export default FluidMultiSelect;

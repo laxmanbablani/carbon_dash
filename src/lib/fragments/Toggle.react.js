@@ -1,15 +1,25 @@
 import React from 'react';
 import { Toggle as CarbonToggle } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const Toggle = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = undefined,
+        loading_state,
         style,
-        toggled,
-        label,
+        toggled = null,
+        label = 'Toggle',
         ...otherProps
     } = props;
     const onToggle = (...args) => {
@@ -22,6 +32,7 @@ const Toggle = (props) => {
 
     return (
         <CarbonToggle
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -34,7 +45,5 @@ const Toggle = (props) => {
         </CarbonToggle>
     );
 };
-
-
 
 export default Toggle;

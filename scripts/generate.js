@@ -180,7 +180,7 @@ async function generateComponent(name, CarbonComponent, compConfig) {
 
   // Ensure sensible defaults for interactive props to prevent controlled/uncontrolled warnings
   const interactiveProps = [
-    { name: 'value', type: 'any', default: "''" },
+    { name: 'value', type: 'any', default: "" },
     { name: 'checked', type: 'bool', default: false },
     { name: 'selectedItem', type: 'any', default: null },
     { name: 'selected', type: 'any', default: null },
@@ -243,7 +243,7 @@ const ${name} = (props) => {
         id,
         setProps,
         children,
-        className = ${defaultProps.className || "''"},
+        className = ${defaultProps.className},
         loading_state,
         style,
 `;
@@ -253,7 +253,7 @@ const ${name} = (props) => {
     if (Object.keys(DashBaseProps).includes(propName)) continue;
     
     if (reservedKeywords.includes(propName)) {
-        fragmentDestructuring.push(`${propName}_: ${propName}_alias = ${defaultProps[propName]}`);
+        fragmentDestructuring.push(`${propName}_: ${propName}_alias = ${defaultProps[propName] || 'null'}`);
         if (['renderIcon', 'icon', 'defaultIcon', 'leftSection', 'rightSection'].includes(propName)) {
             fragmentPassThrough.push(`${propName}={resolveIcon(${propName}_alias)}`);
         } else {
@@ -261,7 +261,7 @@ const ${name} = (props) => {
         }
     } else {
         const carbonPropName = propMap[propName] || propName;
-        fragmentDestructuring.push(`${propName} = ${defaultProps[propName]}`);
+        fragmentDestructuring.push(`${propName} = ${defaultProps[propName] || 'null'}`);
         if (['renderIcon', 'icon', 'defaultIcon', 'leftSection', 'rightSection'].includes(propName)) {
             fragmentPassThrough.push(`${carbonPropName}={resolveIcon(${propName})}`);
         } else {

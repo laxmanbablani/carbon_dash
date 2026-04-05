@@ -1,18 +1,29 @@
 import React from 'react';
 import { Callout as CarbonCallout } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const Callout = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = undefined,
+        loading_state,
         style,
         
         ...otherProps
     } = props;
     return (
         <CarbonCallout
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -23,7 +34,5 @@ const Callout = (props) => {
         </CarbonCallout>
     );
 };
-
-
 
 export default Callout;

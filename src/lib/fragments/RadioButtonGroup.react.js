@@ -1,15 +1,25 @@
 import React from 'react';
 import { RadioButtonGroup as CarbonRadioButtonGroup } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const RadioButtonGroup = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = undefined,
+        loading_state,
         style,
-        valueSelected,
-        label,
+        valueSelected = null,
+        label = 'Radio Button Group',
         ...otherProps
     } = props;
     const onChange = (...args) => {
@@ -22,6 +32,7 @@ const RadioButtonGroup = (props) => {
 
     return (
         <CarbonRadioButtonGroup
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -34,7 +45,5 @@ const RadioButtonGroup = (props) => {
         </CarbonRadioButtonGroup>
     );
 };
-
-
 
 export default RadioButtonGroup;

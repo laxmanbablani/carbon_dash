@@ -1,5 +1,14 @@
 import React from 'react';
-import { DatePicker as CarbonDatePicker, DatePickerInput } from '@carbon/react';
+import { DatePicker as CarbonDatePicker } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const DatePicker = (props) => {
     const {
@@ -7,30 +16,23 @@ const DatePicker = (props) => {
         setProps,
         children,
         className = '',
+        loading_state,
         style,
-        datePickerType,
+        datePickerType = 'single',
+        value = '',
         ...otherProps
     } = props;
-
-    // If no children provided, we render a default DatePickerInput
-    const content = children || (
-        <DatePickerInput
-            id={`${id}-input`}
-            labelText="Select date"
-            placeholder="mm/dd/yyyy"
-            size="md"
-        />
-    );
-
     return (
         <CarbonDatePicker
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
             datePickerType={datePickerType}
+            value={value}
             {...otherProps}
         >
-            {content}
+            {children}
         </CarbonDatePicker>
     );
 };

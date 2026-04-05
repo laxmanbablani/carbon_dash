@@ -1,15 +1,25 @@
 import React from 'react';
 import { TextArea as CarbonTextArea } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
+
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
 
 const TextArea = (props) => {
     const {
         id,
         setProps,
         children,
-        className,
+        className = undefined,
+        loading_state,
         style,
-        value,
-        label,
+        value = '',
+        label = 'Text Area',
         ...otherProps
     } = props;
     const onChange = (...args) => {
@@ -22,6 +32,7 @@ const TextArea = (props) => {
 
     return (
         <CarbonTextArea
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -34,7 +45,5 @@ const TextArea = (props) => {
         </CarbonTextArea>
     );
 };
-
-
 
 export default TextArea;

@@ -179,18 +179,23 @@ async function generateComponent(name, CarbonComponent, compConfig) {
   Object.assign(allProps, DashBaseProps); // Ensure DashBaseProps are in allProps for prop iteration
 
   // Ensure sensible defaults for interactive props to prevent controlled/uncontrolled warnings
-  if (allProps.hasOwnProperty('value') && !injectProps.hasOwnProperty('value') && sourceDefaults.value === undefined) {
-      injectProps['value'] = { type: 'any', default: null };
-  }
-  if (allProps.hasOwnProperty('checked') && !injectProps.hasOwnProperty('checked') && sourceDefaults.checked === undefined) {
-      injectProps['checked'] = { type: 'bool', default: false };
-  }
-  if (allProps.hasOwnProperty('selectedItem') && !injectProps.hasOwnProperty('selectedItem') && sourceDefaults.selectedItem === undefined) {
-      injectProps['selectedItem'] = { type: 'any', default: null };
-  }
-  if (allProps.hasOwnProperty('toggled') && !injectProps.hasOwnProperty('toggled') && sourceDefaults.toggled === undefined) {
-      injectProps['toggled'] = { type: 'bool', default: false };
-  }
+  const interactiveProps = [
+    { name: 'value', type: 'any', default: "''" },
+    { name: 'checked', type: 'bool', default: false },
+    { name: 'selectedItem', type: 'any', default: null },
+    { name: 'selected', type: 'any', default: null },
+    { name: 'selectedIndex', type: 'number', default: -1 },
+    { name: 'toggled', type: 'bool', default: false },
+    { name: 'open', type: 'bool', default: false },
+    { name: 'active', type: 'bool', default: false },
+    { name: 'expanded', type: 'bool', default: false }
+  ];
+
+  interactiveProps.forEach(ip => {
+    if (allProps.hasOwnProperty(ip.name) && !injectProps.hasOwnProperty(ip.name) && sourceDefaults[ip.name] === undefined) {
+      injectProps[ip.name] = { type: ip.type, default: ip.default };
+    }
+  });
 
   const fragmentDestructuring = [];
   const fragmentPassThrough = [];
@@ -310,14 +315,9 @@ export default ${name};
 `;
 
   // Only generate a new fragment if it doesn't already exist or we want to overwrite it
-  // Actually, we should probably keep custom fragments and only generate if missing
   const fragmentPath = path.join(DEST_FRAGMENTS_DIR, `${name}.react.js`);
-  if (!fs.existsSync(fragmentPath)) {
-    console.log(`  Generating NEW fragment for ${name}...`);
-    await fs.writeFile(fragmentPath, fragmentCode);
-  } else {
-    console.log(`  Skipping fragment generation for ${name} (custom fragment exists).`);
-  }
+  console.log(`  Generating fragment for ${name}...`);
+  await fs.writeFile(fragmentPath, fragmentCode);
 
   // Generate Component Wrapper (for dash-generate-components)
   let componentCode = `import React, { Component } from 'react';

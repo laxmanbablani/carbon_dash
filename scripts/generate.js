@@ -360,7 +360,7 @@ ${name}.defaultProps = {
     // unless we find a better way to map them.
     if (propName.includes('-')) continue;
     
-    let pt = (propName.toLowerCase().includes('icon') || propName === 'children' || propName === 'leftSection' || propName === 'rightSection') ? 'PropTypes.node' : 'PropTypes.any';
+    let pt = ((propName.toLowerCase().includes('icon') && !propName.startsWith('has') && !propName.startsWith('is') && !propName.includes('Description')) || propName === 'children' || propName === 'leftSection' || propName === 'rightSection') ? 'PropTypes.node' : 'PropTypes.any';
     if (typeof ptValue === 'string' && ptValue.startsWith('PropTypes')) {
         pt = ptValue;
     } else if (typeof ptValue === 'object' && ptValue.type) {
@@ -370,9 +370,9 @@ ${name}.defaultProps = {
         if (ptValue.type === 'node') pt = 'PropTypes.node';
         if (ptValue.type === 'array') pt = 'PropTypes.array';
     } else if (ptValue && ptValue.isRequired !== undefined) {
-        pt = (propName.toLowerCase().includes('icon') || propName === 'children' || propName === 'leftSection' || propName === 'rightSection') ? 'PropTypes.node' : 'PropTypes.any';
+        pt = ((propName.toLowerCase().includes('icon') && !propName.startsWith('has') && !propName.startsWith('is') && !propName.includes('Description')) || propName === 'children' || propName === 'leftSection' || propName === 'rightSection') ? 'PropTypes.node' : 'PropTypes.any';
     } else {
-        pt = (propName.toLowerCase().includes('icon') || propName === 'children' || propName === 'leftSection' || propName === 'rightSection') ? 'PropTypes.node' : 'PropTypes.any';
+        pt = ((propName.toLowerCase().includes('icon') && !propName.startsWith('has') && !propName.startsWith('is') && !propName.includes('Description')) || propName === 'children' || propName === 'leftSection' || propName === 'rightSection') ? 'PropTypes.node' : 'PropTypes.any';
     }
     
     const reservedKeywords = ['as', 'from', 'class', 'def', 'if', 'else', 'elif', 'for', 'while', 'try', 'except', 'finally', 'with', 'import', 'pass', 'break', 'continue', 'return', 'yield', 'lambda', 'and', 'or', 'not', 'is', 'in', 'del', 'global', 'nonlocal', 'assert', 'raise', 'True', 'False', 'None'];

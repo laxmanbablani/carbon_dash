@@ -80,6 +80,18 @@ module.exports = (env, argv) => {
                         },
                     ],
                 },
+                {
+                    test: /\.s[ac]ss$/i,
+                    use: [
+                        'style-loader',
+                        'css-loader',
+                        'sass-loader',
+                    ],
+                },
+                {
+                    test: /\.(woff(2)?|ttf|eot|svg|png|jpe?g|gif)$/i,
+                    type: 'asset/inline',
+                },
             ],
         },
         optimization: {

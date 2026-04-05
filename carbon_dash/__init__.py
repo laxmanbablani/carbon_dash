@@ -28,7 +28,11 @@ _current_path = _os.path.dirname(_os.path.abspath(__file__))
 
 _this_module = _sys.modules[__name__]
 
-async_resources = ["CarbonDash",]
+async_resources = [
+    f.replace("async-", "").replace(".js", "")
+    for f in _os.listdir(_current_path)
+    if f.startswith("async-") and f.endswith(".js")
+]
 
 _js_dist = []
 

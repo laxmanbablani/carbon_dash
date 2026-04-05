@@ -8,52 +8,56 @@ stories_dict = {}
 
 stories_dict['node-ailabel'] = html.Div([
         html.H2("AILabel"),
+        html.H3("Default"),
+        carbon_dash.AILabel(id='ailabel-default'),
         html.H3("Inline"),
-        carbon_dash.AILabel(id='ailabel-inline'),
+        carbon_dash.AILabel(kind='inline', id='ailabel-inline'),
         html.H3("InlineWithContent"),
-        carbon_dash.AILabel(id='ailabel-inlinewithcontent'),
+        carbon_dash.AILabel(kind='inline', textLabel='Text goes here', id='ailabel-inlinewithcontent'),
     ])
 
 stories_dict['node-accordion'] = html.Div([
         html.H2("Accordion"),
+        html.H3("Default"),
+        carbon_dash.Accordion(id='accordion-default'),
         html.H3("Controlled"),
         carbon_dash.Accordion(id='accordion-controlled'),
         html.H3("_WithLayer"),
-        html.Div(children=carbon_dash.Accordion(children=[carbon_dash.AccordionItem(title='Choose your plan', children=html.Div(children='Compare plan features and select the option that best matches your\n            team\'s expected usage.')), carbon_dash.AccordionItem(title='Add team members', children=html.Div(children='Invite collaborators by email and assign their workspace roles\n            before launch.')), carbon_dash.AccordionItem(title='Set payment details', children=html.Div(children='Add billing information and choose whether to receive invoices by\n            email.')), carbon_dash.AccordionItem(title='Review and confirm', children=html.Div(children='Check your setup summary, then confirm to create the workspace for\n            your team.'))])),
+        carbon_dash.Accordion(id='accordion-_withlayer'),
         html.H3("Skeleton"),
-        carbon_dash.AccordionSkeleton(open=True, count=4),
+        carbon_dash.AccordionSkeleton(open=True, count=4, align='end', isFlush=False, ordered=False),
     ])
 
 stories_dict['node-breadcrumb'] = html.Div([
         html.H2("Breadcrumb"),
         html.H3("BreadcrumbWithOverflowMenu"),
-        carbon_dash.Breadcrumb(noTrailingSlash=True, children=[carbon_dash.BreadcrumbItem(children=html.Div(children='Breadcrumb 1')), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 2'), carbon_dash.BreadcrumbItem(children=carbon_dash.OverflowMenu(align='bottom', children=[carbon_dash.OverflowMenuItem(itemText='Breadcrumb 3'), carbon_dash.OverflowMenuItem(itemText='Breadcrumb 4')])), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 5'), carbon_dash.BreadcrumbItem(isCurrentPage=True, children='Breadcrumb 6')]),
+        carbon_dash.Breadcrumb(noTrailingSlash=True, children=[carbon_dash.BreadcrumbItem(), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 2'), carbon_dash.BreadcrumbItem(children=carbon_dash.OverflowMenu(align='bottom', children=[carbon_dash.OverflowMenuItem(itemText='Breadcrumb 3'), carbon_dash.OverflowMenuItem(itemText='Breadcrumb 4')])), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 5'), carbon_dash.BreadcrumbItem(isCurrentPage=True, children='Breadcrumb 6')]),
         html.H3("BreadcrumbWithOverflowMenuSizeSmall"),
-        carbon_dash.Breadcrumb(noTrailingSlash=True, children=[carbon_dash.BreadcrumbItem(children=html.Div(children='Breadcrumb 1')), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 2'), carbon_dash.BreadcrumbItem(children=carbon_dash.OverflowMenu(align='bottom', children=[carbon_dash.OverflowMenuItem(itemText='Breadcrumb 3'), carbon_dash.OverflowMenuItem(itemText='Breadcrumb 4')])), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 5'), carbon_dash.BreadcrumbItem(isCurrentPage=True, children='Breadcrumb 6')]),
+        carbon_dash.Breadcrumb(noTrailingSlash=True, children=[carbon_dash.BreadcrumbItem(), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 2'), carbon_dash.BreadcrumbItem(children=carbon_dash.OverflowMenu(align='bottom', children=[carbon_dash.OverflowMenuItem(itemText='Breadcrumb 3'), carbon_dash.OverflowMenuItem(itemText='Breadcrumb 4')])), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 5'), carbon_dash.BreadcrumbItem(isCurrentPage=True, children='Breadcrumb 6')], size='sm'),
         html.H3("Skeleton"),
-        carbon_dash.BreadcrumbSkeleton(),
+        carbon_dash.BreadcrumbSkeleton(items=3),
         html.H3("BreadcrumbWithOverflowVisualSnapshots"),
-        carbon_dash.Breadcrumb(noTrailingSlash=True, children=[carbon_dash.BreadcrumbItem(children=html.Div(children='Breadcrumb 1')), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 2'), carbon_dash.BreadcrumbItem(children=carbon_dash.OverflowMenu(align='bottom', children=[carbon_dash.OverflowMenuItem(itemText='Breadcrumb 3'), carbon_dash.OverflowMenuItem(itemText='Breadcrumb 4')])), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 5'), carbon_dash.BreadcrumbItem(isCurrentPage=True, children='Breadcrumb 6')]),
+        carbon_dash.Breadcrumb(noTrailingSlash=True, children=[carbon_dash.BreadcrumbItem(), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 2'), carbon_dash.BreadcrumbItem(children=carbon_dash.OverflowMenu(align='bottom', children=[carbon_dash.OverflowMenuItem(itemText='Breadcrumb 3'), carbon_dash.OverflowMenuItem(itemText='Breadcrumb 4')])), carbon_dash.BreadcrumbItem(href='#', children='Breadcrumb 5'), carbon_dash.BreadcrumbItem(isCurrentPage=True, children='Breadcrumb 6')]),
     ])
 
 stories_dict['node-button'] = html.Div([
         html.H2("Button"),
         html.H3("Secondary"),
-        carbon_dash.Button(children='Button'),
+        carbon_dash.Button(children='Button', kind='secondary'),
         html.H3("Tertiary"),
-        carbon_dash.Button(children='Button'),
+        carbon_dash.Button(children='Button', kind='tertiary'),
         html.H3("Ghost"),
-        carbon_dash.Button(children='Button'),
+        carbon_dash.Button(children='Button', kind='ghost'),
         html.H3("Danger"),
-        carbon_dash.Button(children='Button'),
+        carbon_dash.Button(children='Button', kind='danger'),
         html.H3("DangerTertiary"),
-        carbon_dash.Button(children='Button'),
+        carbon_dash.Button(children='Button', kind='danger--tertiary'),
         html.H3("DangerGhost"),
-        carbon_dash.Button(children='Button'),
+        carbon_dash.Button(children='Button', kind='danger--ghost'),
         html.H3("IconButton"),
-        carbon_dash.Button(),
+        carbon_dash.Button(hasIconOnly=True, renderIcon='Add', iconDescription='Icon Description'),
         html.H3("IconButtonWithBadge"),
-        carbon_dash.Button(children='Button'),
+        carbon_dash.Button(children='Button', hasIconOnly=True, renderIcon='Notification', iconDescription='Notification', kind='ghost', size='lg'),
         html.H3("Skeleton"),
         carbon_dash.ButtonSkeleton(),
     ])
@@ -61,11 +65,13 @@ stories_dict['node-button'] = html.Div([
 stories_dict['node-buttonset'] = html.Div([
         html.H2("ButtonSet"),
         html.H3("Fluid"),
-        carbon_dash.ButtonSet(id='buttonset-fluid'),
+        carbon_dash.ButtonSet(fluid=True, id='buttonset-fluid'),
     ])
 
 stories_dict['node-checkbox'] = html.Div([
         html.H2("Checkbox"),
+        html.H3("Default"),
+        carbon_dash.Checkbox(id='checkbox-default'),
         html.H3("Horizontal"),
         carbon_dash.CheckboxGroup(orientation='horizontal', className='some-class', legendText='Group label', helperText='Helper text goes here', children=[carbon_dash.Checkbox(id='checkbox-label-1'), carbon_dash.Checkbox(id='checkbox-label-2'), carbon_dash.Checkbox(id='checkbox-label-3')]),
         html.H3("Single"),
@@ -73,7 +79,7 @@ stories_dict['node-checkbox'] = html.Div([
         html.H3("Skeleton"),
         carbon_dash.CheckboxSkeleton(),
         html.H3("withAILabel"),
-        html.Div(className='ai-label-check-radio-container', children=[carbon_dash.CheckboxGroup(legendText='Group Label', children=[carbon_dash.Checkbox(id='checkbox-label-1'), carbon_dash.Checkbox(id='checkbox-label-2'), carbon_dash.Checkbox(id='checkbox-label-3')]), carbon_dash.CheckboxGroup(legendText='Group Label', children=[carbon_dash.Checkbox(id='checkbox-label-4'), carbon_dash.Checkbox(id='checkbox-label-5'), carbon_dash.Checkbox(id='checkbox-label-6')]), carbon_dash.CheckboxGroup(legendText='Group Label', children=[carbon_dash.Checkbox(id='checkbox-label-7'), carbon_dash.Checkbox(id='checkbox-label-8'), carbon_dash.Checkbox(id='checkbox-label-9')])]),
+        carbon_dash.Checkbox(invalid=False, invalidText='Invalid message goes here', readOnly=False, warn=False, warnText='Warning message goes here', id='checkbox-withailabel'),
     ])
 
 stories_dict['node-codesnippet'] = html.Div([
@@ -85,39 +91,39 @@ stories_dict['node-codesnippet'] = html.Div([
         html.H3("Singleline"),
         carbon_dash.CodeSnippet(type='single', feedback='Copied to clipboard', children='yarn add carbon-components@latest carbon-components-react@latest\n      @carbon/icons-react@latest carbon-icons@latest'),
         html.H3("InlineWithLayer"),
-        html.Div(children=carbon_dash.CodeSnippet(type='inline', feedback='Copied to clipboard', children='node -v')),
+        carbon_dash.CodeSnippet(id='codesnippet-inlinewithlayer'),
         html.H3("MultilineWithLayer"),
-        html.Div(children=carbon_dash.CodeSnippet(type='multi', feedback='Copied to clipboard', children='"scripts": {\n      "build": "lerna run build --stream --prefix --npm-client yarn",\n      "ci-check": "carbon-cli ci-check",\n      "clean": "lerna run clean && lerna clean --yes && rimraf node_modules",\n      "doctoc": "doctoc --title \'## Table of Contents\'",\n      "format": "prettier --write \'**/*.{js,md,scss,ts}\' \'!**/{build,es,lib,storybook,ts,umd}/**\'",\n      "format:diff": "prettier --list-different \'**/*.{js,md,scss,ts}\' \'!**/{build,es,lib,storybook,ts,umd}/**\' \'!packages/components/**\'",\n      "lint": "eslint actions config codemods packages",\n      "lint:styles": "stylelint \'**/*.{css,scss}\' --report-needless-disables --report-invalid-scope-disables",\n      "test": "cross-env BABEL_ENV=test jest",\n      "test:e2e": "cross-env BABEL_ENV=test jest --testPathPattern=e2e --testPathIgnorePatterns=\'examples,/packages/components/,/packages/react/\'"\n      },\n      "resolutions": {\n        "react": "~16.9.0",\n        "react-dom": "~16.9.0",\n        "react-is": "~16.9.0",\n        "react-test-renderer": "~16.9.0"\n      },\n      "devDependencies": {\n        "@babel/core": "^7.10.0",\n        "@babel/plugin-proposal-class-properties": "^7.7.4",\n        "@babel/plugin-proposal-export-default-from": "^7.7.4",\n        "@babel/plugin-proposal-export-namespace-from": "^7.7.4",\n        "@babel/plugin-transform-runtime": "^7.10.0",\n        "@babel/preset-env": "^7.10.0",\n        "@babel/preset-react": "^7.10.0",\n        "@babel/runtime": "^7.10.0",\n        "@commitlint/cli": "^8.3.5",')),
+        carbon_dash.CodeSnippet(id='codesnippet-multilinewithlayer'),
         html.H3("SinglelineWithLayer"),
-        html.Div(children=carbon_dash.CodeSnippet(type='single', feedback='Copied to clipboard', children='yarn add carbon-components@latest carbon-components-react@latest\n        @carbon/icons-react@latest carbon-icons@latest')),
+        carbon_dash.CodeSnippet(id='codesnippet-singlelinewithlayer'),
         html.H3("Skeleton"),
-        html.Div(children=[carbon_dash.CodeSnippetSkeleton(type='single'), carbon_dash.CodeSnippetSkeleton(type='multi')]),
+        carbon_dash.CodeSnippet(id='codesnippet-skeleton'),
     ])
 
 stories_dict['node-combobox'] = html.Div([
         html.H2("ComboBox"),
         html.H3("FloatingStyles"),
-        html.Div(children=carbon_dash.ComboBox(id='carbon-combobox', titleText='Label', helperText='Helper text', invalidText='Error message goes here', warnText='Warning message goes here')),
+        carbon_dash.ComboBox(direction='bottom', id='combobox-floatingstyles'),
         html.H3("AllowCustomValue"),
-        html.Div(children=carbon_dash.ComboBox(allowCustomValue=True, id='carbon-combobox', titleText='Label', helperText='Helper text', invalidText='Error message goes here', warnText='Warning message goes here')),
+        carbon_dash.ComboBox(id='combobox-allowcustomvalue'),
         html.H3("AutocompleteWithTypeahead"),
-        html.Div(children=carbon_dash.ComboBox(helperText='Helper text', invalidText='Error message goes here', warnText='Warning message goes here', id='carbon-combobox', titleText='Label', typeahead=True)),
+        carbon_dash.ComboBox(id='combobox-autocompletewithtypeahead'),
         html.H3("ExperimentalAutoAlign"),
-        html.Div(children=[html.Div(), carbon_dash.ComboBox(id='carbon-combobox', titleText='Label', helperText='Helper text', autoAlign=True), html.Div()]),
+        carbon_dash.ComboBox(id='combobox-experimentalautoalign'),
         html.H3("_WithLayer"),
-        html.Div(),
+        carbon_dash.ComboBox(id='combobox-_withlayer'),
         html.H3("withAILabel"),
-        html.Div(children=carbon_dash.ComboBox(id='carbon-combobox', titleText='Label', helperText='Helper text')),
+        carbon_dash.ComboBox(id='combobox-withailabel'),
         html.H3("Controlled"),
-        html.Div(children=[carbon_dash.ComboBox(id='carbon-combobox', titleText='Label', helperText='Helper text'), html.Div(children=[carbon_dash.Button(children='Clear'), carbon_dash.Button(children='Option 1'), carbon_dash.Button(children='Option 2'), carbon_dash.Button(children='Option 3')])]),
+        carbon_dash.ComboBox(id='combobox-controlled'),
     ])
 
 stories_dict['node-combobutton'] = html.Div([
         html.H2("ComboButton"),
         html.H3("FloatingStyles"),
-        carbon_dash.ComboButton(label='Primary action', children=[carbon_dash.MenuItem(label='Second action with a long label description'), carbon_dash.MenuItem(label='Third action'), carbon_dash.MenuItem(label='Fourth action', disabled=True)]),
+        carbon_dash.ComboButton(label='Primary action', children=[carbon_dash.MenuItem(label='Second action with a long label description'), carbon_dash.MenuItem(label='Third action'), carbon_dash.MenuItem(label='Fourth action', disabled=True)], menuAlignment='bottom'),
         html.H3("ExperimentalAutoAlign"),
-        html.Div(children=[html.Div(children=carbon_dash.ComboButton(label='Primary action', children=[carbon_dash.MenuItem(label='Second action with a long label description'), carbon_dash.MenuItem(label='Third action'), carbon_dash.MenuItem(label='Fourth action', disabled=True)])), ' ']),
+        carbon_dash.ComboButton(id='combobutton-experimentalautoalign'),
         html.H3("WithDanger"),
         carbon_dash.ComboButton(label='Primary action', children=[carbon_dash.MenuItem(label='Second action with a long label description'), carbon_dash.MenuItem(label='Third action'), carbon_dash.MenuItem(label='Fourth action'), carbon_dash.MenuItemDivider(), carbon_dash.MenuItem(label='Danger action', kind='danger')]),
         html.H3("WithIcons"),
@@ -129,15 +135,15 @@ stories_dict['node-combobutton'] = html.Div([
 stories_dict['node-composedmodal'] = html.Div([
         html.H2("ComposedModal"),
         html.H3("EnableDialogElement"),
-        carbon_dash.FeatureFlags(enableDialogElement=True, children=html.Div(children=[carbon_dash.Button(children='Launch composed modal'), carbon_dash.ComposedModal(children=[carbon_dash.ModalHeader(label='Account resources', title='Add a custom domain'), carbon_dash.ModalBody(children=[html.Div(children='Custom domains direct requests for your apps in this Cloud Foundry\n              organization to a URL that you own. A custom domain can be a\n              shared domain, a shared subdomain, or a shared domain and host.'), carbon_dash.TextInput(id='text-input-1', labelText='Domain name', placeholder='e.g. github.com'), carbon_dash.Select(id='select-1', defaultValue='us-south', labelText='Region', children=[carbon_dash.SelectItem(value='us-south', text='US South'), carbon_dash.SelectItem(value='us-east', text='US East')])]), carbon_dash.ModalFooter(primaryButtonText='Add', secondaryButtonText='Cancel')])])),
+        carbon_dash.FeatureFlags(enableDialogElement=True),
         html.H3("EnableFocusWrapWithoutSentinels"),
-        carbon_dash.FeatureFlags(enableFocusWrapWithoutSentinels=True, children=html.Div(children=[carbon_dash.Button(children='Launch composed modal'), carbon_dash.ComposedModal(children=[carbon_dash.ModalHeader(label='Account resources', title='Add a custom domain'), carbon_dash.ModalBody(children=[html.Div(children='Custom domains direct requests for your apps in this Cloud Foundry\n              organization to a URL that you own. A custom domain can be a\n              shared domain, a shared subdomain, or a shared domain and host.'), carbon_dash.TextInput(id='text-input-1', labelText='Domain name', placeholder='e.g. github.com'), carbon_dash.Select(id='select-1', defaultValue='us-south', labelText='Region', children=[carbon_dash.SelectItem(value='us-south', text='US South'), carbon_dash.SelectItem(value='us-east', text='US East')])]), carbon_dash.ModalFooter(primaryButtonText='Add', secondaryButtonText='Cancel')])])),
+        carbon_dash.FeatureFlags(enableFocusWrapWithoutSentinels=True),
         html.H3("FullWidth"),
         carbon_dash.ComposedModal(id='composedmodal-fullwidth'),
         html.H3("PassiveModal"),
         carbon_dash.ComposedModal(id='composedmodal-passivemodal'),
         html.H3("WithStateManager"),
-        html.Div(),
+        carbon_dash.ComposedModal(id='composedmodal-withstatemanager'),
         html.H3("WithScrollingContent"),
         carbon_dash.ComposedModal(id='composedmodal-withscrollingcontent'),
         html.H3("WithInlineLoading"),
@@ -145,11 +151,13 @@ stories_dict['node-composedmodal'] = html.Div([
         html.H3("_withAILabel"),
         carbon_dash.ComposedModal(id='composedmodal-_withailabel'),
         html.H3("EnablePresence"),
-        carbon_dash.FeatureFlags(enablePresence=True, children=html.Div(children=[carbon_dash.Button(children='Launch composed modal'), carbon_dash.ClassPrefix(prefix='presence', children=html.Div(className='preview-modal-with-presence', children=carbon_dash.ComposedModal(children=[carbon_dash.ModalHeader(label='Account resources', title='Add a custom domain'), carbon_dash.ModalBody(children=[html.Div(children='Custom domains direct requests for your apps in this Cloud\n                  Foundry organization to a URL that you own. A custom domain\n                  can be a shared domain, a shared subdomain, or a shared domain\n                  and host.'), carbon_dash.TextInput(id='text-input-1', labelText='Domain name', placeholder='e.g. github.com'), carbon_dash.Select(id='select-1', defaultValue='us-south', labelText='Region', children=[carbon_dash.SelectItem(value='us-south', text='US South'), carbon_dash.SelectItem(value='us-east', text='US East')])]), carbon_dash.ModalFooter(primaryButtonText='Add', secondaryButtonText='Cancel')])))])),
+        carbon_dash.FeatureFlags(enablePresence=True),
     ])
 
 stories_dict['node-containedlist'] = html.Div([
         html.H2("ContainedList"),
+        html.H3("Default"),
+        carbon_dash.ContainedList(label='List title', kind='on-page', size='lg', id='containedlist-default'),
         html.H3("Disclosed"),
         carbon_dash.ContainedList(id='containedlist-disclosed'),
         html.H3("WithInteractiveItems"),
@@ -167,7 +175,7 @@ stories_dict['node-containedlist'] = html.Div([
         html.H3("WithIcons"),
         carbon_dash.ContainedList(label='List title', kind='on-page', children=[carbon_dash.ContainedListItem(children='List item'), carbon_dash.ContainedListItem(children='List item'), carbon_dash.ContainedListItem(children='List item'), carbon_dash.ContainedListItem(children='List item')]),
         html.H3("_WithLayer"),
-        html.Div(children=carbon_dash.ContainedList(label='List title', kind='on-page', children=[carbon_dash.ContainedListItem(children='List item'), carbon_dash.ContainedListItem(children='List item')])),
+        carbon_dash.ContainedList(id='containedlist-_withlayer'),
         html.H3("UsageExamples"),
         carbon_dash.ContainedList(id='containedlist-usageexamples'),
     ])
@@ -175,15 +183,15 @@ stories_dict['node-containedlist'] = html.Div([
 stories_dict['node-contentswitcher'] = html.Div([
         html.H2("ContentSwitcher"),
         html.H3("_WithLayer"),
-        html.Div(children=carbon_dash.ContentSwitcher(children=[carbon_dash.Switch(name='one', text='First section'), carbon_dash.Switch(name='two', text='Second section'), carbon_dash.Switch(name='three', text='Third section')])),
+        carbon_dash.ContentSwitcher(id='contentswitcher-_withlayer'),
         html.H3("IconOnly"),
-        carbon_dash.ContentSwitcher(children=[carbon_dash.IconSwitch(name='one', text='Table of Contents', children=html.Div()), carbon_dash.IconSwitch(name='two', text='Workspace Test', children=html.Div()), carbon_dash.IconSwitch(name='three', text='View Mode', children=html.Div())]),
+        carbon_dash.ContentSwitcher(children=[carbon_dash.IconSwitch(name='one', text='Table of Contents'), carbon_dash.IconSwitch(name='two', text='Workspace Test'), carbon_dash.IconSwitch(name='three', text='View Mode')]),
         html.H3("IconOnlyWithLayer"),
-        html.Div(children=carbon_dash.ContentSwitcher(children=[carbon_dash.IconSwitch(name='one', text='Table of Contents', children=html.Div()), carbon_dash.IconSwitch(name='two', text='Workspace Test', children=html.Div()), carbon_dash.IconSwitch(name='three', text='View Mode', children=html.Div())])),
+        carbon_dash.ContentSwitcher(id='contentswitcher-icononlywithlayer'),
         html.H3("lowContrast"),
         carbon_dash.ContentSwitcher(lowContrast=True, children=[carbon_dash.Switch(name='one', text='First section'), carbon_dash.Switch(name='two', text='Second section'), carbon_dash.Switch(name='three', text='Third section')]),
         html.H3("lowContrastIconOnly"),
-        carbon_dash.ContentSwitcher(lowContrast=True, children=[carbon_dash.IconSwitch(name='one', text='Table of Contents', children=html.Div()), carbon_dash.IconSwitch(name='two', text='Workspace Test', children=html.Div()), carbon_dash.IconSwitch(name='three', text='View Mode', children=html.Div())]),
+        carbon_dash.ContentSwitcher(lowContrast=True, children=[carbon_dash.IconSwitch(name='one', text='Table of Contents'), carbon_dash.IconSwitch(name='two', text='Workspace Test'), carbon_dash.IconSwitch(name='three', text='View Mode')]),
     ])
 
 stories_dict['node-datatable'] = html.Div([
@@ -203,7 +211,9 @@ stories_dict['node-datatable'] = html.Div([
         html.H3("FullTableAI"),
         carbon_dash.DataTable(),
         html.H3("XLWithTwoLines"),
-        carbon_dash.Table(children=[carbon_dash.TableHead(children=carbon_dash.TableRow()), carbon_dash.TableBody()]),
+        carbon_dash.Table(children=[carbon_dash.TableHead(children=carbon_dash.TableRow()), carbon_dash.TableBody()], size='xl'),
+        html.H3("Default"),
+        carbon_dash.DataTable(size='lg', useStaticWidth=False, useZebraStyles=False, isSortable=False, locale='en', radio=False, id='datatable-default'),
         html.H3("WithRadioSelection"),
         carbon_dash.DataTable(radio=True),
         html.H3("WithSelectionAndSorting"),
@@ -223,7 +233,7 @@ stories_dict['node-datatable'] = html.Div([
 stories_dict['node-datatableskeleton'] = html.Div([
         html.H2("DataTableSkeleton"),
         html.H3("Skeleton"),
-        html.Div(children=[carbon_dash.DataTableSkeleton(), html.Div()]),
+        carbon_dash.DataTableSkeleton(id='datatableskeleton-skeleton'),
     ])
 
 stories_dict['node-datepicker'] = html.Div([
@@ -235,155 +245,183 @@ stories_dict['node-datepicker'] = html.Div([
         html.H3("RangeWithCalendar"),
         carbon_dash.DatePicker(datePickerType='range', children=[carbon_dash.DatePickerInput(id='date-picker-input-id-start', placeholder='mm/dd/yyyy', labelText='Start date', size='md'), carbon_dash.DatePickerInput(id='date-picker-input-id-finish', placeholder='mm/dd/yyyy', labelText='End date', size='md')]),
         html.H3("SimpleWithLayer"),
-        html.Div(),
+        carbon_dash.DatePicker(id='datepicker-simplewithlayer'),
         html.H3("SingleWithCalendarWithLayer"),
-        html.Div(),
+        carbon_dash.DatePicker(id='datepicker-singlewithcalendarwithlayer'),
         html.H3("RangeWithCalendarWithLayer"),
-        html.Div(),
+        carbon_dash.DatePicker(id='datepicker-rangewithcalendarwithlayer'),
         html.H3("Skeleton"),
         carbon_dash.DatePickerSkeleton(range=True),
         html.H3("withAILabel"),
-        html.Div(children=carbon_dash.DatePicker(datePickerType='single', children=carbon_dash.DatePickerInput(placeholder='mm/dd/yyyy', labelText='Date Picker label', size='md', id='date-picker'))),
+        carbon_dash.DatePicker(id='datepicker-withailabel'),
     ])
 
 stories_dict['node-dropdown'] = html.Div([
         html.H2("Dropdown"),
         html.H3("FloatingStyles"),
-        html.Div(children=carbon_dash.Dropdown(id='default', titleText='Label', helperText='Helper text', label='Option 1')),
+        carbon_dash.Dropdown(direction='bottom', invalid=False, invalidText='Error message goes here', warn=False, warnText='Warning message goes here', id='dropdown-floatingstyles'),
+        html.H3("Default"),
+        carbon_dash.Dropdown(id='dropdown-default'),
         html.H3("ExperimentalAutoAlign"),
-        html.Div(children=[html.Div(), carbon_dash.Dropdown(autoAlign=True, id='default', titleText='Label', helperText='Helper text', label='Option 1', direction='top'), html.Div()]),
+        carbon_dash.Dropdown(invalid=False, invalidText='Error message goes here', warn=False, warnText='Warning message goes here', id='dropdown-experimentalautoalign'),
         html.H3("Inline"),
-        html.Div(children=carbon_dash.Dropdown(id='inline', titleText='Label', label='Option 1', type='inline')),
+        carbon_dash.Dropdown(id='dropdown-inline'),
         html.H3("_WithLayer"),
-        html.Div(),
+        carbon_dash.Dropdown(invalid=False, invalidText='Error message goes here', warn=False, warnText='Warning message goes here', id='dropdown-_withlayer'),
         html.H3("InlineWithLayer"),
-        html.Div(),
+        carbon_dash.Dropdown(id='dropdown-inlinewithlayer'),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.DropdownSkeleton()),
+        carbon_dash.Dropdown(id='dropdown-skeleton'),
         html.H3("withAILabel"),
-        html.Div(children=carbon_dash.Dropdown(id='default', titleText='Label', helperText='Helper text', label='Option 1')),
+        carbon_dash.Dropdown(invalid=False, invalidText='Error message goes here', warn=False, warnText='Warning message goes here', id='dropdown-withailabel'),
         html.H3("withToggletipLabel"),
-        html.Div(children=carbon_dash.Dropdown(label='placeholder', id='dropdown')),
+        carbon_dash.Dropdown(id='dropdown-withtoggletiplabel'),
         html.H3("TestInvalidTextNoOverlap"),
-        html.Div(children=[carbon_dash.Dropdown(id='test-1', titleText='Label', helperText='Helper text', label='Choose an option', invalid=True, invalidText='Error message goes here'), carbon_dash.Dropdown(titleText='Label', label='Choose an option', id='test-2')]),
+        carbon_dash.Dropdown(id='dropdown-testinvalidtextnooverlap'),
     ])
 
 stories_dict['node-errorboundary'] = html.Div([
         html.H2("ErrorBoundary"),
         html.H3("WithCustomContext"),
-        html.Div(),
+        carbon_dash.ErrorBoundary(id='errorboundary-withcustomcontext'),
     ])
 
 stories_dict['node-fileuploader'] = html.Div([
         html.H2("FileUploader"),
         html.H3("EnhancedCallbacks"),
-        html.Div(children=carbon_dash.FileUploader(labelTitle='Enhanced FileUploader Demo', labelDescription='Open browser console to see detailed callback data when adding/removing files', buttonLabel='Add file(s)', buttonKind='primary', filenameStatus='edit', multiple=True, iconDescription='Remove uploaded file')),
+        carbon_dash.FileUploader(disabled=False, id='fileuploader-enhancedcallbacks'),
         html.H3("_FileUploaderItem"),
         carbon_dash.FileUploaderItem(errorBody='1 MB max file size. Select a new file and try again.', errorSubject='File size exceeds limit', iconDescription='Delete file', invalid=False, name='THIS IS A VERY LONG FILENAME WHICH WILL BE TRUNCATED', status='edit', size='md'),
         html.H3("_FileUploaderDropContainer"),
         carbon_dash.FileUploaderDropContainer(labelText='Drag and drop files here or click to upload', multiple=True, disabled=False, name=''),
         html.H3("DragAndDropUploadContainerExampleApplication"),
-        carbon_dash.FileUploader(id='fileuploader-draganddropuploadcontainerexampleapplication'),
+        carbon_dash.FileUploader(name='', multiple=True, disabled=False, id='fileuploader-draganddropuploadcontainerexampleapplication'),
         html.H3("DragAndDropUploadSingleContainerExampleApplication"),
-        carbon_dash.FileUploader(id='fileuploader-draganddropuploadsinglecontainerexampleapplication'),
+        carbon_dash.FileUploader(name='', multiple=False, disabled=False, id='fileuploader-draganddropuploadsinglecontainerexampleapplication'),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.FileUploaderSkeleton()),
+        carbon_dash.FileUploader(id='fileuploader-skeleton'),
+        html.H3("Default"),
+        carbon_dash.FileUploader(labelTitle='Upload files', labelDescription='Max file size is 1 MB. Only .jpg files are supported.', buttonLabel='Add file', buttonKind='primary', size='md', filenameStatus='edit', multiple=True, disabled=False, iconDescription='Delete file', name='', id='fileuploader-default'),
     ])
 
 stories_dict['node-fluidcombobox'] = html.Div([
         html.H2("FluidComboBox"),
+        html.H3("Default"),
+        carbon_dash.FluidComboBox(className='test-class', isCondensed=False, disabled=False, invalid=False, invalidText='Error message that is really long can wrap to more lines but should not be excessively long.', label='Choose an option', titleText='Label', warn=False, warnText='Warning message that is really long can wrap to more lines but should not be excessively long.', id='fluidcombobox-default'),
         html.H3("Condensed"),
-        html.Div(children=carbon_dash.FluidComboBox(id='default', isCondensed=True, titleText='Label', label='Choose an option')),
+        carbon_dash.FluidComboBox(id='fluidcombobox-condensed'),
         html.H3("withAILabel"),
-        html.Div(children=carbon_dash.FluidComboBox(id='default', titleText='Label', label='Choose an option')),
+        carbon_dash.FluidComboBox(id='fluidcombobox-withailabel'),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.FluidComboBoxSkeleton()),
+        carbon_dash.FluidComboBox(id='fluidcombobox-skeleton'),
     ])
 
 stories_dict['node-fluiddatepicker'] = html.Div([
         html.H2("FluidDatePicker"),
         html.H3("Simple"),
-        html.Div(children=carbon_dash.FluidDatePicker(children=carbon_dash.FluidDatePickerInput(placeholder='mm/dd/yyyy', id='date-picker-simple'))),
+        carbon_dash.FluidDatePicker(id='fluiddatepicker-simple'),
         html.H3("Single"),
-        html.Div(children=carbon_dash.FluidDatePicker(children=carbon_dash.FluidDatePickerInput(placeholder='mm/dd/yyyy', id='date-picker-single'))),
+        carbon_dash.FluidDatePicker(id='fluiddatepicker-single'),
         html.H3("RangeWithCalendar"),
-        html.Div(children=carbon_dash.FluidDatePicker(children=[carbon_dash.FluidDatePickerInput(id='date-picker-input-id-start', placeholder='mm/dd/yyyy', size='md'), carbon_dash.FluidDatePickerInput(id='date-picker-input-id-finish', placeholder='mm/dd/yyyy', labelText='End date', size='md')])),
+        carbon_dash.FluidDatePicker(id='fluiddatepicker-rangewithcalendar'),
         html.H3("Skeleton"),
-        html.Div(children=[carbon_dash.FluidDatePickerSkeleton(datePickerType='simple', id='input-1'), html.Div(), html.Div(), carbon_dash.FluidDatePickerSkeleton(datePickerType='single', id='input-2'), html.Div(), html.Div(), carbon_dash.FluidDatePickerSkeleton(datePickerType='range', id='input-3')]),
+        carbon_dash.FluidDatePicker(id='fluiddatepicker-skeleton'),
     ])
 
 stories_dict['node-fluiddropdown'] = html.Div([
         html.H2("FluidDropdown"),
+        html.H3("Default"),
+        carbon_dash.FluidDropdown(className='test-class', isCondensed=False, disabled=False, invalid=False, invalidText='Error message that is really long can wrap to more lines but should not be excessively long.', label='Choose an option', titleText='Label', warn=False, warnText='Warning message that is really long can wrap to more lines but should not be excessively long.', id='fluiddropdown-default'),
         html.H3("Condensed"),
-        html.Div(children=carbon_dash.FluidDropdown(id='default', isCondensed=True, titleText='Label', label='Choose an option')),
+        carbon_dash.FluidDropdown(id='fluiddropdown-condensed'),
         html.H3("withAILabel"),
-        html.Div(children=carbon_dash.FluidDropdown(id='default', titleText='Label', label='Choose an option')),
+        carbon_dash.FluidDropdown(id='fluiddropdown-withailabel'),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.FluidDropdownSkeleton()),
+        carbon_dash.FluidDropdown(id='fluiddropdown-skeleton'),
     ])
 
 stories_dict['node-fluidmultiselect'] = html.Div([
         html.H2("FluidMultiSelect"),
+        html.H3("Default"),
+        carbon_dash.FluidMultiSelect(className='test-class', isCondensed=False, isFilterable=False, disabled=False, invalid=False, invalidText='Error message that is really long can wrap to more lines but should not be excessively long.', label='Choose an option', titleText='Label', warn=False, warnText='Warning message that is really long can wrap to more lines but should not be excessively long.', id='fluidmultiselect-default'),
         html.H3("Filterable"),
-        html.Div(children=carbon_dash.FluidMultiSelect(isFilterable=True, id='default', titleText='Label', label='Choose an option')),
+        carbon_dash.FluidMultiSelect(id='fluidmultiselect-filterable'),
         html.H3("_FilterableWithLayer"),
-        html.Div(),
+        carbon_dash.FluidMultiSelect(id='fluidmultiselect-_filterablewithlayer'),
         html.H3("Condensed"),
-        html.Div(children=carbon_dash.FluidMultiSelect(id='default', isCondensed=True, titleText='Label', label='Choose an option')),
+        carbon_dash.FluidMultiSelect(id='fluidmultiselect-condensed'),
         html.H3("withAILabel"),
-        html.Div(children=carbon_dash.FluidMultiSelect(id='default', titleText='Label', label='Choose an option')),
+        carbon_dash.FluidMultiSelect(id='fluidmultiselect-withailabel'),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.FluidMultiSelectSkeleton()),
+        carbon_dash.FluidMultiSelect(id='fluidmultiselect-skeleton'),
     ])
 
 stories_dict['node-fluidnumberinput'] = html.Div([
         html.H2("FluidNumberInput"),
+        html.H3("Default"),
+        carbon_dash.FluidNumberInput(max=100, min=0, step=10, id='input-default', defaultValue=50, invalid=False, invalidText='Error message that is really long can wrap to more lines but should not be excessively long.', disabled=False, warn=False, warnText='Warning message that is really long can wrap to more lines but should not be excessively long.'),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.FluidNumberInputSkeleton(id='input-skeleton')),
+        carbon_dash.FluidNumberInput(id='fluidnumberinput-skeleton'),
     ])
 
 stories_dict['node-fluidsearch'] = html.Div([
         html.H2("FluidSearch"),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.FluidSearchSkeleton()),
+        carbon_dash.FluidSearch(id='fluidsearch-skeleton'),
+        html.H3("Default"),
+        carbon_dash.FluidSearch(closeButtonLabelText='Clear search input', disabled=False, labelText='Search', placeholder='Prompt text', id='fluidsearch-default'),
     ])
 
 stories_dict['node-fluidselect'] = html.Div([
         html.H2("FluidSelect"),
+        html.H3("Default"),
+        carbon_dash.FluidSelect(className='test-class', disabled=False, invalid=False, invalidText='Error message that is really long can wrap to more lines but should not be excessively long.', warn=False, warnText='Warning message that is really long can wrap to more lines but should not be excessively long.', id='fluidselect-default'),
         html.H3("withAILabel"),
-        html.Div(children=carbon_dash.FluidSelect(id='select-1', labelText='Select an option', children=[carbon_dash.SelectItem(value='', text=''), carbon_dash.SelectItem(value='An example option that is really long to show what should be done to handle long text', text='An example option that is really long to show what should be done to handle long text'), carbon_dash.SelectItem(value='Option 2', text='Option 2'), carbon_dash.SelectItem(value='Option 3', text='Option 3'), carbon_dash.SelectItem(value='Option 4', text='Option 4')])),
+        carbon_dash.FluidSelect(id='fluidselect-withailabel'),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.FluidSelectSkeleton()),
+        carbon_dash.FluidSelect(id='fluidselect-skeleton'),
     ])
 
 stories_dict['node-fluidtextarea'] = html.Div([
         html.H2("FluidTextArea"),
+        html.H3("Default"),
+        carbon_dash.FluidTextArea(className='test-class', placeholder='Placeholder text', invalid=False, invalidText='Error message that is really long can wrap to more lines but should not be excessively long.', disabled=False, enableCounter=False, labelText='Text Area label', maxCount=500, warn=False, warnText='This is a warning message.', id='fluidtextarea-default'),
         html.H3("DefaultWithLayers"),
-        html.Div(),
+        carbon_dash.FluidTextArea(id='fluidtextarea-defaultwithlayers'),
         html.H3("DefaultWithToggletip"),
         carbon_dash.FluidTextArea(placeholder='Placeholder text'),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.FluidTextAreaSkeleton()),
+        carbon_dash.FluidTextArea(id='fluidtextarea-skeleton'),
     ])
 
 stories_dict['node-fluidtextinput'] = html.Div([
         html.H2("FluidTextInput"),
+        html.H3("Default"),
+        carbon_dash.FluidTextInput(placeholder='Placeholder text', invalid=False, invalidText='Error message that is really long can wrap to more lines but should not be excessively long.', disabled=False, labelText='Label', warn=False, warnText='Warning message that is really long can wrap to more lines but should not be excessively long.', id='fluidtextinput-default'),
         html.H3("DefaultWithToggletip"),
         carbon_dash.FluidTextInput(placeholder='Placeholder text'),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.FluidTextInputSkeleton(id='input-1')),
+        carbon_dash.FluidTextInput(id='fluidtextinput-skeleton'),
     ])
 
 stories_dict['node-fluidtimepicker'] = html.Div([
         html.H2("FluidTimePicker"),
         html.H3("Skeleton"),
-        html.Div(children=[carbon_dash.FluidTimePickerSkeleton(), html.Div(), html.Div(), carbon_dash.FluidTimePickerSkeleton(isOnlyTwo=True)]),
+        carbon_dash.FluidTimePicker(id='fluidtimepicker-skeleton'),
+        html.H3("Default"),
+        carbon_dash.FluidTimePicker(labelText='Time', invalidText='Error message that is really long can wrap to more lines but should not be excessively long.', warnText='Warning message that is really long can wrap to more lines but should not be excessively long.', id='fluidtimepicker-default'),
     ])
 
 stories_dict['node-form'] = html.Div([
         html.H2("Form"),
         html.H3("withAILabel"),
-        carbon_dash.Stack(gap=7, className='form-example', children=[carbon_dash.Form(className='ai-label-form', children=carbon_dash.Stack(gap=7, children=[carbon_dash.NumberInput(), carbon_dash.DatePicker(datePickerType='single', children=carbon_dash.DatePickerInput(placeholder='mm/dd/yyyy', labelText='Date Picker label', size='md', id='date-picker')), carbon_dash.TextInput(), carbon_dash.TextArea(), carbon_dash.Dropdown(id='default', titleText='Dropdown title', helperText='This is some helper text', label='Option 1'), carbon_dash.MultiSelect(label='Multiselect Label', id='carbon-multiselect-example', titleText='Multiselect title', helperText='This is helper text', selectionFeedback='top-after-reopen'), carbon_dash.FilterableMultiSelect(id='carbon-multiselect-example-3', titleText='FilterableMultiselect title', selectionFeedback='top-after-reopen'), carbon_dash.ComboBox(id='carbon-combobox', titleText='ComboBox title', helperText='Combobox helper text'), carbon_dash.Select(id='select-1', labelText='Select an option', helperText='Optional helper text', children=[carbon_dash.SelectItem(value='', text=''), carbon_dash.SelectItem(value='An example option that is really long to show what should be done to handle long text', text='An example option that is really long to show what should be done to handle long text'), carbon_dash.SelectItem(value='Option 2', text='Option 2'), carbon_dash.SelectItem(value='Option 3', text='Option 3'), carbon_dash.SelectItem(value='Option 4', text='Option 4')]), carbon_dash.Button(type='submit', className='some-class', children='Submit')])), carbon_dash.FluidForm(className='fluid-ai-label-form', children=[html.Div(children=carbon_dash.FluidDatePicker(children=carbon_dash.FluidDatePickerInput(placeholder='mm/dd/yyyy', labelText='Date Picker label', size='md', id='fluid-date-picker'))), html.Div(children=carbon_dash.FluidNumberInput(id='fluid-number-input')), html.Div(children=carbon_dash.FluidTextInput(id='fluid-text-input')), html.Div(children=carbon_dash.FluidTextArea(id='fluid-text-area')), html.Div(children=carbon_dash.FluidDropdown(isCondensed=True, id='fluid-dropdown', titleText='Label', label='Choose an option')), html.Div(children=carbon_dash.FluidComboBox(isCondensed=True, id='fluid-combobox', titleText='Label', label='Choose an option')), html.Div(children=carbon_dash.FluidMultiSelect(isCondensed=True, id='fluid-multi-select', titleText='Label', label='Choose an option')), html.Div(children=carbon_dash.FluidMultiSelect(isFilterable=True, isCondensed=True, id='fluid-multi-select-2', titleText='Label', label='Choose an option')), html.Div(children=carbon_dash.FluidSelect(id='select-2', children=[carbon_dash.SelectItem(value='', text=''), carbon_dash.SelectItem(value='option-1', text='Option 1'), carbon_dash.SelectItem(value='option-2', text='Option 2'), carbon_dash.SelectItem(value='option-3', text='Option 3'), carbon_dash.SelectItem(value='option-4', text='Option 4')])), carbon_dash.Button(type='submit', className='some-class', children='Submit')])]),
+        carbon_dash.Stack(gap=7, className='form-example', children=[carbon_dash.Form(className='ai-label-form', children=carbon_dash.Stack(gap=7, children=[carbon_dash.NumberInput(), carbon_dash.DatePicker(datePickerType='single', children=carbon_dash.DatePickerInput(placeholder='mm/dd/yyyy', labelText='Date Picker label', size='md', id='date-picker')), carbon_dash.TextInput(), carbon_dash.TextArea(), carbon_dash.Dropdown(id='default', titleText='Dropdown title', helperText='This is some helper text', label='Option 1'), carbon_dash.MultiSelect(label='Multiselect Label', id='carbon-multiselect-example', titleText='Multiselect title', helperText='This is helper text', selectionFeedback='top-after-reopen'), carbon_dash.FilterableMultiSelect(id='carbon-multiselect-example-3', titleText='FilterableMultiselect title', selectionFeedback='top-after-reopen'), carbon_dash.ComboBox(id='carbon-combobox', titleText='ComboBox title', helperText='Combobox helper text'), carbon_dash.Select(id='select-1', labelText='Select an option', helperText='Optional helper text', children=[carbon_dash.SelectItem(value='', text=''), carbon_dash.SelectItem(value='An example option that is really long to show what should be done to handle long text', text='An example option that is really long to show what should be done to handle long text'), carbon_dash.SelectItem(value='Option 2', text='Option 2'), carbon_dash.SelectItem(value='Option 3', text='Option 3'), carbon_dash.SelectItem(value='Option 4', text='Option 4')]), carbon_dash.Button(type='submit', className='some-class', children='Submit')])), carbon_dash.FluidForm(className='fluid-ai-label-form', children=carbon_dash.Button(type='submit', className='some-class', children='Submit'))]),
+    ])
+
+stories_dict['node-formgroup'] = html.Div([
+        html.H2("FormGroup"),
+        html.H3("Default"),
+        carbon_dash.FormGroup(legendId='form-group-1', legendText='FormGroup Legend', message=False, id='formgroup-default'),
     ])
 
 stories_dict['node-formlabel'] = html.Div([
@@ -395,31 +433,33 @@ stories_dict['node-formlabel'] = html.Div([
 stories_dict['node-grid'] = html.Div([
         html.H2("Grid"),
         html.H3("AutoColumns"),
-        html.Div(id='templates', children=carbon_dash.FlexGrid(children=carbon_dash.Row(children=[carbon_dash.Column(children=html.Div(children='Span 25%')), carbon_dash.Column(children=html.Div(children='Span 25%')), carbon_dash.Column(children=html.Div(children='Span 25%')), carbon_dash.Column(children=html.Div(children='Span 25%'))]))),
+        carbon_dash.Grid(id='grid-autocolumns'),
         html.H3("ResponsiveGrid"),
-        html.Div(id='templates', children=carbon_dash.FlexGrid(children=carbon_dash.Row(children=[carbon_dash.Column(sm=2, md=4, lg=6, children=html.Div(children=[html.Div(children='Small: Span 2 of 4'), html.Div(children='Medium: Span 4 of 8'), html.Div(children='Large: Span 6 of 16')])), carbon_dash.Column(sm=2, md=2, lg=3, children=html.Div(children=[html.Div(children='Small: Span 2 of 4'), html.Div(children='Medium: Span 2 of 8'), html.Div(children='Large: Span 3 of 16')])), carbon_dash.Column(sm=0, md=2, lg=3, children=html.Div(children=[html.Div(children='Small: Span 0 of 4'), html.Div(children='Medium: Span 2 of 8'), html.Div(children='Large: Span 3 of 16')]))]))),
+        carbon_dash.Grid(id='grid-responsivegrid'),
         html.H3("Offset"),
-        html.Div(className='sb-css-grid-container', children=carbon_dash.Grid(children=[carbon_dash.Column(), carbon_dash.Column(), carbon_dash.Column(), carbon_dash.Column(), carbon_dash.Column()])),
+        carbon_dash.Grid(id='grid-offset'),
         html.H3("Condensed"),
-        html.Div(className='sb-css-grid-container', children=carbon_dash.Grid(condensed=True, children=[carbon_dash.Column(sm=4), carbon_dash.Column(sm=4), carbon_dash.Column(sm=4), carbon_dash.Column(sm=4)])),
+        carbon_dash.Grid(id='grid-condensed'),
         html.H3("CondensedColumns"),
-        html.Div(id='templates', children=carbon_dash.FlexGrid(children=[carbon_dash.Row(children=[carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4'))]), carbon_dash.Row(condensed=True, children=[carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4'))]), carbon_dash.Row(children=[carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4'))])])),
+        carbon_dash.Grid(id='grid-condensedcolumns'),
         html.H3("Narrow"),
-        html.Div(className='sb-css-grid-container', children=carbon_dash.Grid(narrow=True, children=[carbon_dash.Column(sm=4), carbon_dash.Column(sm=4), carbon_dash.Column(sm=4), carbon_dash.Column(sm=4)])),
+        carbon_dash.Grid(id='grid-narrow'),
         html.H3("NarrowColumns"),
-        html.Div(id='templates', children=carbon_dash.FlexGrid(children=[carbon_dash.Row(children=[carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4'))]), carbon_dash.Row(narrow=True, children=[carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4'))]), carbon_dash.Row(children=[carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4')), carbon_dash.Column(children=html.Div(children='1/4'))])])),
+        carbon_dash.Grid(id='grid-narrowcolumns'),
         html.H3("FullWidth"),
-        html.Div(className='sb-css-grid-container', children=carbon_dash.Grid(fullWidth=True, children=[carbon_dash.Column(sm=4), carbon_dash.Column(sm=4), carbon_dash.Column(sm=4), carbon_dash.Column(sm=4)])),
+        carbon_dash.Grid(id='grid-fullwidth'),
         html.H3("MixedGutterModes"),
-        html.Div(className='sb-css-grid-container', children=[carbon_dash.Grid(children=carbon_dash.Column(span=8, children=carbon_dash.Grid(children=carbon_dash.Column(span=8, children=carbon_dash.Grid(narrow=True, children=[carbon_dash.Column(children=carbon_dash.ColumnHang(children='Text')), carbon_dash.Column(children=carbon_dash.ColumnHang(children='Text')), carbon_dash.Column(children=carbon_dash.ColumnHang(children='Text')), carbon_dash.Column(children=carbon_dash.ColumnHang(children='Text')), carbon_dash.Column(span=4, children=carbon_dash.Grid(children=[carbon_dash.Column(children='Text'), carbon_dash.Column(children='Text'), carbon_dash.Column(span=2, children=carbon_dash.Grid(condensed=True, children=[carbon_dash.Column(children=carbon_dash.ColumnHang(children='Text')), carbon_dash.Column(children=carbon_dash.ColumnHang(children='Text'))]))]))]))))), carbon_dash.Grid(narrow=True, children=carbon_dash.Column(span=8, children=carbon_dash.Grid(children=[carbon_dash.Column(span=4), carbon_dash.Column(span=4, children=carbon_dash.Grid(narrow=True, children=[carbon_dash.Column(children=carbon_dash.ColumnHang(children='Text')), carbon_dash.Column(children=carbon_dash.ColumnHang(children='Text')), carbon_dash.Column(children=carbon_dash.ColumnHang(children='Text')), carbon_dash.Column(children=carbon_dash.ColumnHang(children='Text'))]))])))]),
+        carbon_dash.Grid(id='grid-mixedguttermodes'),
+        html.H3("Default"),
+        carbon_dash.Grid(as_='div', fullWidth=False, narrow=False, condensed=False, id='grid-default'),
         html.H3("Responsive"),
-        html.Div(className='sb-css-grid-container', children=carbon_dash.Grid(children=[carbon_dash.Column(sm=2, md=4, lg=6, children=[html.Div(children='Small: Span 2 of 4'), html.Div(children='Medium: Span 4 of 8'), html.Div(children='Large: Span 6 of 16')]), carbon_dash.Column(sm=2, md=2, lg=3, children=[html.Div(children='Small: Span 2 of 4'), html.Div(children='Medium: Span 2 of 8'), html.Div(children='Large: Span 3 of 16')]), carbon_dash.Column(sm=0, md=2, lg=3, children=[html.Div(children='Small: Span 0 of 4'), html.Div(children='Medium: Span 2 of 8'), html.Div(children='Large: Span 3 of 16')]), carbon_dash.Column(sm=0, md=0, lg=4, children=[html.Div(children='Small: Span 0 of 4'), html.Div(children='Medium: Span 0 of 8'), html.Div(children='Large: Span 4 of 16')]), carbon_dash.Column(sm='25%', md='50%', lg='75%', children=[html.Div(children='Small: Span 25%'), html.Div(children='Medium: Span 50%'), html.Div(children='Large: Span 75%')])])),
+        carbon_dash.Grid(id='grid-responsive'),
         html.H3("Subgrid"),
-        html.Div(className='sb-css-grid-container', children=[carbon_dash.Grid(children=[carbon_dash.Column(sm=2, md=4, lg=3, children=[html.Div(children='Small: Span 2 of 4'), html.Div(children='Medium: Span 4 of 8'), html.Div(children='Large: Span 3 of 16')]), carbon_dash.Column(sm=2, md=4, lg=10, children=[html.Div(children='Small: Span 2 of 4'), html.Div(children='Medium: Span 4 of 8'), html.Div(children='Large: Span 10 of 16'), carbon_dash.Grid(className='example', children=[carbon_dash.Column(sm=1, md=1, lg=2, children=[html.Div(children='sm='), html.Div(children='md='), html.Div(children='lg=')]), carbon_dash.Column(sm=1, md=1, lg=2, children=[html.Div(children='sm='), html.Div(children='md='), html.Div(children='lg=')]), carbon_dash.Column(sm=0, md=1, lg=1, children=[html.Div(children='sm='), html.Div(children='md='), html.Div(children='lg=')]), carbon_dash.Column(sm=0, md=1, lg=1, children=[html.Div(children='sm='), html.Div(children='md='), html.Div(children='lg=')]), carbon_dash.Column(sm=0, md=0, lg=1, children=[html.Div(children='sm='), html.Div(children='md='), html.Div(children='lg=')]), carbon_dash.Column(sm=0, md=0, lg=1, children=[html.Div(children='sm='), html.Div(children='md='), html.Div(children='lg=')]), carbon_dash.Column(sm=0, md=0, lg=1, children=[html.Div(children='sm='), html.Div(children='md='), html.Div(children='lg=')]), carbon_dash.Column(sm=0, md=0, lg=1, children=[html.Div(children='sm='), html.Div(children='md='), html.Div(children='lg=')])])]), carbon_dash.Column(sm=0, md=0, lg=3, children=[html.Div(children='Small: Span 0 of 4'), html.Div(children='Medium: Span 0 of 8'), html.Div(children='Large: Span 3 of 16')])]), html.Div(children='Wide'), carbon_dash.Grid(children=[carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=8, lg=16, children=carbon_dash.Grid(children=[carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4)]))]), html.Div(children='Narrow'), carbon_dash.Grid(narrow=True, children=[carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=8, lg=16, children=carbon_dash.Grid(narrow=True, children=[carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4)]))]), html.Div(children='Condensed'), carbon_dash.Grid(condensed=True, children=[carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=8, lg=16, children=carbon_dash.Grid(condensed=True, children=[carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4), carbon_dash.Column(sm=4, md=4, lg=4)]))])]),
+        carbon_dash.Grid(id='grid-subgrid'),
         html.H3("GridStartEnd"),
-        html.Div(className='sb-css-grid-container', children=carbon_dash.Grid(children=[carbon_dash.Column(children='span, start'), carbon_dash.Column(children='span, end'), carbon_dash.Column(children='start, end')])),
+        carbon_dash.Grid(id='grid-gridstartend'),
         html.H3("WithGridSettings"),
-        html.Div(className='sb-css-grid-container', children=carbon_dash.GridSettings(children=carbon_dash.Grid(children=[carbon_dash.Column(sm=4, md=4, lg=4, children=html.Div(children='Column 1')), carbon_dash.Column(sm=4, md=4, lg=4, children=html.Div(children='Column 2')), carbon_dash.Column(sm=4, md=4, lg=4, children=html.Div(children='Column 3')), carbon_dash.Column(sm=4, md=4, lg=4, children=html.Div(children='Column 4'))]))),
+        carbon_dash.Grid(id='grid-withgridsettings'),
     ])
 
 stories_dict['node-heading'] = html.Div([
@@ -430,14 +470,18 @@ stories_dict['node-heading'] = html.Div([
 
 stories_dict['node-iconbutton'] = html.Div([
         html.H2("IconButton"),
+        html.H3("Default"),
+        carbon_dash.IconButton(align='bottom', defaultOpen=True, disabled=False, label='Custom label', kind='primary', id='iconbutton-default'),
         html.H3("withBadgeIndicator"),
-        html.Div(children=carbon_dash.IconButton(label='Notification', kind='ghost', size='lg', autoAlign=True, children=html.Div())),
+        carbon_dash.IconButton(badgeCount=4, id='iconbutton-withbadgeindicator'),
     ])
 
 stories_dict['node-inlineloading'] = html.Div([
         html.H2("InlineLoading"),
         html.H3("UxExample"),
-        html.Div(),
+        carbon_dash.InlineLoading(id='inlineloading-uxexample'),
+        html.H3("Default"),
+        carbon_dash.InlineLoading(description='Loading', iconDescription='Loading data...', id='inlineloading-default'),
     ])
 
 stories_dict['node-layer'] = html.Div([
@@ -445,7 +489,7 @@ stories_dict['node-layer'] = html.Div([
         html.H3("withBackground"),
         carbon_dash.Layer(id='layer-withbackground'),
         html.H3("CustomLevel"),
-        carbon_dash.Layer(level=2, children=html.Div()),
+        carbon_dash.Layer(level=2),
         html.H3("UseLayer"),
         carbon_dash.Layer(id='layer-uselayer'),
     ])
@@ -453,17 +497,31 @@ stories_dict['node-layer'] = html.Div([
 stories_dict['node-link'] = html.Div([
         html.H2("Link"),
         html.H3("Inline"),
-        carbon_dash.Link(id='link-inline'),
+        carbon_dash.Link(inline=True, id='link-inline'),
         html.H3("PairedWithIcon"),
         carbon_dash.Link(href='#', children='Carbon Docs'),
+    ])
+
+stories_dict['node-loading'] = html.Div([
+        html.H2("Loading"),
+        html.H3("Default"),
+        carbon_dash.Loading(active=True, withOverlay=False, small=False, description='Loading', id='loading-default'),
+    ])
+
+stories_dict['node-menu'] = html.Div([
+        html.H2("Menu"),
+        html.H3("Default"),
+        carbon_dash.Menu(open=True, id='menu-default'),
     ])
 
 stories_dict['node-menubutton'] = html.Div([
         html.H2("MenuButton"),
         html.H3("FloatingStyles"),
-        carbon_dash.MenuButton(label='Actions', children=[carbon_dash.MenuItem(label='First action'), carbon_dash.MenuItem(label='Second action that is a longer item to test overflow and title.'), carbon_dash.MenuItem(label='Third action', disabled=True)]),
+        carbon_dash.MenuButton(label='Actions', children=[carbon_dash.MenuItem(label='First action'), carbon_dash.MenuItem(label='Second action that is a longer item to test overflow and title.'), carbon_dash.MenuItem(label='Third action', disabled=True)], menuAlignment='bottom'),
+        html.H3("Default"),
+        carbon_dash.MenuButton(label='Actions', id='menubutton-default'),
         html.H3("ExperimentalAutoAlign"),
-        html.Div(children=html.Div(children=carbon_dash.MenuButton(label='Actions', children=[carbon_dash.MenuItem(label='First action'), carbon_dash.MenuItem(label='Second action that is a longer item to test overflow and title.'), carbon_dash.MenuItem(label='Third action', disabled=True)]))),
+        carbon_dash.MenuButton(id='menubutton-experimentalautoalign'),
         html.H3("WithDanger"),
         carbon_dash.MenuButton(label='Actions', children=[carbon_dash.MenuItem(label='First action'), carbon_dash.MenuItem(label='Second action'), carbon_dash.MenuItem(label='Third action'), carbon_dash.MenuItemDivider(), carbon_dash.MenuItem(label='Danger action', kind='danger')]),
         html.H3("WithDividers"),
@@ -479,9 +537,9 @@ stories_dict['node-menubutton'] = html.Div([
 stories_dict['node-modal'] = html.Div([
         html.H2("Modal"),
         html.H3("EnableDialogElement"),
-        carbon_dash.FeatureFlags(enableDialogElement=True, children=html.Div(children=[carbon_dash.Button(children='Launch modal'), carbon_dash.ClassPrefix(prefix='dialog-refactor', children=html.Div(className='preview-modal', children=carbon_dash.Modal(modalHeading='Add a custom domain', modalLabel='Account resources', primaryButtonText='Add', secondaryButtonText='Cancel', children=[html.Div(children='Custom domains direct requests for your apps in this Cloud\n                Foundry organization to a URL that you own. A custom domain can\n                be a shared domain, a shared subdomain, or a shared domain and\n                host.'), carbon_dash.TextInput(id='text-input-1', labelText='Domain name', placeholder='e.g. github.com'), carbon_dash.Select(id='select-1', defaultValue='us-south', labelText='Region', children=[carbon_dash.SelectItem(value='us-south', text='US South'), carbon_dash.SelectItem(value='us-east', text='US East')]), carbon_dash.Dropdown(id='drop', label='Dropdown', titleText='Dropdown'), carbon_dash.MultiSelect(id='test', label='Multiselect', titleText='Multiselect')])))])),
+        carbon_dash.FeatureFlags(enableDialogElement=True),
         html.H3("EnableFocusWrapWithoutSentinels"),
-        carbon_dash.FeatureFlags(enableFocusWrapWithoutSentinels=True, children=html.Div(children=[carbon_dash.Button(children='Launch modal'), carbon_dash.ClassPrefix(prefix='dialog-refactor', children=html.Div(className='preview-modal', children=carbon_dash.Modal(modalHeading='Add a custom domain', modalLabel='Account resources', primaryButtonText='Add', secondaryButtonText='Cancel', children=[html.Div(children='Custom domains direct requests for your apps in this Cloud\n                Foundry organization to a URL that you own. A custom domain can\n                be a shared domain, a shared subdomain, or a shared domain and\n                host.'), carbon_dash.TextInput(id='text-input-1', labelText='Domain name', placeholder='e.g. github.com'), carbon_dash.Select(id='select-1', defaultValue='us-south', labelText='Region', children=[carbon_dash.SelectItem(value='us-south', text='US South'), carbon_dash.SelectItem(value='us-east', text='US East')]), carbon_dash.Dropdown(id='drop', label='Dropdown', titleText='Dropdown'), carbon_dash.MultiSelect(id='test', label='Multiselect', titleText='Multiselect')])))])),
+        carbon_dash.FeatureFlags(enableFocusWrapWithoutSentinels=True),
         html.H3("FullWidth"),
         carbon_dash.Modal(id='modal-fullwidth'),
         html.H3("DangerModal"),
@@ -489,7 +547,7 @@ stories_dict['node-modal'] = html.Div([
         html.H3("WithScrollingContent"),
         carbon_dash.Modal(id='modal-withscrollingcontent'),
         html.H3("WithStateManager"),
-        html.Div(),
+        carbon_dash.Modal(id='modal-withstatemanager'),
         html.H3("PassiveModal"),
         carbon_dash.Modal(id='modal-passivemodal'),
         html.H3("WithInlineLoading"),
@@ -497,55 +555,61 @@ stories_dict['node-modal'] = html.Div([
         html.H3("withAILabel"),
         carbon_dash.Modal(id='modal-withailabel'),
         html.H3("EnablePresence"),
-        carbon_dash.FeatureFlags(enablePresence=True, children=html.Div(children=[carbon_dash.Button(children='Launch modal'), carbon_dash.ClassPrefix(prefix='dialog-refactor', children=html.Div(className='preview-modal-with-presence', children=carbon_dash.Modal(modalHeading='Add a custom domain', modalLabel='Account resources', primaryButtonText='Add', secondaryButtonText='Cancel', children=[html.Div(children='Custom domains direct requests for your apps in this Cloud\n                Foundry organization to a URL that you own. A custom domain can\n                be a shared domain, a shared subdomain, or a shared domain and\n                host.'), carbon_dash.TextInput(id='text-input-1', labelText='Domain name', placeholder='e.g. github.com'), carbon_dash.Select(id='select-1', defaultValue='us-south', labelText='Region', children=[carbon_dash.SelectItem(value='us-south', text='US South'), carbon_dash.SelectItem(value='us-east', text='US East')]), carbon_dash.Dropdown(id='drop', label='Dropdown', titleText='Dropdown'), carbon_dash.MultiSelect(id='test', label='Multiselect', titleText='Multiselect')])))])),
+        carbon_dash.FeatureFlags(enablePresence=True),
     ])
 
 stories_dict['node-multiselect'] = html.Div([
         html.H2("MultiSelect"),
         html.H3("FloatingStyles"),
-        carbon_dash.MultiSelect(id='carbon-multiselect-example', selectionFeedback='top-after-reopen'),
+        carbon_dash.MultiSelect(id='carbon-multiselect-example', selectionFeedback='top-after-reopen', direction='bottom'),
+        html.H3("Default"),
+        carbon_dash.MultiSelect(id='multiselect-default'),
         html.H3("WithInitialSelectedItems"),
-        html.Div(children=carbon_dash.MultiSelect(label='Multiselect Label', id='carbon-multiselect-example-2', titleText='Multiselect title', helperText='This is helper text', selectionFeedback='top-after-reopen')),
+        carbon_dash.MultiSelect(id='multiselect-withinitialselecteditems'),
         html.H3("Filterable"),
-        html.Div(children=carbon_dash.FilterableMultiSelect(id='carbon-multiselect-example-3', titleText='FilterableMultiSelect title', selectionFeedback='top-after-reopen')),
+        carbon_dash.MultiSelect(id='multiselect-filterable'),
         html.H3("FilterableWithSelectAll"),
-        html.Div(children=carbon_dash.FilterableMultiSelect(id='carbon-multiselect-example-3', titleText='FilterableMultiSelect title', selectionFeedback='top-after-reopen')),
+        carbon_dash.MultiSelect(id='multiselect-filterablewithselectall'),
         html.H3("WithLayerMultiSelect"),
-        html.Div(),
+        carbon_dash.MultiSelect(id='multiselect-withlayermultiselect'),
         html.H3("_FilterableWithLayer"),
-        html.Div(),
+        carbon_dash.MultiSelect(id='multiselect-_filterablewithlayer'),
         html.H3("_Controlled"),
-        html.Div(children=[carbon_dash.MultiSelect(id='carbon-multiselect-example-controlled', titleText='Multiselect title', label='Multiselect label', selectionFeedback='top-after-reopen'), html.Div(), carbon_dash.ButtonSet(children=[carbon_dash.Button(id='all', children='Select all'), carbon_dash.Button(id='clear', kind='secondary', children='Clear')])]),
+        carbon_dash.MultiSelect(id='multiselect-_controlled'),
         html.H3("SelectAll"),
-        html.Div(children=carbon_dash.MultiSelect(id='carbon-multiselect-example', titleText='Multiselect title', helperText='This is helper text', selectionFeedback='top-after-reopen')),
+        carbon_dash.MultiSelect(id='multiselect-selectall'),
         html.H3("withAILabel"),
-        html.Div(children=carbon_dash.MultiSelect(label='Multiselect Label', id='carbon-multiselect-example', titleText='Multiselect title', helperText='This is helper text', selectionFeedback='top-after-reopen')),
+        carbon_dash.MultiSelect(id='multiselect-withailabel'),
         html.H3("FilterableWithAILabel"),
-        html.Div(children=carbon_dash.FilterableMultiSelect(id='carbon-multiselect-example', titleText='Multiselect title', selectionFeedback='top-after-reopen')),
+        carbon_dash.MultiSelect(id='multiselect-filterablewithailabel'),
         html.H3("ExperimentalAutoAlign"),
-        html.Div(children=html.Div(children=carbon_dash.MultiSelect(label='Multiselect Label', id='carbon-multiselect-example', titleText='Multiselect title', helperText='This is helper text', selectionFeedback='top-after-reopen', autoAlign=True))),
+        carbon_dash.MultiSelect(autoAlign=True, id='multiselect-experimentalautoalign'),
         html.H3("withToggletipLabel"),
-        html.Div(children=carbon_dash.MultiSelect(label='Multiselect Label', id='carbon-multiselect-example', helperText='This is helper text', selectionFeedback='top-after-reopen')),
+        carbon_dash.MultiSelect(id='multiselect-withtoggletiplabel'),
         html.H3("SelectAllWithDynamicItems"),
-        html.Div(children=[carbon_dash.MultiSelect(id='carbon-multiselect-example', titleText='Multiselect title', helperText='This is helper text', selectionFeedback='top-after-reopen'), carbon_dash.Button(children='Add 2 items to the list')]),
+        carbon_dash.MultiSelect(id='multiselect-selectallwithdynamicitems'),
     ])
 
 stories_dict['node-numberinput'] = html.Div([
         html.H2("NumberInput"),
+        html.H3("Default"),
+        carbon_dash.NumberInput(step=1, disabled=False, invalid=False, helperText='Optional helper text.', warn=False, warnText='Warning message that is really long can wrap to more lines but should not be excessively long.', size='md', id='numberinput-default'),
         html.H3("withAILabel"),
-        html.Div(children=carbon_dash.NumberInput(value=50, label='NumberInput label', helperText='Optional helper text.', invalidText='Number is not valid')),
+        carbon_dash.NumberInput(id='numberinput-withailabel'),
         html.H3("WithTypeOfText"),
-        carbon_dash.NumberInput(id='default-number-input', inputMode='decimal', defaultValue=50, label='NumberInput label', helperText='Optional helper text.'),
+        carbon_dash.NumberInput(id='default-number-input', inputMode='decimal', defaultValue=50, label='NumberInput label', helperText='Optional helper text.', step=1, disabled=False, invalid=False, warn=False, warnText='Warning message that is really long can wrap to more lines but should not be excessively long.', size='md', type='text'),
         html.H3("WithTypeOfTextControlled"),
-        carbon_dash.NumberInput(id='numberinput-withtypeoftextcontrolled'),
+        carbon_dash.NumberInput(step=1, disabled=False, invalid=False, helperText='Optional helper text.', warn=False, warnText='Warning message that is really long can wrap to more lines but should not be excessively long.', size='md', type='text', id='numberinput-withtypeoftextcontrolled'),
         html.H3("WithTypeOfCustomValidation"),
-        carbon_dash.NumberInput(id='numberinput-withtypeofcustomvalidation'),
+        carbon_dash.NumberInput(step=1, disabled=False, invalid=False, helperText='Optional helper text.', warn=False, warnText='Warning message that is really long can wrap to more lines but should not be excessively long.', size='md', type='text', id='numberinput-withtypeofcustomvalidation'),
         html.H3("Skeleton"),
         carbon_dash.NumberInputSkeleton(),
     ])
 
 stories_dict['node-orderedlist'] = html.Div([
         html.H2("OrderedList"),
+        html.H3("Default"),
+        carbon_dash.OrderedList(isExpressive=False, native=False, nested=False, id='orderedlist-default'),
         html.H3("Nested"),
         carbon_dash.OrderedList(children=[carbon_dash.ListItem(children=['Ordered List level 1', carbon_dash.OrderedList(nested=True, children=[carbon_dash.ListItem(children='Ordered List level 2'), carbon_dash.ListItem(children=['Ordered List level 2', carbon_dash.OrderedList(nested=True, children=[carbon_dash.ListItem(children='Ordered List level 3'), carbon_dash.ListItem(children='Ordered List level 3')])])])]), carbon_dash.ListItem(children='Ordered List level 1'), carbon_dash.ListItem(children='Ordered List level 1')]),
         html.H3("NativeListStyles"),
@@ -555,39 +619,51 @@ stories_dict['node-orderedlist'] = html.Div([
 stories_dict['node-overflowmenu'] = html.Div([
         html.H2("OverflowMenu"),
         html.H3("AutoAlign"),
-        html.Div(children=html.Div(children=carbon_dash.OverflowMenu(children=[carbon_dash.MenuItem(label='Stop app'), carbon_dash.MenuItem(label='Restart app'), carbon_dash.MenuItem(label='Rename app'), carbon_dash.MenuItem(label='Edit routes and access'), carbon_dash.MenuItemDivider(), carbon_dash.MenuItem(label='Delete app', kind='danger')]))),
+        carbon_dash.OverflowMenu(id='overflowmenu-autoalign'),
         html.H3("Nested"),
         carbon_dash.FeatureFlags(children=carbon_dash.OverflowMenu(children=[carbon_dash.MenuItem(label='Level 1'), carbon_dash.MenuItem(label='Level 1'), carbon_dash.MenuItem(label='Level 1', children=[carbon_dash.MenuItem(label='Level 2', children=[carbon_dash.MenuItem(label='Level 3'), carbon_dash.MenuItem(label='Level 3', children=carbon_dash.MenuItem(label='Level 4'))]), carbon_dash.MenuItem(label='Level 2'), carbon_dash.MenuItem(label='Level 2')]), carbon_dash.MenuItem(label='Level 1')])),
         html.H3("WithMenuAlignment"),
         carbon_dash.OverflowMenu(id='overflowmenu-withmenualignment'),
         html.H3("FloatingStyles"),
-        html.Div(children=carbon_dash.OverflowMenu(children=[carbon_dash.MenuItem(label='Stop app'), carbon_dash.MenuItem(label='Restart app'), carbon_dash.MenuItem(label='Rename app'), carbon_dash.MenuItem(label='Edit routes and access'), carbon_dash.MenuItemDivider(), carbon_dash.MenuItem(label='Delete app', kind='danger')])),
+        carbon_dash.OverflowMenu(id='overflowmenu-floatingstyles'),
+        html.H3("Default"),
+        carbon_dash.OverflowMenu(focusTrap=False, open=False, id='overflowmenu-default'),
         html.H3("RenderCustomIcon"),
         carbon_dash.OverflowMenu(children=[carbon_dash.OverflowMenuItem(itemText='Filter A'), carbon_dash.OverflowMenuItem(itemText='Filter B')]),
     ])
 
 stories_dict['node-pagination'] = html.Div([
         html.H2("Pagination"),
+        html.H3("Default"),
+        carbon_dash.Pagination(backwardText='Previous', forwardText='Next', disabled=False, isLastPage=False, itemsPerPageText='Items per page:', page=1, pageInputDisabled=False, pageSize=10, pageNumberText='Page Number', pagesUnknown=False, pageSizeInputDisabled=False, totalItems=103, id='pagination-default'),
         html.H3("MultiplePaginationComponents"),
-        html.Div(children=[carbon_dash.Pagination(), carbon_dash.Pagination()]),
+        carbon_dash.Pagination(id='pagination-multiplepaginationcomponents'),
         html.H3("PaginationWithCustomPageSizesLabel"),
-        html.Div(children=carbon_dash.Pagination()),
+        carbon_dash.Pagination(id='pagination-paginationwithcustompagesizeslabel'),
         html.H3("PaginationUnknownPages"),
-        html.Div(children=carbon_dash.Pagination(pagesUnknown=True, page=1)),
+        carbon_dash.Pagination(id='pagination-paginationunknownpages'),
+    ])
+
+stories_dict['node-paginationnav'] = html.Div([
+        html.H2("PaginationNav"),
+        html.H3("Default"),
+        carbon_dash.PaginationNav(size='lg', loop=False, itemsShown=10, page=0, totalItems=25, disableOverflow=False, id='paginationnav-default'),
     ])
 
 stories_dict['node-popover'] = html.Div([
         html.H2("Popover"),
         html.H3("FloatingStyles"),
-        html.Div(children=carbon_dash.Popover(children=[html.Div(className='playground-trigger', children=html.Div()), carbon_dash.PopoverContent(className='p-3', children=html.Div(children=[html.Div(className='popover-title', children='This popover uses autoAlign'), html.Div(className='popover-details', children='Scroll the container up, down, left or right to observe how the\n              popover will automatically change its position in attempt to stay\n              within the viewport. This works on initial render in addition to\n              on scroll.')]))])),
+        carbon_dash.Popover(align='bottom', id='popover-floatingstyles'),
         html.H3("TabTip"),
-        html.Div(className='popover-tabtip-story', children=[carbon_dash.Popover(isTabTip=True, children=[html.Div(children=html.Div()), carbon_dash.PopoverContent(className='p-3', children=[carbon_dash.RadioButtonGroup(legendText='Row height 1', name='radio-button-group', defaultSelected='small', children=[carbon_dash.RadioButton(labelText='Small', value='small', id='radio-small'), carbon_dash.RadioButton(labelText='Large', value='large', id='radio-large')]), html.Div(), html.Div(children=[html.Div(children='Edit columns'), carbon_dash.Checkbox(defaultChecked=True, labelText='Name', id='checkbox-label-1'), carbon_dash.Checkbox(defaultChecked=True, labelText='Type', id='checkbox-label-2'), carbon_dash.Checkbox(defaultChecked=True, labelText='Location', id='checkbox-label-3')])])]), carbon_dash.Popover(isTabTip=True, children=[html.Div(children=html.Div()), carbon_dash.PopoverContent(className='p-3', children=[carbon_dash.RadioButtonGroup(legendText='Row height 2', name='radio-button-group-2', defaultSelected='small-2', children=[carbon_dash.RadioButton(labelText='Small', value='small-2', id='radio-small-2'), carbon_dash.RadioButton(labelText='Large', value='large-2', id='radio-large-2')]), html.Div(), html.Div(children=[html.Div(children='Testing'), carbon_dash.Checkbox(defaultChecked=True, labelText='Name', id='checkbox-label-8'), carbon_dash.Checkbox(defaultChecked=True, labelText='Type', id='checkbox-label-9'), carbon_dash.Checkbox(defaultChecked=True, labelText='Location', id='checkbox-label-10')])])])]),
+        carbon_dash.Popover(id='popover-tabtip'),
+        html.H3("Default"),
+        carbon_dash.Popover(caret=True, dropShadow=True, highContrast=False, open=True, id='popover-default'),
         html.H3("ExperimentalAutoAlign"),
-        html.Div(children=html.Div(children=carbon_dash.Popover(align='top', autoAlign=True, children=[html.Div(className='playground-trigger', children=html.Div()), carbon_dash.PopoverContent(className='p-3', children=html.Div(children=[html.Div(className='popover-title', children='This popover uses autoAlign'), html.Div(className='popover-details', children='Scroll the container up, down, left or right to observe how the\n                popover will automatically change its position in attempt to\n                stay within the viewport. This works on initial render in\n                addition to on scroll.')]))]))),
+        carbon_dash.Popover(id='popover-experimentalautoalign'),
         html.H3("ExperimentalAutoAlignBoundary"),
-        html.Div(children=[html.Div(), html.Div(children=[carbon_dash.Popover(align='top', autoAlign=True, children=[html.Div(className='playground-trigger', children=html.Div()), carbon_dash.PopoverContent(className='p-3', children=html.Div(children=[html.Div(className='popover-title', children='This popover uses autoAlign'), html.Div(className='popover-details', children='Scroll the container up, down, left or right to observe how the\n                popover will automatically change its position in attempt to\n                stay within the viewport. This works on initial render in\n                addition to on scroll.')]))]), html.Div()])]),
+        carbon_dash.Popover(id='popover-experimentalautoalignboundary'),
         html.H3("TabTipExperimentalAutoAlign"),
-        html.Div(children=html.Div(children=carbon_dash.Popover(align='bottom-right', autoAlign=True, isTabTip=True, children=[html.Div(className='playground-trigger', children=html.Div()), carbon_dash.PopoverContent(className='p-3', children=html.Div(children=[html.Div(className='popover-title', children='This popover uses autoAlign with isTabTip'), html.Div(className='popover-details', children='Scroll the container up, down, left or right to observe how the\n                popover will automatically change its position in attempt to\n                stay within the viewport. This works on initial render in\n                addition to on scroll.')]))]))),
+        carbon_dash.Popover(id='popover-tabtipexperimentalautoalign'),
     ])
 
 stories_dict['node-progressbar'] = html.Div([
@@ -597,7 +673,7 @@ stories_dict['node-progressbar'] = html.Div([
         html.H3("Determinate"),
         carbon_dash.ProgressBar(label='Export data'),
         html.H3("_WithLayer"),
-        html.Div(children=carbon_dash.ProgressBar(label='Progress bar label', helperText='Optional helper text', value=42)),
+        carbon_dash.ProgressBar(id='progressbar-_withlayer'),
     ])
 
 stories_dict['node-progressindicator'] = html.Div([
@@ -606,6 +682,8 @@ stories_dict['node-progressindicator'] = html.Div([
         carbon_dash.ProgressIndicator(currentIndex=1, children=[carbon_dash.ProgressStep(label='Click me', description='Step 1: Register an onChange event'), carbon_dash.ProgressStep(label='Really long label', description='The progress indicator will listen for clicks on the steps'), carbon_dash.ProgressStep(label='Third step', description='The progress indicator will listen for clicks on the steps')]),
         html.H3("Skeleton"),
         carbon_dash.ProgressIndicatorSkeleton(),
+        html.H3("Default"),
+        carbon_dash.ProgressIndicator(currentIndex=0, spaceEqually=False, vertical=False, id='progressindicator-default'),
     ])
 
 stories_dict['node-radiobutton'] = html.Div([
@@ -615,7 +693,9 @@ stories_dict['node-radiobutton'] = html.Div([
         html.H3("Skeleton"),
         carbon_dash.RadioButtonSkeleton(),
         html.H3("withAILabel"),
-        html.Div(className='ai-label-check-radio-container', children=[carbon_dash.RadioButtonGroup(orientation='vertical', legendText='Group label', name='radio-button-group', defaultSelected='radio-1', children=[carbon_dash.RadioButton(labelText='Radio button label', value='radio-1', id='radio-1'), carbon_dash.RadioButton(labelText='Radio button label', value='radio-2', id='radio-2'), carbon_dash.RadioButton(labelText='Radio button label', value='radio-3', id='radio-3')]), carbon_dash.RadioButtonGroup(orientation='vertical', legendText='Group label', name='radio-button-group-2', defaultSelected='radio-4', children=[carbon_dash.RadioButton(labelText='Radio button label', value='radio-4', id='radio-4'), carbon_dash.RadioButton(labelText='Radio button label', value='radio-5', id='radio-5'), carbon_dash.RadioButton(labelText='Radio button label', value='radio-6', id='radio-6')]), carbon_dash.RadioButtonGroup(orientation='vertical', legendText='Group label', name='radio-button-group-3', defaultSelected='radio-7', children=[carbon_dash.RadioButton(labelText='Radio button label', value='radio-7', id='radio-7'), carbon_dash.RadioButton(labelText='Radio button label', value='radio-8', id='radio-8'), carbon_dash.RadioButton(labelText='Radio button label', value='radio-9', id='radio-9')])]),
+        carbon_dash.RadioButton(id='radiobutton-withailabel'),
+        html.H3("Default"),
+        carbon_dash.RadioButton(hideLabel=False, invalidText='Invalid selection', warn=False, warnText='Please notice the warning', id='radiobutton-default'),
     ])
 
 stories_dict['node-search'] = html.Div([
@@ -623,27 +703,37 @@ stories_dict['node-search'] = html.Div([
         html.H3("Disabled"),
         carbon_dash.Search(disabled=True, size='lg', placeholder='Find your items', labelText='Search', closeButtonLabelText='Clear search input', id='search-1'),
         html.H3("Expandable"),
-        html.Div(children=carbon_dash.ExpandableSearch(size='lg', labelText='Search', closeButtonLabelText='Clear search input', id='search-expandable-1')),
+        carbon_dash.Search(id='search-expandable'),
         html.H3("_WithLayer"),
-        html.Div(),
+        carbon_dash.Search(id='search-_withlayer'),
         html.H3("ExpandableWithLayer"),
-        html.Div(),
+        carbon_dash.Search(id='search-expandablewithlayer'),
+        html.H3("Default"),
+        carbon_dash.Search(closeButtonLabelText='Clear search input', disabled=False, labelText='Label text', placeholder='Placeholder text', size='md', type='search', id='search-default'),
     ])
 
 stories_dict['node-select'] = html.Div([
         html.H2("Select"),
         html.H3("Inline"),
-        html.Div(children=carbon_dash.Select(inline=True, id='select-1', labelText='Select an option', helperText='Optional helper text', children=[carbon_dash.SelectItem(value='', text=''), carbon_dash.SelectItem(value='option-1', text='Option 1'), carbon_dash.SelectItem(value='option-2', text='Option 2'), carbon_dash.SelectItem(value='option-3', text='Option 3'), carbon_dash.SelectItem(value='option-4', text='Option 4')])),
+        carbon_dash.Select(inline=True, id='select-inline'),
         html.H3("Skeleton"),
         carbon_dash.SelectSkeleton(),
         html.H3("_WithLayer"),
-        html.Div(),
+        carbon_dash.Select(id='select-_withlayer'),
         html.H3("withAILabel"),
-        html.Div(children=carbon_dash.Select(id='select-1', labelText='Select an option', helperText='Optional helper text', children=[carbon_dash.SelectItem(value='', text=''), carbon_dash.SelectItem(value='An example option that is really long to show what should be done to handle long text', text='An example option that is really long to show what should be done to handle long text'), carbon_dash.SelectItem(value='option-2', text='Option 2'), carbon_dash.SelectItem(value='option-3', text='Option 3'), carbon_dash.SelectItem(value='option-4', text='Option 4')])),
+        carbon_dash.Select(id='select-withailabel'),
+    ])
+
+stories_dict['node-skeletontext'] = html.Div([
+        html.H2("SkeletonText"),
+        html.H3("Default"),
+        carbon_dash.SkeletonText(heading=False, paragraph=False, width='100%', lineCount=3, id='skeletontext-default'),
     ])
 
 stories_dict['node-slider'] = html.Div([
         html.H2("Slider"),
+        html.H3("Default"),
+        carbon_dash.Slider(ariaLabelInput='Lower bound', unstable_ariaLabelInputUpper='Upper bound', disabled=False, hideTextInput=False, invalid=False, invalidText='Invalid message goes here', min=0, max=100, readOnly=False, required=False, step=5, stepMultiplier=5, value=50, warn=False, warnText='Warning message goes here', id='slider-default'),
         html.H3("SliderWithHiddenInputs"),
         carbon_dash.Slider(labelText='Slider label', value=50, min=0, max=100, step=1, stepMultiplier=10, invalidText='Invalid message goes here', hideTextInput=True),
         html.H3("SliderWithCustomValueLabel"),
@@ -651,9 +741,9 @@ stories_dict['node-slider'] = html.Div([
         html.H3("ControlledSlider"),
         carbon_dash.Slider(id='slider-controlledslider'),
         html.H3("_WithLayer"),
-        html.Div(children=carbon_dash.Slider(labelText='Slider label', value=50, min=0, max=100, step=1, stepMultiplier=10)),
+        carbon_dash.Slider(id='slider-_withlayer'),
         html.H3("ControlledSliderWithLayer"),
-        html.Div(children=[html.Div(children='randomize value'), carbon_dash.Slider(labelText='Slider label', max=100, min=0), html.Div()]),
+        carbon_dash.Slider(id='slider-controlledsliderwithlayer'),
         html.H3("TwoHandleSlider"),
         carbon_dash.Slider(ariaLabelInput='Lower bound', unstable_ariaLabelInputUpper='Upper bound', labelText='Slider label', value=10, unstable_valueUpper=90, min=0, max=100, step=1, stepMultiplier=10, invalidText='Invalid message goes here'),
         html.H3("TwoHandleSliderWithHiddenInputs"),
@@ -667,11 +757,15 @@ stories_dict['node-slider'] = html.Div([
 stories_dict['node-stack'] = html.Div([
         html.H2("Stack"),
         html.H3("Horizontal"),
-        carbon_dash.Stack(gap=6, orientation='horizontal', children=[html.Div(children='Item 1'), html.Div(children='Item 2'), html.Div(children='Item 3')]),
+        carbon_dash.Stack(gap=6, orientation='horizontal'),
+        html.H3("Default"),
+        carbon_dash.Stack(as_='div', id='stack-default'),
     ])
 
 stories_dict['node-tabs'] = html.Div([
         html.H2("Tabs"),
+        html.H3("Default"),
+        carbon_dash.Tabs(dismissable=False, id='tabs-default'),
         html.H3("Dismissable"),
         carbon_dash.Tabs(id='tabs-dismissable'),
         html.H3("DismissableContained"),
@@ -679,53 +773,55 @@ stories_dict['node-tabs'] = html.Div([
         html.H3("DismissableWithIcons"),
         carbon_dash.Tabs(id='tabs-dismissablewithicons'),
         html.H3("WithIcons"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(activation='manual', children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=html.Div(children=[html.Div(children='Validation example'), carbon_dash.Checkbox(id='cb', labelText='Accept privacy policy'), carbon_dash.Button(type='submit', children='Submit'), carbon_dash.TextInput(type='text', labelText='Text input label', helperText='Optional help text', id='text-input-1')])), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(activation='manual', children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("Manual"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(activation='manual', children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=html.Div(children=[html.Div(children='Validation example'), carbon_dash.Checkbox(id='cb', labelText='Accept privacy policy'), carbon_dash.Button(type='submit', children='Submit'), carbon_dash.TextInput(type='text', labelText='Text input label', helperText='Optional help text', id='text-input-1')])), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(activation='manual', children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("Icon20Only"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='lg', children=[carbon_dash.IconTab(label='Analyze', children=html.Div()), carbon_dash.IconTab(label='Activity', children=html.Div()), carbon_dash.IconTab(label='New Notifications', children=html.Div()), carbon_dash.IconTab(label='Chat', children=html.Div())]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='lg', children=[carbon_dash.IconTab(label='Analyze'), carbon_dash.IconTab(label='Activity'), carbon_dash.IconTab(label='New Notifications'), carbon_dash.IconTab(label='Chat')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
         html.H3("IconOnly"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='default', children=[carbon_dash.IconTab(label='Analyze', children=html.Div()), carbon_dash.IconTab(label='Activity', children=html.Div()), carbon_dash.IconTab(label='New Notifications', children=html.Div()), carbon_dash.IconTab(label='Chat', children=html.Div())]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='default', children=[carbon_dash.IconTab(label='Analyze'), carbon_dash.IconTab(label='Activity'), carbon_dash.IconTab(label='New Notifications'), carbon_dash.IconTab(label='Chat')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
         html.H3("Contained"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer(children=html.Div(children=[html.Div(children='Validation example'), carbon_dash.Checkbox(id='cb', labelText='Accept privacy policy'), carbon_dash.Button(type='submit', children='Submit'), carbon_dash.TextInput(type='text', labelText='Text input label', helperText='Optional help text')]))), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("ContainedWithIcons"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer(children=html.Div(children=[html.Div(children='Validation example'), carbon_dash.Checkbox(id='cb', labelText='Accept privacy policy'), carbon_dash.Button(type='submit', children='Submit'), carbon_dash.TextInput(type='text', labelText='Text input label', helperText='Optional help text')]))), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Monitoring'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("ContainedWithSecondaryLabels"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(secondaryLabel='(21/25)', children='Engage'), carbon_dash.Tab(secondaryLabel='(12/16)', children='Analyze'), carbon_dash.Tab(secondaryLabel='(0/7)', children='Remediate'), carbon_dash.Tab(secondaryLabel='(4/12)', children='Assets'), carbon_dash.Tab(disabled=True, secondaryLabel='(0/10)', children='Monitoring')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer(children=html.Div(children=[html.Div(children='Validation example'), carbon_dash.Checkbox(id='cb', labelText='Accept privacy policy'), carbon_dash.Button(type='submit', children='Submit'), carbon_dash.TextInput(type='text', labelText='Text input label', helperText='Optional help text')]))), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(secondaryLabel='(21/25)', children='Engage'), carbon_dash.Tab(secondaryLabel='(12/16)', children='Analyze'), carbon_dash.Tab(secondaryLabel='(0/7)', children='Remediate'), carbon_dash.Tab(secondaryLabel='(4/12)', children='Assets'), carbon_dash.Tab(disabled=True, secondaryLabel='(0/10)', children='Monitoring')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("ContainedWithSecondaryLabelsAndIcons"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(secondaryLabel='(21/25', children='Engage'), carbon_dash.Tab(secondaryLabel='(12/16)', children='Analyze'), carbon_dash.Tab(disabled=True, secondaryLabel='(0/7)', children='Remediate'), carbon_dash.Tab(secondaryLabel='(4/12)', children='Assets'), carbon_dash.Tab(secondaryLabel='(1/23)', children='Monitoring')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer(children=html.Div(children=[html.Div(children='Validation example'), carbon_dash.Checkbox(id='cb', labelText='Accept privacy policy'), carbon_dash.Button(type='submit', children='Submit'), carbon_dash.TextInput(type='text', labelText='Text input label', helperText='Optional help text')]))), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, children=[carbon_dash.Tab(secondaryLabel='(21/25', children='Engage'), carbon_dash.Tab(secondaryLabel='(12/16)', children='Analyze'), carbon_dash.Tab(disabled=True, secondaryLabel='(0/7)', children='Remediate'), carbon_dash.Tab(secondaryLabel='(4/12)', children='Assets'), carbon_dash.Tab(secondaryLabel='(1/23)', children='Monitoring')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5')])]),
         html.H3("ContainedFullWidth"),
-        carbon_dash.Grid(condensed=True, children=carbon_dash.Column(lg=16, md=8, sm=4, children=carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, fullWidth=True, children=[carbon_dash.Tab(children='TLS'), carbon_dash.Tab(children='Origin'), carbon_dash.Tab(disabled=True, children='Rate limiting'), carbon_dash.Tab(children='WAF'), carbon_dash.Tab(children='IP Firewall'), carbon_dash.Tab(children='Firewall rules'), carbon_dash.Tab(children='Range'), carbon_dash.Tab(children='Mutual TLS')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer(children=html.Div(children=[html.Div(children='Validation example'), carbon_dash.Checkbox(id='cb', labelText='Accept privacy policy'), carbon_dash.Button(type='submit', children='Submit'), carbon_dash.TextInput(type='text', labelText='Text input label', helperText='Optional help text')]))), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5'), carbon_dash.TabPanel(children='Tab Panel 6'), carbon_dash.TabPanel(children='Tab Panel 7'), carbon_dash.TabPanel(children='Tab Panel 8')])]))),
+        carbon_dash.Grid(condensed=True, children=carbon_dash.Column(lg=16, md=8, sm=4, children=carbon_dash.Tabs(children=[carbon_dash.TabList(contained=True, fullWidth=True, children=[carbon_dash.Tab(children='TLS'), carbon_dash.Tab(children='Origin'), carbon_dash.Tab(disabled=True, children='Rate limiting'), carbon_dash.Tab(children='WAF'), carbon_dash.Tab(children='IP Firewall'), carbon_dash.Tab(children='Firewall rules'), carbon_dash.Tab(children='Range'), carbon_dash.Tab(children='Mutual TLS')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5'), carbon_dash.TabPanel(children='Tab Panel 6'), carbon_dash.TabPanel(children='Tab Panel 7'), carbon_dash.TabPanel(children='Tab Panel 8')])]))),
         html.H3("Vertical"),
-        carbon_dash.TabsVertical(children=[carbon_dash.TabListVertical(children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Extra long label that will go two lines then truncate when it goes\n          beyond the Tab length'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(children='Investigate'), carbon_dash.Tab(children='Learn'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer(children=html.Div(children=carbon_dash.Stack(gap=7, children=[carbon_dash.TextInput(id='one', labelText='First Name'), carbon_dash.TextInput(id='three', labelText='Middle Initial'), carbon_dash.TextInput(id='two', labelText='Last Name'), carbon_dash.RadioButtonGroup(legendText='Radio button heading', name='formgroup-default-radio-button-group', defaultSelected='radio-1', children=[carbon_dash.RadioButton(labelText='Option 1', value='radio-1', id='radio-1'), carbon_dash.RadioButton(labelText='Option 2', value='radio-2', id='radio-2'), carbon_dash.RadioButton(labelText='Option 3', value='radio-3', id='radio-3')]), carbon_dash.Checkbox(id='checkbox-label-1'), carbon_dash.Checkbox(id='checkbox-label-2'), carbon_dash.Button(children='Submit')])))), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5'), carbon_dash.TabPanel(children='Tab Panel 6'), carbon_dash.TabPanel(children='Tab Panel 7')])]),
+        carbon_dash.TabsVertical(children=[carbon_dash.TabListVertical(children=[carbon_dash.Tab(children='Dashboard'), carbon_dash.Tab(children='Extra long label that will go two lines then truncate when it goes\n          beyond the Tab length'), carbon_dash.Tab(children='Activity'), carbon_dash.Tab(children='Analyze'), carbon_dash.Tab(children='Investigate'), carbon_dash.Tab(children='Learn'), carbon_dash.Tab(disabled=True, children='Settings')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children=carbon_dash.Layer()), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4'), carbon_dash.TabPanel(children='Tab Panel 5'), carbon_dash.TabPanel(children='Tab Panel 6'), carbon_dash.TabPanel(children='Tab Panel 7')])]),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.TabsSkeleton()),
+        carbon_dash.Tabs(id='tabs-skeleton'),
         html.H3("Icon20OnlyVisualSnapshots"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='lg', children=[carbon_dash.IconTab(label='Analyze', children=html.Div()), carbon_dash.IconTab(label='Activity', children=html.Div()), carbon_dash.IconTab(label='New Notifications', children=html.Div()), carbon_dash.IconTab(label='Chat', children=html.Div())]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='lg', children=[carbon_dash.IconTab(label='Analyze'), carbon_dash.IconTab(label='Activity'), carbon_dash.IconTab(label='New Notifications'), carbon_dash.IconTab(label='Chat')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
         html.H3("IconOnlyVisualSnapshots"),
-        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='default', children=[carbon_dash.IconTab(label='Analyze', children=html.Div()), carbon_dash.IconTab(label='Activity', children=html.Div()), carbon_dash.IconTab(label='New Notifications', children=html.Div()), carbon_dash.IconTab(label='Chat', children=html.Div())]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
+        carbon_dash.Tabs(children=[carbon_dash.TabList(iconSize='default', children=[carbon_dash.IconTab(label='Analyze'), carbon_dash.IconTab(label='Activity'), carbon_dash.IconTab(label='New Notifications'), carbon_dash.IconTab(label='Chat')]), carbon_dash.TabPanels(children=[carbon_dash.TabPanel(children='Tab Panel 1'), carbon_dash.TabPanel(children='Tab Panel 2'), carbon_dash.TabPanel(children='Tab Panel 3'), carbon_dash.TabPanel(children='Tab Panel 4')])]),
     ])
 
 stories_dict['node-tag'] = html.Div([
         html.H2("Tag"),
         html.H3("Selectable"),
-        html.Div(role='group'),
+        carbon_dash.Tag(disabled=False, id='tag-selectable'),
         html.H3("Operational"),
-        carbon_dash.Tag(id='tag-operational'),
+        carbon_dash.Tag(disabled=False, size='md', id='tag-operational'),
         html.H3("Dismissible"),
-        carbon_dash.Tag(id='tag-dismissible'),
+        carbon_dash.Tag(disabled=False, size='md', id='tag-dismissible'),
         html.H3("ReadOnly"),
-        carbon_dash.Tag(id='tag-readonly'),
+        carbon_dash.Tag(disabled=False, filter=False, size='md', title='Clear filter', id='tag-readonly'),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.TagSkeleton()),
+        carbon_dash.Tag(size='md', id='tag-skeleton'),
         html.H3("withAILabel"),
-        html.Div(children=[carbon_dash.Tag(className='some-class', type='red', title='Clear Filter'), carbon_dash.DismissibleTag(className='some-class', type='purple', title='Clear Filter'), carbon_dash.Tag(className='some-class', type='blue', title='Clear Filter'), carbon_dash.DismissibleTag(className='some-class', type='green', title='Clear Filter')]),
+        carbon_dash.Tag(disabled=False, size='md', id='tag-withailabel'),
     ])
 
 stories_dict['node-textarea'] = html.Div([
         html.H2("TextArea"),
+        html.H3("Default"),
+        carbon_dash.TextArea(enableCounter=True, id='textarea-default'),
         html.H3("_WithLayer"),
-        html.Div(),
+        carbon_dash.TextArea(helperText='Optional helper text', id='textarea-_withlayer'),
         html.H3("withAILabel"),
         carbon_dash.TextArea(labelText='Text Area label', helperText='Optional helper text', rows=4, id='text-area-5'),
         html.H3("Skeleton"),
@@ -734,26 +830,28 @@ stories_dict['node-textarea'] = html.Div([
 
 stories_dict['node-textinput'] = html.Div([
         html.H2("TextInput"),
+        html.H3("Default"),
+        carbon_dash.TextInput(className='input-test-class', placeholder='Placeholder text', invalid=False, invalidText='Error message goes here', disabled=False, labelText='Label text', helperText='Helper text', warn=False, warnText='Warning message that is really long can wrap to more lines but should not be excessively long.', size='md', id='textinput-default'),
         html.H3("Fluid"),
-        html.Div(children=carbon_dash.FluidForm(children=carbon_dash.TextInput())),
+        carbon_dash.TextInput(id='textinput-fluid'),
         html.H3("ReadOnly"),
-        html.Div(children=carbon_dash.TextInput()),
+        carbon_dash.TextInput(defaultValue='This is read only, you can\'t type more.', readOnly=True, id='textinput-readonly'),
         html.H3("_WithLayer"),
-        html.Div(),
+        carbon_dash.TextInput(id='textinput-_withlayer'),
         html.H3("withAILabel"),
-        html.Div(children=carbon_dash.TextInput(type='text', labelText='Text input label', helperText='Optional help text', id='text-input-ai-label')),
+        carbon_dash.TextInput(id='textinput-withailabel'),
         html.H3("Skeleton"),
-        carbon_dash.TextInputSkeleton(),
+        carbon_dash.TextInputSkeleton(hideLabel=False),
         html.H3("TestInvalidTextNoOverlap"),
-        html.Div(children=[carbon_dash.TextInput(labelText='test invalid text, the invalid text should not overlap', invalid=True, invalidText='invalid text, this should not overlap with the component below', id='text-input-1', type='text'), carbon_dash.TextInput(labelText='test label', id='text-input-2', type='text')]),
+        carbon_dash.TextInput(id='textinput-testinvalidtextnooverlap'),
     ])
 
 stories_dict['node-theme'] = html.Div([
         html.H2("Theme"),
         html.H3("UseTheme"),
-        html.Div(children=[html.Div(className='theme-section', children=html.Div()), carbon_dash.Theme(theme='g100', children=html.Div(className='theme-section', children=html.Div()))]),
+        carbon_dash.Theme(id='theme-usetheme'),
         html.H3("UsePrefersDarkScheme"),
-        carbon_dash.Theme(children=[html.Div(className='theme-section', children=html.Div(children=['usePrefersDarkScheme() is', '. Theme\n          set to `', '`.'])), carbon_dash.Theme(children=html.Div(className='theme-section', children=html.Div(children=['usePrefersDarkScheme() is', '. An\n            alternative theme set of `', '`.']))), carbon_dash.Theme(children=html.Div(className='theme-section', children=html.Div(children=['usePrefersDarkScheme() is', '.\n            Theme set to `', '`.']))), carbon_dash.Theme(children=html.Div(className='theme-section', children=html.Div(children=['usePrefersDarkScheme() is', '. An\n            alternative theme set of `', '`.'])))]),
+        carbon_dash.Theme(children=[carbon_dash.Theme(), carbon_dash.Theme(), carbon_dash.Theme()]),
         html.H3("_WithLayer"),
         carbon_dash.VStack(gap=7),
     ])
@@ -763,25 +861,25 @@ stories_dict['node-tile'] = html.Div([
         html.H3("Clickable"),
         carbon_dash.ClickableTile(id='clickable-tile-1', href='https://www.carbondesignsystem.com/', children='Clickable Tile'),
         html.H3("ClickableWithLayer"),
-        html.Div(),
+        carbon_dash.Tile(id='tile-clickablewithlayer'),
         html.H3("Selectable"),
         carbon_dash.SelectableTile(id='selectable-tile-1', children='Selectable'),
         html.H3("MultiSelect"),
-        html.Div(role='group', children=[carbon_dash.SelectableTile(id='selectable-tile-1', name='tiles', children='Option 1'), carbon_dash.SelectableTile(id='selectable-tile-2', name='tiles', children='Option 2'), carbon_dash.SelectableTile(id='selectable-tile-3', name='tiles', children='Option 3')]),
+        carbon_dash.Tile(id='tile-multiselect'),
         html.H3("Radio"),
         carbon_dash.TileGroup(defaultSelected='default-selected', legend='Radio Tile Group', name='radio tile group', children=[carbon_dash.RadioTile(id='radio-tile-1', value='standard', children='Option 1'), carbon_dash.RadioTile(id='radio-tile-2', value='default-selected', children='Option 2'), carbon_dash.RadioTile(id='radio-tile-3', value='selected', children='Option 3')]),
         html.H3("RadioWithLayer"),
-        html.Div(),
+        carbon_dash.Tile(id='tile-radiowithlayer'),
         html.H3("Expandable"),
-        html.Div(children=carbon_dash.ExpandableTile(id='expandable-tile-1', tileCollapsedIconText='Interact to Expand tile', tileExpandedIconText='Interact to Collapse tile', children=[carbon_dash.TileAboveTheFoldContent(children=html.Div(children='Above the fold content here')), carbon_dash.TileBelowTheFoldContent(children=html.Div(children='Below the fold content here'))])),
+        carbon_dash.Tile(id='tile-expandable'),
         html.H3("ExpandableWithInteractive"),
-        html.Div(children=carbon_dash.ExpandableTile(id='expandable-tile-1', tileCollapsedIconText='Interact to Expand tile', tileExpandedIconText='Interact to Collapse tile', children=[carbon_dash.TileAboveTheFoldContent(children=html.Div(children=['Above the fold content here', html.Div(children=carbon_dash.Button(children='Example'))])), carbon_dash.TileBelowTheFoldContent(children=html.Div(children=['Below the fold content here', carbon_dash.TextInput(id='test2', invalidText='A valid value is required')]))])),
+        carbon_dash.Tile(id='tile-expandablewithinteractive'),
         html.H3("ExpandableWithLayer"),
-        html.Div(),
+        carbon_dash.Tile(id='tile-expandablewithlayer'),
         html.H3("_WithAILabel"),
         carbon_dash.Tile(id='tile-_withailabel'),
         html.H3("DefaultWithLayer"),
-        html.Div(),
+        carbon_dash.Tile(id='tile-defaultwithlayer'),
         html.H3("ClickableWithCustomIcon"),
         carbon_dash.ClickableTile(id='clickable-tile-1', href='https://www.carbondesignsystem.com/', children='Clickable Tile'),
         html.H3("withAILabel"),
@@ -790,58 +888,66 @@ stories_dict['node-tile'] = html.Div([
 
 stories_dict['node-timepicker'] = html.Div([
         html.H2("TimePicker"),
+        html.H3("Default"),
+        carbon_dash.TimePicker(disabled=False, hideLabel=False, invalid=False, warning=False, id='timepicker-default'),
         html.H3("_WithLayer"),
-        html.Div(),
+        carbon_dash.TimePicker(id='timepicker-_withlayer'),
     ])
 
 stories_dict['node-toggle'] = html.Div([
         html.H2("Toggle"),
         html.H3("_Toggle"),
-        html.Div(children=carbon_dash.Toggle(labelText='Label', labelA='Off', labelB='On', defaultToggled=True, id='toggle-3')),
+        carbon_dash.Toggle(disabled=False, id='toggle-_toggle'),
         html.H3("SmallToggle"),
         carbon_dash.Toggle(size='sm', labelText='Label', labelA='Off', labelB='On', defaultToggled=True, id='toggle-2'),
         html.H3("WithAccessibleLabels"),
-        carbon_dash.VStack(gap=7, children=[carbon_dash.Toggle(id='toggle-4', labelText='Label'), carbon_dash.Toggle(id='toggle-5', labelText='Label', hideLabel=True), html.Div(children=[html.Div(id='toggle-6-label', children='Internal aria-label toggle'), carbon_dash.Toggle(id='toggle-6')]), html.Div(children=[html.Div(id='toggle-7-label', children='External toggle label'), carbon_dash.Toggle(id='toggle-7')])]),
+        carbon_dash.VStack(gap=7, children=[carbon_dash.Toggle(id='toggle-4', labelText='Label'), carbon_dash.Toggle(id='toggle-5', labelText='Label', hideLabel=True)]),
         html.H3("Skeleton"),
-        html.Div(children=carbon_dash.ToggleSkeleton()),
+        carbon_dash.Toggle(id='toggle-skeleton'),
     ])
 
 stories_dict['node-toggletip'] = html.Div([
         html.H2("Toggletip"),
         html.H3("FloatingStyles"),
-        html.Div(children=[carbon_dash.ToggletipLabel(children='Toggletip label'), carbon_dash.Toggletip(defaultOpen=True, children=[carbon_dash.ToggletipButton(label='Show information', children=html.Div()), carbon_dash.ToggletipContent(children=[html.Div(children='Scroll the container up, down, left or right to observe how the\n            Toggletip will automatically change its position in attempt to stay\n            within the viewport. This works on initial render in addition to on\n            scroll.'), carbon_dash.ToggletipActions(children=[carbon_dash.Link(href='#', children='Link action'), carbon_dash.Button(size='sm', children='Button')])])])]),
+        carbon_dash.Toggletip(align='bottom', id='toggletip-floatingstyles'),
         html.H3("ExperimentalAutoAlign"),
-        html.Div(children=html.Div(children=[carbon_dash.ToggletipLabel(children='Toggletip label'), carbon_dash.Toggletip(align='bottom', autoAlign=True, defaultOpen=True, children=[carbon_dash.ToggletipButton(label='Show information', children=html.Div()), carbon_dash.ToggletipContent(children=[html.Div(children='Scroll the container up, down, left or right to observe how the\n              Toggletip will automatically change its position in attempt to\n              stay within the viewport. This works on initial render in addition\n              to on scroll.'), carbon_dash.ToggletipActions(children=[carbon_dash.Link(href='#', children='Link action'), carbon_dash.Button(size='sm', children='Button')])])])])),
+        carbon_dash.Toggletip(id='toggletip-experimentalautoalign'),
     ])
 
 stories_dict['node-tooltip'] = html.Div([
         html.H2("Tooltip"),
+        html.H3("Default"),
+        carbon_dash.Tooltip(align='bottom-left', defaultOpen=False, id='tooltip-default'),
         html.H3("WithLargeText"),
-        html.Div(children=['Custom domains direct requests for your apps in this Cloud Foundry\n      organization to a', ' ', carbon_dash.DefinitionTooltip(openOnHover=True, children='URL that you own. A custom domain can be a shared domain,'), ' ', 'a shared subdomain, or a shared domain and host.']),
+        carbon_dash.Tooltip(align='bottom-left', defaultOpen=False, id='tooltip-withlargetext'),
         html.H3("FloatingStyles"),
-        html.Div(children=carbon_dash.Tooltip(children=html.Div(className='sb-tooltip-trigger', children=html.Div()))),
+        carbon_dash.Tooltip(align='bottom', id='tooltip-floatingstyles'),
         html.H3("Alignment"),
         carbon_dash.Tooltip(label='Tooltip alignment', align='bottom-left', children=carbon_dash.Button(children='This button has a tooltip')),
         html.H3("ExperimentalAutoAlign"),
-        html.Div(children=html.Div(children=carbon_dash.Tooltip(align='top', children=carbon_dash.Button(children='This button has a tooltip')))),
+        carbon_dash.Tooltip(id='tooltip-experimentalautoalign'),
         html.H3("Duration"),
         carbon_dash.Tooltip(label='Label one', enterDelayMs=0, leaveDelayMs=300, children=carbon_dash.Button(children='This button has a tooltip')),
     ])
 
 stories_dict['node-treeview'] = html.Div([
         html.H2("TreeView"),
+        html.H3("Default"),
+        carbon_dash.TreeView(hideLabel=False, multiselect=False, id='treeview-default'),
         html.H3("WithIcons"),
         carbon_dash.TreeView(label='Tree View'),
         html.H3("WithLinks"),
-        html.Div(id='page-body', children=[html.Div(), html.Div(children=html.Div(children='The current page is:'))]),
+        carbon_dash.TreeView(id='treeview-withlinks'),
         html.H3("WithControlledExpansion"),
         carbon_dash.TreeView(id='treeview-withcontrolledexpansion'),
         html.H3("WithComplexNesting"),
-        carbon_dash.TreeView(label='Tree View with Complex Nesting', children=[carbon_dash.TreeNode(id='1', value='A.I.', label='A.I.', isExpanded=True, children=[html.Div(children=carbon_dash.TreeNode(id='1-1', value='Sub 1', label='Sub 1 (in a div)')), carbon_dash.TreeNode(id='1-2', value='Sub 2', label='Sub 2 (direct child)', children=carbon_dash.TreeNode(id='1-2-1', value='Sub 2.1', label='Sub 2.1'))]), carbon_dash.TreeNode(id='2', value='Analytics', label='Analytics', isExpanded=True, children=html.Div()), carbon_dash.TreeNode(id='3', value='Trust', label='Trust')]),
+        carbon_dash.TreeView(label='Tree View with Complex Nesting', children=[carbon_dash.TreeNode(id='1', value='A.I.', label='A.I.', isExpanded=True, children=carbon_dash.TreeNode(id='1-2', value='Sub 2', label='Sub 2 (direct child)', children=carbon_dash.TreeNode(id='1-2-1', value='Sub 2.1', label='Sub 2.1'))), carbon_dash.TreeNode(id='2', value='Analytics', label='Analytics', isExpanded=True), carbon_dash.TreeNode(id='3', value='Trust', label='Trust')], hideLabel=True, multiselect=True),
     ])
 
 stories_dict['node-unorderedlist'] = html.Div([
         html.H2("UnorderedList"),
+        html.H3("Default"),
+        carbon_dash.UnorderedList(isExpressive=False, id='unorderedlist-default'),
         html.H3("Nested"),
         carbon_dash.UnorderedList(children=[carbon_dash.ListItem(children=['Unordered List level 1', carbon_dash.UnorderedList(nested=True, children=[carbon_dash.ListItem(children='Unordered List level 2'), carbon_dash.ListItem(children=['Unordered List level 2', carbon_dash.UnorderedList(nested=True, children=[carbon_dash.ListItem(children='Unordered List level 2'), carbon_dash.ListItem(children='Unordered List level 2')])])])]), carbon_dash.ListItem(children='Unordered List level 1'), carbon_dash.ListItem(children='Unordered List level 1')]),
     ])
@@ -1004,6 +1110,11 @@ app.layout = html.Div([
                             value='Form'
                         ),
                         carbon_dash.TreeNode(
+                            id='node-formgroup',
+                            label='FormGroup',
+                            value='FormGroup'
+                        ),
+                        carbon_dash.TreeNode(
                             id='node-formlabel',
                             label='FormLabel',
                             value='FormLabel'
@@ -1037,6 +1148,16 @@ app.layout = html.Div([
                             id='node-link',
                             label='Link',
                             value='Link'
+                        ),
+                        carbon_dash.TreeNode(
+                            id='node-loading',
+                            label='Loading',
+                            value='Loading'
+                        ),
+                        carbon_dash.TreeNode(
+                            id='node-menu',
+                            label='Menu',
+                            value='Menu'
                         ),
                         carbon_dash.TreeNode(
                             id='node-menubutton',
@@ -1074,6 +1195,11 @@ app.layout = html.Div([
                             value='Pagination'
                         ),
                         carbon_dash.TreeNode(
+                            id='node-paginationnav',
+                            label='PaginationNav',
+                            value='PaginationNav'
+                        ),
+                        carbon_dash.TreeNode(
                             id='node-popover',
                             label='Popover',
                             value='Popover'
@@ -1102,6 +1228,11 @@ app.layout = html.Div([
                             id='node-select',
                             label='Select',
                             value='Select'
+                        ),
+                        carbon_dash.TreeNode(
+                            id='node-skeletontext',
+                            label='SkeletonText',
+                            value='SkeletonText'
                         ),
                         carbon_dash.TreeNode(
                             id='node-slider',

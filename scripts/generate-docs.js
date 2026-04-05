@@ -163,7 +163,7 @@ function processJSXElement(node) {
         const allowedProps = ["children", "className", "id", "style", "setProps", ...Object.keys(allProps)].map(p => reservedKeywords.includes(p) ? `${p}_` : p);
         const filteredProps = props.filter(p => {
             if (!p.includes('=')) return true; // positional or already formatted
-            const propName = p.split('=')[0];
+            const propName = p.split('=')[0].trim();
             return allowedProps.includes(propName) || propName === 'children';
         });
         return `carbon_dash.${elementName}(${filteredProps.join(', ')})`;

@@ -2,6 +2,40 @@ const fs = require('fs-extra');
 const path = require('path');
 const config = require('./config.json');
 
+const DashBaseProps = {
+    /** The ID used to identify this component in Dash callbacks. */
+    id: 'PropTypes.string',
+    /** The content of the component. */
+    children: 'PropTypes.node',
+    /** Specify a custom className to be applied to the component. */
+    className: 'PropTypes.string',
+    /** Inline styles */
+    style: 'PropTypes.object',
+    /** Dash-assigned callback that should be called to report property changes */
+    setProps: 'PropTypes.func',
+    /** Object that holds the loading state object coming from dash-renderer */
+    loading_state: 'PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string })'
+};
+
+const PersistenceProps = {
+    /** Used to allow user interactions in this component to be persisted */
+    persistence: 'PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number])',
+    /** Properties whose user interactions will persist */
+    persisted_props: 'PropTypes.arrayOf(PropTypes.string)',
+    /** Where persisted user changes will be stored */
+    persistence_type: "PropTypes.oneOf(['local', 'session', 'memory'])"
+};
+
+const DebounceProps = {
+    /** An integer that represents the number of times that this element has lost focus */
+    n_blur: 'PropTypes.number',
+    /** An integer that represents the number of times that this element has been submitted */
+    n_submit: 'PropTypes.number',
+    /** If True, changes to input will be sent back to the Dash server only on enter or when losing focus. */
+    debounce: 'PropTypes.oneOfType([PropTypes.bool, PropTypes.number])'
+};
+
+
 const DEST_COMPONENTS_DIR = path.resolve(__dirname, '../src/lib/components');
 const DEST_FRAGMENTS_DIR = path.resolve(__dirname, '../src/lib/fragments');
 const DEST_TESTS_DIR = path.resolve(__dirname, '../tests');
@@ -105,6 +139,20 @@ async function generateComponent(name, CarbonComponent, compConfig) {
   const propMap = compConfig.propMap || {};
   
   const allProps = { ...carbonPropTypes };
+  
+  let isInteractive = compConfig.eventMap && Object.keys(compConfig.eventMap).length > 0;
+  let hasValue = allProps.hasOwnProperty('value') || allProps.hasOwnProperty('checked');
+  let needsPersistence = isInteractive || hasValue;
+  let needsDebounce = hasValue; // Simplified, typically inputs
+
+  if (needsPersistence) {
+      Object.assign(allProps, PersistenceProps);
+  }
+  if (needsDebounce) {
+      Object.assign(allProps, DebounceProps);
+  }
+  Object.assign(allProps, DashBaseProps); // Ensure DashBaseProps are in allProps for prop iteration
+
   const fragmentDestructuring = [];
   const fragmentPassThrough = [];
   
@@ -113,7 +161,7 @@ async function generateComponent(name, CarbonComponent, compConfig) {
   // to avoid duplication in Destructuring. 
   // We handle these 4 specifically.
   for (const [propName, propDef] of Object.entries(injectProps)) {
-    if (['id', 'children', 'className', 'style'].includes(propName)) continue;
+    if (Object.keys(DashBaseProps).includes(propName)) continue;
     allProps[propName] = propDef;
   }
 
@@ -137,18 +185,27 @@ async function generateComponent(name, CarbonComponent, compConfig) {
   let fragmentCode = `import React from 'react';
 import { ${name} as Carbon${name}${hasAILabel ? ', AILabel' : ''} } from '@carbon/react';
 
+const getLoadingState = (loading_state) => {
+    if (loading_state && loading_state.is_loading) {
+        return true;
+    }
+    return undefined;
+};
+
+
 const ${name} = (props) => {
     const {
         id,
         setProps,
         children,
         className = ${defaultProps.className || "''"},
+        loading_state,
         style,
 `;
 
   // Explicitly destructure injected props for better handling in fragment
   for (const propName of Object.keys(injectProps)) {
-    if (['id', 'children', 'className', 'style'].includes(propName)) continue;
+    if (Object.keys(DashBaseProps).includes(propName)) continue;
     
     if (reservedKeywords.includes(propName)) {
         fragmentDestructuring.push(`${propName}_: ${propName}_alias = ${defaultProps[propName]}`);
@@ -180,6 +237,7 @@ const ${name} = (props) => {
 
   fragmentCode += `    return (
         <Carbon${name}
+            data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
@@ -230,7 +288,7 @@ export default class ${name} extends Component {
 `;
 
   for (const propName of Object.keys(injectProps)) {
-      if (['id', 'children', 'className', 'style'].includes(propName)) continue;
+      if (Object.keys(DashBaseProps).includes(propName)) continue;
       componentCode += `        const { ${propName} } = this.props;\n`;
   }
 
@@ -247,7 +305,7 @@ export default class ${name} extends Component {
 `;
 
   for (const propName of Object.keys(injectProps)) {
-      if (['id', 'children', 'className', 'style'].includes(propName)) continue;
+      if (Object.keys(DashBaseProps).includes(propName)) continue;
       componentCode += `                    ${propName}={${propName}}\n`;
   }
 
@@ -262,41 +320,23 @@ ${name}.defaultProps = {
     className: ${defaultProps.className || "''"},\n`;
   
   for (const propName of Object.keys(injectProps)) {
-      if (['id', 'children', 'className', 'style'].includes(propName)) continue;
+      if (Object.keys(DashBaseProps).includes(propName)) continue;
       componentCode += `    ${propName}: ${defaultProps[propName]},\n`;
   }
 
   componentCode += `};\n\n`;
 
   componentCode += `${name}.propTypes = {\n`;
-  componentCode += `    /**
-     * The ID used to identify this component in Dash callbacks.
-     */
-    id: PropTypes.string,
-
-    /**
-     * The content of the component.
-     */
-    children: PropTypes.node,
-
-    /**
-     * Specify a custom className to be applied to the component.
-     */
-    className: PropTypes.string,
-
-    /**
-     * Inline styles
-     */
-    style: PropTypes.object,
-
-    /**
-     * Dash-assigned callback that should be called to report property changes
-     * to Dash, to make them available for callbacks.
-     */
-    setProps: PropTypes.func,\n\n`;
+  componentCode += Object.entries(DashBaseProps).map(([k, v]) => `    /** ${k} */\n    ${k}: ${v},`).join('\n\n') + '\n\n';
+  if (needsPersistence) {
+      componentCode += Object.entries(PersistenceProps).map(([k, v]) => `    /** ${k} */\n    ${k}: ${v},`).join('\n\n') + '\n\n';
+  }
+  if (needsDebounce) {
+      componentCode += Object.entries(DebounceProps).map(([k, v]) => `    /** ${k} */\n    ${k}: ${v},`).join('\n\n') + '\n\n';
+  }
 
   for (const [propName, ptValue] of Object.entries(allProps)) {
-    if (['id', 'children', 'className', 'style', 'setProps'].includes(propName)) continue;
+    if (Object.keys(DashBaseProps).includes(propName) || Object.keys(PersistenceProps).includes(propName) || Object.keys(DebounceProps).includes(propName)) continue;
     
     // Some prop names might be invalid JS identifiers (e.g. contain hyphens like 'aria-label')
     // and also invalid Python identifiers.
@@ -312,16 +352,15 @@ ${name}.defaultProps = {
     if (propName.includes('-')) continue;
     
     let pt = 'PropTypes.any';
-    if (typeof ptValue === 'object' && ptValue.type) {
+    if (typeof ptValue === 'string' && ptValue.startsWith('PropTypes')) {
+        pt = ptValue;
+    } else if (typeof ptValue === 'object' && ptValue.type) {
         if (ptValue.type === 'number') pt = 'PropTypes.number';
         if (ptValue.type === 'bool') pt = 'PropTypes.bool';
         if (ptValue.type === 'string') pt = 'PropTypes.string';
         if (ptValue.type === 'node') pt = 'PropTypes.node';
         if (ptValue.type === 'array') pt = 'PropTypes.array';
     } else if (ptValue && ptValue.isRequired !== undefined) {
-        // This is a PropTypes validator
-        // We can't easily detect the type from the validator function at runtime
-        // without executing it or parsing its source, so 'any' is safest.
         pt = 'PropTypes.any';
     } else {
         pt = 'PropTypes.any';

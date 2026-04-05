@@ -1,0 +1,11 @@
+include carbon_dash/carbon_dash.min.js
+include carbon_dash/carbon_dash.min.js.map
+include carbon_dash/async-*.js
+include carbon_dash/async-*.js.map
+include carbon_dash/*-shared.js
+include carbon_dash/*-shared.js.map
+include carbon_dash/metadata.json
+include carbon_dash/package-info.json
+include README.md
+include LICENSE
+include package.json

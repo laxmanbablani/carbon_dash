@@ -1,0 +1,27 @@
+.carbonDash_js_metadata <- function() {
+deps_metadata <- list(`carbon_dash` = structure(list(name = "carbon_dash",
+version = "0.0.1", src = list(href = NULL,
+file = "deps"), meta = NULL,
+script = 'async-CarbonDash.js',
+stylesheet = NULL, head = NULL, attachment = NULL, package = "carbonDash",
+all_files = FALSE, async = TRUE), class = "html_dependency"),
+`carbon_dash` = structure(list(name = "carbon_dash",
+version = "0.0.1", src = list(href = NULL,
+file = "deps"), meta = NULL,
+script = 'async-CarbonDash.js.map',
+stylesheet = NULL, head = NULL, attachment = NULL, package = "carbonDash",
+all_files = FALSE, dynamic = TRUE), class = "html_dependency"),
+`carbon_dash` = structure(list(name = "carbon_dash",
+version = "0.0.1", src = list(href = NULL,
+file = "deps"), meta = NULL,
+script = 'carbon_dash.min.js',
+stylesheet = NULL, head = NULL, attachment = NULL, package = "carbonDash",
+all_files = FALSE), class = "html_dependency"),
+`carbon_dash` = structure(list(name = "carbon_dash",
+version = "0.0.1", src = list(href = NULL,
+file = "deps"), meta = NULL,
+script = 'carbon_dash.min.js.map',
+stylesheet = NULL, head = NULL, attachment = NULL, package = "carbonDash",
+all_files = FALSE, dynamic = TRUE), class = "html_dependency"))
+return(deps_metadata)
+}

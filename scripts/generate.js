@@ -101,6 +101,8 @@ async function generateComponent(name, CarbonComponent, compConfig) {
     allProps[propName] = propDef;
   }
 
+  const reservedKeywords = ['as', 'from', 'class', 'def', 'if', 'else', 'elif', 'for', 'while', 'try', 'except', 'finally', 'with', 'import', 'pass', 'break', 'continue', 'return', 'yield', 'lambda', 'and', 'or', 'not', 'is', 'in', 'del', 'global', 'nonlocal', 'assert', 'raise', 'True', 'False', 'None'];
+
   let fragmentCode = `import React from 'react';
 import { ${name} as Carbon${name}${hasAILabel ? ', AILabel' : ''} } from '@carbon/react';
 
@@ -111,7 +113,9 @@ const ${name} = (props) => {
         children,
         className,
         style,
-    // Explicitly destructure injected props for better handling in fragment
+`;
+
+  // Explicitly destructure injected props for better handling in fragment
   for (const propName of Object.keys(injectProps)) {
     if (['id', 'children', 'className', 'style'].includes(propName)) continue;
     
@@ -125,7 +129,7 @@ const ${name} = (props) => {
     }
   }
 
-  fragmentCode += `        \${fragmentDestructuring.join(',\\n        ')}\${fragmentDestructuring.length > 0 ? ',' : ''}
+  fragmentCode += `        ${fragmentDestructuring.join(',\n        ')}${fragmentDestructuring.length > 0 ? ',' : ''}
         ...otherProps
     } = props;
 `;
@@ -148,17 +152,16 @@ const ${name} = (props) => {
             id={id}
             className={className}
             style={style}
-            \${fragmentPassThrough.join('\\n            ')}
+            ${fragmentPassThrough.join('\n            ')}
 `;
   
   for (const eventName of Object.keys(eventMap)) {
     fragmentCode += `            ${eventName}={${eventName}}\n`;
   }
 
-  if (hasAILabel) {
-    fragmentCode += `            decorator={ai_label ? <AILabel /> : undefined}\n`;
-  }
-
+  // Pass remaining injected props except ai_label (if it maps to decorator)
+  // These are now handled in fragmentPassThrough
+  
   fragmentCode += `            {...otherProps}
         >
             {children}
@@ -284,6 +287,8 @@ ${name}.defaultProps = {\n`;
     } else {
         if (!fragmentDestructuring.includes(propName)) {
             fragmentDestructuring.push(propName);
+            const carbonPropName = propMap[propName] || propName;
+            fragmentPassThrough.push(`${carbonPropName}={${propName}}`);
         }
     }
 

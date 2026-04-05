@@ -11,7 +11,74 @@ const carbonReact = require('@carbon/react');
 const componentsDir = path.resolve('_ref/carbon-design-system/packages/react/src/components');
 const componentFolders = fs.readdirSync(componentsDir).filter(f => fs.statSync(path.join(componentsDir, f)).isDirectory());
 
+const CARBON_SRC_DIR = path.resolve(__dirname, '../_ref/carbon-design-system/packages/react/src/components');
+
+function extractPropsFromSource(name) {
+  // Common skeleton patterns
+  let baseName = name;
+  let isSkeleton = false;
+  if (name.endsWith('Skeleton')) {
+    baseName = name.replace('Skeleton', '');
+    isSkeleton = true;
+  }
+
+  const componentDir = path.join(CARBON_SRC_DIR, baseName);
+  if (!fs.existsSync(componentDir)) return {};
+
+  const files = fs.readdirSync(componentDir);
+  const targetFile = isSkeleton 
+    ? files.find(f => f.toLowerCase().includes('skeleton') && (f.endsWith('.tsx') || f.endsWith('.js')))
+    : files.find(f => (f === `${baseName}.tsx` || f === `${baseName}.js` || f === 'index.tsx' || f === 'index.js'));
+
+  if (!targetFile) return {};
+
+  const source = fs.readFileSync(path.join(componentDir, targetFile), 'utf8');
+  const props = {};
+
+  const funcPattern = new RegExp(`(?:function|const)\\s+${name}(?:\\s*:[^=]+)?\\s*(?:=\\s*)?\\(\\s*{([^}]*)}\\s*\\)`, 's');
+  const match = source.match(funcPattern);
+  
+  if (match && match[1]) {
+    const propLines = match[1].split(',');
+    propLines.forEach(line => {
+        const cleanLine = line.replace(/\/\*.*?\*\/|\/\/.*/g, '').trim();
+        const propMatch = cleanLine.match(/^([a-zA-Z0-9_]+)(?:\s*[:=]\s*.*)?$/);
+        if (propMatch && propMatch[1] && propMatch[1] !== 'rest' && propMatch[1] !== 'other') {
+            props[propMatch[1]] = 'any';
+        }
+    });
+  }
+
+  const interfacePattern = new RegExp(`(?:interface|type)\\s+${name}Props(?:\\s*=\\s*{|\\s*{)([^}]*)}`, 's');
+  const interfaceMatch = source.match(interfacePattern);
+  if (interfaceMatch && interfaceMatch[1]) {
+    const ptLines = interfaceMatch[1].split('\n');
+    ptLines.forEach(line => {
+      const lineMatch = line.trim().match(/^([a-zA-Z0-9_]+)\??\s*:/);
+      if (lineMatch && lineMatch[1]) {
+        props[lineMatch[1]] = 'any';
+      }
+    });
+  }
+
+  const propTypesPattern = new RegExp(`${name}\\.propTypes\\s*=\\s*{([^}]*)}`, 's');
+  const ptMatch = source.match(propTypesPattern);
+  if (ptMatch && ptMatch[1]) {
+    const ptLines = ptMatch[1].split('\n');
+    ptLines.forEach(line => {
+      const lineMatch = line.trim().match(/^([a-zA-Z0-9_]+)\s*:/);
+      if (lineMatch && lineMatch[1]) {
+        props[lineMatch[1]] = 'any';
+      }
+    });
+  }
+
+  return props;
+}
+
 const components = [];
+
+const reservedKeywords = ['as', 'from', 'class', 'def', 'if', 'else', 'elif', 'for', 'while', 'try', 'except', 'finally', 'with', 'import', 'pass', 'break', 'continue', 'return', 'yield', 'lambda', 'and', 'or', 'not', 'is', 'in', 'del', 'global', 'nonlocal', 'assert', 'raise', 'True', 'False', 'None'];
 
 function escapePythonString(str) {
     if (typeof str !== 'string') return "''";
@@ -47,7 +114,9 @@ function processJSXElement(node) {
                     }
                 }
             }
-            props.push(`${name}=${valueStr}`);
+    const reservedKeywords = ['as', 'from', 'class', 'def', 'if', 'else', 'elif', 'for', 'while', 'try', 'except', 'finally', 'with', 'import', 'pass', 'break', 'continue', 'return', 'yield', 'lambda', 'and', 'or', 'not', 'is', 'in', 'del', 'global', 'nonlocal', 'assert', 'raise', 'True', 'False', 'None'];
+            const pythonName = reservedKeywords.includes(name) ? `${name}_` : name;
+            props.push(`${pythonName}=${valueStr}`);
         }
     });
 
@@ -85,10 +154,14 @@ function processJSXElement(node) {
     if (carbonReact[elementName] || carbonReact['unstable__' + elementName] || carbonReact['preview__' + elementName]) {
         // Filter props for carbon_dash components based on available propTypes
         const component = carbonReact[elementName] || carbonReact['unstable__' + elementName] || carbonReact['preview__' + elementName];
-        const allowedProps = ["children", "className", "id", "style", "setProps", ...Object.keys(component.propTypes || {})];
+        const sourceProps = extractPropsFromSource(elementName);
+        const allProps = { ...sourceProps, ...(component ? (component.propTypes || {}) : {}) };
+        
+        const allowedProps = ["children", "className", "id", "style", "setProps", ...Object.keys(allProps)].map(p => reservedKeywords.includes(p) ? `${p}_` : p);
         const filteredProps = props.filter(p => {
+            if (!p.includes('=')) return true; // positional or already formatted
             const propName = p.split('=')[0];
-            return allowedProps.includes(propName) || propName === 'children' || !p.includes('=');
+            return allowedProps.includes(propName) || propName === 'children';
         });
         return `carbon_dash.${elementName}(${filteredProps.join(', ')})`;
     }
@@ -96,7 +169,11 @@ function processJSXElement(node) {
     // Fallback to html.Div for unknown components to keep the app running
     // We filter out props that are not allowed on html.Div
     const allowedDivProps = ["accessKey", "children", "className", "contentEditable", "dir", "disable_n_clicks", "draggable", "hidden", "id", "key", "lang", "n_clicks", "n_clicks_timestamp", "role", "spellCheck", "style", "tabIndex", "title"];
-    const filteredProps = props.filter(p => allowedDivProps.some(allowed => p.startsWith(allowed + '=')) || p.startsWith('aria-') || p.startsWith('data-') || !p.includes('='));
+    const filteredProps = props.filter(p => {
+        if (!p.includes('=')) return true; // positional or already formatted
+        const propName = p.split('=')[0];
+        return allowedDivProps.includes(propName) || propName.startsWith('aria-') || propName.startsWith('data-');
+    });
     return `html.Div(${filteredProps.join(', ')})`;
 }
 
@@ -126,6 +203,37 @@ for (const folder of componentFolders) {
                 });
                 
                 traverse(ast, {
+                    AssignmentExpression(pathNode) {
+                        // Capture Story.args = { ... }
+                        if (
+                            pathNode.node.left.type === 'MemberExpression' &&
+                            pathNode.node.left.property.name === 'args' &&
+                            pathNode.node.right.type === 'ObjectExpression'
+                        ) {
+                            const storyName = pathNode.node.left.object.name;
+                            const args = {};
+                            pathNode.node.right.properties.forEach(prop => {
+                                if (prop.key && prop.key.name && prop.value) {
+                                    const reservedKeywords = ['as', 'from', 'class', 'def', 'if', 'else', 'elif', 'for', 'while', 'try', 'except', 'finally', 'with', 'import', 'pass', 'break', 'continue', 'return', 'yield', 'lambda', 'and', 'or', 'not', 'is', 'in', 'del', 'global', 'nonlocal', 'assert', 'raise', 'True', 'False', 'None'];
+                                    const pythonName = reservedKeywords.includes(prop.key.name) ? `${prop.key.name}_` : prop.key.name;
+                                    if (prop.value.type === 'StringLiteral') {
+                                        args[pythonName] = escapePythonString(prop.value.value);
+                                    } else if (prop.value.type === 'BooleanLiteral') {
+                                        args[pythonName] = prop.value.value ? 'True' : 'False';
+                                    } else if (prop.value.type === 'NumericLiteral') {
+                                        args[pythonName] = prop.value.value;
+                                    }
+                                }
+                            });
+                            
+                            const existingStory = stories.find(s => s.name === storyName);
+                            if (existingStory) {
+                                existingStory.args = args;
+                            } else {
+                                stories.push({ name: storyName, args: args, code: null });
+                            }
+                        }
+                    },
                     ExportNamedDeclaration(pathNode) {
                         if (pathNode.node.declaration && pathNode.node.declaration.type === 'VariableDeclaration') {
                             const declarations = pathNode.node.declaration.declarations;
@@ -148,9 +256,17 @@ for (const folder of componentFolders) {
                                     }
                                     
                                     if (jsxResult) {
-                                        stories.push({ name: storyName, code: jsxResult });
+                                        const existingStory = stories.find(s => s.name === storyName);
+                                        if (existingStory) {
+                                            existingStory.code = jsxResult;
+                                        } else {
+                                            stories.push({ name: storyName, code: jsxResult });
+                                        }
                                     } else {
-                                        stories.push({ name: storyName, code: null });
+                                        const existingStory = stories.find(s => s.name === storyName);
+                                        if (!existingStory) {
+                                            stories.push({ name: storyName, code: null });
+                                        }
                                     }
                                 }
                             });
@@ -197,28 +313,73 @@ components.forEach(comp => {
     uniqueStoriesMap.forEach((storyObj, storyName) => {
         storyItems += `        html.H3("${storyName}"),\n`;
         
+        let compToRender = comp.name;
+        if (comp.name === 'Button' && storyName.includes('Skeleton')) {
+            compToRender = 'ButtonSkeleton';
+        } else if (storyName.includes('Skeleton') && carbonReact[comp.name + 'Skeleton']) {
+            compToRender = comp.name + 'Skeleton';
+        }
+
+        let propsList = [];
+        if (storyObj.args) {
+            const component = carbonReact[compToRender] || carbonReact['unstable__' + compToRender] || carbonReact['preview__' + compToRender];
+            const sourceProps = extractPropsFromSource(compToRender);
+            const allProps = { ...sourceProps, ...(component ? (component.propTypes || {}) : {}) };
+            const allowedProps = ["children", "className", "id", "style", "setProps", ...Object.keys(allProps)].map(p => reservedKeywords.includes(p) ? `${p}_` : p);
+
+            Object.entries(storyObj.args).forEach(([k, v]) => {
+                if (allowedProps.includes(k)) {
+                    propsList.push(`${k}=${v}`);
+                }
+            });
+        }
+
         if (storyObj.code) {
             // we have AST extracted code
-            storyItems += `        ${storyObj.code},\n`;
+            if (propsList.length > 0) {
+                // If we have extracted code AND story args, we attempt to merge.
+                // storyObj.code looks like "carbon_dash.Button(...)"
+                let code = storyObj.code;
+                if (code.endsWith(')')) {
+                    let inside = code.substring(code.indexOf('(') + 1, code.length - 1);
+                    let existingProps = inside.split(',').map(p => p.trim()).filter(p => p);
+                    propsList.forEach(p => {
+                        let propName = p.split('=')[0];
+                        if (!existingProps.some(ep => ep.startsWith(propName + '='))) {
+                            existingProps.push(p);
+                        }
+                    });
+                    storyItems += `        ${code.substring(0, code.indexOf('(') + 1)}${existingProps.join(', ')}),\n`;
+                } else {
+                    storyItems += `        ${storyObj.code},\n`;
+                }
+            } else {
+                storyItems += `        ${storyObj.code},\n`;
+            }
         } else {
             // fallback
             let compToRender = comp.name;
-            let props = `id='${comp.name.toLowerCase()}-${storyName.toLowerCase()}'`;
+            let idProp = `id='${comp.name.toLowerCase()}-${storyName.toLowerCase()}'`;
+            if (!propsList.some(p => p.startsWith('id='))) {
+                propsList.push(idProp);
+            }
             if (comp.name === 'Button') {
-                if (storyName.includes('Primary')) props += `, kind='primary', children='Primary'`;
-                else if (storyName.includes('Secondary')) props += `, kind='secondary', children='Secondary'`;
-                else if (storyName.includes('Tertiary')) props += `, kind='tertiary', children='Tertiary'`;
-                else if (storyName.includes('Ghost')) props += `, kind='ghost', children='Ghost'`;
-                else if (storyName.includes('Danger')) props += `, kind='danger', children='Danger'`;
-                else if (storyName.includes('IconButton')) props += `, hasIconOnly=True, iconDescription='Icon'`;
-                else if (storyName.includes('Skeleton')) { compToRender = 'ButtonSkeleton'; props += ``; }
-                else props += `, children='${storyName}'`;
-            } else {
-                if (storyName.includes('Skeleton') && carbonReact[comp.name + 'Skeleton']) {
-                    compToRender = comp.name + 'Skeleton';
+                if (storyName.includes('Primary') && !propsList.some(p => p.startsWith('kind='))) propsList.push(`kind='primary'`);
+                else if (storyName.includes('Secondary') && !propsList.some(p => p.startsWith('kind='))) propsList.push(`kind='secondary'`);
+                else if (storyName.includes('Tertiary') && !propsList.some(p => p.startsWith('kind='))) propsList.push(`kind='tertiary'`);
+                else if (storyName.includes('Ghost') && !propsList.some(p => p.startsWith('kind='))) propsList.push(`kind='ghost'`);
+                else if (storyName.includes('Danger') && !propsList.some(p => p.startsWith('kind='))) propsList.push(`kind='danger'`);
+                
+                if (storyName.includes('IconButton')) {
+                   if (!propsList.some(p => p.startsWith('hasIconOnly='))) propsList.push(`hasIconOnly=True`);
+                   if (!propsList.some(p => p.startsWith('iconDescription='))) propsList.push(`iconDescription='Icon'`);
+                }
+                
+                if (compToRender === 'Button') {
+                    if (!propsList.some(p => p.startsWith('children='))) propsList.push(`children='${storyName}'`);
                 }
             }
-            storyItems += `        carbon_dash.${compToRender}(${props}),\n`;
+            storyItems += `        carbon_dash.${compToRender}(${propsList.join(', ')}),\n`;
         }
     });
     storyItems += `    ])`;

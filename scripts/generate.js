@@ -51,17 +51,18 @@ function extractPropsFromSource(name) {
   }
 
   const componentDir = path.join(CARBON_SRC_DIR, baseName);
-  if (!fs.existsSync(componentDir)) return {};
+  if (!fs.existsSync(componentDir)) return { props: {}, defaults: {} };
 
   const files = fs.readdirSync(componentDir);
   const targetFile = isSkeleton 
     ? files.find(f => f.toLowerCase().includes('skeleton') && (f.endsWith('.tsx') || f.endsWith('.js')))
     : files.find(f => (f === `${baseName}.tsx` || f === `${baseName}.js` || f === 'index.tsx' || f === 'index.js'));
 
-  if (!targetFile) return {};
+  if (!targetFile) return { props: {}, defaults: {} };
 
   const source = fs.readFileSync(path.join(componentDir, targetFile), 'utf8');
   const props = {};
+  const defaults = {};
 
   // Regex to find props in function signature: function Component({ prop1, prop2 = default })
   // This is a simplified regex but should capture most destructured props in Carbon
@@ -73,10 +74,34 @@ function extractPropsFromSource(name) {
     propLines.forEach(line => {
         // Strip comments and handle { prop: alias }
         const cleanLine = line.replace(/\/\*.*?\*\/|\/\/.*/g, '').trim();
-        const propMatch = cleanLine.match(/^([a-zA-Z0-9_]+)(?:\s*[:=]\s*.*)?$/);
+        // Match prop and optional default value
+        const propMatch = cleanLine.match(/^([a-zA-Z0-9_]+)(?:\s*[:=]\s*([^,]+))?$/);
         if (propMatch && propMatch[1] && propMatch[1] !== 'rest' && propMatch[1] !== 'other') {
-            props[propMatch[1]] = 'PropTypes.any';
+            const pName = propMatch[1];
+            props[pName] = 'PropTypes.any';
+            if (propMatch[2]) {
+                let defVal = propMatch[2].trim();
+                // Basic cleanup of common defaults
+                if (defVal === 'true' || defVal === 'false' || !isNaN(defVal) || (defVal.startsWith("'") && defVal.endsWith("'")) || (defVal.startsWith('"') && defVal.endsWith('"'))) {
+                    defaults[pName] = defVal;
+                }
+            }
         }
+    });
+  }
+
+  // Also look for defaultProps definition in source
+  const defaultPropsPattern = new RegExp(`${name}\\.defaultProps\\s*=\\s*{([^}]*)}`, 's');
+  const dpMatch = source.match(defaultPropsPattern);
+  if (dpMatch && dpMatch[1]) {
+    const dpLines = dpMatch[1].split('\n');
+    dpLines.forEach(line => {
+      const lineMatch = line.trim().match(/^([a-zA-Z0-9_]+)\s*:\s*([^,]+)/);
+      if (lineMatch && lineMatch[1]) {
+        let defVal = lineMatch[2].trim();
+        if (defVal.endsWith(',')) defVal = defVal.slice(0, -1).trim();
+        defaults[lineMatch[1]] = defVal;
+      }
     });
   }
 
@@ -107,7 +132,7 @@ function extractPropsFromSource(name) {
     });
   }
 
-  return props;
+  return { props, defaults };
 }
 
 async function generateComponent(name, CarbonComponent, compConfig) {
@@ -133,7 +158,7 @@ async function generateComponent(name, CarbonComponent, compConfig) {
   const hasAILabel = compConfig.propTransforms && compConfig.propTransforms.ai_label === 'AILabel';
 
   // Merge Carbon's propTypes with our custom injected props
-  const sourceProps = extractPropsFromSource(name);
+  const { props: sourceProps, defaults: sourceDefaults } = extractPropsFromSource(name);
   const carbonPropTypes = { ...sourceProps, ...(CarbonComponent.propTypes || {}) };
   const injectProps = compConfig.injectProps || {};
   const propMap = compConfig.propMap || {};
@@ -153,6 +178,20 @@ async function generateComponent(name, CarbonComponent, compConfig) {
   }
   Object.assign(allProps, DashBaseProps); // Ensure DashBaseProps are in allProps for prop iteration
 
+  // Ensure sensible defaults for interactive props to prevent controlled/uncontrolled warnings
+  if (allProps.hasOwnProperty('value') && !injectProps.hasOwnProperty('value') && sourceDefaults.value === undefined) {
+      injectProps['value'] = { type: 'any', default: null };
+  }
+  if (allProps.hasOwnProperty('checked') && !injectProps.hasOwnProperty('checked') && sourceDefaults.checked === undefined) {
+      injectProps['checked'] = { type: 'bool', default: false };
+  }
+  if (allProps.hasOwnProperty('selectedItem') && !injectProps.hasOwnProperty('selectedItem') && sourceDefaults.selectedItem === undefined) {
+      injectProps['selectedItem'] = { type: 'any', default: null };
+  }
+  if (allProps.hasOwnProperty('toggled') && !injectProps.hasOwnProperty('toggled') && sourceDefaults.toggled === undefined) {
+      injectProps['toggled'] = { type: 'bool', default: false };
+  }
+
   const fragmentDestructuring = [];
   const fragmentPassThrough = [];
   
@@ -167,7 +206,7 @@ async function generateComponent(name, CarbonComponent, compConfig) {
 
   const reservedKeywords = ['as', 'from', 'class', 'def', 'if', 'else', 'elif', 'for', 'while', 'try', 'except', 'finally', 'with', 'import', 'pass', 'break', 'continue', 'return', 'yield', 'lambda', 'and', 'or', 'not', 'is', 'in', 'del', 'global', 'nonlocal', 'assert', 'raise', 'True', 'False', 'None'];
 
-  const defaultProps = {};
+  const defaultProps = { ...sourceDefaults };
   for (const [propName, propDef] of Object.entries(injectProps)) {
     let defVal = propDef.default;
     if (typeof defVal === 'string') {

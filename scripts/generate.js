@@ -5,6 +5,60 @@ const config = require('./config.json');
 const DEST_COMPONENTS_DIR = path.resolve(__dirname, '../src/lib/components');
 const DEST_FRAGMENTS_DIR = path.resolve(__dirname, '../src/lib/fragments');
 const DEST_TESTS_DIR = path.resolve(__dirname, '../tests');
+const CARBON_SRC_DIR = path.resolve(__dirname, '../_ref/carbon-design-system/packages/react/src/components');
+
+function extractPropsFromSource(name) {
+  // Common skeleton patterns
+  let baseName = name;
+  let isSkeleton = false;
+  if (name.endsWith('Skeleton')) {
+    baseName = name.replace('Skeleton', '');
+    isSkeleton = true;
+  }
+
+  const componentDir = path.join(CARBON_SRC_DIR, baseName);
+  if (!fs.existsSync(componentDir)) return {};
+
+  const files = fs.readdirSync(componentDir);
+  const targetFile = isSkeleton 
+    ? files.find(f => f.toLowerCase().includes('skeleton') && (f.endsWith('.tsx') || f.endsWith('.js')))
+    : files.find(f => (f === `${baseName}.tsx` || f === `${baseName}.js` || f === 'index.tsx' || f === 'index.js'));
+
+  if (!targetFile) return {};
+
+  const source = fs.readFileSync(path.join(componentDir, targetFile), 'utf8');
+  const props = {};
+
+  // Regex to find props in function signature: function Component({ prop1, prop2 = default })
+  // This is a simplified regex but should capture most destructured props in Carbon
+  const funcPattern = new RegExp(`(?:function|const)\\s+${name}\\s*(?:=\\s*)?\\(\\s*{([^}]*)}\\s*\\)`, 's');
+  const match = source.match(funcPattern);
+  
+  if (match && match[1]) {
+    const propLines = match[1].split(',');
+    propLines.forEach(line => {
+        const propMatch = line.trim().match(/^([a-zA-Z0-9_]+)(?:\s*[:=]\s*.*)?$/);
+        if (propMatch && propMatch[1] && propMatch[1] !== 'rest' && propMatch[1] !== 'other') {
+            props[propMatch[1]] = 'PropTypes.any';
+        }
+    });
+  }
+
+  // Also look for propTypes definition in source if available (more reliable than runtime if runtime is stripped)
+  const propTypesPattern = new RegExp(`${name}\\.propTypes\\s*=\\s*{([^}]*)}`, 's');
+  const ptMatch = source.match(propTypesPattern);
+  if (ptMatch && ptMatch[1]) {
+    const ptLines = ptMatch[1].split('\n');
+    ptLines.forEach(line => {
+      const lineMatch = line.trim().match(/^([a-zA-Z0-9_]+)\s*:/);
+      if (lineMatch && lineMatch[1]) {
+        props[lineMatch[1]] = 'PropTypes.any';
+      }
+    });
+  }
+
+  return props;
+}
 
 async function generateComponent(name, CarbonComponent, compConfig) {
   if (!CarbonComponent) {
@@ -29,11 +83,14 @@ async function generateComponent(name, CarbonComponent, compConfig) {
   const hasAILabel = compConfig.propTransforms && compConfig.propTransforms.ai_label === 'AILabel';
 
   // Merge Carbon's propTypes with our custom injected props
-  const carbonPropTypes = CarbonComponent.propTypes || {};
+  const sourceProps = extractPropsFromSource(name);
+  const carbonPropTypes = { ...sourceProps, ...(CarbonComponent.propTypes || {}) };
   const injectProps = compConfig.injectProps || {};
   const propMap = compConfig.propMap || {};
   
   const allProps = { ...carbonPropTypes };
+  const fragmentDestructuring = [];
+  const fragmentPassThrough = [];
   
   // Custom props take precedence or are added
   // However, we MUST NOT include id, children, className, or style here if they are already in allProps
@@ -44,7 +101,6 @@ async function generateComponent(name, CarbonComponent, compConfig) {
     allProps[propName] = propDef;
   }
 
-  // Generate Fragment
   let fragmentCode = `import React from 'react';
 import { ${name} as Carbon${name}${hasAILabel ? ', AILabel' : ''} } from '@carbon/react';
 
@@ -55,15 +111,22 @@ const ${name} = (props) => {
         children,
         className,
         style,
-`;
-
-  // Explicitly destructure injected props for better handling in fragment
+    // Explicitly destructure injected props for better handling in fragment
   for (const propName of Object.keys(injectProps)) {
     if (['id', 'children', 'className', 'style'].includes(propName)) continue;
-    fragmentCode += `        ${propName},\n`;
+    
+    if (reservedKeywords.includes(propName)) {
+        fragmentDestructuring.push(`${propName}_: ${propName}_alias`);
+        fragmentPassThrough.push(`${propName}={${propName}_alias}`);
+    } else {
+        const carbonPropName = propMap[propName] || propName;
+        fragmentDestructuring.push(propName);
+        fragmentPassThrough.push(`${carbonPropName}={${propName}}`);
+    }
   }
 
-  fragmentCode += `        ...otherProps
+  fragmentCode += `        \${fragmentDestructuring.join(',\\n        ')}\${fragmentDestructuring.length > 0 ? ',' : ''}
+        ...otherProps
     } = props;
 `;
 
@@ -85,6 +148,7 @@ const ${name} = (props) => {
             id={id}
             className={className}
             style={style}
+            \${fragmentPassThrough.join('\\n            ')}
 `;
   
   for (const eventName of Object.keys(eventMap)) {
@@ -93,14 +157,6 @@ const ${name} = (props) => {
 
   if (hasAILabel) {
     fragmentCode += `            decorator={ai_label ? <AILabel /> : undefined}\n`;
-  }
-
-  // Pass remaining injected props except ai_label (if it maps to decorator)
-  for (const propName of Object.keys(injectProps)) {
-    if (propName === 'ai_label') continue;
-    if (['id', 'children', 'className', 'style'].includes(propName)) continue;
-    const carbonPropName = propMap[propName] || propName;
-    fragmentCode += `            ${carbonPropName}={${propName}}\n`;
   }
 
   fragmentCode += `            {...otherProps}
@@ -214,7 +270,24 @@ ${name}.defaultProps = {\n`;
         pt = 'PropTypes.any';
     }
     
-    componentCode += `    /**\n     * ${propName}\n     */\n    ${propName}: ${pt},\n\n`;
+    const reservedKeywords = ['as', 'from', 'class', 'def', 'if', 'else', 'elif', 'for', 'while', 'try', 'except', 'finally', 'with', 'import', 'pass', 'break', 'continue', 'return', 'yield', 'lambda', 'and', 'or', 'not', 'is', 'in', 'del', 'global', 'nonlocal', 'assert', 'raise', 'True', 'False', 'None'];
+    const pythonPropName = reservedKeywords.includes(propName) ? `${propName}_` : propName;
+    
+    // Check if we need to alias it in React for passing back to Carbon
+    if (reservedKeywords.includes(propName)) {
+        // We'll use a special prop name in the React side that matches the Python side
+        // and map it back in the fragment.
+        if (!fragmentDestructuring.includes(`${propName}_: ${propName}_alias`)) {
+            fragmentDestructuring.push(`${propName}_: ${propName}_alias`);
+            fragmentPassThrough.push(`${propName}={${propName}_alias}`);
+        }
+    } else {
+        if (!fragmentDestructuring.includes(propName)) {
+            fragmentDestructuring.push(propName);
+        }
+    }
+
+    componentCode += `    /**\n     * ${propName}\n     */\n    ${pythonPropName}: ${pt},\n\n`;
   }
 
   componentCode += `};\n\nexport default ${name};\n\nexport const defaultProps = ${name}.defaultProps;\nexport const propTypes = ${name}.propTypes;\n`;

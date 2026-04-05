@@ -101,7 +101,12 @@ function processJSXElement(node) {
             let valueStr = "True";
             if (attr.value) {
                 if (attr.value.type === 'StringLiteral') {
-                    valueStr = escapePythonString(attr.value.value);
+                    if (['renderIcon', 'icon', 'defaultIcon', 'leftSection', 'rightSection'].includes(name) && carbonIcons[attr.value.value]) {
+                        const iconKebab = attr.value.value.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+                        valueStr = `dash_iconify.DashIconify(icon="carbon:${iconKebab}")`;
+                    } else {
+                        valueStr = escapePythonString(attr.value.value);
+                    }
                 } else if (attr.value.type === 'JSXExpressionContainer') {
                     if (attr.value.expression.type === 'NumericLiteral') {
                         valueStr = attr.value.expression.value;

@@ -11,6 +11,7 @@ export default class ProgressBar extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { value } = this.props;
 
         const RealComponent = LazyLoader['ProgressBar'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class ProgressBar extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    value={value}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class ProgressBar extends Component {
 
 ProgressBar.defaultProps = {
     className: '',
+    value: '',
 };
 
 ProgressBar.propTypes = {

@@ -28,7 +28,7 @@ title=NULL, titleClassName=NULL)
 
 \item{closeClassName}{Logical | numeric | character | named list | unnamed list. closeClassName}
 
-\item{closeIconClassName}{Logical | numeric | character | named list | unnamed list. closeIconClassName}
+\item{closeIconClassName}{A list of or a singular dash component, string or number. closeIconClassName}
 
 \item{closeModal}{Logical | numeric | character | named list | unnamed list. closeModal}
 

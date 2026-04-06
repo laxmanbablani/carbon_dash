@@ -25,7 +25,7 @@ style=NULL)
 
 \item{ariaLabel}{Logical | numeric | character | named list | unnamed list. ariaLabel}
 
-\item{checked}{Logical | numeric | character | named list | unnamed list. checked}
+\item{checked}{Logical. checked}
 
 \item{className}{Character. className}
 

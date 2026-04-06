@@ -22,8 +22,8 @@ Keyword arguments:
 - `enableTreeviewControllable` (Bool | Real | String | Dict | Array; optional): enableTreeviewControllable
 - `enableV12DynamicFloatingStyles` (Bool | Real | String | Dict | Array; optional): enableV12DynamicFloatingStyles
 - `enableV12Overflowmenu` (Bool | Real | String | Dict | Array; optional): enableV12Overflowmenu
-- `enableV12TileDefaultIcons` (Bool | Real | String | Dict | Array; optional): enableV12TileDefaultIcons
-- `enableV12TileRadioIcons` (Bool | Real | String | Dict | Array; optional): enableV12TileRadioIcons
+- `enableV12TileDefaultIcons` (a list of or a singular dash component, string or number; optional): enableV12TileDefaultIcons
+- `enableV12TileRadioIcons` (a list of or a singular dash component, string or number; optional): enableV12TileRadioIcons
 - `flags` (Bool | Real | String | Dict | Array; optional): flags
 - `loading_state` (optional): loading_state. loading_state has the following type: lists containing elements 'is_loading', 'prop_name', 'component_name'.
 Those elements have the following types:

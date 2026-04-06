@@ -34,7 +34,7 @@ style=NULL)
 
 \item{enterDelayMs}{Logical | numeric | character | named list | unnamed list. enterDelayMs}
 
-\item{expanded}{Logical | numeric | character | named list | unnamed list. expanded}
+\item{expanded}{Logical. expanded}
 
 \item{href}{Logical | numeric | character | named list | unnamed list. href}
 

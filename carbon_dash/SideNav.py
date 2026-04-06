@@ -42,7 +42,7 @@ Keyword arguments:
 - enterDelayMs (boolean | number | string | dict | list; optional):
     enterDelayMs.
 
-- expanded (boolean | number | string | dict | list; optional):
+- expanded (boolean; default False):
     expanded.
 
 - href (boolean | number | string | dict | list; optional):
@@ -96,7 +96,7 @@ Keyword arguments:
         addMouseListeners: typing.Optional[typing.Any] = None,
         defaultExpanded: typing.Optional[typing.Any] = None,
         enterDelayMs: typing.Optional[typing.Any] = None,
-        expanded: typing.Optional[typing.Any] = None,
+        expanded: typing.Optional[bool] = None,
         href: typing.Optional[typing.Any] = None,
         isChildOfHeader: typing.Optional[typing.Any] = None,
         isFixedNav: typing.Optional[typing.Any] = None,

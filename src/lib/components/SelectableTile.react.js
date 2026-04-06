@@ -11,6 +11,8 @@ export default class SelectableTile extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { value } = this.props;
+        const { selected } = this.props;
 
         const RealComponent = LazyLoader['SelectableTile'];
         if (!RealComponent) {
@@ -21,6 +23,8 @@ export default class SelectableTile extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    value={value}
+                    selected={selected}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +34,8 @@ export default class SelectableTile extends Component {
 
 SelectableTile.defaultProps = {
     className: '',
+    value: '',
+    selected: null,
 };
 
 SelectableTile.propTypes = {

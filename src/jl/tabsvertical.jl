@@ -22,7 +22,7 @@ Those elements have the following types:
   - `prop_name` (String; optional)
   - `component_name` (String; optional)
 - `onChange` (Bool | Real | String | Dict | Array; optional): onChange
-- `selectedIndex` (Bool | Real | String | Dict | Array; optional): selectedIndex
+- `selectedIndex` (Real; optional): selectedIndex
 - `style` (Dict; optional): style
 """
 function tabsvertical(; kwargs...)

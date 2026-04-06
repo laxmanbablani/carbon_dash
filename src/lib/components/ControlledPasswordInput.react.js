@@ -11,6 +11,7 @@ export default class ControlledPasswordInput extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { value } = this.props;
 
         const RealComponent = LazyLoader['ControlledPasswordInput'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class ControlledPasswordInput extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    value={value}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class ControlledPasswordInput extends Component {
 
 ControlledPasswordInput.defaultProps = {
     className: '',
+    value: '',
 };
 
 ControlledPasswordInput.propTypes = {

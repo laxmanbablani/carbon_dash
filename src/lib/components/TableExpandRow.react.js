@@ -11,6 +11,7 @@ export default class TableExpandRow extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { isExpanded } = this.props;
 
         const RealComponent = LazyLoader['TableExpandRow'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class TableExpandRow extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    isExpanded={isExpanded}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class TableExpandRow extends Component {
 
 TableExpandRow.defaultProps = {
     className: '',
+    isExpanded: false,
 };
 
 TableExpandRow.propTypes = {
@@ -51,6 +54,15 @@ TableExpandRow.propTypes = {
     /** loading_state */
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
 
+    /** persistence */
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+
+    /** persisted_props */
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+
+    /** persistence_type */
+    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
+
     /**
      * ariaLabel
      */
@@ -69,7 +81,7 @@ TableExpandRow.propTypes = {
     /**
      * isExpanded
      */
-    isExpanded: PropTypes.any,
+    isExpanded: PropTypes.bool,
 
     /**
      * isSelected

@@ -107,7 +107,7 @@ Keyword arguments:
 - rows (boolean | number | string | dict | list; optional):
     rows.
 
-- value (boolean | number | string | dict | list; optional):
+- value (boolean | number | string | dict | list; default ''):
     value.
 
 - warn (boolean | number | string | dict | list; optional):

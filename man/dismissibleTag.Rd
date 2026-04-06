@@ -40,7 +40,7 @@ those elements have the following types:
 
 \item{onClose}{Logical | numeric | character | named list | unnamed list. onClose}
 
-\item{renderIcon}{Logical | numeric | character | named list | unnamed list. renderIcon}
+\item{renderIcon}{A list of or a singular dash component, string or number. renderIcon}
 
 \item{size}{Logical | numeric | character | named list | unnamed list. size}
 

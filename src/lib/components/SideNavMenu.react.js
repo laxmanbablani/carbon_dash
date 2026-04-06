@@ -74,7 +74,7 @@ SideNavMenu.propTypes = {
     /**
      * renderIcon
      */
-    renderIcon: PropTypes.any,
+    renderIcon: PropTypes.node,
 
     /**
      * tabIndex

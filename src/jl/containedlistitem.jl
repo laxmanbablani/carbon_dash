@@ -22,7 +22,7 @@ Those elements have the following types:
   - `prop_name` (String; optional)
   - `component_name` (String; optional)
 - `onClick` (Bool | Real | String | Dict | Array; optional): onClick
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `style` (Dict; optional): style
 """
 function containedlistitem(; kwargs...)

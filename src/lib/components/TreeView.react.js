@@ -11,6 +11,8 @@ export default class TreeView extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { selected } = this.props;
+        const { active } = this.props;
 
         const RealComponent = LazyLoader['TreeView'];
         if (!RealComponent) {
@@ -21,6 +23,8 @@ export default class TreeView extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    selected={selected}
+                    active={active}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +34,8 @@ export default class TreeView extends Component {
 
 TreeView.defaultProps = {
     className: '',
+    selected: null,
+    active: null,
 };
 
 TreeView.propTypes = {

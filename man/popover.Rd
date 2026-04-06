@@ -58,7 +58,7 @@ those elements have the following types:
 
 \item{onRequestClose}{Logical | numeric | character | named list | unnamed list. onRequestClose}
 
-\item{open}{Logical | numeric | character | named list | unnamed list. open}
+\item{open}{Logical. open}
 
 \item{style}{Named list. style}
 

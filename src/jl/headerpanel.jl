@@ -15,7 +15,7 @@ Keyword arguments:
 - `id` (String; optional): id
 - `addFocusListeners` (Bool | Real | String | Dict | Array; optional): addFocusListeners
 - `className` (String; optional): className
-- `expanded` (Bool | Real | String | Dict | Array; optional): expanded
+- `expanded` (Bool; optional): expanded
 - `href` (Bool | Real | String | Dict | Array; optional): href
 - `loading_state` (optional): loading_state. loading_state has the following type: lists containing elements 'is_loading', 'prop_name', 'component_name'.
 Those elements have the following types:

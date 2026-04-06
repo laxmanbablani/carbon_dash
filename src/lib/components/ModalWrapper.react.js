@@ -119,7 +119,7 @@ ModalWrapper.propTypes = {
     /**
      * renderTriggerButtonIcon
      */
-    renderTriggerButtonIcon: PropTypes.any,
+    renderTriggerButtonIcon: PropTypes.node,
 
     /**
      * secondaryButtonText

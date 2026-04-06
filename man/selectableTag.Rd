@@ -37,7 +37,7 @@ those elements have the following types:
 
 \item{onClick}{Logical | numeric | character | named list | unnamed list. onClick}
 
-\item{renderIcon}{Logical | numeric | character | named list | unnamed list. renderIcon}
+\item{renderIcon}{A list of or a singular dash component, string or number. renderIcon}
 
 \item{selected}{Logical | numeric | character | named list | unnamed list. selected}
 

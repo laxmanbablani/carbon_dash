@@ -122,7 +122,7 @@ Keyword arguments:
 - totalItems (boolean | number | string | dict | list; optional):
     totalItems.
 
-- value (boolean | number | string | dict | list; optional):
+- value (boolean | number | string | dict | list; default ''):
     value."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']

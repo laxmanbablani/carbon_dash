@@ -65,7 +65,7 @@ Keyword arguments:
 - onKeyDown (boolean | number | string | dict | list; optional):
     onKeyDown.
 
-- open (boolean | number | string | dict | list; optional):
+- open (boolean; default False):
     open.
 
 - preventCloseOnClickOutside (boolean | number | string | dict | list; optional):
@@ -103,7 +103,7 @@ Keyword arguments:
         current: typing.Optional[typing.Any] = None,
         onClose: typing.Optional[typing.Any] = None,
         onKeyDown: typing.Optional[typing.Any] = None,
-        open: typing.Optional[typing.Any] = None,
+        open: typing.Optional[bool] = None,
         preventCloseOnClickOutside: typing.Optional[typing.Any] = None,
         selectorPrimaryFocus: typing.Optional[typing.Any] = None,
         selectorsFloatingMenus: typing.Optional[typing.Any] = None,

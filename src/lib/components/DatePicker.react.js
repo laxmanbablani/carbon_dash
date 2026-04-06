@@ -12,6 +12,7 @@ export default class DatePicker extends Component {
             ...otherProps
         } = this.props;
         const { datePickerType } = this.props;
+        const { value } = this.props;
 
         const RealComponent = LazyLoader['DatePicker'];
         if (!RealComponent) {
@@ -23,6 +24,7 @@ export default class DatePicker extends Component {
                 <RealComponent 
                     className={className}
                     datePickerType={datePickerType}
+                    value={value}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -33,6 +35,7 @@ export default class DatePicker extends Component {
 DatePicker.defaultProps = {
     className: '',
     datePickerType: 'single',
+    value: '',
 };
 
 DatePicker.propTypes = {
@@ -123,11 +126,6 @@ DatePicker.propTypes = {
     light: PropTypes.any,
 
     /**
-     * locale
-     */
-    locale: PropTypes.any,
-
-    /**
      * maxDate
      */
     maxDate: PropTypes.any,
@@ -186,6 +184,11 @@ DatePicker.propTypes = {
      * prevMonthAriaLabel
      */
     prevMonthAriaLabel: PropTypes.any,
+
+    /**
+     * locale
+     */
+    locale: PropTypes.any,
 
     /**
      * invalidText

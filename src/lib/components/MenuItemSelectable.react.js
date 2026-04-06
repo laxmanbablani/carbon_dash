@@ -11,6 +11,7 @@ export default class MenuItemSelectable extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { selected } = this.props;
 
         const RealComponent = LazyLoader['MenuItemSelectable'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class MenuItemSelectable extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    selected={selected}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class MenuItemSelectable extends Component {
 
 MenuItemSelectable.defaultProps = {
     className: '',
+    selected: null,
 };
 
 MenuItemSelectable.propTypes = {

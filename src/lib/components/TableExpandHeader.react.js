@@ -11,6 +11,7 @@ export default class TableExpandHeader extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { isExpanded } = this.props;
 
         const RealComponent = LazyLoader['TableExpandHeader'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class TableExpandHeader extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    isExpanded={isExpanded}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class TableExpandHeader extends Component {
 
 TableExpandHeader.defaultProps = {
     className: '',
+    isExpanded: false,
 };
 
 TableExpandHeader.propTypes = {
@@ -50,6 +53,15 @@ TableExpandHeader.propTypes = {
 
     /** loading_state */
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
+
+    /** persistence */
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+
+    /** persisted_props */
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+
+    /** persistence_type */
+    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
 
     /**
      * ariaLabel
@@ -74,7 +86,7 @@ TableExpandHeader.propTypes = {
     /**
      * isExpanded
      */
-    isExpanded: PropTypes.any,
+    isExpanded: PropTypes.bool,
 
     /**
      * onExpand

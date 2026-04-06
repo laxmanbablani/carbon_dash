@@ -22,7 +22,7 @@ Those elements have the following types:
   - `component_name` (String; optional)
 - `name` (Bool | Real | String | Dict | Array; optional): name
 - `notificationType` (Bool | Real | String | Dict | Array; optional): notificationType
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `style` (Dict; optional): style
 - `type` (Bool | Real | String | Dict | Array; optional): type
 """

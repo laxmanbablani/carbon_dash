@@ -56,13 +56,13 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- renderIcon (boolean | number | string | dict | list; optional):
+- renderIcon (a list of or a singular dash component, string or number; optional):
     renderIcon.
 
 - tabIndex (boolean | number | string | dict | list; optional):
     tabIndex."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['renderIcon']
+    _base_nodes = ['renderIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'SideNavLink'
 
@@ -79,7 +79,7 @@ Keyword arguments:
         isSideNavExpanded: typing.Optional[typing.Any] = None,
         isActive: typing.Optional[typing.Any] = None,
         large: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[typing.Any] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
         tabIndex: typing.Optional[typing.Any] = None,
         **kwargs
     ):

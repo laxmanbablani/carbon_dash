@@ -28,7 +28,7 @@ Those elements have the following types:
 - `onClick` (Bool | Real | String | Dict | Array; optional): onClick
 - `onKeyDown` (Bool | Real | String | Dict | Array; optional): onKeyDown
 - `rel` (Bool | Real | String | Dict | Array; optional): rel
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `style` (Dict; optional): style
 """
 function clickabletile(; kwargs...)

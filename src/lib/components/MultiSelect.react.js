@@ -11,6 +11,7 @@ export default class MultiSelect extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { open } = this.props;
 
         const RealComponent = LazyLoader['MultiSelect'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class MultiSelect extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    open={open}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class MultiSelect extends Component {
 
 MultiSelect.defaultProps = {
     className: '',
+    open: false,
 };
 
 MultiSelect.propTypes = {
@@ -159,7 +162,7 @@ MultiSelect.propTypes = {
     /**
      * open
      */
-    open: PropTypes.any,
+    open: PropTypes.bool,
 
     /**
      * readOnly

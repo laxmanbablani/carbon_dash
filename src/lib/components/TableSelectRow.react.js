@@ -11,6 +11,7 @@ export default class TableSelectRow extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { checked } = this.props;
 
         const RealComponent = LazyLoader['TableSelectRow'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class TableSelectRow extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    checked={checked}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class TableSelectRow extends Component {
 
 TableSelectRow.defaultProps = {
     className: '',
+    checked: false,
 };
 
 TableSelectRow.propTypes = {
@@ -77,7 +80,7 @@ TableSelectRow.propTypes = {
     /**
      * checked
      */
-    checked: PropTypes.any,
+    checked: PropTypes.bool,
 
     /**
      * disabled

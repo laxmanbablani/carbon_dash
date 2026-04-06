@@ -37,7 +37,7 @@ size=NULL, style=NULL, top=NULL)
 
 \item{focusTrap}{Logical | numeric | character | named list | unnamed list. focusTrap}
 
-\item{iconClass}{Logical | numeric | character | named list | unnamed list. iconClass}
+\item{iconClass}{A list of or a singular dash component, string or number. iconClass}
 
 \item{iconDescription}{Logical | numeric | character | named list | unnamed list. iconDescription}
 
@@ -67,9 +67,9 @@ those elements have the following types:
 
 \item{onOpen}{Logical | numeric | character | named list | unnamed list. onOpen}
 
-\item{open}{Logical | numeric | character | named list | unnamed list. open}
+\item{open}{Logical. open}
 
-\item{renderIcon}{Logical | numeric | character | named list | unnamed list. renderIcon}
+\item{renderIcon}{A list of or a singular dash component, string or number. renderIcon}
 
 \item{selectorPrimaryFocus}{Logical | numeric | character | named list | unnamed list. selectorPrimaryFocus}
 

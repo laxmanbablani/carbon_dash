@@ -59,12 +59,12 @@ FeatureFlags.propTypes = {
     /**
      * enableV12TileDefaultIcons
      */
-    enableV12TileDefaultIcons: PropTypes.any,
+    enableV12TileDefaultIcons: PropTypes.node,
 
     /**
      * enableV12TileRadioIcons
      */
-    enableV12TileRadioIcons: PropTypes.any,
+    enableV12TileRadioIcons: PropTypes.node,
 
     /**
      * enableV12Overflowmenu

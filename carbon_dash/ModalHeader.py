@@ -36,7 +36,7 @@ Keyword arguments:
 - closeClassName (boolean | number | string | dict | list; optional):
     closeClassName.
 
-- closeIconClassName (boolean | number | string | dict | list; optional):
+- closeIconClassName (a list of or a singular dash component, string or number; optional):
     closeIconClassName.
 
 - closeModal (boolean | number | string | dict | list; optional):
@@ -67,8 +67,8 @@ Keyword arguments:
 
 - titleClassName (boolean | number | string | dict | list; optional):
     titleClassName."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['closeIconClassName']
+    _base_nodes = ['closeIconClassName', 'children']
     _namespace = 'carbon_dash'
     _type = 'ModalHeader'
 
@@ -82,7 +82,7 @@ Keyword arguments:
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         buttonOnClick: typing.Optional[typing.Any] = None,
         closeClassName: typing.Optional[typing.Any] = None,
-        closeIconClassName: typing.Optional[typing.Any] = None,
+        closeIconClassName: typing.Optional[ComponentType] = None,
         closeModal: typing.Optional[typing.Any] = None,
         iconDescription: typing.Optional[typing.Any] = None,
         label: typing.Optional[typing.Any] = None,

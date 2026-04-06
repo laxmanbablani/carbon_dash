@@ -27,7 +27,7 @@ tileExpandedLabel=NULL)
 
 \item{decorator}{Logical | numeric | character | named list | unnamed list. decorator}
 
-\item{expanded}{Logical | numeric | character | named list | unnamed list. expanded}
+\item{expanded}{Logical. expanded}
 
 \item{hasRoundedCorners}{Logical | numeric | character | named list | unnamed list. hasRoundedCorners}
 
@@ -49,11 +49,11 @@ those elements have the following types:
 
 \item{tabIndex}{Logical | numeric | character | named list | unnamed list. tabIndex}
 
-\item{tileCollapsedIconText}{Logical | numeric | character | named list | unnamed list. tileCollapsedIconText}
+\item{tileCollapsedIconText}{A list of or a singular dash component, string or number. tileCollapsedIconText}
 
 \item{tileCollapsedLabel}{Logical | numeric | character | named list | unnamed list. tileCollapsedLabel}
 
-\item{tileExpandedIconText}{Logical | numeric | character | named list | unnamed list. tileExpandedIconText}
+\item{tileExpandedIconText}{A list of or a singular dash component, string or number. tileExpandedIconText}
 
 \item{tileExpandedLabel}{Logical | numeric | character | named list | unnamed list. tileExpandedLabel}
 }

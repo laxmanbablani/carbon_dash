@@ -11,6 +11,7 @@ export default class FluidSearch extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { value } = this.props;
 
         const RealComponent = LazyLoader['FluidSearch'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class FluidSearch extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    value={value}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class FluidSearch extends Component {
 
 FluidSearch.defaultProps = {
     className: '',
+    value: '',
 };
 
 FluidSearch.propTypes = {

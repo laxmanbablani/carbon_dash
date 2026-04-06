@@ -11,6 +11,7 @@ export default class Menu extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { open } = this.props;
 
         const RealComponent = LazyLoader['Menu'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class Menu extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    open={open}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class Menu extends Component {
 
 Menu.defaultProps = {
     className: '',
+    open: false,
 };
 
 Menu.propTypes = {
@@ -89,7 +92,7 @@ Menu.propTypes = {
     /**
      * open
      */
-    open: PropTypes.any,
+    open: PropTypes.bool,
 
     /**
      * size

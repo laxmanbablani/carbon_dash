@@ -30,7 +30,7 @@ scrollDebounceWait=NULL, scrollIntoView=NULL, style=NULL)
 
 \item{fullWidth}{Logical | numeric | character | named list | unnamed list. fullWidth}
 
-\item{iconSize}{Logical | numeric | character | named list | unnamed list. iconSize}
+\item{iconSize}{A list of or a singular dash component, string or number. iconSize}
 
 \item{leftOverflowButtonProps}{Logical | numeric | character | named list | unnamed list. leftOverflowButtonProps}
 

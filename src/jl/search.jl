@@ -37,12 +37,12 @@ Those elements have the following types:
 - `persistence` (Bool | String | Real; optional): persistence
 - `persistence_type` (a value equal to: 'local', 'session', 'memory'; optional): persistence_type
 - `placeholder` (Bool | Real | String | Dict | Array; optional): placeholder
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `role` (Bool | Real | String | Dict | Array; optional): role
 - `size` (Bool | Real | String | Dict | Array; optional): size
 - `style` (Dict; optional): style
 - `type` (Bool | Real | String | Dict | Array; optional): type
-- `value` (Bool | Real | String | Dict | Array; optional): value
+- `value` (String; optional): value
 """
 function search(; kwargs...)
         available_props = Symbol[:children, :id, :autoComplete, :className, :closeButtonLabelText, :debounce, :defaultValue, :disabled, :isExpanded, :labelText, :light, :loading_state, :n_blur, :n_submit, :onChange, :onClear, :onExpand, :onKeyDown, :persisted_props, :persistence, :persistence_type, :placeholder, :renderIcon, :role, :size, :style, :type, :value]

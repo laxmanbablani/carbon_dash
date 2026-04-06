@@ -11,7 +11,7 @@ RadioTile is a wrapper for the Carbon RadioTile component.
 
 \usage{
 radioTile(children=NULL, id=NULL, checked=NULL, className=NULL,
-debounce=NULL, decorator=NULL, disabled=NULL, event=NULL,
+debounce=NULL, decorator=NULL, disabled=NULL,
 hasRoundedCorners=NULL, light=NULL, loading_state=NULL,
 n_blur=NULL, n_submit=NULL, name=NULL, onChange=NULL,
 persisted_props=NULL, persistence=NULL,
@@ -24,7 +24,7 @@ tabIndex=NULL, value=NULL)
 
 \item{id}{Character. id}
 
-\item{checked}{Logical | numeric | character | named list | unnamed list. checked}
+\item{checked}{Logical. checked}
 
 \item{className}{Character. className}
 
@@ -33,8 +33,6 @@ tabIndex=NULL, value=NULL)
 \item{decorator}{Logical | numeric | character | named list | unnamed list. decorator}
 
 \item{disabled}{Logical | numeric | character | named list | unnamed list. disabled}
-
-\item{event}{Logical | numeric | character | named list | unnamed list. event}
 
 \item{hasRoundedCorners}{Logical | numeric | character | named list | unnamed list. hasRoundedCorners}
 

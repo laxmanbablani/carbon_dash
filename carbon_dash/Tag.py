@@ -56,7 +56,7 @@ Keyword arguments:
 - onClose (boolean | number | string | dict | list; optional):
     onClose.
 
-- renderIcon (boolean | number | string | dict | list; optional):
+- renderIcon (a list of or a singular dash component, string or number; optional):
     renderIcon.
 
 - size (string; default 'md'):
@@ -70,8 +70,8 @@ Keyword arguments:
 
 - type (string; default 'gray'):
     type."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['renderIcon']
+    _base_nodes = ['renderIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'Tag'
 
@@ -88,7 +88,7 @@ Keyword arguments:
         disabled: typing.Optional[bool] = None,
         filter: typing.Optional[typing.Any] = None,
         onClose: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[typing.Any] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
         size: typing.Optional[typing.Optional[str]] = None,
         slug: typing.Optional[typing.Any] = None,
         title: typing.Optional[typing.Any] = None,

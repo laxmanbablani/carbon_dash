@@ -79,7 +79,7 @@ those elements have the following types:
 
 \item{onMenuChange}{Logical | numeric | character | named list | unnamed list. onMenuChange}
 
-\item{open}{Logical | numeric | character | named list | unnamed list. open}
+\item{open}{Logical. open}
 
 \item{readOnly}{Logical | numeric | character | named list | unnamed list. readOnly}
 

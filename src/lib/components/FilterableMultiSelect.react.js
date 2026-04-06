@@ -11,6 +11,7 @@ export default class FilterableMultiSelect extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { open } = this.props;
 
         const RealComponent = LazyLoader['FilterableMultiSelect'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class FilterableMultiSelect extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    open={open}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class FilterableMultiSelect extends Component {
 
 FilterableMultiSelect.defaultProps = {
     className: '',
+    open: false,
 };
 
 FilterableMultiSelect.propTypes = {
@@ -159,7 +162,7 @@ FilterableMultiSelect.propTypes = {
     /**
      * open
      */
-    open: PropTypes.any,
+    open: PropTypes.bool,
 
     /**
      * placeholder

@@ -98,16 +98,16 @@ Keyword arguments:
 - persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
     persistence_type.
 
-- renderIcon (boolean | number | string | dict | list; optional):
+- renderIcon (a list of or a singular dash component, string or number; optional):
     renderIcon.
 
 - selected (boolean | number | string | dict | list; optional):
     selected.
 
-- value (boolean | number | string | dict | list; optional):
+- value (boolean | number | string | dict | list; default ''):
     value."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['renderIcon']
+    _base_nodes = ['renderIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'TreeNode'
 
@@ -135,7 +135,7 @@ Keyword arguments:
         onSelect: typing.Optional[typing.Any] = None,
         onToggle: typing.Optional[typing.Any] = None,
         onTreeSelect: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[typing.Any] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
         selected: typing.Optional[typing.Any] = None,
         value: typing.Optional[typing.Any] = None,
         href: typing.Optional[typing.Any] = None,

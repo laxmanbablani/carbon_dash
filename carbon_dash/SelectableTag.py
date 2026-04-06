@@ -53,7 +53,7 @@ Keyword arguments:
 - onClick (boolean | number | string | dict | list; optional):
     onClick.
 
-- renderIcon (boolean | number | string | dict | list; optional):
+- renderIcon (a list of or a singular dash component, string or number; optional):
     renderIcon.
 
 - selected (boolean | number | string | dict | list; optional):
@@ -64,8 +64,8 @@ Keyword arguments:
 
 - text (boolean | number | string | dict | list; optional):
     text."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['renderIcon']
+    _base_nodes = ['renderIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'SelectableTag'
 
@@ -78,7 +78,7 @@ Keyword arguments:
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         disabled: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[typing.Any] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
         onChange: typing.Optional[typing.Any] = None,
         onClick: typing.Optional[typing.Any] = None,
         selected: typing.Optional[typing.Any] = None,

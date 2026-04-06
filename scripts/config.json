@@ -1,4 +1,74 @@
 {
+    "TableExpandRow": {
+        "injectProps": {
+            "isExpanded": {
+                "type": "bool",
+                "default": false
+            }
+        },
+        "eventMap": {
+            "onExpand": [
+                {
+                    "prop": "isExpanded",
+                    "value": "!isExpanded"
+                }
+            ]
+        }
+    },
+    "TableExpandHeader": {
+        "injectProps": {
+            "isExpanded": {
+                "type": "bool",
+                "default": false
+            }
+        },
+        "eventMap": {
+            "onExpand": [
+                {
+                    "prop": "isExpanded",
+                    "value": "!isExpanded"
+                }
+            ]
+        }
+    },
+    "TableSelectRow": {
+        "injectProps": {
+            "checked": {
+                "type": "bool",
+                "default": false
+            }
+        },
+        "eventMap": {
+            "onSelect": [
+                {
+                    "prop": "checked",
+                    "value": "!checked"
+                }
+            ],
+            "onChange": [
+                {
+                    "prop": "checked",
+                    "value": "arguments[0]"
+                }
+            ]
+        }
+    },
+    "TableSelectAll": {
+        "injectProps": {
+            "checked": {
+                "type": "bool",
+                "default": false
+            }
+        },
+        "eventMap": {
+            "onSelect": [
+                {
+                    "prop": "checked",
+                    "value": "!checked"
+                }
+            ]
+        }
+    },
     "Button": {
         "injectProps": {
             "n_clicks": {

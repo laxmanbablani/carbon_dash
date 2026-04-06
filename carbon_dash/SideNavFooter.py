@@ -33,7 +33,7 @@ Keyword arguments:
 - className (string; default ''):
     className.
 
-- expanded (boolean | number | string | dict | list; optional):
+- expanded (boolean; default False):
     expanded.
 
 - loading_state (dict; optional):
@@ -63,7 +63,7 @@ Keyword arguments:
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         assistiveText: typing.Optional[typing.Any] = None,
-        expanded: typing.Optional[typing.Any] = None,
+        expanded: typing.Optional[bool] = None,
         onToggle: typing.Optional[typing.Any] = None,
         **kwargs
     ):

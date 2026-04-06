@@ -50,13 +50,13 @@ Keyword arguments:
 - notificationType (boolean | number | string | dict | list; optional):
     notificationType.
 
-- renderIcon (boolean | number | string | dict | list; optional):
+- renderIcon (a list of or a singular dash component, string or number; optional):
     renderIcon.
 
 - type (boolean | number | string | dict | list; optional):
     type."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['renderIcon']
+    _base_nodes = ['renderIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'NotificationButton'
 
@@ -71,7 +71,7 @@ Keyword arguments:
         ariaLabel: typing.Optional[typing.Any] = None,
         name: typing.Optional[typing.Any] = None,
         notificationType: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[typing.Any] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
         type: typing.Optional[typing.Any] = None,
         **kwargs
     ):

@@ -39,7 +39,7 @@ Keyword arguments:
 - disabled (boolean | number | string | dict | list; optional):
     disabled.
 
-- expanded (boolean | number | string | dict | list; optional):
+- expanded (boolean; default False):
     expanded.
 
 - labelText (boolean | number | string | dict | list; optional):
@@ -104,7 +104,7 @@ Keyword arguments:
         defaultExpanded: typing.Optional[typing.Any] = None,
         defaultValue: typing.Optional[typing.Any] = None,
         disabled: typing.Optional[typing.Any] = None,
-        expanded: typing.Optional[typing.Any] = None,
+        expanded: typing.Optional[bool] = None,
         labelText: typing.Optional[typing.Any] = None,
         onBlur: typing.Optional[typing.Any] = None,
         onChange: typing.Optional[typing.Any] = None,

@@ -38,7 +38,7 @@ Those elements have the following types:
 - `persisted_props` (Array of Strings; optional): persisted_props
 - `persistence` (Bool | String | Real; optional): persistence
 - `persistence_type` (a value equal to: 'local', 'session', 'memory'; optional): persistence_type
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `selected` (Bool | Real | String | Dict | Array; optional): selected
 - `style` (Dict; optional): style
 - `value` (Bool | Real | String | Dict | Array; optional): value

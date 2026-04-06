@@ -42,7 +42,7 @@ Those elements have the following types:
 - `onChange` (Bool | Real | String | Dict | Array; optional): onChange
 - `onInputValueChange` (Bool | Real | String | Dict | Array; optional): onInputValueChange
 - `onMenuChange` (Bool | Real | String | Dict | Array; optional): onMenuChange
-- `open` (Bool | Real | String | Dict | Array; optional): open
+- `open` (Bool; optional): open
 - `placeholder` (Bool | Real | String | Dict | Array; optional): placeholder
 - `selectionFeedback` (Bool | Real | String | Dict | Array; optional): selectionFeedback
 - `size` (Bool | Real | String | Dict | Array; optional): size

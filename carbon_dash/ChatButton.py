@@ -53,13 +53,13 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- renderIcon (boolean | number | string | dict | list; optional):
+- renderIcon (a list of or a singular dash component, string or number; optional):
     renderIcon.
 
 - size (boolean | number | string | dict | list; optional):
     size."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['renderIcon']
+    _base_nodes = ['renderIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'ChatButton'
 
@@ -75,7 +75,7 @@ Keyword arguments:
         isQuickAction: typing.Optional[typing.Any] = None,
         isSelected: typing.Optional[typing.Any] = None,
         kind: typing.Optional[typing.Optional[str]] = None,
-        renderIcon: typing.Optional[typing.Any] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
         size: typing.Optional[typing.Optional[str]] = None,
         **kwargs
     ):

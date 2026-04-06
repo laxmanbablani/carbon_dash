@@ -18,16 +18,25 @@ const TableExpandHeader = (props) => {
         className = undefined,
         loading_state,
         style,
-        
+        isExpanded = null,
         ...otherProps
     } = props;
+    const onExpand = (...args) => {
+        if (setProps) {
+            setProps({
+                isExpanded: !isExpanded,
+            });
+        }
+    };
+
     return (
         <CarbonTableExpandHeader
             data-dash-is-loading={getLoadingState(loading_state)}
             id={id}
             className={className}
             style={style}
-            
+            isExpanded={isExpanded}
+            onExpand={onExpand}
             {...otherProps}
         >
             {children}

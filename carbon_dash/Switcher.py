@@ -30,7 +30,7 @@ Keyword arguments:
 - className (string; default ''):
     className.
 
-- expanded (boolean | number | string | dict | list; optional):
+- expanded (boolean; default False):
     expanded.
 
 - loading_state (dict; optional):
@@ -56,7 +56,7 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        expanded: typing.Optional[typing.Any] = None,
+        expanded: typing.Optional[bool] = None,
         **kwargs
     ):
         self._prop_names = ['children', 'id', 'className', 'expanded', 'loading_state', 'style']

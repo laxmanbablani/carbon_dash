@@ -50,10 +50,10 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- open (boolean | number | string | dict | list; optional):
+- open (boolean; default False):
     open.
 
-- ordered (boolean | number | string | dict | list; optional):
+- ordered (boolean; optional):
     ordered."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
@@ -71,8 +71,8 @@ Keyword arguments:
         align: typing.Optional[typing.Any] = None,
         count: typing.Optional[typing.Any] = None,
         isFlush: typing.Optional[typing.Any] = None,
-        open: typing.Optional[typing.Any] = None,
-        ordered: typing.Optional[typing.Any] = None,
+        open: typing.Optional[bool] = None,
+        ordered: typing.Optional[bool] = None,
         **kwargs
     ):
         self._prop_names = ['children', 'id', 'align', 'className', 'count', 'isFlush', 'loading_state', 'open', 'ordered', 'style']

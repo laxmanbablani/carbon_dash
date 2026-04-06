@@ -21,7 +21,7 @@ Those elements have the following types:
   - `prop_name` (String; optional)
   - `component_name` (String; optional)
 - `menuOptionsClass` (Bool | Real | String | Dict | Array; optional): menuOptionsClass
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `style` (Dict; optional): style
 """
 function tabletoolbarmenu(; kwargs...)

@@ -14,7 +14,7 @@ Keyword arguments:
 - `children` (a list of or a singular dash component, string or number; optional): children
 - `id` (String; optional): id
 - `className` (String; optional): className
-- `expanded` (Bool | Real | String | Dict | Array; optional): expanded
+- `expanded` (Bool; optional): expanded
 - `loading_state` (optional): loading_state. loading_state has the following type: lists containing elements 'is_loading', 'prop_name', 'component_name'.
 Those elements have the following types:
   - `is_loading` (Bool; optional)

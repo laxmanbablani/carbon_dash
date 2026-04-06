@@ -112,9 +112,18 @@ function extractPropsFromSource(name) {
     const ptLines = interfaceMatch[1].split('\n');
     ptLines.forEach(line => {
       // prop?: type or prop: type
-      const lineMatch = line.trim().match(/^([a-zA-Z0-9_]+)\??\s*:/);
+      const lineMatch = line.trim().match(/^([a-zA-Z0-9_]+)\??\s*:\s*([^;]+)/);
       if (lineMatch && lineMatch[1]) {
-        props[lineMatch[1]] = 'PropTypes.any';
+        const pName = lineMatch[1];
+        const pType = lineMatch[2].trim();
+        
+        let inferredType = 'any';
+        if (pType.includes('boolean')) inferredType = 'bool';
+        else if (pType.includes('number')) inferredType = 'number';
+        else if (pType.includes('string')) inferredType = 'string';
+        else if (pType.includes('ReactNode') || pType.includes('ReactElement')) inferredType = 'node';
+        
+        props[pName] = { type: inferredType };
       }
     });
   }
@@ -151,6 +160,28 @@ async function generateComponent(name, CarbonComponent, compConfig) {
         }
     });
     return;
+  }
+
+  // Common skeleton patterns
+  let baseName = name;
+  let isSkeleton = false;
+  if (name.endsWith('Skeleton')) {
+    baseName = name.replace('Skeleton', '');
+    isSkeleton = true;
+  }
+
+  const componentDir = path.join(CARBON_SRC_DIR, baseName);
+  let files = [];
+  if (fs.existsSync(componentDir)) {
+      files = fs.readdirSync(componentDir);
+  }
+  const targetFile = isSkeleton 
+    ? files.find(f => f.toLowerCase().includes('skeleton') && (f.endsWith('.tsx') || f.endsWith('.js')))
+    : files.find(f => (f === `${baseName}.tsx` || f === `${baseName}.js` || f === 'index.tsx' || f === 'index.js'));
+
+  let source = '';
+  if (targetFile) {
+      source = fs.readFileSync(path.join(componentDir, targetFile), 'utf8');
   }
 
   console.log(`Generating wrappers for ${name}...`);
@@ -191,9 +222,21 @@ async function generateComponent(name, CarbonComponent, compConfig) {
     { name: 'expanded', type: 'bool', default: false }
   ];
 
+  // Component-specific overrides for common prop names
+  const propOverrides = {
+    'TreeView': { 'active': { type: 'any', default: null } },
+    'TreeNode': { 'active': { type: 'any', default: null } },
+    'Tabs': { 'selectedIndex': { type: 'number', default: 0 } },
+    'TabPanel': { 'selectedIndex': { type: 'number', default: 0 } },
+    'Slider': { 'value': { type: 'number', default: 0 } },
+    'Search': { 'value': { type: 'string', default: "" } }
+  };
+
   interactiveProps.forEach(ip => {
     if (allProps.hasOwnProperty(ip.name) && !injectProps.hasOwnProperty(ip.name) && sourceDefaults[ip.name] === undefined) {
-      injectProps[ip.name] = { type: ip.type, default: ip.default };
+      // Use override if available, otherwise use global interactive default
+      const override = (propOverrides[name] && propOverrides[name][ip.name]) ? propOverrides[name][ip.name] : ip;
+      injectProps[ip.name] = { type: override.type, default: override.default };
     }
   });
 
@@ -316,8 +359,125 @@ export default ${name};
 
   // Only generate a new fragment if it doesn't already exist or we want to overwrite it
   const fragmentPath = path.join(DEST_FRAGMENTS_DIR, `${name}.react.js`);
-  console.log(`  Generating fragment for ${name}...`);
-  await fs.writeFile(fragmentPath, fragmentCode);
+  
+  // Check for mandatory render prop or existing manual fragment
+  let componentSource = '';
+  try {
+      componentSource = fs.readFileSync(path.join(CARBON_SRC_DIR, name.replace('Skeleton', ''), files.find(f => (f === `${name.replace('Skeleton', '')}.tsx` || f === `${name.replace('Skeleton', '')}.js` || f === 'index.tsx' || f === 'index.js'))), 'utf8');
+  } catch (e) {
+      // Fallback if source file not found (e.g. for some unstable components)
+  }
+  const needsManualFragment = componentSource.includes('render:') || componentSource.includes('render =') || componentSource.includes('render(') || componentSource.includes('Children(');
+
+  if (fs.existsSync(fragmentPath)) {
+    const existingFragment = fs.readFileSync(fragmentPath, 'utf8');
+    if (existingFragment.includes('/* MANUALLY_OPTIMIZED */') || (needsManualFragment && existingFragment.includes('render'))) {
+      console.log(`  Skipping fragment generation for ${name} (Manually optimized or already handles render prop)`);
+    } else {
+      if (needsManualFragment && !fs.existsSync(fragmentPath)) {
+          console.log(`  Generating skeleton fragment for ${name} because it needs a render prop...`);
+          // We generate a specialized fragment for components that use render props
+          // This is a common pattern in Carbon (e.g. HeaderContainer, DataTable)
+          fragmentCode = `import React from 'react';
+    import { ${name} as Carbon${name} } from '@carbon/react';
+    import { getLoadingState } from '../utils/dash';
+
+    /**
+     * ${name} component with render prop support.
+     */
+    const ${name} = (props) => {
+        const {
+            id,
+            children,
+            setProps,
+            loading_state,
+            className,
+            style,
+            ...otherProps
+        } = props;
+
+        // Use render prop pattern if children is not provided or is a function
+        // In Dash, children is usually a node, but for these components
+        // we might want to default to a standard implementation.
+        const renderContent = (renderProps) => {
+            // This is a placeholder for actual render logic.
+            // For HeaderContainer, it typically takes a component.
+            // For others, it might be a function.
+            if (typeof children === 'function') {
+                return children(renderProps);
+            }
+            return children;
+        };
+
+        return (
+            <Carbon${name}
+                data-dash-is-loading={getLoadingState(loading_state)}
+                id={id}
+                className={className}
+                style={style}
+                render={renderContent}
+                {...otherProps}
+            >
+                {renderContent}
+            </Carbon${name}>
+        );
+    };
+
+    export default ${name};
+    `;
+      }
+
+      console.log(`  Generating fragment for ${name}...`);
+      await fs.writeFile(fragmentPath, fragmentCode);
+    }
+  } else {
+      if (needsManualFragment) {
+          console.log(`  Generating skeleton fragment for ${name} because it needs a render prop...`);
+          fragmentCode = `import React from 'react';
+import { ${name} as Carbon${name} } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
+
+/**
+ * ${name} component with render prop support.
+ */
+const ${name} = (props) => {
+    const {
+        id,
+        children,
+        setProps,
+        loading_state,
+        className,
+        style,
+        ...otherProps
+    } = props;
+
+    const renderContent = (renderProps) => {
+        if (typeof children === 'function') {
+            return children(renderProps);
+        }
+        return children;
+    };
+
+    return (
+        <Carbon${name}
+            data-dash-is-loading={getLoadingState(loading_state)}
+            id={id}
+            className={className}
+            style={style}
+            render={renderContent}
+            {...otherProps}
+        >
+            {renderContent}
+        </Carbon${name}>
+    );
+};
+
+export default ${name};
+`;
+      }
+      console.log(`  Generating fragment for ${name}...`);
+      await fs.writeFile(fragmentPath, fragmentCode);
+  }
 
   // Generate Component Wrapper (for dash-generate-components)
   let componentCode = `import React, { Component } from 'react';

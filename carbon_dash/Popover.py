@@ -80,7 +80,7 @@ Keyword arguments:
 - onRequestClose (boolean | number | string | dict | list; optional):
     onRequestClose.
 
-- open (boolean | number | string | dict | list; optional):
+- open (boolean; default False):
     open.
 
 - width (boolean | number | string | dict | list; optional):
@@ -120,7 +120,7 @@ Keyword arguments:
         highContrast: typing.Optional[typing.Any] = None,
         isTabTip: typing.Optional[typing.Any] = None,
         onRequestClose: typing.Optional[typing.Any] = None,
-        open: typing.Optional[typing.Any] = None,
+        open: typing.Optional[bool] = None,
         **kwargs
     ):
         self._prop_names = ['children', 'id', 'align', 'alignmentAxisOffset', 'as_', 'autoAlign', 'autoAlignBoundary', 'backgroundToken', 'border', 'caret', 'className', 'dropShadow', 'height', 'highContrast', 'isTabTip', 'loading_state', 'onRequestClose', 'open', 'style', 'width', 'x', 'y']

@@ -33,7 +33,7 @@ Keyword arguments:
 - decorator (boolean | number | string | dict | list; optional):
     decorator.
 
-- expanded (boolean | number | string | dict | list; optional):
+- expanded (boolean; default False):
     expanded.
 
 - hasRoundedCorners (boolean | number | string | dict | list; optional):
@@ -65,19 +65,19 @@ Keyword arguments:
 - tabIndex (boolean | number | string | dict | list; optional):
     tabIndex.
 
-- tileCollapsedIconText (boolean | number | string | dict | list; optional):
+- tileCollapsedIconText (a list of or a singular dash component, string or number; optional):
     tileCollapsedIconText.
 
 - tileCollapsedLabel (boolean | number | string | dict | list; optional):
     tileCollapsedLabel.
 
-- tileExpandedIconText (boolean | number | string | dict | list; optional):
+- tileExpandedIconText (a list of or a singular dash component, string or number; optional):
     tileExpandedIconText.
 
 - tileExpandedLabel (boolean | number | string | dict | list; optional):
     tileExpandedLabel."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['tileCollapsedIconText', 'tileExpandedIconText']
+    _base_nodes = ['tileCollapsedIconText', 'tileExpandedIconText', 'children']
     _namespace = 'carbon_dash'
     _type = 'ExpandableTile'
 
@@ -90,16 +90,16 @@ Keyword arguments:
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         decorator: typing.Optional[typing.Any] = None,
-        expanded: typing.Optional[typing.Any] = None,
+        expanded: typing.Optional[bool] = None,
         hasRoundedCorners: typing.Optional[typing.Any] = None,
         light: typing.Optional[typing.Any] = None,
         onClick: typing.Optional[typing.Any] = None,
         onKeyUp: typing.Optional[typing.Any] = None,
         slug: typing.Optional[typing.Any] = None,
         tabIndex: typing.Optional[typing.Any] = None,
-        tileCollapsedIconText: typing.Optional[typing.Any] = None,
+        tileCollapsedIconText: typing.Optional[ComponentType] = None,
         tileCollapsedLabel: typing.Optional[typing.Any] = None,
-        tileExpandedIconText: typing.Optional[typing.Any] = None,
+        tileExpandedIconText: typing.Optional[ComponentType] = None,
         tileExpandedLabel: typing.Optional[typing.Any] = None,
         **kwargs
     ):

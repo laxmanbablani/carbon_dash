@@ -13,12 +13,11 @@ RadioTile is a wrapper for the Carbon RadioTile component.
 Keyword arguments:
 - `children` (a list of or a singular dash component, string or number; optional): children
 - `id` (String; optional): id
-- `checked` (Bool | Real | String | Dict | Array; optional): checked
+- `checked` (Bool; optional): checked
 - `className` (String; optional): className
 - `debounce` (Bool | Real; optional): debounce
 - `decorator` (Bool | Real | String | Dict | Array; optional): decorator
 - `disabled` (Bool | Real | String | Dict | Array; optional): disabled
-- `event` (Bool | Real | String | Dict | Array; optional): event
 - `hasRoundedCorners` (Bool | Real | String | Dict | Array; optional): hasRoundedCorners
 - `light` (Bool | Real | String | Dict | Array; optional): light
 - `loading_state` (optional): loading_state. loading_state has the following type: lists containing elements 'is_loading', 'prop_name', 'component_name'.
@@ -40,7 +39,7 @@ Those elements have the following types:
 - `value` (Bool | Real | String | Dict | Array; optional): value
 """
 function radiotile(; kwargs...)
-        available_props = Symbol[:children, :id, :checked, :className, :debounce, :decorator, :disabled, :event, :hasRoundedCorners, :light, :loading_state, :n_blur, :n_submit, :name, :onChange, :persisted_props, :persistence, :persistence_type, :required, :slug, :style, :tabIndex, :value]
+        available_props = Symbol[:children, :id, :checked, :className, :debounce, :decorator, :disabled, :hasRoundedCorners, :light, :loading_state, :n_blur, :n_submit, :name, :onChange, :persisted_props, :persistence, :persistence_type, :required, :slug, :style, :tabIndex, :value]
         wild_props = Symbol[]
         return Component("radiotile", "RadioTile", "carbon_dash", available_props, wild_props; kwargs...)
 end

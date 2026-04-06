@@ -54,10 +54,10 @@ Keyword arguments:
 - enableV12Overflowmenu (boolean | number | string | dict | list; optional):
     enableV12Overflowmenu.
 
-- enableV12TileDefaultIcons (boolean | number | string | dict | list; optional):
+- enableV12TileDefaultIcons (a list of or a singular dash component, string or number; optional):
     enableV12TileDefaultIcons.
 
-- enableV12TileRadioIcons (boolean | number | string | dict | list; optional):
+- enableV12TileRadioIcons (a list of or a singular dash component, string or number; optional):
     enableV12TileRadioIcons.
 
 - flags (boolean | number | string | dict | list; optional):
@@ -73,8 +73,8 @@ Keyword arguments:
     - prop_name (string; optional)
 
     - component_name (string; optional)"""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['enableV12TileDefaultIcons', 'enableV12TileRadioIcons']
+    _base_nodes = ['enableV12TileDefaultIcons', 'enableV12TileRadioIcons', 'children']
     _namespace = 'carbon_dash'
     _type = 'FeatureFlags'
 
@@ -87,8 +87,8 @@ Keyword arguments:
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         flags: typing.Optional[typing.Any] = None,
-        enableV12TileDefaultIcons: typing.Optional[typing.Any] = None,
-        enableV12TileRadioIcons: typing.Optional[typing.Any] = None,
+        enableV12TileDefaultIcons: typing.Optional[ComponentType] = None,
+        enableV12TileRadioIcons: typing.Optional[ComponentType] = None,
         enableV12Overflowmenu: typing.Optional[typing.Any] = None,
         enableTreeviewControllable: typing.Optional[typing.Any] = None,
         enableExperimentalFocusWrapWithoutSentinels: typing.Optional[typing.Any] = None,

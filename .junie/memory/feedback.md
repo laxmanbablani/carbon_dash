@@ -390,3 +390,139 @@
     "NEW INSTRUCTION": "WHEN generating React wrappers THEN replace defaultProps with JS default parameters"
 }
 
+[2026-04-05 15:13] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "DefaultProps deprecation",
+    "EXPECTATION": "Generated React wrappers (including async chunks) must not use defaultProps; use JS default parameters so no console warnings, similar to Dash Mantine.",
+    "NEW INSTRUCTION": "WHEN generating React or async wrapper files THEN use default parameters, never defaultProps"
+}
+
+[2026-04-05 15:31] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Prop type mapping",
+    "EXPECTATION": "Button.hasIconOnly should accept a boolean, not a ReactNode; generated props must match Carbon TS types.",
+    "NEW INSTRUCTION": "WHEN deriving prop types from Carbon TSX THEN map boolean props to boolean, not node"
+}
+
+[2026-04-05 15:32] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Prop type mapping",
+    "EXPECTATION": "Button.hasIconOnly should be a boolean prop per Carbon TSX, and the Dash wrapper must accept a boolean value.",
+    "NEW INSTRUCTION": "WHEN deriving prop types from Carbon TS/TSX THEN map boolean props to boolean, not node"
+}
+
+[2026-04-05 15:33] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Prop type mapping",
+    "EXPECTATION": "Button.hasIconOnly must be a boolean prop per Carbon TSX; passing true should be valid and not expect a ReactNode.",
+    "NEW INSTRUCTION": "WHEN generating prop types from Carbon TS/TSX THEN map hasIconOnly to boolean"
+}
+
+[2026-04-05 15:37] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Icon prop handling",
+    "EXPECTATION": "renderIcon should accept an icon component/function (e.g., DashIconify), not a string name.",
+    "NEW INSTRUCTION": "WHEN a prop is renderIcon THEN accept ReactNode/function and reject string names"
+}
+
+[2026-04-05 15:38] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Icon prop handling",
+    "EXPECTATION": "renderIcon should receive a component/function (e.g., DashIconify or a Carbon icon), not a string name.",
+    "NEW INSTRUCTION": "WHEN a prop is renderIcon THEN accept ReactNode/function and reject string names"
+}
+
+[2026-04-05 15:40] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Controlled components",
+    "EXPECTATION": "Generated components should not switch between uncontrolled and controlled; choose one approach consistently.",
+    "NEW INSTRUCTION": "WHEN generating props value/checked/selected THEN use controlled pattern with explicit safe defaults"
+}
+
+[2026-04-05 15:40] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Controlled/uncontrolled warning",
+    "EXPECTATION": "Components must not switch between uncontrolled and controlled; keep value-like props controlled for lifetime.",
+    "NEW INSTRUCTION": "WHEN component has value/checked/selected props THEN use controlled pattern, set safe defaults, never pass undefined to Carbon"
+}
+
+[2026-04-05 15:43] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Controlled components",
+    "EXPECTATION": "Components must not switch between uncontrolled and controlled; keep value-like props controlled for lifetime.",
+    "NEW INSTRUCTION": "WHEN component has value/checked/selected props THEN use controlled pattern, set safe defaults"
+}
+
+[2026-04-05 15:44] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Controlled components",
+    "EXPECTATION": "Components must not switch from uncontrolled to controlled; keep value-like props controlled with safe defaults.",
+    "NEW INSTRUCTION": "WHEN component has value/checked/selected props THEN use controlled pattern and never pass undefined"
+}
+
+[2026-04-05 15:45] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Controlled components warning",
+    "EXPECTATION": "Value-like props must remain controlled for the component’s lifetime; avoid undefined-to-defined transitions.",
+    "NEW INSTRUCTION": "WHEN generating wrappers with value-like props THEN use controlled defaults and never pass undefined"
+}
+
+[2026-04-06 10:11] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Prop value misuse",
+    "EXPECTATION": "TreeView.active must be a boolean; do not pass string IDs to boolean props. Use the correct selection/ID prop per Carbon stories.",
+    "NEW INSTRUCTION": "WHEN updating TreeView gallery/example THEN set active to boolean and use the ID selection prop"
+}
+
+[2026-04-06 10:14] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Prop typing exceptions",
+    "EXPECTATION": "Keep 'active' as a boolean where appropriate and maintain a specific exceptions list for components that require different types, to improve broad component coverage.",
+    "NEW INSTRUCTION": "WHEN generating prop types THEN default 'active' to boolean and apply per-component overrides"
+}
+
+[2026-04-06 10:22] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Story-driven tests",
+    "EXPECTATION": "Add tests for DataTable and Tabs derived from Carbon Storybook stories to catch current render failures.",
+    "NEW INSTRUCTION": "WHEN creating component tests THEN derive scenarios from Carbon Storybook stories"
+}
+
+[2026-04-06 10:38] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "JS error capture",
+    "EXPECTATION": "Capture JavaScript console errors by running the app with debug disabled and inspecting a real browser console; curl cannot capture JS errors.",
+    "NEW INSTRUCTION": "WHEN checking for frontend JS errors THEN run app with debug=False and capture browser console logs"
+}
+
+[2026-04-06 10:41] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "JS error capture",
+    "EXPECTATION": "Use a real browser console with the app running in debug=False to capture frontend JS errors; curl cannot capture JS errors.",
+    "NEW INSTRUCTION": "WHEN checking for frontend JS errors THEN run app with debug=False and capture browser console logs"
+}
+
+[2026-04-06 10:53] - Updated by Junie
+{
+    "TYPE": "correction",
+    "CATEGORY": "Gallery render failure",
+    "EXPECTATION": "DataTable should render and be visible in the gallery/examples.",
+    "NEW INSTRUCTION": "WHEN DataTable not rendering in gallery THEN capture browser console errors and fix via generation pipeline"
+}
+

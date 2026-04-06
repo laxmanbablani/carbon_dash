@@ -32,7 +32,7 @@ Those elements have the following types:
 - `passiveModal` (Bool | Real | String | Dict | Array; optional): passiveModal
 - `preventCloseOnClickOutside` (Bool | Real | String | Dict | Array; optional): preventCloseOnClickOutside
 - `primaryButtonText` (Bool | Real | String | Dict | Array; optional): primaryButtonText
-- `renderTriggerButtonIcon` (Bool | Real | String | Dict | Array; optional): renderTriggerButtonIcon
+- `renderTriggerButtonIcon` (a list of or a singular dash component, string or number; optional): renderTriggerButtonIcon
 - `secondaryButtonText` (Bool | Real | String | Dict | Array; optional): secondaryButtonText
 - `selectorPrimaryFocus` (Bool | Real | String | Dict | Array; optional): selectorPrimaryFocus
 - `shouldCloseAfterSubmit` (Bool | Real | String | Dict | Array; optional): shouldCloseAfterSubmit

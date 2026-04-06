@@ -11,6 +11,7 @@ export default class Popover extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { open } = this.props;
 
         const RealComponent = LazyLoader['Popover'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class Popover extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    open={open}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class Popover extends Component {
 
 Popover.defaultProps = {
     className: '',
+    open: false,
 };
 
 Popover.propTypes = {
@@ -134,6 +137,6 @@ Popover.propTypes = {
     /**
      * open
      */
-    open: PropTypes.any,
+    open: PropTypes.bool,
 
 };

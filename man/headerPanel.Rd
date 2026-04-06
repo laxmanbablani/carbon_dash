@@ -24,7 +24,7 @@ loading_state=NULL, onHeaderPanelFocus=NULL, style=NULL)
 
 \item{className}{Character. className}
 
-\item{expanded}{Logical | numeric | character | named list | unnamed list. expanded}
+\item{expanded}{Logical. expanded}
 
 \item{href}{Logical | numeric | character | named list | unnamed list. href}
 

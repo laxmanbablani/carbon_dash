@@ -110,7 +110,7 @@ Keyword arguments:
 - onMenuChange (boolean | number | string | dict | list; optional):
     onMenuChange.
 
-- open (boolean | number | string | dict | list; optional):
+- open (boolean; default False):
     open.
 
 - placeholder (boolean | number | string | dict | list; optional):
@@ -179,7 +179,7 @@ Keyword arguments:
         onChange: typing.Optional[typing.Any] = None,
         onInputValueChange: typing.Optional[typing.Any] = None,
         onMenuChange: typing.Optional[typing.Any] = None,
-        open: typing.Optional[typing.Any] = None,
+        open: typing.Optional[bool] = None,
         placeholder: typing.Optional[typing.Any] = None,
         selectionFeedback: typing.Optional[typing.Any] = None,
         size: typing.Optional[typing.Optional[str]] = None,

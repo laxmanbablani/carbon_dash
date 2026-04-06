@@ -22,8 +22,8 @@ Those elements have the following types:
   - `is_loading` (Bool; optional)
   - `prop_name` (String; optional)
   - `component_name` (String; optional)
-- `open` (Bool | Real | String | Dict | Array; optional): open
-- `ordered` (Bool | Real | String | Dict | Array; optional): ordered
+- `open` (Bool; optional): open
+- `ordered` (Bool; optional): ordered
 - `style` (Dict; optional): style
 """
 function accordionskeleton(; kwargs...)

@@ -39,7 +39,7 @@ Keyword arguments:
 - fullWidth (boolean | number | string | dict | list; optional):
     fullWidth.
 
-- iconSize (boolean | number | string | dict | list; optional):
+- iconSize (a list of or a singular dash component, string or number; optional):
     iconSize.
 
 - leftOverflowButtonProps (boolean | number | string | dict | list; optional):
@@ -67,8 +67,8 @@ Keyword arguments:
 
 - scrollIntoView (boolean | number | string | dict | list; optional):
     scrollIntoView."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['iconSize']
+    _base_nodes = ['iconSize', 'children']
     _namespace = 'carbon_dash'
     _type = 'TabList'
 
@@ -83,7 +83,7 @@ Keyword arguments:
         activation: typing.Optional[typing.Any] = None,
         contained: typing.Optional[bool] = None,
         fullWidth: typing.Optional[typing.Any] = None,
-        iconSize: typing.Optional[typing.Any] = None,
+        iconSize: typing.Optional[ComponentType] = None,
         leftOverflowButtonProps: typing.Optional[typing.Any] = None,
         light: typing.Optional[typing.Any] = None,
         rightOverflowButtonProps: typing.Optional[typing.Any] = None,

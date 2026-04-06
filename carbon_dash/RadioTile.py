@@ -27,7 +27,7 @@ Keyword arguments:
 - id (string; optional):
     id.
 
-- checked (boolean | number | string | dict | list; optional):
+- checked (boolean; default False):
     checked.
 
 - className (string; default ''):
@@ -41,9 +41,6 @@ Keyword arguments:
 
 - disabled (boolean | number | string | dict | list; optional):
     disabled.
-
-- event (boolean | number | string | dict | list; optional):
-    event.
 
 - hasRoundedCorners (boolean | number | string | dict | list; optional):
     hasRoundedCorners.
@@ -92,7 +89,7 @@ Keyword arguments:
 - tabIndex (boolean | number | string | dict | list; optional):
     tabIndex.
 
-- value (boolean | number | string | dict | list; optional):
+- value (boolean | number | string | dict | list; default ''):
     value."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
@@ -113,7 +110,7 @@ Keyword arguments:
         n_blur: typing.Optional[NumberType] = None,
         n_submit: typing.Optional[NumberType] = None,
         debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        checked: typing.Optional[typing.Any] = None,
+        checked: typing.Optional[bool] = None,
         decorator: typing.Optional[typing.Any] = None,
         disabled: typing.Optional[typing.Any] = None,
         hasRoundedCorners: typing.Optional[typing.Any] = None,
@@ -121,15 +118,14 @@ Keyword arguments:
         name: typing.Optional[typing.Any] = None,
         onChange: typing.Optional[typing.Any] = None,
         value: typing.Optional[typing.Any] = None,
-        event: typing.Optional[typing.Any] = None,
         slug: typing.Optional[typing.Any] = None,
         tabIndex: typing.Optional[typing.Any] = None,
         required: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'checked', 'className', 'debounce', 'decorator', 'disabled', 'event', 'hasRoundedCorners', 'light', 'loading_state', 'n_blur', 'n_submit', 'name', 'onChange', 'persisted_props', 'persistence', 'persistence_type', 'required', 'slug', 'style', 'tabIndex', 'value']
+        self._prop_names = ['children', 'id', 'checked', 'className', 'debounce', 'decorator', 'disabled', 'hasRoundedCorners', 'light', 'loading_state', 'n_blur', 'n_submit', 'name', 'onChange', 'persisted_props', 'persistence', 'persistence_type', 'required', 'slug', 'style', 'tabIndex', 'value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'checked', 'className', 'debounce', 'decorator', 'disabled', 'event', 'hasRoundedCorners', 'light', 'loading_state', 'n_blur', 'n_submit', 'name', 'onChange', 'persisted_props', 'persistence', 'persistence_type', 'required', 'slug', 'style', 'tabIndex', 'value']
+        self.available_properties = ['children', 'id', 'checked', 'className', 'debounce', 'decorator', 'disabled', 'hasRoundedCorners', 'light', 'loading_state', 'n_blur', 'n_submit', 'name', 'onChange', 'persisted_props', 'persistence', 'persistence_type', 'required', 'slug', 'style', 'tabIndex', 'value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

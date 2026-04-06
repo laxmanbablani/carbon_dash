@@ -21,7 +21,7 @@ loading_state=NULL, style=NULL)
 
 \item{className}{Character. className}
 
-\item{expanded}{Logical | numeric | character | named list | unnamed list. expanded}
+\item{expanded}{Logical. expanded}
 
 \item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
 those elements have the following types:

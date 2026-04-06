@@ -11,6 +11,7 @@ export default class ComposedModal extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { open } = this.props;
 
         const RealComponent = LazyLoader['ComposedModal'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class ComposedModal extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    open={open}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class ComposedModal extends Component {
 
 ComposedModal.defaultProps = {
     className: '',
+    open: false,
 };
 
 ComposedModal.propTypes = {
@@ -94,7 +97,7 @@ ComposedModal.propTypes = {
     /**
      * open
      */
-    open: PropTypes.any,
+    open: PropTypes.bool,
 
     /**
      * preventCloseOnClickOutside

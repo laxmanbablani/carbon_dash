@@ -40,7 +40,7 @@ Those elements have the following types:
 - `locale` (Bool | Real | String | Dict | Array; optional): locale
 - `onChange` (Bool | Real | String | Dict | Array; optional): onChange
 - `onMenuChange` (Bool | Real | String | Dict | Array; optional): onMenuChange
-- `open` (Bool | Real | String | Dict | Array; optional): open
+- `open` (Bool; optional): open
 - `readOnly` (Bool | Real | String | Dict | Array; optional): readOnly
 - `selectedItems` (Bool | Real | String | Dict | Array; optional): selectedItems
 - `selectionFeedback` (Bool | Real | String | Dict | Array; optional): selectionFeedback

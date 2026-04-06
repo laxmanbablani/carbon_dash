@@ -34,9 +34,9 @@ those elements have the following types:
   - prop_name (character; optional)
   - component_name (character; optional). loading_state}
 
-\item{open}{Logical | numeric | character | named list | unnamed list. open}
+\item{open}{Logical. open}
 
-\item{ordered}{Logical | numeric | character | named list | unnamed list. ordered}
+\item{ordered}{Logical. ordered}
 
 \item{style}{Named list. style}
 }

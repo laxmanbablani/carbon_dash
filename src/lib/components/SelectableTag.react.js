@@ -11,6 +11,7 @@ export default class SelectableTag extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { selected } = this.props;
 
         const RealComponent = LazyLoader['SelectableTag'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class SelectableTag extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    selected={selected}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class SelectableTag extends Component {
 
 SelectableTag.defaultProps = {
     className: '',
+    selected: null,
 };
 
 SelectableTag.propTypes = {
@@ -59,7 +62,7 @@ SelectableTag.propTypes = {
     /**
      * renderIcon
      */
-    renderIcon: PropTypes.any,
+    renderIcon: PropTypes.node,
 
     /**
      * onChange

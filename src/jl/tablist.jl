@@ -17,7 +17,7 @@ Keyword arguments:
 - `className` (String; optional): className
 - `contained` (Bool; optional): contained
 - `fullWidth` (Bool | Real | String | Dict | Array; optional): fullWidth
-- `iconSize` (Bool | Real | String | Dict | Array; optional): iconSize
+- `iconSize` (a list of or a singular dash component, string or number; optional): iconSize
 - `leftOverflowButtonProps` (Bool | Real | String | Dict | Array; optional): leftOverflowButtonProps
 - `light` (Bool | Real | String | Dict | Array; optional): light
 - `loading_state` (optional): loading_state. loading_state has the following type: lists containing elements 'is_loading', 'prop_name', 'component_name'.

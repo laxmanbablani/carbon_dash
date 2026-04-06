@@ -11,6 +11,7 @@ export default class FluidDropdown extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { selectedItem } = this.props;
 
         const RealComponent = LazyLoader['FluidDropdown'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class FluidDropdown extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    selectedItem={selectedItem}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class FluidDropdown extends Component {
 
 FluidDropdown.defaultProps = {
     className: '',
+    selectedItem: null,
 };
 
 FluidDropdown.propTypes = {

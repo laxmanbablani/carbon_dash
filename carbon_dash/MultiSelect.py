@@ -104,7 +104,7 @@ Keyword arguments:
 - onMenuChange (boolean | number | string | dict | list; optional):
     onMenuChange.
 
-- open (boolean | number | string | dict | list; optional):
+- open (boolean; default False):
     open.
 
 - readOnly (boolean | number | string | dict | list; optional):
@@ -176,7 +176,7 @@ Keyword arguments:
         locale: typing.Optional[typing.Any] = None,
         onChange: typing.Optional[typing.Any] = None,
         onMenuChange: typing.Optional[typing.Any] = None,
-        open: typing.Optional[typing.Any] = None,
+        open: typing.Optional[bool] = None,
         readOnly: typing.Optional[typing.Any] = None,
         selectedItems: typing.Optional[typing.Any] = None,
         selectionFeedback: typing.Optional[typing.Any] = None,

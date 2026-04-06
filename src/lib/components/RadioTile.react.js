@@ -11,6 +11,8 @@ export default class RadioTile extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { value } = this.props;
+        const { checked } = this.props;
 
         const RealComponent = LazyLoader['RadioTile'];
         if (!RealComponent) {
@@ -21,6 +23,8 @@ export default class RadioTile extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    value={value}
+                    checked={checked}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +34,8 @@ export default class RadioTile extends Component {
 
 RadioTile.defaultProps = {
     className: '',
+    value: '',
+    checked: false,
 };
 
 RadioTile.propTypes = {
@@ -72,7 +78,7 @@ RadioTile.propTypes = {
     /**
      * checked
      */
-    checked: PropTypes.any,
+    checked: PropTypes.bool,
 
     /**
      * decorator
@@ -108,11 +114,6 @@ RadioTile.propTypes = {
      * value
      */
     value: PropTypes.any,
-
-    /**
-     * event
-     */
-    event: PropTypes.any,
 
     /**
      * slug

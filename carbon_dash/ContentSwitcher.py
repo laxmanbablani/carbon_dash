@@ -50,7 +50,7 @@ Keyword arguments:
 - onChange (boolean | number | string | dict | list; optional):
     onChange.
 
-- selectedIndex (boolean | number | string | dict | list; optional):
+- selectedIndex (number; default -1):
     selectedIndex.
 
 - selectionMode (boolean | number | string | dict | list; optional):
@@ -74,7 +74,7 @@ Keyword arguments:
         light: typing.Optional[typing.Any] = None,
         lowContrast: typing.Optional[typing.Any] = None,
         onChange: typing.Optional[typing.Any] = None,
-        selectedIndex: typing.Optional[typing.Any] = None,
+        selectedIndex: typing.Optional[NumberType] = None,
         selectionMode: typing.Optional[typing.Any] = None,
         size: typing.Optional[typing.Optional[str]] = None,
         **kwargs

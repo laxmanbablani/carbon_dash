@@ -72,7 +72,7 @@ TabList.propTypes = {
     /**
      * iconSize
      */
-    iconSize: PropTypes.any,
+    iconSize: PropTypes.node,
 
     /**
      * leftOverflowButtonProps

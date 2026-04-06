@@ -26,7 +26,7 @@ Those elements have the following types:
 - `mode` (Bool | Real | String | Dict | Array; optional): mode
 - `onClose` (Bool | Real | String | Dict | Array; optional): onClose
 - `onOpen` (Bool | Real | String | Dict | Array; optional): onOpen
-- `open` (Bool | Real | String | Dict | Array; optional): open
+- `open` (Bool; optional): open
 - `size` (Bool | Real | String | Dict | Array; optional): size
 - `style` (Dict; optional): style
 - `target` (Bool | Real | String | Dict | Array; optional): target

@@ -21,6 +21,14 @@ const TableSelectAll = (props) => {
         checked = null,
         ...otherProps
     } = props;
+    const onSelect = (...args) => {
+        if (setProps) {
+            setProps({
+                checked: !checked,
+            });
+        }
+    };
+
     return (
         <CarbonTableSelectAll
             data-dash-is-loading={getLoadingState(loading_state)}
@@ -28,6 +36,7 @@ const TableSelectAll = (props) => {
             className={className}
             style={style}
             checked={checked}
+            onSelect={onSelect}
             {...otherProps}
         >
             {children}

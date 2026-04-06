@@ -35,7 +35,7 @@ those elements have the following types:
 
 \item{onChange}{Logical | numeric | character | named list | unnamed list. onChange}
 
-\item{selectedIndex}{Logical | numeric | character | named list | unnamed list. selectedIndex}
+\item{selectedIndex}{Numeric. selectedIndex}
 
 \item{selectionMode}{Logical | numeric | character | named list | unnamed list. selectionMode}
 

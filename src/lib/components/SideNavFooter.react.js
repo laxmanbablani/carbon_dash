@@ -11,6 +11,7 @@ export default class SideNavFooter extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { expanded } = this.props;
 
         const RealComponent = LazyLoader['SideNavFooter'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class SideNavFooter extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    expanded={expanded}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class SideNavFooter extends Component {
 
 SideNavFooter.defaultProps = {
     className: '',
+    expanded: false,
 };
 
 SideNavFooter.propTypes = {
@@ -59,7 +62,7 @@ SideNavFooter.propTypes = {
     /**
      * expanded
      */
-    expanded: PropTypes.any,
+    expanded: PropTypes.bool,
 
     /**
      * onToggle

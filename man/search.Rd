@@ -69,7 +69,7 @@ those elements have the following types:
 
 \item{placeholder}{Logical | numeric | character | named list | unnamed list. placeholder}
 
-\item{renderIcon}{Logical | numeric | character | named list | unnamed list. renderIcon}
+\item{renderIcon}{A list of or a singular dash component, string or number. renderIcon}
 
 \item{role}{Logical | numeric | character | named list | unnamed list. role}
 
@@ -79,7 +79,7 @@ those elements have the following types:
 
 \item{type}{Logical | numeric | character | named list | unnamed list. type}
 
-\item{value}{Logical | numeric | character | named list | unnamed list. value}
+\item{value}{Character. value}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

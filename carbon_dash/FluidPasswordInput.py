@@ -98,7 +98,7 @@ Keyword arguments:
 - showPasswordLabel (boolean | number | string | dict | list; optional):
     showPasswordLabel.
 
-- value (boolean | number | string | dict | list; optional):
+- value (boolean | number | string | dict | list; default ''):
     value.
 
 - warn (boolean | number | string | dict | list; optional):

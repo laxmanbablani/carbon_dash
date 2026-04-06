@@ -17,7 +17,7 @@ Keyword arguments:
 - `defaultExpanded` (Bool | Real | String | Dict | Array; optional): defaultExpanded
 - `defaultValue` (Bool | Real | String | Dict | Array; optional): defaultValue
 - `disabled` (Bool | Real | String | Dict | Array; optional): disabled
-- `expanded` (Bool | Real | String | Dict | Array; optional): expanded
+- `expanded` (Bool; optional): expanded
 - `labelText` (Bool | Real | String | Dict | Array; optional): labelText
 - `loading_state` (optional): loading_state. loading_state has the following type: lists containing elements 'is_loading', 'prop_name', 'component_name'.
 Those elements have the following types:

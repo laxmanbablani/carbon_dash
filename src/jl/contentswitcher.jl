@@ -22,7 +22,7 @@ Those elements have the following types:
   - `component_name` (String; optional)
 - `lowContrast` (Bool | Real | String | Dict | Array; optional): lowContrast
 - `onChange` (Bool | Real | String | Dict | Array; optional): onChange
-- `selectedIndex` (Bool | Real | String | Dict | Array; optional): selectedIndex
+- `selectedIndex` (Real; optional): selectedIndex
 - `selectionMode` (Bool | Real | String | Dict | Array; optional): selectionMode
 - `size` (Bool | Real | String | Dict | Array; optional): size
 - `style` (Dict; optional): style

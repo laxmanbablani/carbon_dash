@@ -41,7 +41,7 @@ those elements have the following types:
 
 \item{renderButton}{Logical | numeric | character | named list | unnamed list. renderButton}
 
-\item{renderIcon}{Logical | numeric | character | named list | unnamed list. renderIcon}
+\item{renderIcon}{A list of or a singular dash component, string or number. renderIcon}
 
 \item{secondaryLabel}{Logical | numeric | character | named list | unnamed list. secondaryLabel}
 

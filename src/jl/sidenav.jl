@@ -18,7 +18,7 @@ Keyword arguments:
 - `className` (String; optional): className
 - `defaultExpanded` (Bool | Real | String | Dict | Array; optional): defaultExpanded
 - `enterDelayMs` (Bool | Real | String | Dict | Array; optional): enterDelayMs
-- `expanded` (Bool | Real | String | Dict | Array; optional): expanded
+- `expanded` (Bool; optional): expanded
 - `href` (Bool | Real | String | Dict | Array; optional): href
 - `isChildOfHeader` (Bool | Real | String | Dict | Array; optional): isChildOfHeader
 - `isFixedNav` (Bool | Real | String | Dict | Array; optional): isFixedNav

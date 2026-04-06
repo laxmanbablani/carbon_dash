@@ -16,7 +16,7 @@ Keyword arguments:
 - `buttonOnClick` (Bool | Real | String | Dict | Array; optional): buttonOnClick
 - `className` (String; optional): className
 - `closeClassName` (Bool | Real | String | Dict | Array; optional): closeClassName
-- `closeIconClassName` (Bool | Real | String | Dict | Array; optional): closeIconClassName
+- `closeIconClassName` (a list of or a singular dash component, string or number; optional): closeIconClassName
 - `closeModal` (Bool | Real | String | Dict | Array; optional): closeModal
 - `iconDescription` (Bool | Real | String | Dict | Array; optional): iconDescription
 - `label` (Bool | Real | String | Dict | Array; optional): label

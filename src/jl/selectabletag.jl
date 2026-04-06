@@ -23,7 +23,7 @@ Those elements have the following types:
   - `component_name` (String; optional)
 - `onChange` (Bool | Real | String | Dict | Array; optional): onChange
 - `onClick` (Bool | Real | String | Dict | Array; optional): onClick
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `selected` (Bool | Real | String | Dict | Array; optional): selected
 - `size` (Bool | Real | String | Dict | Array; optional): size
 - `style` (Dict; optional): style

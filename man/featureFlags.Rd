@@ -44,9 +44,9 @@ loading_state=NULL, style=NULL)
 
 \item{enableV12Overflowmenu}{Logical | numeric | character | named list | unnamed list. enableV12Overflowmenu}
 
-\item{enableV12TileDefaultIcons}{Logical | numeric | character | named list | unnamed list. enableV12TileDefaultIcons}
+\item{enableV12TileDefaultIcons}{A list of or a singular dash component, string or number. enableV12TileDefaultIcons}
 
-\item{enableV12TileRadioIcons}{Logical | numeric | character | named list | unnamed list. enableV12TileRadioIcons}
+\item{enableV12TileRadioIcons}{A list of or a singular dash component, string or number. enableV12TileRadioIcons}
 
 \item{flags}{Logical | numeric | character | named list | unnamed list. flags}
 

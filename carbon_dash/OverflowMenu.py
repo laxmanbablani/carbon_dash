@@ -45,7 +45,7 @@ Keyword arguments:
 - focusTrap (boolean | number | string | dict | list; optional):
     focusTrap.
 
-- iconClass (boolean | number | string | dict | list; optional):
+- iconClass (a list of or a singular dash component, string or number; optional):
     iconClass.
 
 - iconDescription (boolean | number | string | dict | list; optional):
@@ -92,10 +92,10 @@ Keyword arguments:
 - onOpen (boolean | number | string | dict | list; optional):
     onOpen.
 
-- open (boolean | number | string | dict | list; optional):
+- open (boolean; default False):
     open.
 
-- renderIcon (boolean | number | string | dict | list; optional):
+- renderIcon (a list of or a singular dash component, string or number; optional):
     renderIcon.
 
 - selectorPrimaryFocus (boolean | number | string | dict | list; optional):
@@ -106,8 +106,8 @@ Keyword arguments:
 
 - top (boolean | number | string | dict | list; optional):
     top."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['iconClass', 'renderIcon']
+    _base_nodes = ['iconClass', 'renderIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'OverflowMenu'
 
@@ -124,7 +124,7 @@ Keyword arguments:
         direction: typing.Optional[typing.Any] = None,
         flipped: typing.Optional[typing.Any] = None,
         focusTrap: typing.Optional[typing.Any] = None,
-        iconClass: typing.Optional[typing.Any] = None,
+        iconClass: typing.Optional[ComponentType] = None,
         iconDescription: typing.Optional[typing.Any] = None,
         light: typing.Optional[typing.Any] = None,
         menuOffset: typing.Optional[typing.Any] = None,
@@ -137,8 +137,8 @@ Keyword arguments:
         onFocus: typing.Optional[typing.Any] = None,
         onKeyDown: typing.Optional[typing.Any] = None,
         onOpen: typing.Optional[typing.Any] = None,
-        open: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[typing.Any] = None,
+        open: typing.Optional[bool] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
         selectorPrimaryFocus: typing.Optional[typing.Any] = None,
         size: typing.Optional[typing.Optional[str]] = None,
         **kwargs

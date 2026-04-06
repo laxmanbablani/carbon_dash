@@ -53,7 +53,7 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- renderIcon (boolean | number | string | dict | list; optional):
+- renderIcon (a list of or a singular dash component, string or number; optional):
     renderIcon.
 
 - size (boolean | number | string | dict | list; optional):
@@ -61,8 +61,8 @@ Keyword arguments:
 
 - visited (boolean | number | string | dict | list; optional):
     visited."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['renderIcon']
+    _base_nodes = ['renderIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'Link'
 
@@ -78,7 +78,7 @@ Keyword arguments:
         disabled: typing.Optional[typing.Any] = None,
         href: typing.Optional[typing.Any] = None,
         inline: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[typing.Any] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
         size: typing.Optional[typing.Optional[str]] = None,
         visited: typing.Optional[typing.Any] = None,
         **kwargs

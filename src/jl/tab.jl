@@ -25,7 +25,7 @@ Those elements have the following types:
 - `onClick` (Bool | Real | String | Dict | Array; optional): onClick
 - `onKeyDown` (Bool | Real | String | Dict | Array; optional): onKeyDown
 - `renderButton` (Bool | Real | String | Dict | Array; optional): renderButton
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `secondaryLabel` (Bool | Real | String | Dict | Array; optional): secondaryLabel
 - `style` (Dict; optional): style
 """

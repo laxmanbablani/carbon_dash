@@ -119,7 +119,7 @@ Keyword arguments:
 - type (boolean | number | string | dict | list; optional):
     type.
 
-- value (boolean | number | string | dict | list; optional):
+- value (boolean | number | string | dict | list; default ''):
     value.
 
 - warn (boolean | number | string | dict | list; optional):

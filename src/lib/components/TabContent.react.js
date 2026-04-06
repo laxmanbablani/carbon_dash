@@ -11,6 +11,7 @@ export default class TabContent extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { selected } = this.props;
 
         const RealComponent = LazyLoader['TabContent'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class TabContent extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    selected={selected}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class TabContent extends Component {
 
 TabContent.defaultProps = {
     className: '',
+    selected: null,
 };
 
 TabContent.propTypes = {

@@ -24,7 +24,7 @@ Those elements have the following types:
   - `prop_name` (String; optional)
   - `component_name` (String; optional)
 - `onClick` (Bool | Real | String | Dict | Array; optional): onClick
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `shortcut` (Bool | Real | String | Dict | Array; optional): shortcut
 - `style` (Dict; optional): style
 """

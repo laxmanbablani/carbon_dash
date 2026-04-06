@@ -61,7 +61,7 @@ those elements have the following types:
 
 \item{primaryButtonText}{Logical | numeric | character | named list | unnamed list. primaryButtonText}
 
-\item{renderTriggerButtonIcon}{Logical | numeric | character | named list | unnamed list. renderTriggerButtonIcon}
+\item{renderTriggerButtonIcon}{A list of or a singular dash component, string or number. renderTriggerButtonIcon}
 
 \item{secondaryButtonText}{Logical | numeric | character | named list | unnamed list. secondaryButtonText}
 

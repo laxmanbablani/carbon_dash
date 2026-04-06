@@ -86,7 +86,7 @@ function escapePythonString(str) {
     return "'" + str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n') + "'";
 }
 
-function processJSXElement(node) {
+function processJSXElement(node, scope = {}) {
     if (!node || node.type !== 'JSXElement') return null;
     
     const elementName = node.openingElement.name.name;
@@ -114,23 +114,32 @@ function processJSXElement(node) {
                         valueStr = attr.value.expression.value ? "True" : "False";
                     } else if (attr.value.expression.type === 'StringLiteral') {
                         valueStr = escapePythonString(attr.value.expression.value);
-                    } else {
-                        // For complex expressions we just use empty string to avoid crashes
-                        if (attr.value.expression.type === 'Identifier') {
-                            const idName = attr.value.expression.name;
-                            if (carbonIcons[idName]) {
-                                const iconKebab = idName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-                                valueStr = `dash_iconify.DashIconify(icon="carbon:${iconKebab}")`;
-                            } else {
-                                return;
-                            }
+                    } else if (attr.value.expression.type === 'Identifier') {
+                        const idName = attr.value.expression.name;
+                        if (carbonIcons[idName]) {
+                            const iconKebab = idName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+                            valueStr = `dash_iconify.DashIconify(icon="carbon:${iconKebab}")`;
+                        } else if (scope[idName]) {
+                            valueStr = scope[idName];
                         } else {
                             return; // skip prop
                         }
+                    } else if (attr.value.expression.type === 'ArrayExpression') {
+                        const items = attr.value.expression.elements.map(el => {
+                            if (el.type === 'StringLiteral') return escapePythonString(el.value);
+                            if (el.type === 'NumericLiteral') return el.value;
+                            if (el.type === 'ObjectExpression') return processObjectExpression(el, scope);
+                            return null;
+                        }).filter(item => item !== null);
+                        valueStr = `[${items.join(', ')}]`;
+                    } else if (attr.value.expression.type === 'ObjectExpression') {
+                        valueStr = processObjectExpression(attr.value.expression, scope);
+                    } else {
+                        return; // skip prop
                     }
                 }
             }
-    const reservedKeywords = ['as', 'from', 'class', 'def', 'if', 'else', 'elif', 'for', 'while', 'try', 'except', 'finally', 'with', 'import', 'pass', 'break', 'continue', 'return', 'yield', 'lambda', 'and', 'or', 'not', 'is', 'in', 'del', 'global', 'nonlocal', 'assert', 'raise', 'True', 'False', 'None'];
+            const reservedKeywords = ['as', 'from', 'class', 'def', 'if', 'else', 'elif', 'for', 'while', 'try', 'except', 'finally', 'with', 'import', 'pass', 'break', 'continue', 'return', 'yield', 'lambda', 'and', 'or', 'not', 'is', 'in', 'del', 'global', 'nonlocal', 'assert', 'raise', 'True', 'False', 'None'];
             const pythonName = reservedKeywords.includes(name) ? `${name}_` : name;
             props.push(`${pythonName}=${valueStr}`);
         }
@@ -142,7 +151,7 @@ function processJSXElement(node) {
             const text = child.value.trim();
             if (text) children.push(escapePythonString(text));
         } else if (child.type === 'JSXElement') {
-            const childResult = processJSXElement(child);
+            const childResult = processJSXElement(child, scope);
             if (childResult) {
                 if (Array.isArray(childResult)) children.push(...childResult);
                 else children.push(childResult);
@@ -155,6 +164,8 @@ function processJSXElement(node) {
                 let str = '';
                 child.expression.quasis.forEach(q => { str += q.value.raw; });
                 if (str.trim()) children.push(escapePythonString(str.trim()));
+            } else if (child.expression.type === 'Identifier' && scope[child.expression.name]) {
+                children.push(scope[child.expression.name]);
             }
         }
     });
@@ -182,6 +193,15 @@ function processJSXElement(node) {
             const propName = p.split('=')[0].trim();
             return allowedProps.includes(propName) || propName === 'children';
         });
+
+        // Special handling for DataTable data requirements
+        if (elementName === 'DataTable' && !filteredProps.some(p => p.startsWith('rows='))) {
+            filteredProps.push("rows=[{'id': 'a', 'name': 'Load Balancer 3', 'status': 'Disabled'}, {'id': 'b', 'name': 'Load Balancer 1', 'status': 'Starting'}]");
+            if (!filteredProps.some(p => p.startsWith('headers='))) {
+                filteredProps.push("headers=[{'key': 'name', 'header': 'Name'}, {'key': 'status', 'header': 'Status'}]");
+            }
+        }
+
         return `carbon_dash.${elementName}(${filteredProps.join(', ')})`;
     }
     
@@ -192,6 +212,29 @@ function processJSXElement(node) {
     }
     console.warn(`Warning: Unknown component ${elementName} encountered in stories. Skipping.`);
     return null;
+}
+
+function processObjectExpression(node, scope) {
+    const props = node.properties.map(p => {
+        if (p.type !== 'ObjectProperty') return null;
+        const key = p.key.name || p.key.value;
+        let val = null;
+        if (p.value.type === 'StringLiteral') val = escapePythonString(p.value.value);
+        else if (p.value.type === 'NumericLiteral') val = p.value.value;
+        else if (p.value.type === 'BooleanLiteral') val = p.value.value ? 'True' : 'False';
+        else if (p.value.type === 'Identifier' && scope[p.value.name]) val = scope[p.value.name];
+        else if (p.value.type === 'ArrayExpression') {
+            const items = p.value.elements.map(el => {
+                if (el.type === 'StringLiteral') return escapePythonString(el.value);
+                if (el.type === 'NumericLiteral') return el.value;
+                return null;
+            }).filter(i => i !== null);
+            val = `[${items.join(', ')}]`;
+        }
+        if (key && val !== null) return `'${key}': ${val}`;
+        return null;
+    }).filter(p => p !== null);
+    return `{${props.join(', ')}}`;
 }
 
 for (const folder of componentFolders) {
@@ -219,7 +262,26 @@ for (const folder of componentFolders) {
                     plugins: ['jsx', 'typescript', 'classProperties', 'decorators-legacy']
                 });
                 
+                let localScope = {};
                 traverse(ast, {
+                    VariableDeclarator(pathNode) {
+                        if (pathNode.node.id.type === 'Identifier' && pathNode.node.init) {
+                            const name = pathNode.node.id.name;
+                            if (pathNode.node.init.type === 'ArrayExpression') {
+                                const items = pathNode.node.init.elements.map(el => {
+                                    if (el.type === 'ObjectExpression') return processObjectExpression(el, {});
+                                    if (el.type === 'StringLiteral') return escapePythonString(el.value);
+                                    if (el.type === 'NumericLiteral') return el.value;
+                                    return null;
+                                }).filter(i => i !== null);
+                                localScope[name] = `[${items.join(', ')}]`;
+                            } else if (pathNode.node.init.type === 'ObjectExpression') {
+                                localScope[name] = processObjectExpression(pathNode.node.init, {});
+                            } else if (pathNode.node.init.type === 'StringLiteral') {
+                                localScope[name] = escapePythonString(pathNode.node.init.value);
+                            }
+                        }
+                    },
                     AssignmentExpression(pathNode) {
                         // Capture Story.args = { ... }
                         if (
@@ -259,15 +321,41 @@ for (const folder of componentFolders) {
                                     const storyName = decl.id.name;
                                     if (storyName === 'Default' || storyName === 'Playground') return;
                                     
+                                    // Try to find variables defined within the story function
+                                    let storyScope = { ...localScope };
+                                    if (decl.init && decl.init.type === 'ArrowFunctionExpression' && decl.init.body.type === 'BlockStatement') {
+                                        decl.init.body.body.forEach(stmt => {
+                                            if (stmt.type === 'VariableDeclaration') {
+                                                stmt.declarations.forEach(d => {
+                                                    if (d.id.type === 'Identifier' && d.init) {
+                                                        if (d.init.type === 'ArrayExpression') {
+                                                            const items = d.init.elements.map(el => {
+                                                                if (el.type === 'ObjectExpression') return processObjectExpression(el, {});
+                                                                if (el.type === 'StringLiteral') return escapePythonString(el.value);
+                                                                if (el.type === 'NumericLiteral') return el.value;
+                                                                return null;
+                                                            }).filter(i => i !== null);
+                                                            storyScope[d.id.name] = `[${items.join(', ')}]`;
+                                                        } else if (d.init.type === 'ObjectExpression') {
+                                                            storyScope[d.id.name] = processObjectExpression(d.init, {});
+                                                        } else if (d.init.type === 'StringLiteral') {
+                                                            storyScope[d.id.name] = escapePythonString(d.init.value);
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+
                                     // Try to find the returned JSX Element
                                     let jsxResult = null;
                                     if (decl.init && decl.init.type === 'ArrowFunctionExpression') {
                                         if (decl.init.body.type === 'JSXElement') {
-                                            jsxResult = processJSXElement(decl.init.body);
+                                            jsxResult = processJSXElement(decl.init.body, storyScope);
                                         } else if (decl.init.body.type === 'BlockStatement') {
                                             const returnStmt = decl.init.body.body.find(stmt => stmt.type === 'ReturnStatement');
                                             if (returnStmt && returnStmt.argument && returnStmt.argument.type === 'JSXElement') {
-                                                jsxResult = processJSXElement(returnStmt.argument);
+                                                jsxResult = processJSXElement(returnStmt.argument, storyScope);
                                             }
                                         }
                                     }

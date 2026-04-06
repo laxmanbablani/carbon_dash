@@ -11,6 +11,7 @@ export default class HeaderPanel extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { expanded } = this.props;
 
         const RealComponent = LazyLoader['HeaderPanel'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class HeaderPanel extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    expanded={expanded}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class HeaderPanel extends Component {
 
 HeaderPanel.defaultProps = {
     className: '',
+    expanded: false,
 };
 
 HeaderPanel.propTypes = {
@@ -59,7 +62,7 @@ HeaderPanel.propTypes = {
     /**
      * expanded
      */
-    expanded: PropTypes.any,
+    expanded: PropTypes.bool,
 
     /**
      * href

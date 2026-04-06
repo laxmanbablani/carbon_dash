@@ -19,7 +19,7 @@ Keyword arguments:
 - `direction` (Bool | Real | String | Dict | Array; optional): direction
 - `flipped` (Bool | Real | String | Dict | Array; optional): flipped
 - `focusTrap` (Bool | Real | String | Dict | Array; optional): focusTrap
-- `iconClass` (Bool | Real | String | Dict | Array; optional): iconClass
+- `iconClass` (a list of or a singular dash component, string or number; optional): iconClass
 - `iconDescription` (Bool | Real | String | Dict | Array; optional): iconDescription
 - `left` (Bool | Real | String | Dict | Array; optional): left
 - `light` (Bool | Real | String | Dict | Array; optional): light
@@ -36,8 +36,8 @@ Those elements have the following types:
 - `onFocus` (Bool | Real | String | Dict | Array; optional): onFocus
 - `onKeyDown` (Bool | Real | String | Dict | Array; optional): onKeyDown
 - `onOpen` (Bool | Real | String | Dict | Array; optional): onOpen
-- `open` (Bool | Real | String | Dict | Array; optional): open
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `open` (Bool; optional): open
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `selectorPrimaryFocus` (Bool | Real | String | Dict | Array; optional): selectorPrimaryFocus
 - `size` (Bool | Real | String | Dict | Array; optional): size
 - `style` (Dict; optional): style

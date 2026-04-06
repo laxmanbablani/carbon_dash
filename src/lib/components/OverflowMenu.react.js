@@ -11,6 +11,7 @@ export default class OverflowMenu extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { open } = this.props;
 
         const RealComponent = LazyLoader['OverflowMenu'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class OverflowMenu extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    open={open}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class OverflowMenu extends Component {
 
 OverflowMenu.defaultProps = {
     className: '',
+    open: false,
 };
 
 OverflowMenu.propTypes = {
@@ -79,7 +82,7 @@ OverflowMenu.propTypes = {
     /**
      * iconClass
      */
-    iconClass: PropTypes.any,
+    iconClass: PropTypes.node,
 
     /**
      * iconDescription
@@ -144,12 +147,12 @@ OverflowMenu.propTypes = {
     /**
      * open
      */
-    open: PropTypes.any,
+    open: PropTypes.bool,
 
     /**
      * renderIcon
      */
-    renderIcon: PropTypes.any,
+    renderIcon: PropTypes.node,
 
     /**
      * selectorPrimaryFocus

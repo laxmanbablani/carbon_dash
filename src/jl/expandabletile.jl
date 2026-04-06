@@ -15,7 +15,7 @@ Keyword arguments:
 - `id` (String; optional): id
 - `className` (String; optional): className
 - `decorator` (Bool | Real | String | Dict | Array; optional): decorator
-- `expanded` (Bool | Real | String | Dict | Array; optional): expanded
+- `expanded` (Bool; optional): expanded
 - `hasRoundedCorners` (Bool | Real | String | Dict | Array; optional): hasRoundedCorners
 - `light` (Bool | Real | String | Dict | Array; optional): light
 - `loading_state` (optional): loading_state. loading_state has the following type: lists containing elements 'is_loading', 'prop_name', 'component_name'.
@@ -28,9 +28,9 @@ Those elements have the following types:
 - `slug` (Bool | Real | String | Dict | Array; optional): slug
 - `style` (Dict; optional): style
 - `tabIndex` (Bool | Real | String | Dict | Array; optional): tabIndex
-- `tileCollapsedIconText` (Bool | Real | String | Dict | Array; optional): tileCollapsedIconText
+- `tileCollapsedIconText` (a list of or a singular dash component, string or number; optional): tileCollapsedIconText
 - `tileCollapsedLabel` (Bool | Real | String | Dict | Array; optional): tileCollapsedLabel
-- `tileExpandedIconText` (Bool | Real | String | Dict | Array; optional): tileExpandedIconText
+- `tileExpandedIconText` (a list of or a singular dash component, string or number; optional): tileExpandedIconText
 - `tileExpandedLabel` (Bool | Real | String | Dict | Array; optional): tileExpandedLabel
 """
 function expandabletile(; kwargs...)

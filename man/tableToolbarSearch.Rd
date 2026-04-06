@@ -32,7 +32,7 @@ tabIndex=NULL, translateWithId=NULL)
 
 \item{disabled}{Logical | numeric | character | named list | unnamed list. disabled}
 
-\item{expanded}{Logical | numeric | character | named list | unnamed list. expanded}
+\item{expanded}{Logical. expanded}
 
 \item{labelText}{Logical | numeric | character | named list | unnamed list. labelText}
 

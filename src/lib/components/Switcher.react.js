@@ -11,6 +11,7 @@ export default class Switcher extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { expanded } = this.props;
 
         const RealComponent = LazyLoader['Switcher'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class Switcher extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    expanded={expanded}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class Switcher extends Component {
 
 Switcher.defaultProps = {
     className: '',
+    expanded: false,
 };
 
 Switcher.propTypes = {
@@ -54,6 +57,6 @@ Switcher.propTypes = {
     /**
      * expanded
      */
-    expanded: PropTypes.any,
+    expanded: PropTypes.bool,
 
 };

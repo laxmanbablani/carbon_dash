@@ -27,7 +27,7 @@ Those elements have the following types:
   - `component_name` (String; optional)
 - `onClose` (Bool | Real | String | Dict | Array; optional): onClose
 - `onKeyDown` (Bool | Real | String | Dict | Array; optional): onKeyDown
-- `open` (Bool | Real | String | Dict | Array; optional): open
+- `open` (Bool; optional): open
 - `preventCloseOnClickOutside` (Bool | Real | String | Dict | Array; optional): preventCloseOnClickOutside
 - `selectorPrimaryFocus` (Bool | Real | String | Dict | Array; optional): selectorPrimaryFocus
 - `selectorsFloatingMenus` (Bool | Real | String | Dict | Array; optional): selectorsFloatingMenus

@@ -95,7 +95,7 @@ Keyword arguments:
 - placeholder (boolean | number | string | dict | list; optional):
     placeholder.
 
-- renderIcon (boolean | number | string | dict | list; optional):
+- renderIcon (a list of or a singular dash component, string or number; optional):
     renderIcon.
 
 - role (boolean | number | string | dict | list; optional):
@@ -107,10 +107,10 @@ Keyword arguments:
 - type (boolean | number | string | dict | list; optional):
     type.
 
-- value (boolean | number | string | dict | list; optional):
+- value (string; default ''):
     value."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['renderIcon']
+    _base_nodes = ['renderIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'Search'
 
@@ -140,11 +140,11 @@ Keyword arguments:
         onExpand: typing.Optional[typing.Any] = None,
         onKeyDown: typing.Optional[typing.Any] = None,
         placeholder: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[typing.Any] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
         role: typing.Optional[typing.Any] = None,
         size: typing.Optional[typing.Optional[str]] = None,
         type: typing.Optional[typing.Any] = None,
-        value: typing.Optional[typing.Any] = None,
+        value: typing.Optional[str] = None,
         **kwargs
     ):
         self._prop_names = ['children', 'id', 'autoComplete', 'className', 'closeButtonLabelText', 'debounce', 'defaultValue', 'disabled', 'isExpanded', 'labelText', 'light', 'loading_state', 'n_blur', 'n_submit', 'onChange', 'onClear', 'onExpand', 'onKeyDown', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'renderIcon', 'role', 'size', 'style', 'type', 'value']

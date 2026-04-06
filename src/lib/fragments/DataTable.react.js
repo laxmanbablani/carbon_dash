@@ -8,6 +8,11 @@ import {
     TableBody,
     TableCell,
     TableContainer,
+    TableSelectAll,
+    TableSelectRow,
+    TableExpandHeader,
+    TableExpandRow,
+    TableExpandedRow,
 } from '@carbon/react';
 import { resolveIcon } from '../utils/resolveIcon';
 
@@ -17,7 +22,6 @@ const getLoadingState = (loading_state) => {
     }
     return undefined;
 };
-
 
 const DataTable = (props) => {
     const {
@@ -39,56 +43,87 @@ const DataTable = (props) => {
         ...otherProps
     } = props;
 
-    if (rows.length > 0 && headers.length > 0) {
+    const renderTableFixed = (renderProps) => {
+        const {
+            rows = [],
+            headers = [],
+            getHeaderProps = () => ({}),
+            getRowProps = () => ({}),
+            getSelectionProps = () => ({}),
+            getExpandProps = () => ({}),
+            getTableProps = () => ({}),
+            getTableContainerProps = () => ({}),
+        } = renderProps;
+        console.log('DataTable render prop called', { withExpansion, withSelection });
+        
+        // Ensure getExpandProps is passed correctly to TableExpandRow
+        const rowsToRender = rows.map((row) => {
+            const expandProps = withExpansion ? getExpandProps({ row }) : {};
+            const rowProps = getRowProps({ row });
+            const selectionProps = withSelection ? getSelectionProps({ row }) : {};
+            
+            console.log('Rendering row', row.id, { isExpanded: row.isExpanded, expandProps });
+            
+            const rowContent = (
+                <>
+                    {withSelection && (
+                        <TableSelectRow {...selectionProps} />
+                    )}
+                    {(row.cells || []).map((cell) => (
+                        <TableCell key={cell.id}>{cell.value}</TableCell>
+                    ))}
+                </>
+            );
+
+            if (withExpansion) {
+                return (
+                    <React.Fragment key={row.id}>
+                        <TableExpandRow {...expandProps} {...rowProps}>
+                            {rowContent}
+                        </TableExpandRow>
+                        {row.isExpanded && (
+                            <TableExpandedRow colSpan={headers.length + (withSelection ? 1 : 0) + 1}>
+                                {row.description || (row.cells && row.cells.find(c => c.info && c.info.header === 'description') || "No description provided.")}
+                            </TableExpandedRow>
+                        )}
+                    </React.Fragment>
+                );
+            }
+
+            return (
+                <TableRow key={row.id} {...rowProps}>
+                    {rowContent}
+                </TableRow>
+            );
+        });
+
         return (
-            <CarbonDataTable
-                rows={rows}
-                headers={headers}
-                isSortable={isSortable}
-                useZebraStyles={useZebraStyles}
-                size={size}
-                render={({
-                    rows,
-                    headers,
-                    getHeaderProps,
-                    getRowProps,
-                    getTableProps,
-                    getTableContainerProps,
-                }) => (
-                    <TableContainer
-                        title={title}
-                        description={description}
-                        {...getTableContainerProps()}
-                        id={id}
-                        className={className}
-                        style={style}
-                        data-dash-is-loading={getLoadingState(loading_state)}
-                    >
-                        <Table {...getTableProps()} {...otherProps}>
-                            <TableHead>
-                                <TableRow>
-                                    {headers.map((header) => (
-                                        <TableHeader {...getHeaderProps({ header })}>
-                                            {header.header}
-                                        </TableHeader>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {rows.map((row) => (
-                                    <TableRow {...getRowProps({ row })}>
-                                        {row.cells.map((cell) => (
-                                            <TableCell key={cell.id}>{cell.value}</TableCell>
-                                        ))}
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                )}
-            />
+        <TableContainer
+            title={title}
+            description={description}
+            {...getTableContainerProps()}
+        >
+            <Table {...getTableProps()} size={size} useZebraStyles={useZebraStyles}>
+                <TableHead>
+                    <TableRow>
+                        {withExpansion && <TableExpandHeader />}
+                        {withSelection && (
+                            <TableSelectAll {...getSelectionProps()} />
+                        )}
+                        {headers.map((header) => (
+                            <TableHeader {...getHeaderProps({ header })}>
+                                {header.header}
+                            </TableHeader>
+                        ))}
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {rowsToRender}
+                </TableBody>
+            </Table>
+        </TableContainer>
         );
-    }
+    };
 
     return (
         <CarbonDataTable
@@ -98,17 +133,10 @@ const DataTable = (props) => {
             style={style}
             rows={rows}
             headers={headers}
-            useZebraStyles={useZebraStyles}
-            size={size}
-            title={title}
-            description={description}
             isSortable={isSortable}
-            withSelection={withSelection}
-            withExpansion={withExpansion}
             {...otherProps}
-        >
-            {children}
-        </CarbonDataTable>
+            render={children || renderTableFixed}
+        />
     );
 };
 

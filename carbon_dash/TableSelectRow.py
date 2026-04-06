@@ -30,7 +30,7 @@ Keyword arguments:
 - ariaLabel (boolean | number | string | dict | list; optional):
     ariaLabel.
 
-- checked (boolean | number | string | dict | list; optional):
+- checked (boolean; default False):
     checked.
 
 - className (string; default ''):
@@ -99,7 +99,7 @@ Keyword arguments:
         n_submit: typing.Optional[NumberType] = None,
         debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
         ariaLabel: typing.Optional[typing.Any] = None,
-        checked: typing.Optional[typing.Any] = None,
+        checked: typing.Optional[bool] = None,
         disabled: typing.Optional[typing.Any] = None,
         name: typing.Optional[typing.Any] = None,
         onChange: typing.Optional[typing.Any] = None,

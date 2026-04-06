@@ -44,7 +44,7 @@ those elements have the following types:
 
 \item{onOpen}{Logical | numeric | character | named list | unnamed list. onOpen}
 
-\item{open}{Logical | numeric | character | named list | unnamed list. open}
+\item{open}{Logical. open}
 
 \item{size}{Logical | numeric | character | named list | unnamed list. size}
 

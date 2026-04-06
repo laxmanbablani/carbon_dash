@@ -11,6 +11,7 @@ export default class ExpandableTile extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { expanded } = this.props;
 
         const RealComponent = LazyLoader['ExpandableTile'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class ExpandableTile extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    expanded={expanded}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class ExpandableTile extends Component {
 
 ExpandableTile.defaultProps = {
     className: '',
+    expanded: false,
 };
 
 ExpandableTile.propTypes = {
@@ -59,7 +62,7 @@ ExpandableTile.propTypes = {
     /**
      * expanded
      */
-    expanded: PropTypes.any,
+    expanded: PropTypes.bool,
 
     /**
      * hasRoundedCorners
@@ -94,7 +97,7 @@ ExpandableTile.propTypes = {
     /**
      * tileCollapsedIconText
      */
-    tileCollapsedIconText: PropTypes.any,
+    tileCollapsedIconText: PropTypes.node,
 
     /**
      * tileCollapsedLabel
@@ -104,7 +107,7 @@ ExpandableTile.propTypes = {
     /**
      * tileExpandedIconText
      */
-    tileExpandedIconText: PropTypes.any,
+    tileExpandedIconText: PropTypes.node,
 
     /**
      * tileExpandedLabel

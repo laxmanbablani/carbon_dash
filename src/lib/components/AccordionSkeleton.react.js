@@ -11,6 +11,7 @@ export default class AccordionSkeleton extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { open } = this.props;
 
         const RealComponent = LazyLoader['AccordionSkeleton'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class AccordionSkeleton extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    open={open}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class AccordionSkeleton extends Component {
 
 AccordionSkeleton.defaultProps = {
     className: '',
+    open: false,
 };
 
 AccordionSkeleton.propTypes = {
@@ -69,11 +72,11 @@ AccordionSkeleton.propTypes = {
     /**
      * open
      */
-    open: PropTypes.any,
+    open: PropTypes.bool,
 
     /**
      * ordered
      */
-    ordered: PropTypes.any,
+    ordered: PropTypes.bool,
 
 };

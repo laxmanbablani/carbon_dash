@@ -21,6 +21,22 @@ const TableSelectRow = (props) => {
         checked = null,
         ...otherProps
     } = props;
+    const onSelect = (...args) => {
+        if (setProps) {
+            setProps({
+                checked: !checked,
+            });
+        }
+    };
+
+    const onChange = (...args) => {
+        if (setProps) {
+            setProps({
+                checked: args[0],
+            });
+        }
+    };
+
     return (
         <CarbonTableSelectRow
             data-dash-is-loading={getLoadingState(loading_state)}
@@ -28,6 +44,8 @@ const TableSelectRow = (props) => {
             className={className}
             style={style}
             checked={checked}
+            onSelect={onSelect}
+            onChange={onChange}
             {...otherProps}
         >
             {children}

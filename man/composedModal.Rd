@@ -48,7 +48,7 @@ those elements have the following types:
 
 \item{onKeyDown}{Logical | numeric | character | named list | unnamed list. onKeyDown}
 
-\item{open}{Logical | numeric | character | named list | unnamed list. open}
+\item{open}{Logical. open}
 
 \item{preventCloseOnClickOutside}{Logical | numeric | character | named list | unnamed list. preventCloseOnClickOutside}
 

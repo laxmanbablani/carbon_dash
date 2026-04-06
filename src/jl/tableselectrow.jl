@@ -14,7 +14,7 @@ Keyword arguments:
 - `children` (a list of or a singular dash component, string or number; optional): children
 - `id` (String; optional): id
 - `ariaLabel` (Bool | Real | String | Dict | Array; optional): ariaLabel
-- `checked` (Bool | Real | String | Dict | Array; optional): checked
+- `checked` (Bool; optional): checked
 - `className` (String; optional): className
 - `debounce` (Bool | Real; optional): debounce
 - `disabled` (Bool | Real | String | Dict | Array; optional): disabled

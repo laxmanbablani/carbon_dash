@@ -59,13 +59,13 @@ Keyword arguments:
 - renderButton (boolean | number | string | dict | list; optional):
     renderButton.
 
-- renderIcon (boolean | number | string | dict | list; optional):
+- renderIcon (a list of or a singular dash component, string or number; optional):
     renderIcon.
 
 - secondaryLabel (boolean | number | string | dict | list; optional):
     secondaryLabel."""
-    _children_props: typing.List[str] = ['label']
-    _base_nodes = ['label', 'children']
+    _children_props: typing.List[str] = ['renderIcon', 'label']
+    _base_nodes = ['renderIcon', 'label', 'children']
     _namespace = 'carbon_dash'
     _type = 'Tab'
 
@@ -82,7 +82,7 @@ Keyword arguments:
         onClick: typing.Optional[typing.Any] = None,
         onKeyDown: typing.Optional[typing.Any] = None,
         renderButton: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[typing.Any] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
         secondaryLabel: typing.Optional[typing.Any] = None,
         label: typing.Optional[ComponentType] = None,
         **kwargs

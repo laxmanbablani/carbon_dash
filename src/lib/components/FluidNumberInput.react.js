@@ -11,6 +11,7 @@ export default class FluidNumberInput extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { value } = this.props;
 
         const RealComponent = LazyLoader['FluidNumberInput'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class FluidNumberInput extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    value={value}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class FluidNumberInput extends Component {
 
 FluidNumberInput.defaultProps = {
     className: '',
+    value: '',
 };
 
 FluidNumberInput.propTypes = {

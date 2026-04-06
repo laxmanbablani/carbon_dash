@@ -107,7 +107,7 @@ Keyword arguments:
 - tooltipPosition (boolean | number | string | dict | list; optional):
     tooltipPosition.
 
-- value (boolean | number | string | dict | list; optional):
+- value (boolean | number | string | dict | list; default ''):
     value."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']

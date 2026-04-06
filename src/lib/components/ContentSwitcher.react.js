@@ -11,6 +11,7 @@ export default class ContentSwitcher extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { selectedIndex } = this.props;
 
         const RealComponent = LazyLoader['ContentSwitcher'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class ContentSwitcher extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    selectedIndex={selectedIndex}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class ContentSwitcher extends Component {
 
 ContentSwitcher.defaultProps = {
     className: '',
+    selectedIndex: -1,
 };
 
 ContentSwitcher.propTypes = {
@@ -69,7 +72,7 @@ ContentSwitcher.propTypes = {
     /**
      * selectedIndex
      */
-    selectedIndex: PropTypes.any,
+    selectedIndex: PropTypes.number,
 
     /**
      * selectionMode

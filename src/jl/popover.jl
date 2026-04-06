@@ -32,7 +32,7 @@ Those elements have the following types:
   - `prop_name` (String; optional)
   - `component_name` (String; optional)
 - `onRequestClose` (Bool | Real | String | Dict | Array; optional): onRequestClose
-- `open` (Bool | Real | String | Dict | Array; optional): open
+- `open` (Bool; optional): open
 - `style` (Dict; optional): style
 - `width` (Bool | Real | String | Dict | Array; optional): width
 - `x` (Bool | Real | String | Dict | Array; optional): x

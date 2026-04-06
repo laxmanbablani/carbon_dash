@@ -11,6 +11,7 @@ export default class MenuItemRadioGroup extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { selectedItem } = this.props;
 
         const RealComponent = LazyLoader['MenuItemRadioGroup'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class MenuItemRadioGroup extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    selectedItem={selectedItem}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class MenuItemRadioGroup extends Component {
 
 MenuItemRadioGroup.defaultProps = {
     className: '',
+    selectedItem: null,
 };
 
 MenuItemRadioGroup.propTypes = {

@@ -11,6 +11,7 @@ export default class TabsVertical extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { selectedIndex } = this.props;
 
         const RealComponent = LazyLoader['TabsVertical'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class TabsVertical extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    selectedIndex={selectedIndex}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class TabsVertical extends Component {
 
 TabsVertical.defaultProps = {
     className: '',
+    selectedIndex: -1,
 };
 
 TabsVertical.propTypes = {
@@ -69,6 +72,6 @@ TabsVertical.propTypes = {
     /**
      * selectedIndex
      */
-    selectedIndex: PropTypes.any,
+    selectedIndex: PropTypes.number,
 
 };

@@ -80,7 +80,7 @@ Keyword arguments:
 - primaryButtonText (boolean | number | string | dict | list; optional):
     primaryButtonText.
 
-- renderTriggerButtonIcon (boolean | number | string | dict | list; optional):
+- renderTriggerButtonIcon (a list of or a singular dash component, string or number; optional):
     renderTriggerButtonIcon.
 
 - secondaryButtonText (boolean | number | string | dict | list; optional):
@@ -103,8 +103,8 @@ Keyword arguments:
 
 - withHeader (boolean | number | string | dict | list; optional):
     withHeader."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['renderTriggerButtonIcon']
+    _base_nodes = ['renderTriggerButtonIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'ModalWrapper'
 
@@ -129,7 +129,7 @@ Keyword arguments:
         passiveModal: typing.Optional[typing.Any] = None,
         preventCloseOnClickOutside: typing.Optional[typing.Any] = None,
         primaryButtonText: typing.Optional[typing.Any] = None,
-        renderTriggerButtonIcon: typing.Optional[typing.Any] = None,
+        renderTriggerButtonIcon: typing.Optional[ComponentType] = None,
         secondaryButtonText: typing.Optional[typing.Any] = None,
         selectorPrimaryFocus: typing.Optional[typing.Any] = None,
         shouldCloseAfterSubmit: typing.Optional[typing.Any] = None,

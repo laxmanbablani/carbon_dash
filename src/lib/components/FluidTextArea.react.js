@@ -11,6 +11,7 @@ export default class FluidTextArea extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { value } = this.props;
 
         const RealComponent = LazyLoader['FluidTextArea'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class FluidTextArea extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    value={value}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class FluidTextArea extends Component {
 
 FluidTextArea.defaultProps = {
     className: '',
+    value: '',
 };
 
 FluidTextArea.propTypes = {

@@ -11,6 +11,7 @@ export default class ExpandableSearch extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { value } = this.props;
 
         const RealComponent = LazyLoader['ExpandableSearch'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class ExpandableSearch extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    value={value}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class ExpandableSearch extends Component {
 
 ExpandableSearch.defaultProps = {
     className: '',
+    value: '',
 };
 
 ExpandableSearch.propTypes = {
@@ -132,7 +135,7 @@ ExpandableSearch.propTypes = {
     /**
      * renderIcon
      */
-    renderIcon: PropTypes.any,
+    renderIcon: PropTypes.node,
 
     /**
      * role

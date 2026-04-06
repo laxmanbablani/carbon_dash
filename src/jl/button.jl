@@ -39,7 +39,7 @@ Those elements have the following types:
 - `persistence` (Bool | String | Real; optional): persistence
 - `persistence_type` (a value equal to: 'local', 'session', 'memory'; optional): persistence_type
 - `rel` (Bool | Real | String | Dict | Array; optional): rel
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `role` (Bool | Real | String | Dict | Array; optional): role
 - `size` (Bool | Real | String | Dict | Array; optional): size
 - `style` (Dict; optional): style

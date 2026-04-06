@@ -64,7 +64,7 @@ ModalHeader.propTypes = {
     /**
      * closeIconClassName
      */
-    closeIconClassName: PropTypes.any,
+    closeIconClassName: PropTypes.node,
 
     /**
      * closeModal

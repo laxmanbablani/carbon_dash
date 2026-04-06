@@ -50,7 +50,7 @@ Keyword arguments:
 - onChange (boolean | number | string | dict | list; optional):
     onChange.
 
-- selectedIndex (boolean | number | string | dict | list; optional):
+- selectedIndex (number; default -1):
     selectedIndex."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
@@ -68,7 +68,7 @@ Keyword arguments:
         defaultSelectedIndex: typing.Optional[typing.Any] = None,
         height: typing.Optional[typing.Any] = None,
         onChange: typing.Optional[typing.Any] = None,
-        selectedIndex: typing.Optional[typing.Any] = None,
+        selectedIndex: typing.Optional[NumberType] = None,
         **kwargs
     ):
         self._prop_names = ['children', 'id', 'className', 'defaultSelectedIndex', 'height', 'loading_state', 'onChange', 'selectedIndex', 'style']

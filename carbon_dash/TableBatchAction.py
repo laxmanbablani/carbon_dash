@@ -47,10 +47,10 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- renderIcon (boolean | number | string | dict | list; optional):
+- renderIcon (a list of or a singular dash component, string or number; optional):
     renderIcon."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['renderIcon']
+    _base_nodes = ['renderIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'TableBatchAction'
 
@@ -64,7 +64,7 @@ Keyword arguments:
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         hasIconOnly: typing.Optional[typing.Any] = None,
         iconDescription: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[typing.Any] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
         **kwargs
     ):
         self._prop_names = ['children', 'id', 'className', 'hasIconOnly', 'iconDescription', 'loading_state', 'renderIcon', 'style']

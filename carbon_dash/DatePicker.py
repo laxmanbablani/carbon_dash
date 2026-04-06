@@ -125,7 +125,7 @@ Keyword arguments:
 - short (boolean | number | string | dict | list; optional):
     short.
 
-- value (boolean | number | string | dict | list; optional):
+- value (boolean | number | string | dict | list; default ''):
     value.
 
 - warn (boolean | number | string | dict | list; optional):
@@ -162,7 +162,6 @@ Keyword arguments:
         inline: typing.Optional[typing.Any] = None,
         invalid: typing.Optional[typing.Any] = None,
         light: typing.Optional[typing.Any] = None,
-        locale: typing.Optional[typing.Any] = None,
         maxDate: typing.Optional[typing.Any] = None,
         minDate: typing.Optional[typing.Any] = None,
         onChange: typing.Optional[typing.Any] = None,
@@ -175,6 +174,7 @@ Keyword arguments:
         warn: typing.Optional[typing.Any] = None,
         nextMonthAriaLabel: typing.Optional[typing.Any] = None,
         prevMonthAriaLabel: typing.Optional[typing.Any] = None,
+        locale: typing.Optional[typing.Any] = None,
         invalidText: typing.Optional[typing.Any] = None,
         warnText: typing.Optional[typing.Any] = None,
         **kwargs

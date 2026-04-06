@@ -42,7 +42,7 @@ Keyword arguments:
 - expandIconDescription (boolean | number | string | dict | list; optional):
     expandIconDescription.
 
-- isExpanded (boolean | number | string | dict | list; optional):
+- isExpanded (boolean; default False):
     isExpanded.
 
 - loading_state (dict; optional):
@@ -57,7 +57,16 @@ Keyword arguments:
     - component_name (string; optional)
 
 - onExpand (boolean | number | string | dict | list; optional):
-    onExpand."""
+    onExpand.
+
+- persisted_props (list of strings; optional):
+    persisted_props.
+
+- persistence (boolean | string | number; optional):
+    persistence.
+
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
+    persistence_type."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -71,17 +80,20 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
+        persisted_props: typing.Optional[typing.Sequence[str]] = None,
+        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
         ariaLabel: typing.Optional[typing.Any] = None,
         enableExpando: typing.Optional[typing.Any] = None,
         enableToggle: typing.Optional[typing.Any] = None,
         expandIconDescription: typing.Optional[typing.Any] = None,
-        isExpanded: typing.Optional[typing.Any] = None,
+        isExpanded: typing.Optional[bool] = None,
         onExpand: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'ariaLabel', 'className', 'enableExpando', 'enableToggle', 'expandIconDescription', 'isExpanded', 'loading_state', 'onExpand', 'style']
+        self._prop_names = ['children', 'id', 'ariaLabel', 'className', 'enableExpando', 'enableToggle', 'expandIconDescription', 'isExpanded', 'loading_state', 'onExpand', 'persisted_props', 'persistence', 'persistence_type', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'ariaLabel', 'className', 'enableExpando', 'enableToggle', 'expandIconDescription', 'isExpanded', 'loading_state', 'onExpand', 'style']
+        self.available_properties = ['children', 'id', 'ariaLabel', 'className', 'enableExpando', 'enableToggle', 'expandIconDescription', 'isExpanded', 'loading_state', 'onExpand', 'persisted_props', 'persistence', 'persistence_type', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

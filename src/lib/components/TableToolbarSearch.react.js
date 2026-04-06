@@ -11,6 +11,7 @@ export default class TableToolbarSearch extends Component {
             className,
             ...otherProps
         } = this.props;
+        const { expanded } = this.props;
 
         const RealComponent = LazyLoader['TableToolbarSearch'];
         if (!RealComponent) {
@@ -21,6 +22,7 @@ export default class TableToolbarSearch extends Component {
             <React.Suspense fallback={null}>
                 <RealComponent 
                     className={className}
+                    expanded={expanded}
                     {...otherProps}
                 />
             </React.Suspense>
@@ -30,6 +32,7 @@ export default class TableToolbarSearch extends Component {
 
 TableToolbarSearch.defaultProps = {
     className: '',
+    expanded: false,
 };
 
 TableToolbarSearch.propTypes = {
@@ -69,7 +72,7 @@ TableToolbarSearch.propTypes = {
     /**
      * expanded
      */
-    expanded: PropTypes.any,
+    expanded: PropTypes.bool,
 
     /**
      * labelText

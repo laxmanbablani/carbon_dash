@@ -30,7 +30,7 @@ those elements have the following types:
   - prop_name (character; optional)
   - component_name (character; optional). loading_state}
 
-\item{renderIcon}{Logical | numeric | character | named list | unnamed list. renderIcon}
+\item{renderIcon}{A list of or a singular dash component, string or number. renderIcon}
 
 \item{style}{Named list. style}
 }

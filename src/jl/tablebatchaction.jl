@@ -21,7 +21,7 @@ Those elements have the following types:
   - `is_loading` (Bool; optional)
   - `prop_name` (String; optional)
   - `component_name` (String; optional)
-- `renderIcon` (Bool | Real | String | Dict | Array; optional): renderIcon
+- `renderIcon` (a list of or a singular dash component, string or number; optional): renderIcon
 - `style` (Dict; optional): style
 """
 function tablebatchaction(; kwargs...)

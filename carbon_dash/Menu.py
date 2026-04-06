@@ -62,7 +62,7 @@ Keyword arguments:
 - onOpen (boolean | number | string | dict | list; optional):
     onOpen.
 
-- open (boolean | number | string | dict | list; optional):
+- open (boolean; default False):
     open.
 
 - size (boolean | number | string | dict | list; optional):
@@ -96,7 +96,7 @@ Keyword arguments:
         mode: typing.Optional[typing.Any] = None,
         onClose: typing.Optional[typing.Any] = None,
         onOpen: typing.Optional[typing.Any] = None,
-        open: typing.Optional[typing.Any] = None,
+        open: typing.Optional[bool] = None,
         size: typing.Optional[typing.Optional[str]] = None,
         target: typing.Optional[typing.Any] = None,
         x: typing.Optional[typing.Any] = None,

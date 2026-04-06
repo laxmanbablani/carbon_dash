@@ -87,15 +87,66 @@ function escapePythonString(str) {
 }
 
 function processJSXElement(node, scope = {}) {
-    if (!node || node.type !== 'JSXElement') return null;
+    if (!node) return null;
+    if (node.type === 'JSXFragment') {
+        const children = (node.children || []).map(c => {
+            if (c.type === 'JSXElement' || c.type === 'JSXFragment') return processJSXElement(c, scope);
+            if (c.type === 'JSXText') {
+                const text = c.value.trim();
+                if (!text) return null;
+                return escapePythonString(text);
+            }
+            if (c.type === 'JSXExpressionContainer') {
+                if (c.expression.type === 'StringLiteral') return escapePythonString(c.expression.value);
+                if (c.expression.type === 'TemplateLiteral') {
+                     // Simplified template literal handling
+                     if (c.expression.quasis.length === 1) {
+                         return escapePythonString(c.expression.quasis[0].value.raw);
+                     }
+                }
+            }
+            return null;
+        }).filter(Boolean);
+        if (children.length === 0) return null;
+        if (children.length === 1) return children[0];
+        // Flatten nested lists in fragment results
+        let flattened = [];
+        children.forEach(c => {
+            if (c.startsWith('[') && c.endsWith(']')) {
+                flattened.push(...c.substring(1, c.length - 1).split(',').map(s => s.trim()));
+            } else {
+                flattened.push(c);
+            }
+        });
+        return `[${flattened.join(', ')}]`;
+    }
+    if (node.type !== 'JSXElement') return null;
     
-    const elementName = node.openingElement.name.name;
+    const openingEl = node.openingElement;
+    if (!openingEl || !openingEl.name) return null;
+    const elementName = openingEl.name.name;
     if (!elementName) return null;
 
+    // Handle HeaderContainer render prop pattern in Dash
+    if (elementName === 'HeaderContainer') {
+        const renderAttr = openingEl.attributes.find(a => a.type === 'JSXAttribute' && a.name.name === 'render');
+        if (renderAttr && renderAttr.value && renderAttr.value.type === 'JSXExpressionContainer') {
+            const expr = renderAttr.value.expression;
+            if (expr.type === 'ArrowFunctionExpression' || expr.type === 'FunctionExpression') {
+                const body = expr.body;
+                const inner = processJSXElement(body, scope);
+                if (inner) {
+                    return `carbon_dash.HeaderContainer(children=${inner})`;
+                }
+            }
+        }
+    }
+
     let props = [];
-    node.openingElement.attributes.forEach(attr => {
+    openingEl.attributes.forEach(attr => {
         if (attr.type === 'JSXAttribute' && attr.name && attr.name.name) {
             const name = attr.name.name;
+            if (name === 'render' && elementName === 'HeaderContainer') return;
             if (name.includes('-')) return; // skip dash props
             
             let valueStr = "True";
@@ -174,7 +225,17 @@ function processJSXElement(node, scope = {}) {
     if (children.length === 1) {
         childrenStr = `children=${children[0]}`;
     } else if (children.length > 1) {
-        childrenStr = `children=[${children.join(', ')}]`;
+        // Flatten nested lists in children
+        let flattened = [];
+        children.forEach(c => {
+            if (c.startsWith('[') && c.endsWith(']')) {
+                // very simple split that might fail on deep nesting but should help
+                flattened.push(...c.substring(1, c.length - 1).split(',').map(s => s.trim()));
+            } else {
+                flattened.push(c);
+            }
+        });
+        childrenStr = `children=[${flattened.join(', ')}]`;
     }
 
     if (childrenStr) {
@@ -182,6 +243,15 @@ function processJSXElement(node, scope = {}) {
     }
     
     if (carbonReact[elementName] || carbonReact['unstable__' + elementName] || carbonReact['preview__' + elementName]) {
+        const compInCarbon = carbonReact[elementName] || carbonReact['unstable__' + elementName] || carbonReact['preview__' + elementName];
+        
+        // Final sanity check: Is this component actually generated and exported by carbon_dash?
+        const generatedComponents = fs.readdirSync(path.resolve(__dirname, '../carbon_dash')).map(f => f.replace('.py', ''));
+        if (!generatedComponents.includes(elementName)) {
+            console.warn(`Warning: Component ${elementName} is in @carbon/react but not generated in carbon_dash. Skipping.`);
+            return null;
+        }
+
         // Filter props for carbon_dash components based on available propTypes
         const component = carbonReact[elementName] || carbonReact['unstable__' + elementName] || carbonReact['preview__' + elementName];
         const sourceProps = extractPropsFromSource(elementName);
@@ -200,6 +270,12 @@ function processJSXElement(node, scope = {}) {
             if (!filteredProps.some(p => p.startsWith('headers='))) {
                 filteredProps.push("headers=[{'key': 'name', 'header': 'Name'}, {'key': 'status', 'header': 'Status'}]");
             }
+        }
+
+        // Special handling for DatePicker requirements
+        if ((elementName === 'DatePicker' || elementName === 'FluidDatePicker') && !filteredProps.some(p => p.startsWith('children='))) {
+            const inputComp = elementName === 'DatePicker' ? 'DatePickerInput' : 'FluidDatePickerInput';
+            filteredProps.push(`children=[carbon_dash.${inputComp}(id='${elementName.toLowerCase()}-input', labelText='Date Picker label', placeholder='mm/dd/yyyy')]`);
         }
 
         return `carbon_dash.${elementName}(${filteredProps.join(', ')})`;
@@ -253,7 +329,7 @@ for (const folder of componentFolders) {
     findStories(path.join(componentsDir, folder));
     
     if (storyFiles.length > 0) {
-        let stories = [];
+        const stories = [];
         storyFiles.forEach(file => {
             const content = fs.readFileSync(file, 'utf-8');
             try {
@@ -264,6 +340,40 @@ for (const folder of componentFolders) {
                 
                 let localScope = {};
                 traverse(ast, {
+                    ExportNamedDeclaration(pathNode) {
+                        if (pathNode.node.declaration && pathNode.node.declaration.type === 'VariableDeclaration') {
+                            const decl = pathNode.node.declaration.declarations[0];
+                            if (decl.id.type === 'Identifier' && decl.init) {
+                                const storyName = decl.id.name;
+                                if (storyName.startsWith('_')) return; // skip internal
+                                
+                                let storyNode = decl.init;
+                                let args = null;
+                                
+                                if (storyNode.type === 'ArrowFunctionExpression' || storyNode.type === 'FunctionExpression') {
+                                    args = storyNode.params[0] && storyNode.params[0].name;
+                                    storyNode = storyNode.body;
+                                }
+
+                                if (storyNode.type === 'JSXElement' || storyNode.type === 'JSXFragment') {
+                                    const code = processJSXElement(storyNode, localScope);
+                                    if (code) {
+                                        stories.push({ name: storyName, code });
+                                    }
+                                } else if (storyName && decl.init.type === 'ObjectExpression') {
+                                    // CSF 3.0
+                                    const renderProp = decl.init.properties.find(p => p.key && p.key.name === 'render');
+                                    if (renderProp && (renderProp.value.type === 'ArrowFunctionExpression' || renderProp.value.type === 'FunctionExpression')) {
+                                        const body = renderProp.value.body;
+                                        const code = processJSXElement(body, localScope);
+                                        if (code) {
+                                            stories.push({ name: storyName, code });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     VariableDeclarator(pathNode) {
                         if (pathNode.node.id.type === 'Identifier' && pathNode.node.init) {
                             const name = pathNode.node.id.name;
@@ -319,7 +429,7 @@ for (const folder of componentFolders) {
                             declarations.forEach(decl => {
                                 if (decl.id.type === 'Identifier') {
                                     const storyName = decl.id.name;
-                                    if (storyName === 'Default' || storyName === 'Playground') return;
+                                    if (storyName === 'Default' || storyName === 'Playground' || storyName === 'meta') return;
                                     
                                     // Try to find variables defined within the story function
                                     let storyScope = { ...localScope };
@@ -350,28 +460,32 @@ for (const folder of componentFolders) {
                                     // Try to find the returned JSX Element
                                     let jsxResult = null;
                                     if (decl.init && decl.init.type === 'ArrowFunctionExpression') {
-                                        if (decl.init.body.type === 'JSXElement') {
+                                        if (decl.init.body.type === 'JSXElement' || decl.init.body.type === 'JSXFragment') {
                                             jsxResult = processJSXElement(decl.init.body, storyScope);
                                         } else if (decl.init.body.type === 'BlockStatement') {
                                             const returnStmt = decl.init.body.body.find(stmt => stmt.type === 'ReturnStatement');
-                                            if (returnStmt && returnStmt.argument && returnStmt.argument.type === 'JSXElement') {
+                                            if (returnStmt && returnStmt.argument && (returnStmt.argument.type === 'JSXElement' || returnStmt.argument.type === 'JSXFragment')) {
                                                 jsxResult = processJSXElement(returnStmt.argument, storyScope);
                                             }
                                         }
+                                    } else if (decl.init && (decl.init.type === 'JSXElement' || decl.init.type === 'JSXFragment')) {
+                                        jsxResult = processJSXElement(decl.init, storyScope);
                                     }
                                     
                                     if (jsxResult) {
-                                        const existingStory = stories.find(s => s.name === storyName);
-                                        if (existingStory) {
-                                            existingStory.code = jsxResult;
+                                        // Detect component name from JSX result if it's like carbon_dash.Name(...)
+                                        let detectedComponent = folder;
+                                        const matchName = jsxResult.match(/carbon_dash\.([a-zA-Z0-9_]+)/);
+                                        if (matchName) detectedComponent = matchName[1];
+
+                                        const existingComp = components.find(c => c.name === detectedComponent);
+                                        if (existingComp) {
+                                            existingComp.stories.push({ name: storyName, code: jsxResult });
                                         } else {
-                                            stories.push({ name: storyName, code: jsxResult });
+                                            components.push({ name: detectedComponent, stories: [{ name: storyName, code: jsxResult }] });
                                         }
                                     } else {
-                                        const existingStory = stories.find(s => s.name === storyName);
-                                        if (!existingStory) {
-                                            stories.push({ name: storyName, code: null });
-                                        }
+                                        // ... existing code for non-JSX stories if needed ...
                                     }
                                 }
                             });
@@ -383,11 +497,8 @@ for (const folder of componentFolders) {
             }
         });
         
-        if (stories.length > 0 && carbonReact[folder]) {
-            components.push({
-                name: folder,
-                stories: stories
-            });
+        if (stories.length > 0) {
+            // Already handled by component detection inside traverse
         }
     }
 }
@@ -443,9 +554,9 @@ components.forEach(comp => {
             // we have AST extracted code
             if (propsList.length > 0) {
                 // If we have extracted code AND story args, we attempt to merge.
-                // storyObj.code looks like "carbon_dash.Button(...)"
+                // storyObj.code looks like "carbon_dash.Button(...)" or "[Comp1, Comp2]"
                 let code = storyObj.code;
-                if (code.endsWith(')')) {
+                if (code.startsWith('carbon_dash.') && code.endsWith(')')) {
                     let inside = code.substring(code.indexOf('(') + 1, code.length - 1);
                     let existingProps = inside.split(',').map(p => p.trim()).filter(p => p);
                     propsList.forEach(p => {
@@ -454,12 +565,19 @@ components.forEach(comp => {
                             existingProps.push(p);
                         }
                     });
-                    storyItems += `        ${code.substring(0, code.indexOf('(') + 1)}${existingProps.join(', ')}),\n`;
+                    storyItems += `        html.Div(children=${code.substring(0, code.indexOf('(') + 1)}${existingProps.join(', ')}), style={'marginBottom': '20px'}),\n`;
+                } else if (code.startsWith('[') && code.endsWith(']')) {
+                    storyItems += `        html.Div(children=${storyObj.code}, style={'marginBottom': '20px'}),\n`;
                 } else {
-                    storyItems += `        ${storyObj.code},\n`;
+                    storyItems += `        html.Div(children=[${storyObj.code}], style={'marginBottom': '20px'}),\n`;
                 }
             } else {
-                storyItems += `        ${storyObj.code},\n`;
+                let code = storyObj.code;
+                if (code.startsWith('[') && code.endsWith(']')) {
+                    storyItems += `        html.Div(children=${storyObj.code}, style={'marginBottom': '20px'}),\n`;
+                } else {
+                    storyItems += `        html.Div(children=[${storyObj.code}], style={'marginBottom': '20px'}),\n`;
+                }
             }
         } else {
             // fallback
@@ -484,7 +602,7 @@ components.forEach(comp => {
                     if (!propsList.some(p => p.startsWith('children='))) propsList.push(`children='${storyName}'`);
                 }
             }
-            storyItems += `        carbon_dash.${compToRender}(${propsList.join(', ')}),\n`;
+            storyItems += `        html.Div(children=[carbon_dash.${compToRender}(${propsList.join(', ')})], style={'marginBottom': '20px'}),\n`;
         }
     });
     storyItems += `    ])`;
@@ -504,6 +622,9 @@ app.layout = html.Div([
                     isExpanded=True,
                     children=[
 `;
+
+// Sort components by name
+components.sort((a, b) => a.name.localeCompare(b.name));
 
 components.forEach((comp, index) => {
     pythonDocs += `                        carbon_dash.TreeNode(

@@ -17,33 +17,35 @@ NumberType = typing.Union[
 
 class HeaderName(Component):
     """A HeaderName component.
-HeaderName is a wrapper for the Carbon HeaderName component.
+
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the header name.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- as_ (boolean | number | string | dict | list; optional):
-    as.
+- as (optional):
+    Provide a custom element or component to render the top-level node
+    for the component.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- element (boolean | number | string | dict | list; optional):
-    element.
+- element (optional):
+    The base element to use to build the link. Defaults to `a`.
+    @deprecated Use `as` instead.
 
-- href (boolean | number | string | dict | list; optional):
-    href.
+- href (string; optional):
+    Provide an href for the name to link to.
 
-- isSideNavExpanded (boolean | number | string | dict | list; optional):
-    isSideNavExpanded.
+- isSideNavExpanded (boolean; optional):
+    Property to indicate if the side nav container is open (or not).
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -53,8 +55,10 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- prefix (boolean | number | string | dict | list; optional):
-    prefix."""
+- prefix (string; default 'IBM'):
+    Optionally specify a prefix to your header name. Useful for
+    companies, for example: IBM [Product Name] versus solely [Product
+    Name]."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -68,16 +72,15 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        as_: typing.Optional[typing.Any] = None,
+        href: typing.Optional[str] = None,
+        prefix: typing.Optional[str] = None,
         element: typing.Optional[typing.Any] = None,
-        isSideNavExpanded: typing.Optional[typing.Any] = None,
-        href: typing.Optional[typing.Any] = None,
-        prefix: typing.Optional[typing.Any] = None,
+        isSideNavExpanded: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'as_', 'className', 'element', 'href', 'isSideNavExpanded', 'loading_state', 'prefix', 'style']
+        self._prop_names = ['children', 'id', 'as', 'className', 'element', 'href', 'isSideNavExpanded', 'loading_state', 'prefix', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'as_', 'className', 'element', 'href', 'isSideNavExpanded', 'loading_state', 'prefix', 'style']
+        self.available_properties = ['children', 'id', 'as', 'className', 'element', 'href', 'isSideNavExpanded', 'loading_state', 'prefix', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

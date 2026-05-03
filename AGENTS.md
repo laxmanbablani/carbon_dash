@@ -1,75 +1,248 @@
-# Carbon Dash Automation Architecture
+# Carbon Dash — Agent Instructions
 
-This document outlines the architecture and strategy for automating the generation of the `carbon_dash` library from the IBM Carbon Design System React components. The primary goal is to maintain a fully automated, idempotent pipeline that creates Dash components, documentation, and tests with minimal manual intervention.
+`carbon_dash` is a Dash wrapper for IBM Carbon Design System components. Each component is hand-authored as a single React/JSX file following the dash-mantine-components pattern.
 
-## Automation Pipeline Stages
+## Project Structure
 
-### 1. Metadata Parsing and Configuration
-*   **Input:** `@carbon/react` source code, specifically TypeScript definitions, `propTypes`, and component structures.
-*   **Configuration Files:** Structured configurations (e.g., JSON/YAML) defining how specific Carbon components map to Dash. This includes defining event-to-property mappings (e.g., mapping `onChange` to `setProps({ value })`), specifying custom Dash properties (like `n_clicks`), and handling special types (like Icons or render props).
-*   **Action:** Extract a unified metadata model for each component, merging raw Carbon prop types with our custom Dash configurations.
+```
+carbon_dash/
+├── src/lib/
+│   ├── components/          # Hand-authored React component wrappers (.jsx)
+│   └── utils/
+│       └── dash.js          # getLoadingState + shared props
+├── carbon_dash/             # Generated Python backends (NEVER manually edit)
+│   └── __init__.py          # Package init (manual)
+├── docs/                    # Standalone Dash Pages docs app (future)
+│   └── run.py               # Entry point
+├── tests/                   # dash_duo render tests per component
+├── _ref/
+│   ├── carbon-design-system/    # Carbon React source (for PropTypes reference)
+│   └── carbon-charts/          # Carbon Charts source
+├── webpack.config.js        # Webpack build config
+├── package.json             # NPM scripts + dependencies
+└── setup.py                 # Python package config
+```
 
-### 2. React Wrapper Generation
-*   **Action:** Automatically generate the React boilerplate required by Dash for every component.
-    *   `src/lib/components/ComponentName.react.js`: The public interface containing strictly formatted `propTypes` and JSDoc comments for Dash's backend generator.
-    *   `src/lib/fragments/ComponentName.react.js`: The implementation layer. This wrapper will dynamically intercept React events, translate them into `setProps` calls, and handle complex child/prop mapping (e.g., resolving icon strings into React components).
-    *   `src/lib/index.js` & `src/lib/LazyLoader.js`: Automatically updated to export all generated components.
+## Build Pipeline (2 steps)
 
-### 3. Backend Generation & Build
-*   **Action:** Utilize the standard Dash build pipeline (`npm run build`).
-    *   `build:js`: Webpack bundles and transpiles the generated React wrappers, compiling any necessary SCSS/CSS.
-    *   `build:backends`: The `dash-generate-components` tool parses the generated `.react.js` files to build the Python API (`carbon_dash/ComponentName.py`).
+```bash
+npm run build:js          # Webpack bundles JS
+npm run build:backends    # dash-generate-components reads src/lib/components/ → carbon_dash/
+```
 
-### 4. Automated Test Generation
-*   **Action:** Generate end-to-end `dash_duo` integration tests for each component in the `tests/` directory.
-    *   **Render Tests:** Automatically verify that every generated component successfully renders in the DOM without Python or React errors.
-    *   **Interactivity Tests:** Use configuration definitions to automatically generate tests that simulate user actions (e.g., clicking a generated Button) and assert that Python callbacks receive the correct property updates.
+No generation scripts. No overrides. No config.json. Each component is a single hand-authored file.
 
-### 5. Documentation & Storybook Sync
-*   **Input:** Carbon's `.stories.tsx` and MDX documentation.
-*   **Action:** Parse Carbon stories and translate them into a Dash interactive documentation app. Extract code examples and convert them from React JSX to Dash Python syntax, grouping related components (e.g., Grid, Row, Column) logically.
+## Component Pattern
 
-## Automation Pipeline Implementation Details
+Every component follows this structure:
 
-### 1. Metadata & Configuration (`scripts/config.json`)
-We use a centralized `config.json` to define:
-- `injectProps`: Standard Dash properties (like `id`, `n_clicks`, `value`, `label`) and their default values.
-- `propMap`: Renaming standard props to Carbon-specific names (e.g., `label` -> `labelText`).
-- `propTransforms`: Handling special types like `AILabel` (AI decorator).
-- `eventMap`: Mapping React event arguments (e.g., `arguments[0].target.value`) to Dash property updates.
-- `testStrategy`: Defining Selenium-based interaction steps and expected outcomes for automated testing.
+```jsx
+// src/lib/components/Button.jsx
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button as CarbonButton } from '@carbon/react';
 
-### 2. Wrapper Generation (`scripts/generate.js`)
-The generator dynamically creates:
-- `src/lib/fragments/*.react.js`: Implementation wrappers that use `@carbon/react` and bridge `setProps`.
-- `src/lib/components/*.react.js`: Lazy-loading entry points for the Dash component generator.
-- `tests/test_*.py`: Automated `dash_duo` integration tests based on the `testStrategy`.
+const Button = (props) => {
+    const { id, setProps, children, className, style, loading_state, ...others } = props;
+    const isLoading = loading_state && loading_state.is_loading;
+    
+    const handleClick = () => {
+        if (setProps) setProps({ n_clicks: (props.n_clicks || 0) + 1 });
+    };
 
-### 3. Build and Asset Management
-- **Webfont Inlining:** All Carbon fonts are inlined in the main bundle via Webpack's `asset/inline` to prevent 404s in Dash's Flask server.
-- **Dynamic Imports:** Components use `React.lazy` to keep the initial bundle size manageable, with Dash-renderer handling the async chunk loading.
+    return (
+        <CarbonButton
+            id={id}
+            className={className}
+            style={style}
+            data-dash-is-loading={isLoading || undefined}
+            onClick={handleClick}
+            {...others}
+        >
+            {children}
+        </CarbonButton>
+    );
+};
 
-### 4. Findings & Noteworthy Solutions
-- **Comprehensive Component Coverage:** The automation pipeline now dynamically discovers all component exports from `@carbon/react`. This ensures that `carbon_dash` provides full access to the entire Carbon Design System, including all stable and newly added components.
-- **Robust Import Validation:** During the generation process, the pipeline validates that every component requested (via `config.json` or discovery) is actually exported by the installed `@carbon/react` package. This prevents "Element type is invalid" errors caused by `undefined` imports.
-- **Graceful Error Handling in Wrappers:** React wrappers for Dash components now include an existence check for the underlying Carbon component. If a component fails to load (e.g., due to dynamic import issues), it returns `null` rather than crashing the application.
-- **Event Signature Normalization:** Carbon's event handlers vary significantly (some return events, some return value objects). The `eventMap` in `config.json` allows us to extract the correct value using `arguments` indexing.
-- **Testing Portal-based Components:** Carbon components that use portals (like `Dropdown` or `Modal`) require specific Selenium interaction strategies. For example, using XPath to find options by text rather than CSS selectors can be more reliable when the menu is rendered outside the component's direct DOM hierarchy.
-- **Nested Component Generation:** Automation now supports generating complex, multi-layered components (like `Tabs` or `Accordion`) by injecting relevant sub-components in automated tests.
-- **Render-only Validation:** For purely structural or layout components (like `Grid` or `Row`), we've introduced a "render" test strategy that verifies the component appears in the DOM with its expected Carbon class names without requiring interactivity.
-- **Event Handling Context:** We've successfully mapped complex event signatures, such as the `onChange` event for `RadioButtonGroup`, ensuring that Dash's `setProps` correctly captures the updated state.
-- **CSS Variable Injection:** Carbon components rely on a specific CSS prefix (defaulting to `cds`). Our wrapper generation ensures that these prefixes are correctly applied and that all relevant styles are bundled into the final Dash component library.
-- **Automated Test Stabilization:** Use `dash_duo.wait_for_element` instead of `find_element` to ensure the component is fully rendered and the React bundle is loaded before attempting interactions.
-- **Boolean State in Tests:** Automated tests must explicitly cast boolean values to strings (`True`/`False`) to match the text output in the DOM for `wait_for_text_to_equal`.
-- **Gatekeeper/Chromedriver:** macOS Gatekeeper can block `chromedriver`. Use `xattr -d com.apple.quarantine $(which chromedriver)` to resolve execution issues in the automation environment.
-- **Story-driven Implementation:** Utilizing Carbon's raw `.stories.js` files (located in `_ref/carbon-design-system`) provides critical insights into complex component usage, such as `DataTable`'s render prop patterns, which informs the design of automated React wrappers.
-- **DataTable Variant Support:** Enhanced `DataTable` wrappers now support `rows` and `headers` props directly, automatically rendering the necessary sub-components (`TableHead`, `TableBody`, etc.) while also supporting sorting, selection, and expansion variants.
-- **Dynamic Prop Extraction:** The automation pipeline now automatically extracts `propTypes` from `@carbon/react` components, ensuring that all native Carbon props (like `kind`, `size`, `isPrimary`) are available in the Dash Python API without manual configuration.
-- **Mandatory Dash Props:** All generated components now include standard Dash properties: `id`, `className`, `style`, `children`, and `setProps`. These are correctly passed through to the underlying Carbon components.
-- **Invalid Identifier Sanitization:** Props containing hyphens (like `aria-label`) are automatically skipped during generation to prevent SyntaxErrors in the Dash Python backends, which do not support hyphens in keyword arguments.
-- **Fragment Destructuring Safety:** The generator prevents duplicate variable declarations in React fragments by ensuring mandatory props are not redeclared if they also appear in custom `injectProps`.
-- **Case-insensitive Component Discovery:** On macOS and other case-insensitive systems, the automation pipeline now handles casing conflicts (e.g., `AISkeletonText` vs `AiSkeletonText`) by prioritizing the first discovered variant, preventing file system collisions and build failures.
-- **Dynamic Story-to-Python Parsing:** The gallery generator uses Babel AST traversal to extract JSX properties and children from Carbon story files, automatically translating them into Dash Python syntax with robust fallback and property filtering logic to ensure gallery stability.
-- **Mandatory Render Props:** For components like `DataTable` that rely on a mandatory `render` function prop, the React wrapper now ensures this function is always provided (even for empty states), preventing `TypeError: t is not a function` during the React reconciliation phase.
-- **ES6 Class Component Migration:** All generated Dash React wrappers have been migrated to ES6 class components. This ensures full compatibility with `defaultProps` and avoids React 18.3+ console warnings associated with using `defaultProps` on functional components.
-- **Controlled Property Initialization:** To prevent "controlled vs uncontrolled" state warnings, the automation pipeline extracts native default values from Carbon source code and injects safe fallbacks (e.g., `''` or `false`) for interactive properties like `value` or `checked`.
+Button.propTypes = {
+    id: PropTypes.string,
+    children: PropTypes.node,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
+    n_clicks: PropTypes.number,
+    kind: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'ghost', 'danger']),
+    size: PropTypes.oneOf(['sm', 'md', 'lg', 'xl']),
+    disabled: PropTypes.bool,
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
+};
+
+Button.defaultProps = {
+    kind: 'primary',
+    size: 'lg',
+    disabled: false,
+    n_clicks: 0,
+};
+
+export default Button;
+```
+
+## Key Rules
+
+1. **Every component must have full PropTypes and defaultProps** — this is what dash-generate-components reads to produce Python backends.
+2. **Props come from Carbon's source** — reference `_ref/carbon-design-system/packages/react/src/components/<Name>/` for the real PropTypes of each component.
+3. **Interactive components (onClick, onChange) must call setProps** — use inline handlers.
+4. **No generate.js, no config.json, no overrides** — each component is hand-authored directly.
+5. **Tests live in `tests/test_<name>.py`** — one dash_duo test per component.
+6. **NEVER edit `carbon_dash/*.py`** — they regenerate from PropTypes via `npm run build:backends`.
+
+### Loading State Pattern
+
+When loading, swap the component for its Carbon Skeleton equivalent:
+
+```jsx
+import { Button as CarbonButton, ButtonSkeleton as CarbonButtonSkeleton } from '@carbon/react';
+
+const Button = (props) => {
+    const { id, setProps, children, className, style, loading_state, ...others } = props;
+
+    // Show skeleton while loading
+    if (loading_state && loading_state.is_loading) {
+        return (
+            <CarbonButtonSkeleton
+                id={id}
+                className={className}
+                style={style}
+                size={others.size}
+            />
+        );
+    }
+
+    return (
+        <CarbonButton id={id} className={className} style={style} {...others}>
+            {children}
+        </CarbonButton>
+    );
+};
+```
+
+### AI Label Pattern
+
+Components that support AI labeling expose an `aiLabel` boolean prop. When `true`, the Carbon `AILabel` decorator renders:
+
+```jsx
+import { Button as CarbonButton, ButtonSkeleton as CarbonButtonSkeleton } from '@carbon/react';
+import { AILabel } from '@carbon/react';
+
+const Button = (props) => {
+    const { aiLabel, ...others } = props;
+    const decorator = aiLabel ? <AILabel size="xs" /> : undefined;
+    
+    return <CarbonButton decorator={decorator} {...others}>{children}</CarbonButton>;
+};
+```
+
+### Icon Pattern
+
+Icons are accepted as Dash children. Carbon's `renderIcon` slot accepts any React node:
+- `dash_iconify.DashIconify(icon="carbon:launch")` — serialized Dash component
+- `html.Div(className="my-icon", ...)` — any Dash HTML component
+- String names mapped to Carbon icons via `resolveIcon`
+
+The `resolveIcon` utility does:
+1. `React.isValidElement` → pass through
+2. `typeof string` → look up Carbon icon by name
+3. Serialized Dash component `{type, namespace, props}` → render via `window[namespace][type]`
+
+### Children Pattern
+
+Children are standard Dash children — any Dash component, string, or number. No special handling needed. Dash's renderer auto-deserializes children into React elements. Example:
+
+```python
+cd.Button(
+    cd.DashIconify(icon="carbon:add"),
+    " Add Item",
+    kind="primary",
+)
+```
+
+## Adding a Component
+
+1. Create `src/lib/components/<Name>.react.js` — hand-author the wrapper
+2. Add import + export to `src/lib/index.js`
+3. Write `tests/test_<name>.py` — dash_duo render test
+4. Run `npm run build:js && npm run build:backends`
+5. Run `pytest tests/test_<name>.py` to verify
+
+## Testing
+
+```bash
+# All tests in parallel
+python -m pytest tests/ -q --tb=no -n auto
+
+# Single component
+pytest tests/test_button.py -v
+```
+
+### Test Coverage Rules
+
+Each test must verify:
+1. **Component mounts without JS errors** — `dash_duo.wait_for_element("#id")` + `assert dash_duo.get_logs() == []`
+2. **Key prop variations** — test the variations that Carbon's own stories test
+3. **Interactive behavior** — if the component has `onClick`/`onChange`, test the callback fires
+
+### How to Design Tests
+
+Reference the Carbon stories to understand what constitutes a "real" usage:
+`_ref/carbon-design-system/packages/react/src/components/<Name>/stories/`
+
+Carbon stories test:
+- **Default/standard usage** — the basic story, test this first
+- **Prop variations** — each dimension of props (size: sm/md/lg, kind: primary/secondary/danger, etc.)
+- **Edge cases** — disabled state, loading state, empty state
+
+For each component, write tests covering:
+1. **Basic render** — mounts, renders children, no JS errors
+2. **Every prop dimension** — test at least 2 variants of each meaningful prop category
+3. **Loading/skeleton** — if component has skeleton counterpart, test `loading_state={"is_loading": True}`
+4. **Callback** — for interactive components, verify callback fires
+
+### Test Pattern
+
+```python
+from dash import Dash, html
+import carbon_dash as cd
+
+def test_button_basic(dash_duo):
+    app = Dash(__name__)
+    app.layout = html.Div([cd.Button(id="btn", children="Click me")])
+    dash_duo.start_server(app)
+    dash_duo.wait_for_text_to_equal("#btn", "Click me")
+    assert dash_duo.get_logs() == []
+
+def test_button_variants(dash_duo):
+    app = Dash(__name__)
+    app.layout = html.Div([
+        cd.Button(id="b1", children="Primary"),
+        cd.Button(id="b2", children="Danger", kind="danger"),
+        cd.Button(id="b3", children="Disabled", disabled=True),
+    ])
+    dash_duo.start_server(app)
+    for bid in ["b1", "b2", "b3"]:
+        dash_duo.wait_for_text_to_equal(f"#{bid}", bid.replace("b", ""), timeout=10)
+    assert dash_duo.get_logs() == []
+```
+
+### Charts
+
+Charts import from `@carbon/charts` (core package), NOT `@carbon/charts-react`. Constructor: `new ChartClass(element, {data, options})`. Each chart has `clickData` and `selectedPoint` props for interactivity.
+
+Components reference: `_ref/carbon-design-system/packages/react/src/components/<Name>/`
+Charts reference: `_ref/carbon-charts/packages/docs/src/lib/<name>/`
+Test example: `_ref/dash-mantine-components/tests/`

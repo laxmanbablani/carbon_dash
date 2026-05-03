@@ -1,59 +1,56 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { SideNavItems as CarbonSideNavItems } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * SideNavItems is a wrapper for the Carbon SideNavItems component.
- */
-export default class SideNavItems extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['SideNavItems'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-SideNavItems.defaultProps = {
-    className: '',
+const SideNavItems = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    return (
+        <CarbonSideNavItems
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonSideNavItems>
+    );
 };
 
 SideNavItems.propTypes = {
-    /** id */
+    /**
+     * The ID used to identify this component in Dash callbacks.
+     */
     id: PropTypes.string,
 
-    /** children */
+    /**
+     * Provide the children to be rendered inside of the SideNavItems.
+     */
     children: PropTypes.node,
 
-    /** className */
+    /**
+     * Custom CSS class.
+     */
     className: PropTypes.string,
 
-    /** style */
+    /**
+     * Inline styles.
+     */
     style: PropTypes.object,
 
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
+    /**
+     * Dash loading state.
+     */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
     /**
-     * isSideNavExpanded
+     * Property to indicate if the side nav container is open (or not).
+     * Use to keep local state and styling in step with the SideNav expansion state.
      */
-    isSideNavExpanded: PropTypes.any,
-
+    isSideNavExpanded: PropTypes.bool,
 };
+
+export default SideNavItems;

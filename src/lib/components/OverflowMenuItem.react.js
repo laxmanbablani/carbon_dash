@@ -1,159 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { OverflowMenuItem as CarbonOverflowMenuItem } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * OverflowMenuItem is a wrapper for the Carbon OverflowMenuItem component.
- */
-export default class OverflowMenuItem extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['OverflowMenuItem'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-OverflowMenuItem.defaultProps = {
-    className: '',
+const OverflowMenuItem = (props) => {
+    const { id, children, className = '', style = {}, loading_state, n_clicks = 0, ...others } = props;
+    const handleClick = () => { if (props.setProps) props.setProps({ n_clicks: n_clicks + 1 }); };
+    return (
+        <CarbonOverflowMenuItem id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            onClick={handleClick} {...others}>{children}</CarbonOverflowMenuItem>
+    );
 };
 
 OverflowMenuItem.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node,
+    className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * closeMenu
-     */
-    closeMenu: PropTypes.any,
-
-    /**
-     * dangerDescription
-     */
-    dangerDescription: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * handleOverflowMenuItemFocus
-     */
-    handleOverflowMenuItemFocus: PropTypes.any,
-
-    /**
-     * hasDivider
-     */
-    hasDivider: PropTypes.any,
-
-    /**
-     * href
-     */
-    href: PropTypes.any,
-
-    /**
-     * index
-     */
-    index: PropTypes.any,
-
-    /**
-     * isDelete
-     */
-    isDelete: PropTypes.any,
-
-    /**
-     * itemText
-     */
-    itemText: PropTypes.any,
-
-    /**
-     * onBlur
-     */
-    onBlur: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * onFocus
-     */
-    onFocus: PropTypes.any,
-
-    /**
-     * onKeyDown
-     */
-    onKeyDown: PropTypes.any,
-
-    /**
-     * onKeyUp
-     */
-    onKeyUp: PropTypes.any,
-
-    /**
-     * onMouseDown
-     */
-    onMouseDown: PropTypes.any,
-
-    /**
-     * onMouseEnter
-     */
-    onMouseEnter: PropTypes.any,
-
-    /**
-     * onMouseLeave
-     */
-    onMouseLeave: PropTypes.any,
-
-    /**
-     * onMouseUp
-     */
-    onMouseUp: PropTypes.any,
-
-    /**
-     * requireTitle
-     */
-    requireTitle: PropTypes.any,
-
-    /**
-     * title
-     */
-    title: PropTypes.any,
-
-    /**
-     * wrapperClassName
-     */
-    wrapperClassName: PropTypes.any,
-
+    n_clicks: PropTypes.number, disabled: PropTypes.bool, hasDivider: PropTypes.bool, itemText: PropTypes.string,
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+    persistence_type: PropTypes.oneOf(['local','session','memory']),
 };
+
+OverflowMenuItem.defaultProps = { n_clicks: 0, disabled: false, hasDivider: false };
+export default OverflowMenuItem;

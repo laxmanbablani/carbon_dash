@@ -17,27 +17,23 @@ NumberType = typing.Union[
 
 class BreadcrumbItem(Component):
     """A BreadcrumbItem component.
-BreadcrumbItem is a wrapper for the Carbon BreadcrumbItem component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- ariaLabel (string; optional)
 
-- href (string; default '#'):
-    href.
+- className (string; optional)
 
-- isCurrentPage (boolean; default False):
-    isCurrentPage.
+- href (string; optional)
 
-- loading_state (dict; optional):
-    loading_state.
+- isCurrentPage (boolean; default False)
+
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -61,11 +57,12 @@ Keyword arguments:
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         href: typing.Optional[str] = None,
         isCurrentPage: typing.Optional[bool] = None,
+        ariaLabel: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'href', 'isCurrentPage', 'loading_state', 'style']
+        self._prop_names = ['children', 'id', 'ariaLabel', 'className', 'href', 'isCurrentPage', 'loading_state', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'href', 'isCurrentPage', 'loading_state', 'style']
+        self.available_properties = ['children', 'id', 'ariaLabel', 'className', 'href', 'isCurrentPage', 'loading_state', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

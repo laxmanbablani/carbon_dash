@@ -1,201 +1,219 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { Button as CarbonButton, ButtonSkeleton as CarbonButtonSkeleton, AILabel } from '@carbon/react';
+import { resolveIcon } from '../utils/resolveIcon';
 
 /**
  * Button is a wrapper for the Carbon Button component.
  */
-export default class Button extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { n_clicks } = this.props;
+const Button = (props) => {
+    const {
+        id,
+        setProps,
+        children,
+        className = '',
+        style = {},
+        loading_state,
+        n_clicks = 0,
+        kind = 'primary',
+        size = 'lg',
+        disabled = false,
+        isExpressive = false,
+        isSelected = false,
+        hasIconOnly = false,
+        dangerDescription,
+        iconDescription,
+        href,
+        renderIcon,
+        tooltipAlignment,
+        tooltipPosition,
+        aiLabel = false,
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['Button'];
-        if (!RealComponent) {
-            return null;
-        }
-
+    // Show skeleton while loading
+    if (loading_state && loading_state.is_loading) {
         return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    n_clicks={n_clicks}
-                    {...otherProps}
-                />
-            </React.Suspense>
+            <CarbonButtonSkeleton
+                id={id}
+                className={className}
+                style={style}
+                size={size}
+            />
         );
     }
-}
 
-Button.defaultProps = {
-    className: '',
-    n_clicks: 0,
+    const handleClick = () => {
+        if (setProps) {
+            setProps({ n_clicks: n_clicks + 1, n_clicks_timestamp: Date.now() });
+        }
+    };
+
+    const iconElement = resolveIcon(renderIcon);
+    const decorator = aiLabel ? React.createElement(AILabel, { size: 'xs' }) : undefined;
+
+    return (
+        <CarbonButton
+            id={id}
+            className={className}
+            style={style}
+            kind={kind}
+            size={size}
+            disabled={disabled}
+            isExpressive={isExpressive}
+            isSelected={isSelected}
+            hasIconOnly={hasIconOnly}
+            dangerDescription={dangerDescription}
+            iconDescription={iconDescription}
+            href={href}
+            renderIcon={iconElement}
+            tooltipAlignment={tooltipAlignment}
+            tooltipPosition={tooltipPosition}
+            decorator={decorator}
+            onClick={handleClick}
+            {...others}
+        >
+            {children}
+        </CarbonButton>
+    );
 };
 
 Button.propTypes = {
-    /** id */
+    /**
+     * The ID used to identify this component in Dash callbacks.
+     */
     id: PropTypes.string,
 
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
+    /**
+     * Dash-assigned callback for reactivity.
+     */
     setProps: PropTypes.func,
 
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
-    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
     /**
-     * as
+     * The content of the button.
      */
-    as_: PropTypes.any,
+    children: PropTypes.node,
 
     /**
-     * autoAlign
+     * Specify a custom className to be applied to the component.
      */
-    autoAlign: PropTypes.any,
+    className: PropTypes.string,
 
     /**
-     * dangerDescription
+     * Inline styles.
      */
-    dangerDescription: PropTypes.any,
+    style: PropTypes.object,
 
     /**
-     * disabled
+     * Dash loading state.
      */
-    disabled: PropTypes.any,
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
     /**
-     * hasIconOnly
+     * An integer that represents the number of times that this element has been clicked.
      */
-    hasIconOnly: PropTypes.any,
+    n_clicks: PropTypes.number,
 
     /**
-     * href
+     * Timestamp of the last click in milliseconds since epoch.
      */
-    href: PropTypes.any,
+    n_clicks_timestamp: PropTypes.number,
 
     /**
-     * iconDescription
+     * Specify the kind of button. Default: 'primary'.
      */
-    iconDescription: PropTypes.any,
+    kind: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'ghost', 'danger']),
 
     /**
-     * isExpressive
+     * Specify the size of the button. Default: 'lg'.
      */
-    isExpressive: PropTypes.any,
+    size: PropTypes.oneOf(['sm', 'md', 'lg', 'xl', '2xl']),
 
     /**
-     * isSelected
+     * Whether the button is disabled.
      */
-    isSelected: PropTypes.any,
+    disabled: PropTypes.bool,
 
     /**
-     * kind
+     * Enable expressive styling.
      */
-    kind: PropTypes.any,
+    isExpressive: PropTypes.bool,
 
     /**
-     * onBlur
+     * Whether the button is in a selected state.
      */
-    onBlur: PropTypes.any,
+    isSelected: PropTypes.bool,
 
     /**
-     * onClick
+     * Whether the button should only render an icon.
      */
-    onClick: PropTypes.any,
+    hasIconOnly: PropTypes.bool,
 
     /**
-     * onFocus
+     * Description for the danger variant (screen readers).
      */
-    onFocus: PropTypes.any,
+    dangerDescription: PropTypes.string,
 
     /**
-     * onMouseEnter
+     * Icon description for screen readers.
      */
-    onMouseEnter: PropTypes.any,
+    iconDescription: PropTypes.string,
 
     /**
-     * onMouseLeave
+     * If provided, renders as a link.
      */
-    onMouseLeave: PropTypes.any,
+    href: PropTypes.string,
 
     /**
-     * rel
-     */
-    rel: PropTypes.any,
-
-    /**
-     * renderIcon
+     * An icon component to render in the button.
+     * Accepts DashIconify, html.Div, Carbon icon name string, or any React node.
      */
     renderIcon: PropTypes.node,
 
     /**
-     * role
+     * Tooltip alignment.
      */
-    role: PropTypes.any,
+    tooltipAlignment: PropTypes.oneOf(['start', 'center', 'end']),
 
     /**
-     * size
+     * Tooltip position.
      */
-    size: PropTypes.any,
+    tooltipPosition: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
 
     /**
-     * tabIndex
+     * Whether to render the AI label decorator.
      */
-    tabIndex: PropTypes.any,
+    aiLabel: PropTypes.bool,
 
     /**
-     * target
+     * Used to allow user interactions in this component to be persisted.
      */
-    target: PropTypes.any,
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
 
     /**
-     * tooltipAlignment
+     * Properties whose user interactions will persist.
      */
-    tooltipAlignment: PropTypes.any,
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
 
     /**
-     * tooltipDropShadow
+     * Where persisted user changes will be stored.
      */
-    tooltipDropShadow: PropTypes.any,
-
-    /**
-     * tooltipHighContrast
-     */
-    tooltipHighContrast: PropTypes.any,
-
-    /**
-     * tooltipPosition
-     */
-    tooltipPosition: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * n_clicks
-     */
-    n_clicks: PropTypes.number,
-
+    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
 };
+
+Button.defaultProps = {
+    kind: 'primary',
+    size: 'lg',
+    disabled: false,
+    isExpressive: false,
+    isSelected: false,
+    hasIconOnly: false,
+    aiLabel: false,
+    n_clicks: 0,
+};
+
+export default Button;

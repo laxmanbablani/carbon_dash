@@ -1,135 +1,107 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { FluidSearch as CarbonFluidSearch, FluidSearchSkeleton as CarbonFluidSearchSkeleton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
 /**
- * FluidSearch is a wrapper for the Carbon FluidSearch component.
+ * FluidSearch is a full-width Search component.
  */
-export default class FluidSearch extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { value } = this.props;
+const FluidSearch = (props) => {
+    const {
+        id,
+        children,
+        className = '',
+        style = {},
+        loading_state,
+        labelText,
+        placeholder,
+        value,
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['FluidSearch'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    value={value}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonFluidSearchSkeleton id={id} className={className} />;
     }
-}
 
-FluidSearch.defaultProps = {
-    className: '',
-    value: '',
+    const handleChange = (e) => {
+        if (props.setProps) {
+            const target = e && e.target;
+            props.setProps({ value: target ? target.value : e });
+        }
+    };
+
+    return (
+        <CarbonFluidSearch
+            id={id}
+            className={className}
+            style={style}
+            labelText={labelText}
+            placeholder={placeholder}
+            value={value}
+            onChange={handleChange}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonFluidSearch>
+    );
 };
 
 FluidSearch.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
 
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
+    /** Dash callback to update props */
     setProps: PropTypes.func,
 
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
+    /** The content of the search */
+    children: PropTypes.node,
 
-    /** persistence */
+    /** Custom CSS class */
+    className: PropTypes.string,
+
+    /** Inline styles */
+    style: PropTypes.object,
+
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
+
+    /** Provide the label text for the search */
+    labelText: PropTypes.node,
+
+    /** Provide the placeholder text for the search */
+    placeholder: PropTypes.string,
+
+    /** The value of the search input */
+    value: PropTypes.string,
+
+    /** Specify whether the search is disabled */
+    disabled: PropTypes.bool,
+
+    /** Specify whether the search is in an invalid state */
+    invalid: PropTypes.bool,
+
+    /** Specify whether the search is in a warning state */
+    warn: PropTypes.bool,
+
+    /** Specify the size of the search */
+    size: PropTypes.oneOf(['sm', 'md', 'lg']),
+
+    /** Persistence settings */
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
     persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
     persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * autoComplete
-     */
-    autoComplete: PropTypes.any,
-
-    /**
-     * closeButtonLabelText
-     */
-    closeButtonLabelText: PropTypes.any,
-
-    /**
-     * defaultValue
-     */
-    defaultValue: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * labelText
-     */
-    labelText: PropTypes.any,
-
-    /**
-     * onClear
-     */
-    onClear: PropTypes.any,
-
-    /**
-     * onKeyDown
-     */
-    onKeyDown: PropTypes.any,
-
-    /**
-     * placeholder
-     */
-    placeholder: PropTypes.any,
-
-    /**
-     * role
-     */
-    role: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
 };
+
+FluidSearch.defaultProps = {
+    disabled: false,
+    invalid: false,
+    warn: false,
+    size: 'md',
+};
+
+export default FluidSearch;

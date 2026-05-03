@@ -1,64 +1,41 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { ButtonSet as CarbonButtonSet } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * ButtonSet is a wrapper for the Carbon ButtonSet component.
- */
-export default class ButtonSet extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['ButtonSet'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-ButtonSet.defaultProps = {
-    className: '',
+const ButtonSet = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    return (
+        <CarbonButtonSet
+            id={id}
+            className={className}
+            style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonButtonSet>
+    );
 };
 
 ButtonSet.propTypes = {
-    /** id */
     id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
     setProps: PropTypes.func,
-
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * fluid
-     */
-    fluid: PropTypes.any,
-
-    /**
-     * stacked
-     */
-    stacked: PropTypes.any,
-
+    children: PropTypes.node,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
+    fluid: PropTypes.bool,
+    stacked: PropTypes.bool,
 };
+
+ButtonSet.defaultProps = {
+    fluid: false,
+    stacked: false,
+};
+
+export default ButtonSet;

@@ -17,30 +17,23 @@ NumberType = typing.Union[
 
 class HeaderMenu(Component):
     """A HeaderMenu component.
-HeaderMenu is a wrapper for the Carbon HeaderMenu component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- ariaLabel (string; optional):
+    Menu link name for accessibility.
 
-- focusRef (boolean | number | string | dict | list; optional):
-    focusRef.
+- className (string; optional)
 
-- isActive (boolean | number | string | dict | list; optional):
-    isActive.
+- isActive (boolean; optional):
+    Whether the menu is active.
 
-- isCurrentPage (boolean | number | string | dict | list; optional):
-    isCurrentPage.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -50,23 +43,8 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- menuLinkName (boolean | number | string | dict | list; optional):
-    menuLinkName.
-
-- onBlur (boolean | number | string | dict | list; optional):
-    onBlur.
-
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
-
-- onKeyDown (boolean | number | string | dict | list; optional):
-    onKeyDown.
-
-- renderMenuContent (boolean | number | string | dict | list; optional):
-    renderMenuContent.
-
-- tabIndex (boolean | number | string | dict | list; optional):
-    tabIndex."""
+- menuLinkName (string; optional):
+    The label for the menu."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -80,20 +58,14 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        focusRef: typing.Optional[typing.Any] = None,
-        isActive: typing.Optional[typing.Any] = None,
-        isCurrentPage: typing.Optional[typing.Any] = None,
-        menuLinkName: typing.Optional[typing.Any] = None,
-        onBlur: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        onKeyDown: typing.Optional[typing.Any] = None,
-        renderMenuContent: typing.Optional[typing.Any] = None,
-        tabIndex: typing.Optional[typing.Any] = None,
+        ariaLabel: typing.Optional[str] = None,
+        menuLinkName: typing.Optional[str] = None,
+        isActive: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'focusRef', 'isActive', 'isCurrentPage', 'loading_state', 'menuLinkName', 'onBlur', 'onClick', 'onKeyDown', 'renderMenuContent', 'style', 'tabIndex']
+        self._prop_names = ['children', 'id', 'ariaLabel', 'className', 'isActive', 'loading_state', 'menuLinkName', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'focusRef', 'isActive', 'isCurrentPage', 'loading_state', 'menuLinkName', 'onBlur', 'onClick', 'onKeyDown', 'renderMenuContent', 'style', 'tabIndex']
+        self.available_properties = ['children', 'id', 'ariaLabel', 'className', 'isActive', 'loading_state', 'menuLinkName', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

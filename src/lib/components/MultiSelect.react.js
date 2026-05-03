@@ -1,227 +1,42 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { MultiSelect as CarbonMultiSelect } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * MultiSelect is a wrapper for the Carbon MultiSelect component.
- */
-export default class MultiSelect extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { open } = this.props;
+const MultiSelect = (props) => {
+    const { id, children, className = '', style = {}, loading_state, items = [], selectedItems = [], ...others } = props;
 
-        const RealComponent = LazyLoader['MultiSelect'];
-        if (!RealComponent) {
-            return null;
-        }
+    const handleChange = ({ selectedItems: sel }) => {
+        if (props.setProps) props.setProps({ selectedItems: sel || [] });
+    };
 
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    open={open}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-MultiSelect.defaultProps = {
-    className: '',
-    open: false,
+    return (
+        <CarbonMultiSelect
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            items={items} selectedItems={selectedItems}
+            onChange={handleChange}
+            {...others}
+        >
+            {children}
+        </CarbonMultiSelect>
+    );
 };
 
 MultiSelect.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func,
+    children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * autoAlign
-     */
-    autoAlign: PropTypes.any,
-
-    /**
-     * clearSelectionDescription
-     */
-    clearSelectionDescription: PropTypes.any,
-
-    /**
-     * clearSelectionText
-     */
-    clearSelectionText: PropTypes.any,
-
-    /**
-     * compareItems
-     */
-    compareItems: PropTypes.any,
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * direction
-     */
-    direction: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * downshiftProps
-     */
-    downshiftProps: PropTypes.any,
-
-    /**
-     * helperText
-     */
-    helperText: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * initialSelectedItems
-     */
-    initialSelectedItems: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * itemToElement
-     */
-    itemToElement: PropTypes.any,
-
-    /**
-     * itemToString
-     */
-    itemToString: PropTypes.any,
-
-    /**
-     * items
-     */
-    items: PropTypes.any,
-
-    /**
-     * label
-     */
-    label: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * locale
-     */
-    locale: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onMenuChange
-     */
-    onMenuChange: PropTypes.any,
-
-    /**
-     * open
-     */
-    open: PropTypes.bool,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * selectedItems
-     */
-    selectedItems: PropTypes.any,
-
-    /**
-     * selectionFeedback
-     */
-    selectionFeedback: PropTypes.any,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
-    /**
-     * sortItems
-     */
-    sortItems: PropTypes.any,
-
-    /**
-     * titleText
-     */
-    titleText: PropTypes.any,
-
-    /**
-     * translateWithId
-     */
-    translateWithId: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * useTitleInItem
-     */
-    useTitleInItem: PropTypes.any,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
+    items: PropTypes.array,
+    selectedItems: PropTypes.array,
+    label: PropTypes.node, helperText: PropTypes.node, titleText: PropTypes.node,
+    disabled: PropTypes.bool, invalid: PropTypes.bool, invalidText: PropTypes.node,
+    warn: PropTypes.bool, warnText: PropTypes.node, size: PropTypes.oneOf(['sm','md','lg']),
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+    persistence_type: PropTypes.oneOf(['local','session','memory']),
 };
+
+MultiSelect.defaultProps = { items: [], selectedItems: [], disabled: false, size: 'md' };
+
+export default MultiSelect;

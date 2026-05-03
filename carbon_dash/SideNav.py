@@ -17,51 +17,65 @@ NumberType = typing.Union[
 
 class SideNav(Component):
     """A SideNav component.
-SideNav is a wrapper for the Carbon SideNav component.
+
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the side navigation.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- addFocusListeners (boolean | number | string | dict | list; optional):
-    addFocusListeners.
+- addFocusListeners (boolean; default True):
+    Specify whether focus and blur listeners are added. They are by
+    default.
 
-- addMouseListeners (boolean | number | string | dict | list; optional):
-    addMouseListeners.
+- addMouseListeners (boolean; default True):
+    Specify whether mouse entry/exit listeners are added. They are by
+    default.
 
-- className (string; default ''):
-    className.
+- ariaLabel (string; optional):
+    Required props for accessibility label on the underlying menu.
+    Provide an aria-label.
 
-- defaultExpanded (boolean | number | string | dict | list; optional):
-    defaultExpanded.
+- ariaLabelledBy (string; optional):
+    Required props for accessibility label on the underlying menu.
+    Provide an aria-labelledby.
 
-- enterDelayMs (boolean | number | string | dict | list; optional):
-    enterDelayMs.
+- className (string; optional):
+    Custom CSS class.
 
-- expanded (boolean; default False):
-    expanded.
+- defaultExpanded (boolean; optional):
+    If `True`, the SideNav will be open on initial render.
 
-- href (boolean | number | string | dict | list; optional):
-    href.
+- enterDelayMs (number; optional):
+    Specify the duration in milliseconds to delay before displaying
+    the side navigation.
 
-- isChildOfHeader (boolean | number | string | dict | list; optional):
-    isChildOfHeader.
+- expanded (boolean; default True):
+    If `True`, the SideNav will be expanded, otherwise it will be
+    collapsed. Using this prop causes SideNav to become a controlled
+    component.
 
-- isFixedNav (boolean | number | string | dict | list; optional):
-    isFixedNav.
+- href (string; optional):
+    Provide the `href` to the id of the element on your package that
+    is the main content.
 
-- isPersistent (boolean | number | string | dict | list; optional):
-    isPersistent.
+- isChildOfHeader (boolean; default True):
+    Specify if sideNav is a child of the header.
 
-- isRail (boolean | number | string | dict | list; optional):
-    isRail.
+- isFixedNav (boolean; default False):
+    Specify if sideNav is standalone.
+
+- isPersistent (boolean; default True):
+    Specify if the sideNav will be persistent above the lg breakpoint.
+
+- isRail (boolean; default False):
+    Optional prop to display the side nav rail.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -69,16 +83,7 @@ Keyword arguments:
 
     - prop_name (string; optional)
 
-    - component_name (string; optional)
-
-- onOverlayClick (boolean | number | string | dict | list; optional):
-    onOverlayClick.
-
-- onSideNavBlur (boolean | number | string | dict | list; optional):
-    onSideNavBlur.
-
-- onToggle (boolean | number | string | dict | list; optional):
-    onToggle."""
+    - component_name (string; optional)"""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -92,24 +97,26 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        addFocusListeners: typing.Optional[typing.Any] = None,
-        addMouseListeners: typing.Optional[typing.Any] = None,
-        defaultExpanded: typing.Optional[typing.Any] = None,
-        enterDelayMs: typing.Optional[typing.Any] = None,
+        ariaLabel: typing.Optional[str] = None,
+        ariaLabelledBy: typing.Optional[str] = None,
+        addFocusListeners: typing.Optional[bool] = None,
+        addMouseListeners: typing.Optional[bool] = None,
+        defaultExpanded: typing.Optional[bool] = None,
+        enterDelayMs: typing.Optional[NumberType] = None,
         expanded: typing.Optional[bool] = None,
-        href: typing.Optional[typing.Any] = None,
-        isChildOfHeader: typing.Optional[typing.Any] = None,
-        isFixedNav: typing.Optional[typing.Any] = None,
-        isPersistent: typing.Optional[typing.Any] = None,
-        isRail: typing.Optional[typing.Any] = None,
+        href: typing.Optional[str] = None,
+        isChildOfHeader: typing.Optional[bool] = None,
+        isFixedNav: typing.Optional[bool] = None,
+        isPersistent: typing.Optional[bool] = None,
+        isRail: typing.Optional[bool] = None,
         onOverlayClick: typing.Optional[typing.Any] = None,
         onSideNavBlur: typing.Optional[typing.Any] = None,
         onToggle: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'addFocusListeners', 'addMouseListeners', 'className', 'defaultExpanded', 'enterDelayMs', 'expanded', 'href', 'isChildOfHeader', 'isFixedNav', 'isPersistent', 'isRail', 'loading_state', 'onOverlayClick', 'onSideNavBlur', 'onToggle', 'style']
+        self._prop_names = ['children', 'id', 'addFocusListeners', 'addMouseListeners', 'ariaLabel', 'ariaLabelledBy', 'className', 'defaultExpanded', 'enterDelayMs', 'expanded', 'href', 'isChildOfHeader', 'isFixedNav', 'isPersistent', 'isRail', 'loading_state', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'addFocusListeners', 'addMouseListeners', 'className', 'defaultExpanded', 'enterDelayMs', 'expanded', 'href', 'isChildOfHeader', 'isFixedNav', 'isPersistent', 'isRail', 'loading_state', 'onOverlayClick', 'onSideNavBlur', 'onToggle', 'style']
+        self.available_properties = ['children', 'id', 'addFocusListeners', 'addMouseListeners', 'ariaLabel', 'ariaLabelledBy', 'className', 'defaultExpanded', 'enterDelayMs', 'expanded', 'href', 'isChildOfHeader', 'isFixedNav', 'isPersistent', 'isRail', 'loading_state', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

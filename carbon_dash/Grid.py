@@ -18,32 +18,30 @@ NumberType = typing.Union[
 class Grid(Component):
     """A Grid component.
 Grid is a wrapper for the Carbon Grid component.
+Provides the top-level grid container for layout.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the grid.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- align (boolean | number | string | dict | list; optional):
-    align.
+- align (a value equal to: 'start', 'center', 'end'; optional):
+    Specify grid alignment: 'start', 'center', or 'end'.
 
-- as_ (boolean | number | string | dict | list; optional):
-    as.
-
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
 - condensed (boolean; default False):
-    condensed.
+    Collapse the gutter to 1px. Useful for fluid layouts.
 
 - fullWidth (boolean; default False):
-    fullWidth.
+    Remove the default max width the grid has set.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -54,7 +52,8 @@ Keyword arguments:
     - component_name (string; optional)
 
 - narrow (boolean; default False):
-    narrow."""
+    Container hangs 16px into the gutter. Useful for typographic
+    alignment."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -68,16 +67,15 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        align: typing.Optional[typing.Any] = None,
-        as_: typing.Optional[typing.Any] = None,
+        align: typing.Optional[Literal["start", "center", "end"]] = None,
         condensed: typing.Optional[bool] = None,
         fullWidth: typing.Optional[bool] = None,
         narrow: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'align', 'as_', 'className', 'condensed', 'fullWidth', 'loading_state', 'narrow', 'style']
+        self._prop_names = ['children', 'id', 'align', 'className', 'condensed', 'fullWidth', 'loading_state', 'narrow', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'align', 'as_', 'className', 'condensed', 'fullWidth', 'loading_state', 'narrow', 'style']
+        self.available_properties = ['children', 'id', 'align', 'className', 'condensed', 'fullWidth', 'loading_state', 'narrow', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

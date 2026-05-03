@@ -17,30 +17,27 @@ NumberType = typing.Union[
 
 class FluidTimePickerSelect(Component):
     """A FluidTimePickerSelect component.
-FluidTimePickerSelect is a wrapper for the Carbon FluidTimePickerSelect component.
+FluidTimePickerSelect is a full-width TimePickerSelect component.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the time picker select (SelectItem components).
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- defaultValue (boolean | number | string | dict | list; optional):
-    defaultValue.
+- disabled (boolean; default False):
+    Specify whether the control is disabled.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
-
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Provide the label text for the time picker select.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -50,10 +47,14 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- persisted_props (list of strings; optional)
+
+- persistence (boolean | string | number; optional):
+    Persistence settings.
+
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)"""
+    _children_props: typing.List[str] = ['labelText']
+    _base_nodes = ['labelText', 'children']
     _namespace = 'carbon_dash'
     _type = 'FluidTimePickerSelect'
 
@@ -65,15 +66,16 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        defaultValue: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        disabled: typing.Optional[bool] = None,
+        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
+        persisted_props: typing.Optional[typing.Sequence[str]] = None,
+        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'defaultValue', 'disabled', 'labelText', 'loading_state', 'onChange', 'style']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'defaultValue', 'disabled', 'labelText', 'loading_state', 'onChange', 'style']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

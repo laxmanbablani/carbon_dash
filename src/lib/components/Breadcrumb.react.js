@@ -1,67 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { Breadcrumb as CarbonBreadcrumb, BreadcrumbSkeleton as CarbonBreadcrumbSkeleton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * Breadcrumb is a wrapper for the Carbon Breadcrumb component.
- */
-export default class Breadcrumb extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { noTrailingSlash } = this.props;
-
-        const RealComponent = LazyLoader['Breadcrumb'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    noTrailingSlash={noTrailingSlash}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+const Breadcrumb = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonBreadcrumbSkeleton id={id} className={className} />;
     }
-}
-
-Breadcrumb.defaultProps = {
-    className: '',
-    noTrailingSlash: false,
+    return <CarbonBreadcrumb id={id} className={className} style={style} data-dash-is-loading={getLoadingState(loading_state) || undefined} {...others}>{children}</CarbonBreadcrumb>;
 };
-
 Breadcrumb.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * noTrailingSlash
-     */
-    noTrailingSlash: PropTypes.bool,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
+    noTrailingSlash: PropTypes.bool, size: PropTypes.oneOf(['sm','md']), ariaLabel: PropTypes.string,
 };
+Breadcrumb.defaultProps = { noTrailingSlash: false, size: 'md' };
+export default Breadcrumb;

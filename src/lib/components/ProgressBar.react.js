@@ -1,115 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { ProgressBar as CarbonProgressBar } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * ProgressBar is a wrapper for the Carbon ProgressBar component.
- */
-export default class ProgressBar extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { value } = this.props;
-
-        const RealComponent = LazyLoader['ProgressBar'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    value={value}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-ProgressBar.defaultProps = {
-    className: '',
-    value: '',
+const ProgressBar = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    return <CarbonProgressBar id={id} className={className} style={style} data-dash-is-loading={getLoadingState(loading_state) || undefined} {...others}>{children}</CarbonProgressBar>;
 };
-
 ProgressBar.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
+    value: PropTypes.number, max: PropTypes.number, label: PropTypes.node, helperText: PropTypes.node,
+    hideLabel: PropTypes.bool, size: PropTypes.oneOf(['big','small']),
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * helperText
-     */
-    helperText: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * label
-     */
-    label: PropTypes.any,
-
-    /**
-     * max
-     */
-    max: PropTypes.any,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
-    /**
-     * status
-     */
-    status: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.any,
-
+    persisted_props: PropTypes.arrayOf(PropTypes.string), persistence_type: PropTypes.oneOf(['local','session','memory']),
 };
+ProgressBar.defaultProps = { value: 0, max: 100, size: 'big' };
+export default ProgressBar;

@@ -17,42 +17,35 @@ NumberType = typing.Union[
 
 class TimePicker(Component):
     """A TimePicker component.
-TimePicker is a wrapper for the Carbon TimePicker component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- debounce (boolean | number; optional):
-    debounce.
+- disabled (boolean; default False):
+    Whether disabled.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- hideLabel (boolean; optional):
+    Hide label.
 
-- hideLabel (boolean | number | string | dict | list; optional):
-    hideLabel.
+- invalid (boolean; optional):
+    Whether invalid.
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
+- invalidText (a list of or a singular dash component, string or number; optional):
+    Invalid text.
 
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Label text.
 
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
+- light (boolean; optional):
+    Light variant.
 
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -62,58 +55,34 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- maxLength (boolean | number | string | dict | list; optional):
-    maxLength.
+- pattern (string; optional):
+    Format pattern.
 
-- n_blur (number; optional):
-    n_blur.
+- persisted_props (list of strings; optional)
 
-- n_submit (number; optional):
-    n_submit.
+- persistence (boolean | string | number; optional)
 
-- onBlur (boolean | number | string | dict | list; optional):
-    onBlur.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- placeholder (string; optional):
+    Placeholder.
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
+- readOnly (boolean; optional):
+    Whether readonly.
 
-- pattern (boolean | number | string | dict | list; optional):
-    pattern.
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md'):
+    Size.
 
-- persisted_props (list of strings; optional):
-    persisted_props.
+- timeFormat (a value equal to: '12', '24'; default '12'):
+    Time format: '12' or '24'.
 
-- persistence (boolean | string | number; optional):
-    persistence.
+- type (string; optional):
+    Type.
 
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- placeholder (boolean | number | string | dict | list; optional):
-    placeholder.
-
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
-
-- size (boolean | number | string | dict | list; optional):
-    size.
-
-- type (boolean | number | string | dict | list; optional):
-    type.
-
-- value (boolean | number | string | dict | list; default ''):
-    value.
-
-- warning (boolean | number | string | dict | list; optional):
-    warning.
-
-- warningText (boolean | number | string | dict | list; optional):
-    warningText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- value (string; optional):
+    Current time value."""
+    _children_props: typing.List[str] = ['labelText', 'invalidText']
+    _base_nodes = ['labelText', 'invalidText', 'children']
     _namespace = 'carbon_dash'
     _type = 'TimePicker'
 
@@ -125,35 +94,27 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        value: typing.Optional[str] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        placeholder: typing.Optional[str] = None,
+        disabled: typing.Optional[bool] = None,
+        invalid: typing.Optional[bool] = None,
+        invalidText: typing.Optional[ComponentType] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
+        light: typing.Optional[bool] = None,
+        hideLabel: typing.Optional[bool] = None,
+        readOnly: typing.Optional[bool] = None,
+        pattern: typing.Optional[str] = None,
+        type: typing.Optional[str] = None,
+        timeFormat: typing.Optional[Literal["12", "24"]] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        hideLabel: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        maxLength: typing.Optional[typing.Any] = None,
-        onBlur: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        pattern: typing.Optional[typing.Any] = None,
-        placeholder: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        size: typing.Optional[typing.Optional[str]] = None,
-        type: typing.Optional[typing.Any] = None,
-        value: typing.Optional[typing.Any] = None,
-        warning: typing.Optional[typing.Any] = None,
-        warningText: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'debounce', 'disabled', 'hideLabel', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'maxLength', 'n_blur', 'n_submit', 'onBlur', 'onChange', 'onClick', 'pattern', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'size', 'style', 'type', 'value', 'warning', 'warningText']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'hideLabel', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'pattern', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'size', 'style', 'timeFormat', 'type', 'value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'debounce', 'disabled', 'hideLabel', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'maxLength', 'n_blur', 'n_submit', 'onBlur', 'onChange', 'onClick', 'pattern', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'size', 'style', 'type', 'value', 'warning', 'warningText']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'hideLabel', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'pattern', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'size', 'style', 'timeFormat', 'type', 'value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

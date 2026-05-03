@@ -1,99 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
-
-/**
- * HeaderMenu is a wrapper for the Carbon HeaderMenu component.
- */
-export default class HeaderMenu extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['HeaderMenu'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-HeaderMenu.defaultProps = {
-    className: '',
+import { HeaderMenu as CarbonHeaderMenu } from '@carbon/react';
+const HeaderMenu = (props) => {
+    const { id, children, className, style, loading_state, ...others } = props;
+    return <CarbonHeaderMenu id={id} className={className} style={style} data-dash-is-loading={loading_state?.is_loading||undefined} {...others}>{children}</CarbonHeaderMenu>;
 };
-
 HeaderMenu.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * focusRef
-     */
-    focusRef: PropTypes.any,
-
-    /**
-     * isActive
-     */
-    isActive: PropTypes.any,
-
-    /**
-     * isCurrentPage
-     */
-    isCurrentPage: PropTypes.any,
-
-    /**
-     * menuLinkName
-     */
-    menuLinkName: PropTypes.any,
-
-    /**
-     * onBlur
-     */
-    onBlur: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * onKeyDown
-     */
-    onKeyDown: PropTypes.any,
-
-    /**
-     * renderMenuContent
-     */
-    renderMenuContent: PropTypes.any,
-
-    /**
-     * tabIndex
-     */
-    tabIndex: PropTypes.any,
-
+    /** Menu link name for accessibility */
+    ariaLabel: PropTypes.string,
+    /** The label for the menu */
+    menuLinkName: PropTypes.string,
+    /** Whether the menu is active */
+    isActive: PropTypes.bool,
 };
+export default HeaderMenu;

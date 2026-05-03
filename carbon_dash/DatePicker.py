@@ -17,57 +17,32 @@ NumberType = typing.Union[
 
 class DatePicker(Component):
     """A DatePicker component.
-DatePicker is a wrapper for the Carbon DatePicker component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- allowInput (boolean | number | string | dict | list; optional):
-    allowInput.
+- className (string; optional)
 
-- appendTo (boolean | number | string | dict | list; optional):
-    appendTo.
+- dateFormat (string; optional):
+    Format pattern for dates.
 
-- className (string; default ''):
-    className.
+- datePickerType (a value equal to: 'single', 'range'; default 'single'):
+    Date picker type: 'single' or 'range'.
 
-- closeOnSelect (boolean | number | string | dict | list; optional):
-    closeOnSelect.
+- defaultValue (string | list of strings; optional):
+    Default value.
 
-- dateFormat (boolean | number | string | dict | list; optional):
-    dateFormat.
+- disabled (boolean; default False):
+    Whether disabled.
 
-- datePickerType (string; default 'single'):
-    datePickerType.
+- light (boolean; default False):
+    Light variant.
 
-- debounce (boolean | number; optional):
-    debounce.
-
-- disable (boolean | number | string | dict | list; optional):
-    disable.
-
-- enable (boolean | number | string | dict | list; optional):
-    enable.
-
-- inline (boolean | number | string | dict | list; optional):
-    inline.
-
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
-
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
-
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -77,62 +52,30 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- locale (boolean | number | string | dict | list; optional):
-    locale.
+- locale (string; optional):
+    Locale for formatting.
 
-- maxDate (boolean | number | string | dict | list; optional):
-    maxDate.
+- maxDate (string; optional):
+    Maximum date.
 
-- minDate (boolean | number | string | dict | list; optional):
-    minDate.
+- minDate (string; optional):
+    Minimum date.
 
-- n_blur (number; optional):
-    n_blur.
+- persisted_props (list of strings; optional)
 
-- n_submit (number; optional):
-    n_submit.
+- persistence (boolean | string | number; optional)
 
-- nextMonthAriaLabel (boolean | number | string | dict | list; optional):
-    nextMonthAriaLabel.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- readOnly (boolean; default False):
+    Whether readonly.
 
-- onClose (boolean | number | string | dict | list; optional):
-    onClose.
+- short (boolean; default False):
+    Short style without calendar.
 
-- onOpen (boolean | number | string | dict | list; optional):
-    onOpen.
-
-- parseDate (boolean | number | string | dict | list; optional):
-    parseDate.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
-
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- prevMonthAriaLabel (boolean | number | string | dict | list; optional):
-    prevMonthAriaLabel.
-
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
-
-- short (boolean | number | string | dict | list; optional):
-    short.
-
-- value (boolean | number | string | dict | list; default ''):
-    value.
-
-- warn (boolean | number | string | dict | list; optional):
-    warn.
-
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
+- value (string | list of strings; optional):
+    The current date value(s). For single: string. For range: [start,
+    end]."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -146,42 +89,25 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        datePickerType: typing.Optional[Literal["single", "range"]] = None,
+        value: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        dateFormat: typing.Optional[str] = None,
+        defaultValue: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        disabled: typing.Optional[bool] = None,
+        readOnly: typing.Optional[bool] = None,
+        light: typing.Optional[bool] = None,
+        short: typing.Optional[bool] = None,
+        minDate: typing.Optional[str] = None,
+        maxDate: typing.Optional[str] = None,
+        locale: typing.Optional[str] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        allowInput: typing.Optional[typing.Any] = None,
-        appendTo: typing.Optional[typing.Any] = None,
-        closeOnSelect: typing.Optional[typing.Any] = None,
-        dateFormat: typing.Optional[typing.Any] = None,
-        datePickerType: typing.Optional[str] = None,
-        disable: typing.Optional[typing.Any] = None,
-        enable: typing.Optional[typing.Any] = None,
-        inline: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        maxDate: typing.Optional[typing.Any] = None,
-        minDate: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onClose: typing.Optional[typing.Any] = None,
-        onOpen: typing.Optional[typing.Any] = None,
-        parseDate: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        short: typing.Optional[typing.Any] = None,
-        value: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        nextMonthAriaLabel: typing.Optional[typing.Any] = None,
-        prevMonthAriaLabel: typing.Optional[typing.Any] = None,
-        locale: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'allowInput', 'appendTo', 'className', 'closeOnSelect', 'dateFormat', 'datePickerType', 'debounce', 'disable', 'enable', 'inline', 'invalid', 'invalidText', 'light', 'loading_state', 'locale', 'maxDate', 'minDate', 'n_blur', 'n_submit', 'nextMonthAriaLabel', 'onChange', 'onClose', 'onOpen', 'parseDate', 'persisted_props', 'persistence', 'persistence_type', 'prevMonthAriaLabel', 'readOnly', 'short', 'style', 'value', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'className', 'dateFormat', 'datePickerType', 'defaultValue', 'disabled', 'light', 'loading_state', 'locale', 'maxDate', 'minDate', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'short', 'style', 'value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'allowInput', 'appendTo', 'className', 'closeOnSelect', 'dateFormat', 'datePickerType', 'debounce', 'disable', 'enable', 'inline', 'invalid', 'invalidText', 'light', 'loading_state', 'locale', 'maxDate', 'minDate', 'n_blur', 'n_submit', 'nextMonthAriaLabel', 'onChange', 'onClose', 'onOpen', 'parseDate', 'persisted_props', 'persistence', 'persistence_type', 'prevMonthAriaLabel', 'readOnly', 'short', 'style', 'value', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'className', 'dateFormat', 'datePickerType', 'defaultValue', 'disabled', 'light', 'loading_state', 'locale', 'maxDate', 'minDate', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'short', 'style', 'value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

@@ -1,190 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { PasswordInput as CarbonPasswordInput } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * PasswordInput is a wrapper for the Carbon PasswordInput component.
- */
-export default class PasswordInput extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { value } = this.props;
-
-        const RealComponent = LazyLoader['PasswordInput'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    value={value}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-PasswordInput.defaultProps = {
-    className: '',
-    value: '',
+const PasswordInput = (props) => {
+    const { id, children, className = '', style = {}, loading_state, value, ...others } = props;
+    const handleChange = (e) => { if (props.setProps) props.setProps({ value: e.target?.value ?? e }); };
+    return <CarbonPasswordInput id={id} className={className} style={style} value={value} onChange={handleChange} data-dash-is-loading={getLoadingState(loading_state) || undefined} {...others}>{children}</CarbonPasswordInput>;
 };
-
 PasswordInput.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    labelText: PropTypes.node, helperText: PropTypes.node, placeholder: PropTypes.string,
+    disabled: PropTypes.bool, invalid: PropTypes.bool, invalidText: PropTypes.node,
+    hideLabel: PropTypes.bool, hidePasswordLabel: PropTypes.string, showPasswordLabel: PropTypes.string,
+    size: PropTypes.oneOf(['sm','md','lg']), light: PropTypes.bool, tooltipPosition: PropTypes.string,
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * defaultValue
-     */
-    defaultValue: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * helperText
-     */
-    helperText: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * hidePasswordLabel
-     */
-    hidePasswordLabel: PropTypes.any,
-
-    /**
-     * inline
-     */
-    inline: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * labelText
-     */
-    labelText: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * onTogglePasswordVisibility
-     */
-    onTogglePasswordVisibility: PropTypes.any,
-
-    /**
-     * placeholder
-     */
-    placeholder: PropTypes.any,
-
-    /**
-     * showPasswordLabel
-     */
-    showPasswordLabel: PropTypes.any,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
-    /**
-     * tooltipAlignment
-     */
-    tooltipAlignment: PropTypes.any,
-
-    /**
-     * tooltipPosition
-     */
-    tooltipPosition: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.any,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
+    persisted_props: PropTypes.arrayOf(PropTypes.string), persistence_type: PropTypes.oneOf(['local','session','memory']),
 };
+PasswordInput.defaultProps = { disabled: false, invalid: false, hideLabel: false, size: 'md' };
+export default PasswordInput;

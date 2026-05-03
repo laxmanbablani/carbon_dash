@@ -17,33 +17,23 @@ NumberType = typing.Union[
 
 class ExpandableTile(Component):
     """An ExpandableTile component.
-ExpandableTile is a wrapper for the Carbon ExpandableTile component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- belowFold (boolean; optional):
+    Whether this is the below-fold content.
 
-- decorator (boolean | number | string | dict | list; optional):
-    decorator.
+- className (string; optional)
 
 - expanded (boolean; default False):
-    expanded.
+    Whether the tile is expanded.
 
-- hasRoundedCorners (boolean | number | string | dict | list; optional):
-    hasRoundedCorners.
-
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -53,31 +43,22 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
+- persisted_props (list of strings; optional)
 
-- onKeyUp (boolean | number | string | dict | list; optional):
-    onKeyUp.
+- persistence (boolean | string | number; optional)
 
-- slug (boolean | number | string | dict | list; optional):
-    slug.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- tabIndex (boolean | number | string | dict | list; optional):
-    tabIndex.
+- tileCollapsedText (a list of or a singular dash component, string or number; optional):
+    Whether to collapse on expand.
 
-- tileCollapsedIconText (a list of or a singular dash component, string or number; optional):
-    tileCollapsedIconText.
+- tileMaxHeight (number; optional):
+    Max height before expanding.
 
-- tileCollapsedLabel (boolean | number | string | dict | list; optional):
-    tileCollapsedLabel.
-
-- tileExpandedIconText (a list of or a singular dash component, string or number; optional):
-    tileExpandedIconText.
-
-- tileExpandedLabel (boolean | number | string | dict | list; optional):
-    tileExpandedLabel."""
-    _children_props: typing.List[str] = ['tileCollapsedIconText', 'tileExpandedIconText']
-    _base_nodes = ['tileCollapsedIconText', 'tileExpandedIconText', 'children']
+- tileText (a list of or a singular dash component, string or number; optional):
+    The tile's title (above fold)."""
+    _children_props: typing.List[str] = ['tileText', 'tileCollapsedText']
+    _base_nodes = ['tileText', 'tileCollapsedText', 'children']
     _namespace = 'carbon_dash'
     _type = 'ExpandableTile'
 
@@ -89,23 +70,19 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        decorator: typing.Optional[typing.Any] = None,
         expanded: typing.Optional[bool] = None,
-        hasRoundedCorners: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        onKeyUp: typing.Optional[typing.Any] = None,
-        slug: typing.Optional[typing.Any] = None,
-        tabIndex: typing.Optional[typing.Any] = None,
-        tileCollapsedIconText: typing.Optional[ComponentType] = None,
-        tileCollapsedLabel: typing.Optional[typing.Any] = None,
-        tileExpandedIconText: typing.Optional[ComponentType] = None,
-        tileExpandedLabel: typing.Optional[typing.Any] = None,
+        tileText: typing.Optional[ComponentType] = None,
+        tileMaxHeight: typing.Optional[NumberType] = None,
+        tileCollapsedText: typing.Optional[ComponentType] = None,
+        belowFold: typing.Optional[bool] = None,
+        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
+        persisted_props: typing.Optional[typing.Sequence[str]] = None,
+        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'decorator', 'expanded', 'hasRoundedCorners', 'light', 'loading_state', 'onClick', 'onKeyUp', 'slug', 'style', 'tabIndex', 'tileCollapsedIconText', 'tileCollapsedLabel', 'tileExpandedIconText', 'tileExpandedLabel']
+        self._prop_names = ['children', 'id', 'belowFold', 'className', 'expanded', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style', 'tileCollapsedText', 'tileMaxHeight', 'tileText']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'decorator', 'expanded', 'hasRoundedCorners', 'light', 'loading_state', 'onClick', 'onKeyUp', 'slug', 'style', 'tabIndex', 'tileCollapsedIconText', 'tileCollapsedLabel', 'tileExpandedIconText', 'tileExpandedLabel']
+        self.available_properties = ['children', 'id', 'belowFold', 'className', 'expanded', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style', 'tileCollapsedText', 'tileMaxHeight', 'tileText']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

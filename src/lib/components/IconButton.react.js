@@ -1,144 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { IconButton as CarbonIconButton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
+import { resolveIcon } from '../utils/resolveIcon';
 
-/**
- * IconButton is a wrapper for the Carbon IconButton component.
- */
-export default class IconButton extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['IconButton'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-IconButton.defaultProps = {
-    className: '',
+const IconButton = (props) => {
+    const { id, children, className = '', style = {}, loading_state, renderIcon, n_clicks = 0, ...others } = props;
+    const handleClick = () => { if (props.setProps) props.setProps({ n_clicks: n_clicks + 1 }); };
+    const icon = resolveIcon(renderIcon);
+    return <CarbonIconButton id={id} className={className} style={style} renderIcon={icon} onClick={handleClick} data-dash-is-loading={getLoadingState(loading_state) || undefined} {...others}>{children}</CarbonIconButton>;
 };
-
 IconButton.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * align
-     */
-    align: PropTypes.any,
-
-    /**
-     * autoAlign
-     */
-    autoAlign: PropTypes.any,
-
-    /**
-     * badgeCount
-     */
-    badgeCount: PropTypes.any,
-
-    /**
-     * href
-     */
-    href: PropTypes.any,
-
-    /**
-     * closeOnActivation
-     */
-    closeOnActivation: PropTypes.any,
-
-    /**
-     * defaultOpen
-     */
-    defaultOpen: PropTypes.any,
-
-    /**
-     * dropShadow
-     */
-    dropShadow: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * enterDelayMs
-     */
-    enterDelayMs: PropTypes.any,
-
-    /**
-     * isSelected
-     */
-    isSelected: PropTypes.any,
-
-    /**
-     * highContrast
-     */
-    highContrast: PropTypes.any,
-
-    /**
-     * kind
-     */
-    kind: PropTypes.any,
-
-    /**
-     * label
-     */
-    label: PropTypes.any,
-
-    /**
-     * leaveDelayMs
-     */
-    leaveDelayMs: PropTypes.any,
-
-    /**
-     * rel
-     */
-    rel: PropTypes.any,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
-    /**
-     * target
-     */
-    target: PropTypes.any,
-
-    /**
-     * wrapperClasses
-     */
-    wrapperClasses: PropTypes.any,
-
+    renderIcon: PropTypes.node, n_clicks: PropTypes.number, disabled: PropTypes.bool, kind: PropTypes.oneOf(['primary','secondary','tertiary','ghost','danger']),
+    size: PropTypes.oneOf(['sm','md','lg']), label: PropTypes.string, hasIconOnly: PropTypes.bool, tooltipAlignment: PropTypes.string, tooltipPosition: PropTypes.string,
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string), persistence_type: PropTypes.oneOf(['local','session','memory']),
 };
+IconButton.defaultProps = { n_clicks: 0, disabled: false, kind: 'primary', size: 'lg' };
+export default IconButton;

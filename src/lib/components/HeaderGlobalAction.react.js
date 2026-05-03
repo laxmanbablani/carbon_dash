@@ -1,79 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { HeaderGlobalAction as CarbonComponent } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * HeaderGlobalAction is a wrapper for the Carbon HeaderGlobalAction component.
- */
-export default class HeaderGlobalAction extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['HeaderGlobalAction'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-HeaderGlobalAction.defaultProps = {
-    className: '',
+const HeaderGlobalAction = (props) => {
+    const { id, children, className = '', style = {}, loading_state, n_clicks = 0, ...others } = props;
+    const handleClick = () => { if (props.setProps) props.setProps({ n_clicks: n_clicks + 1 }); };
+    return (
+        <CarbonComponent id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            onClick={handleClick} {...others}>{children}</CarbonComponent>
+    );
 };
 
 HeaderGlobalAction.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node,
+    className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * isActive
-     */
-    isActive: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * tooltipAlignment
-     */
-    tooltipAlignment: PropTypes.any,
-
-    /**
-     * tooltipDropShadow
-     */
-    tooltipDropShadow: PropTypes.any,
-
-    /**
-     * tooltipHighContrast
-     */
-    tooltipHighContrast: PropTypes.any,
-
+    n_clicks: PropTypes.number,
 };
+
+HeaderGlobalAction.defaultProps = { n_clicks: 0 };
+
+export default HeaderGlobalAction;

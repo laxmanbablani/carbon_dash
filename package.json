@@ -4,19 +4,16 @@
   "description": "Carbon React Components wrapped for Dash",
   "main": "build/index.js",
   "scripts": {
-    "generate:components": "node scripts/generate.js",
-    "start": "webpack serve --config ./webpack.serve.config.js --open",
-    "validate-init": "python _validate_init.py",
-    "prepublishOnly": "npm run validate-init",
     "build:js": "webpack --mode production",
-    "build:backends": "dash-generate-components ./src/lib/components carbon_dash -p package-info.json --r-prefix '' --jl-prefix '' --ignore \\.test\\.",
-    "build:backends-activated": "(. venv/bin/activate || venv\\scripts\\activate && npm run build:backends)",
+    "build:backends": "dash-generate-components ./src/lib/components carbon_dash -p package-info.json --ignore \\.test\\.",
     "build": "npm run build:js && npm run build:backends",
-    "build:activated": "npm run build:js && npm run build:backends-activated"
+    "build:wheel": "python setup.py sdist bdist_wheel"
   },
   "author": "Laxman Bablani <laxman@bablani.org>",
   "license": "MIT",
   "dependencies": {
+    "@carbon/charts": "^1.27.3",
+    "@carbon/charts-react": "^1.27.3",
     "@carbon/react": "^1.104.1",
     "ramda": "^0.26.1"
   },

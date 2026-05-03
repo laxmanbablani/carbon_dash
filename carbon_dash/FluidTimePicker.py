@@ -17,33 +17,35 @@ NumberType = typing.Union[
 
 class FluidTimePicker(Component):
     """A FluidTimePicker component.
-FluidTimePicker is a wrapper for the Carbon FluidTimePicker component.
+FluidTimePicker is a full-width TimePicker component.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the time picker (FluidTimePickerSelect components).
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- disabled (boolean; default False):
+    Specify whether the control is disabled.
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
+- invalid (boolean; default False):
+    Specify whether the control is in an invalid state.
 
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
+- invalidText (a list of or a singular dash component, string or number; optional):
+    Provide the text that is displayed when the control is in an
+    invalid state.
 
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Provide text that is used alongside the control label for
+    additional help.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -53,16 +55,21 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
+- persisted_props (list of strings; optional)
 
-- warn (boolean | number | string | dict | list; optional):
-    warn.
+- persistence (boolean | string | number; optional):
+    Persistence settings.
 
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
+
+- warn (boolean; default False):
+    Specify whether the control is in a warning state.
+
+- warnText (a list of or a singular dash component, string or number; optional):
+    Provide the text that is displayed when the control is in a
+    warning state."""
+    _children_props: typing.List[str] = ['labelText', 'invalidText', 'warnText']
+    _base_nodes = ['labelText', 'invalidText', 'warnText', 'children']
     _namespace = 'carbon_dash'
     _type = 'FluidTimePicker'
 
@@ -74,18 +81,20 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        disabled: typing.Optional[bool] = None,
+        invalid: typing.Optional[bool] = None,
+        invalidText: typing.Optional[ComponentType] = None,
+        warn: typing.Optional[bool] = None,
+        warnText: typing.Optional[ComponentType] = None,
+        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
+        persisted_props: typing.Optional[typing.Sequence[str]] = None,
+        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'disabled', 'invalid', 'invalidText', 'labelText', 'loading_state', 'readOnly', 'style', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'invalid', 'invalidText', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style', 'warn', 'warnText']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'disabled', 'invalid', 'invalidText', 'labelText', 'loading_state', 'readOnly', 'style', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'invalid', 'invalidText', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style', 'warn', 'warnText']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

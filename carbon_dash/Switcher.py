@@ -17,24 +17,17 @@ NumberType = typing.Union[
 
 class Switcher(Component):
     """A Switcher component.
-Switcher is a wrapper for the Carbon Switcher component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- expanded (boolean; default False):
-    expanded.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -56,12 +49,11 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        expanded: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'expanded', 'loading_state', 'style']
+        self._prop_names = ['children', 'id', 'className', 'loading_state', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'expanded', 'loading_state', 'style']
+        self.available_properties = ['children', 'id', 'className', 'loading_state', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

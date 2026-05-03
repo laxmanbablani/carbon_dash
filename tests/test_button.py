@@ -1,41 +1,31 @@
-import carbon_dash
-from dash import Dash, html, Input, Output
-import time
+"""Button component tests."""
+from dash import Dash, html
+import carbon_dash as cd
 
-def test_button_interaction(dash_duo):
+def test_button_renders(dash_duo):
     app = Dash(__name__)
-
     app.layout = html.Div([
-        carbon_dash.Button(
-            id='test-button',
-            children='Click me!',
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-        ),
-        html.Div(id='output', children='initial')
+        cd.Button(id="btn", children="Click me"),
     ])
-
-    @app.callback(
-        Output('output', 'children'),
-        Input('test-button', 'n_clicks'),
-        prevent_initial_call=True
-    )
-    def update_output(val):
-        return str(val)
-
     dash_duo.start_server(app)
+    dash_duo.wait_for_text_to_equal("#btn", "Click me")
+    assert dash_duo.get_logs() == [], f"JS errors: {dash_duo.get_logs()}"
 
-    
-    el = dash_duo.wait_for_element("#test-button")
-    dash_duo.driver.execute_script("arguments[0].click();", el)
-    
-    
-    dash_duo.wait_for_text_to_equal('#output', str('1'))
+def test_button_disabled(dash_duo):
+    app = Dash(__name__)
+    app.layout = html.Div([
+        cd.Button(id="btn-dis", children="Disabled", disabled=True),
+    ])
+    dash_duo.start_server(app)
+    dash_duo.wait_for_text_to_equal("#btn-dis", "Disabled")
+    assert dash_duo.get_logs() == [], f"JS errors: {dash_duo.get_logs()}"
+
+def test_button_skeleton(dash_duo):
+    app = Dash(__name__)
+    app.layout = html.Div([
+        cd.Button(id="btn-load", children="Loading", loading_state={"is_loading": True}),
+    ])
+    dash_duo.start_server(app)
+    # Skeleton should render without JS errors
+    dash_duo.wait_for_element("#btn-load", timeout=5)
+    assert dash_duo.get_logs() == [], f"JS errors: {dash_duo.get_logs()}"

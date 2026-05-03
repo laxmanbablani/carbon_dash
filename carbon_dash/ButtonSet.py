@@ -17,24 +17,19 @@ NumberType = typing.Union[
 
 class ButtonSet(Component):
     """A ButtonSet component.
-ButtonSet is a wrapper for the Carbon ButtonSet component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- fluid (boolean | number | string | dict | list; optional):
-    fluid.
+- fluid (boolean; default False)
 
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -44,8 +39,7 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- stacked (boolean | number | string | dict | list; optional):
-    stacked."""
+- stacked (boolean; default False)"""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -59,8 +53,8 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        fluid: typing.Optional[typing.Any] = None,
-        stacked: typing.Optional[typing.Any] = None,
+        fluid: typing.Optional[bool] = None,
+        stacked: typing.Optional[bool] = None,
         **kwargs
     ):
         self._prop_names = ['children', 'id', 'className', 'fluid', 'loading_state', 'stacked', 'style']

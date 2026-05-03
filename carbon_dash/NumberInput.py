@@ -17,69 +17,44 @@ NumberType = typing.Union[
 
 class NumberInput(Component):
     """A NumberInput component.
-NumberInput is a wrapper for the Carbon NumberInput component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- allowEmpty (boolean | number | string | dict | list; optional):
-    allowEmpty.
+- allowEmpty (boolean; default False):
+    Allow empty value.
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- debounce (boolean | number; optional):
-    debounce.
+- disabled (boolean; default False):
+    Whether disabled.
 
-- decorator (boolean | number | string | dict | list; optional):
-    decorator.
+- helperText (a list of or a singular dash component, string or number; optional):
+    Helper text.
 
-- defaultValue (boolean | number | string | dict | list; optional):
-    defaultValue.
+- hideLabel (boolean; default False):
+    Whether to hide label.
 
-- disableWheel (boolean | number | string | dict | list; optional):
-    disableWheel.
+- hideSteppers (boolean; default False):
+    Whether to hide steppers with mouse event.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- invalid (boolean; default False):
+    Whether invalid.
 
-- formatOptions (boolean | number | string | dict | list; optional):
-    formatOptions.
+- invalidText (a list of or a singular dash component, string or number; optional):
+    Invalid text.
 
-- helperText (boolean | number | string | dict | list; optional):
-    helperText.
+- label (a list of or a singular dash component, string or number; optional):
+    Label text.
 
-- hideLabel (boolean | number | string | dict | list; optional):
-    hideLabel.
+- light (boolean; optional):
+    Whether lightweight.
 
-- hideSteppers (boolean | number | string | dict | list; optional):
-    hideSteppers.
-
-- iconDescription (boolean | number | string | dict | list; optional):
-    iconDescription.
-
-- inputMode (boolean | number | string | dict | list; optional):
-    inputMode.
-
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
-
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
-
-- label (string; default 'Number Input'):
-    label.
-
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -89,82 +64,37 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- locale (boolean | number | string | dict | list; optional):
-    locale.
+- max (number; default 100):
+    Maximum value.
 
-- max (boolean | number | string | dict | list; optional):
-    max.
+- min (number; default 0):
+    Minimum value.
 
-- min (boolean | number | string | dict | list; optional):
-    min.
+- persisted_props (list of strings; optional)
 
-- n_blur (number; optional):
-    n_blur.
+- persistence (boolean | string | number; optional)
 
-- n_submit (number; optional):
-    n_submit.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- onBlur (boolean | number | string | dict | list; optional):
-    onBlur.
+- readOnly (boolean; optional):
+    Whether readonly.
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md'):
+    Size.
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
+- step (number; default 1):
+    Step value.
 
-- onKeyUp (boolean | number | string | dict | list; optional):
-    onKeyUp.
+- value (number | string; optional):
+    The value.
 
-- onStepperBlur (boolean | number | string | dict | list; optional):
-    onStepperBlur.
+- warn (boolean; default False):
+    Whether warn.
 
-- pattern (boolean | number | string | dict | list; optional):
-    pattern.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
-
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
-
-- size (boolean | number | string | dict | list; optional):
-    size.
-
-- slug (boolean | number | string | dict | list; optional):
-    slug.
-
-- step (boolean | number | string | dict | list; optional):
-    step.
-
-- stepStartValue (boolean | number | string | dict | list; optional):
-    stepStartValue.
-
-- translateWithId (boolean | number | string | dict | list; optional):
-    translateWithId.
-
-- type (boolean | number | string | dict | list; optional):
-    type.
-
-- validate (boolean | number | string | dict | list; optional):
-    validate.
-
-- value (number; default 0):
-    value.
-
-- warn (boolean | number | string | dict | list; optional):
-    warn.
-
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- warnText (a list of or a singular dash component, string or number; optional):
+    Warn text."""
+    _children_props: typing.List[str] = ['label', 'helperText', 'invalidText', 'warnText']
+    _base_nodes = ['label', 'helperText', 'invalidText', 'warnText', 'children']
     _namespace = 'carbon_dash'
     _type = 'NumberInput'
 
@@ -176,52 +106,31 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        value: typing.Optional[typing.Union[NumberType, str]] = None,
+        label: typing.Optional[ComponentType] = None,
+        helperText: typing.Optional[ComponentType] = None,
+        min: typing.Optional[NumberType] = None,
+        max: typing.Optional[NumberType] = None,
+        step: typing.Optional[NumberType] = None,
+        disabled: typing.Optional[bool] = None,
+        readOnly: typing.Optional[bool] = None,
+        invalid: typing.Optional[bool] = None,
+        invalidText: typing.Optional[ComponentType] = None,
+        warn: typing.Optional[bool] = None,
+        warnText: typing.Optional[ComponentType] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
+        hideSteppers: typing.Optional[bool] = None,
+        hideLabel: typing.Optional[bool] = None,
+        light: typing.Optional[bool] = None,
+        allowEmpty: typing.Optional[bool] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        allowEmpty: typing.Optional[typing.Any] = None,
-        decorator: typing.Optional[typing.Any] = None,
-        defaultValue: typing.Optional[typing.Any] = None,
-        disableWheel: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        formatOptions: typing.Optional[typing.Any] = None,
-        helperText: typing.Optional[typing.Any] = None,
-        hideLabel: typing.Optional[typing.Any] = None,
-        hideSteppers: typing.Optional[typing.Any] = None,
-        iconDescription: typing.Optional[typing.Any] = None,
-        inputMode: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        label: typing.Optional[str] = None,
-        light: typing.Optional[typing.Any] = None,
-        locale: typing.Optional[typing.Any] = None,
-        max: typing.Optional[typing.Any] = None,
-        min: typing.Optional[typing.Any] = None,
-        stepStartValue: typing.Optional[typing.Any] = None,
-        onBlur: typing.Optional[typing.Any] = None,
-        onStepperBlur: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        onKeyUp: typing.Optional[typing.Any] = None,
-        pattern: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        size: typing.Optional[typing.Optional[str]] = None,
-        slug: typing.Optional[typing.Any] = None,
-        step: typing.Optional[typing.Any] = None,
-        translateWithId: typing.Optional[typing.Any] = None,
-        type: typing.Optional[typing.Any] = None,
-        value: typing.Optional[NumberType] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
-        validate: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'allowEmpty', 'className', 'debounce', 'decorator', 'defaultValue', 'disableWheel', 'disabled', 'formatOptions', 'helperText', 'hideLabel', 'hideSteppers', 'iconDescription', 'inputMode', 'invalid', 'invalidText', 'label', 'light', 'loading_state', 'locale', 'max', 'min', 'n_blur', 'n_submit', 'onBlur', 'onChange', 'onClick', 'onKeyUp', 'onStepperBlur', 'pattern', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'size', 'slug', 'step', 'stepStartValue', 'style', 'translateWithId', 'type', 'validate', 'value', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'allowEmpty', 'className', 'disabled', 'helperText', 'hideLabel', 'hideSteppers', 'invalid', 'invalidText', 'label', 'light', 'loading_state', 'max', 'min', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'size', 'step', 'style', 'value', 'warn', 'warnText']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'allowEmpty', 'className', 'debounce', 'decorator', 'defaultValue', 'disableWheel', 'disabled', 'formatOptions', 'helperText', 'hideLabel', 'hideSteppers', 'iconDescription', 'inputMode', 'invalid', 'invalidText', 'label', 'light', 'loading_state', 'locale', 'max', 'min', 'n_blur', 'n_submit', 'onBlur', 'onChange', 'onClick', 'onKeyUp', 'onStepperBlur', 'pattern', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'size', 'slug', 'step', 'stepStartValue', 'style', 'translateWithId', 'type', 'validate', 'value', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'allowEmpty', 'className', 'disabled', 'helperText', 'hideLabel', 'hideSteppers', 'invalid', 'invalidText', 'label', 'light', 'loading_state', 'max', 'min', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'size', 'step', 'style', 'value', 'warn', 'warnText']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

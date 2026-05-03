@@ -1,144 +1,42 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { DatePickerInput as CarbonDatePickerInput } from '@carbon/react';
 
-/**
- * DatePickerInput is a wrapper for the Carbon DatePickerInput component.
- */
-export default class DatePickerInput extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['DatePickerInput'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-DatePickerInput.defaultProps = {
-    className: '',
+const DatePickerInput = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    return (
+        <CarbonDatePickerInput
+            id={id} className={className} style={style}
+            data-dash-is-loading={loading_state?.is_loading || undefined}
+            {...others}
+        />
+    );
 };
 
 DatePickerInput.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, children: PropTypes.node,
+    className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * datePickerType
-     */
-    datePickerType: PropTypes.any,
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * helperText
-     */
-    helperText: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * labelText
-     */
-    labelText: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * pattern
-     */
-    pattern: PropTypes.any,
-
-    /**
-     * placeholder
-     */
-    placeholder: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
+    /** Label text */
+    labelText: PropTypes.node,
+    /** Placeholder text */
+    placeholder: PropTypes.string,
+    /** Helper text */
+    helperText: PropTypes.node,
+    /** Whether disabled */
+    disabled: PropTypes.bool,
+    /** Whether invalid */
+    invalid: PropTypes.bool,
+    /** Invalid text */
+    invalidText: PropTypes.node,
+    /** Input size */
+    size: PropTypes.oneOf(['sm', 'md', 'lg']),
+    /** Format pattern */
+    pattern: PropTypes.string,
+    /** DatePickerInput type */
+    type: PropTypes.string,
 };
+
+DatePickerInput.defaultProps = { disabled: false, size: 'md' };
+
+export default DatePickerInput;

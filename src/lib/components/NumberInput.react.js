@@ -1,253 +1,81 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import {
+    NumberInput as CarbonNumberInput,
+    NumberInputSkeleton as CarbonNumberInputSkeleton,
+} from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * NumberInput is a wrapper for the Carbon NumberInput component.
- */
-export default class NumberInput extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { value } = this.props;
-        const { label } = this.props;
+const NumberInput = (props) => {
+    const { id, children, className = '', style = {}, loading_state, value, ...others } = props;
 
-        const RealComponent = LazyLoader['NumberInput'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    value={value}
-                    label={label}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonNumberInputSkeleton id={id} className={className} />;
     }
-}
 
-NumberInput.defaultProps = {
-    className: '',
-    value: 0,
-    label: 'Number Input',
+    const handleChange = (e) => {
+        const val = e?.target?.value ?? e?.implicit_value ?? e;
+        if (props.setProps) props.setProps({ value: val });
+    };
+
+    return (
+        <CarbonNumberInput
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            value={value}
+            onChange={handleChange}
+            {...others}
+        />
+    );
 };
 
 NumberInput.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func,
+    children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
+    /** The value */
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    /** Label text */
+    label: PropTypes.node,
+    /** Helper text */
+    helperText: PropTypes.node,
+    /** Minimum value */
+    min: PropTypes.number,
+    /** Maximum value */
+    max: PropTypes.number,
+    /** Step value */
+    step: PropTypes.number,
+    /** Whether disabled */
+    disabled: PropTypes.bool,
+    /** Whether readonly */
+    readOnly: PropTypes.bool,
+    /** Whether invalid */
+    invalid: PropTypes.bool,
+    /** Invalid text */
+    invalidText: PropTypes.node,
+    /** Whether warn */
+    warn: PropTypes.bool,
+    /** Warn text */
+    warnText: PropTypes.node,
+    /** Size */
+    size: PropTypes.oneOf(['sm', 'md', 'lg']),
+    /** Whether to hide steppers with mouse event */
+    hideSteppers: PropTypes.bool,
+    /** Whether to hide label */
+    hideLabel: PropTypes.bool,
+    /** Whether lightweight */
+    light: PropTypes.bool,
+    /** Allow empty value */
+    allowEmpty: PropTypes.bool,
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
     persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
     persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * allowEmpty
-     */
-    allowEmpty: PropTypes.any,
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * defaultValue
-     */
-    defaultValue: PropTypes.any,
-
-    /**
-     * disableWheel
-     */
-    disableWheel: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * formatOptions
-     */
-    formatOptions: PropTypes.any,
-
-    /**
-     * helperText
-     */
-    helperText: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * hideSteppers
-     */
-    hideSteppers: PropTypes.any,
-
-    /**
-     * iconDescription
-     */
-    iconDescription: PropTypes.any,
-
-    /**
-     * inputMode
-     */
-    inputMode: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * label
-     */
-    label: PropTypes.string,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * locale
-     */
-    locale: PropTypes.any,
-
-    /**
-     * max
-     */
-    max: PropTypes.any,
-
-    /**
-     * min
-     */
-    min: PropTypes.any,
-
-    /**
-     * stepStartValue
-     */
-    stepStartValue: PropTypes.any,
-
-    /**
-     * onBlur
-     */
-    onBlur: PropTypes.any,
-
-    /**
-     * onStepperBlur
-     */
-    onStepperBlur: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * onKeyUp
-     */
-    onKeyUp: PropTypes.any,
-
-    /**
-     * pattern
-     */
-    pattern: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
-    /**
-     * step
-     */
-    step: PropTypes.any,
-
-    /**
-     * translateWithId
-     */
-    translateWithId: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.number,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
-    /**
-     * validate
-     */
-    validate: PropTypes.any,
-
 };
+
+NumberInput.defaultProps = {
+    disabled: false, invalid: false, warn: false, hideLabel: false,
+    hideSteppers: false, size: 'md', allowEmpty: false,
+    min: 0, max: 100, step: 1,
+};
+
+export default NumberInput;

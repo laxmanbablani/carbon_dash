@@ -1,54 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { MenuItemDivider as CarbonMenuItemDivider } from '@carbon/react';
 
 /**
- * MenuItemDivider is a wrapper for the Carbon MenuItemDivider component.
+ * MenuItemDivider is a divider component for use within ComboButton or OverflowMenu.
+ * 
+ * Usage:
+ * <ComboButton label="Primary action">
+ *   <MenuItem label="Second action" />
+ *   <MenuItemDivider />
+ *   <MenuItem label="Third action" />
+ * </ComboButton>
  */
-export default class MenuItemDivider extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['MenuItemDivider'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-MenuItemDivider.defaultProps = {
-    className: '',
+const MenuItemDivider = (props) => {
+    return <CarbonMenuItemDivider {...props} />;
 };
 
 MenuItemDivider.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
+    
+    /** Dash callback to update props */
     setProps: PropTypes.func,
-
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
 };
+
+MenuItemDivider.propTypes.description = 'MenuItemDivider is a divider component for use within ComboButton or OverflowMenu.';
+
+export default MenuItemDivider;

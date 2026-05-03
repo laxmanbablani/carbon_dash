@@ -17,24 +17,17 @@ NumberType = typing.Union[
 
 class ContentSwitcher(Component):
     """A ContentSwitcher component.
-ContentSwitcher is a wrapper for the Carbon ContentSwitcher component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -44,20 +37,15 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- lowContrast (boolean | number | string | dict | list; optional):
-    lowContrast.
+- lowContrast (boolean; default False)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- selectedIndex (number; default 0)
 
-- selectedIndex (number; default -1):
-    selectedIndex.
+- selected_index (number; optional)
 
-- selectionMode (boolean | number | string | dict | list; optional):
-    selectionMode.
+- selectionMode (a value equal to: 'automatic', 'manual'; default 'automatic')
 
-- size (boolean | number | string | dict | list; optional):
-    size."""
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md')"""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -71,17 +59,16 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        light: typing.Optional[typing.Any] = None,
-        lowContrast: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
+        selected_index: typing.Optional[NumberType] = None,
         selectedIndex: typing.Optional[NumberType] = None,
-        selectionMode: typing.Optional[typing.Any] = None,
+        selectionMode: typing.Optional[Literal["automatic", "manual"]] = None,
         size: typing.Optional[typing.Optional[str]] = None,
+        lowContrast: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'light', 'loading_state', 'lowContrast', 'onChange', 'selectedIndex', 'selectionMode', 'size', 'style']
+        self._prop_names = ['children', 'id', 'className', 'loading_state', 'lowContrast', 'selectedIndex', 'selected_index', 'selectionMode', 'size', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'light', 'loading_state', 'lowContrast', 'onChange', 'selectedIndex', 'selectionMode', 'size', 'style']
+        self.available_properties = ['children', 'id', 'className', 'loading_state', 'lowContrast', 'selectedIndex', 'selected_index', 'selectionMode', 'size', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

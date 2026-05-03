@@ -17,45 +17,29 @@ NumberType = typing.Union[
 
 class Search(Component):
     """A Search component.
-Search is a wrapper for the Carbon Search component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- autoComplete (boolean | number | string | dict | list; optional):
-    autoComplete.
+- className (string; optional)
 
-- className (string; default ''):
-    className.
+- closeButtonLabelText (string; optional):
+    Close button label.
 
-- closeButtonLabelText (boolean | number | string | dict | list; optional):
-    closeButtonLabelText.
+- disabled (boolean; default False):
+    Whether disabled.
 
-- debounce (boolean | number; optional):
-    debounce.
+- isExpanded (boolean; default True):
+    Whether expanded (small screens).
 
-- defaultValue (boolean | number | string | dict | list; optional):
-    defaultValue.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Label text.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
-
-- isExpanded (boolean | number | string | dict | list; optional):
-    isExpanded.
-
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
-
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -65,52 +49,22 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- n_blur (number; optional):
-    n_blur.
+- persisted_props (list of strings; optional)
 
-- n_submit (number; optional):
-    n_submit.
+- persistence (boolean | string | number; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- onClear (boolean | number | string | dict | list; optional):
-    onClear.
+- placeholder (string; optional):
+    Placeholder text.
 
-- onExpand (boolean | number | string | dict | list; optional):
-    onExpand.
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md'):
+    Size.
 
-- onKeyDown (boolean | number | string | dict | list; optional):
-    onKeyDown.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
-
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- placeholder (boolean | number | string | dict | list; optional):
-    placeholder.
-
-- renderIcon (a list of or a singular dash component, string or number; optional):
-    renderIcon.
-
-- role (boolean | number | string | dict | list; optional):
-    role.
-
-- size (boolean | number | string | dict | list; optional):
-    size.
-
-- type (boolean | number | string | dict | list; optional):
-    type.
-
-- value (string; default ''):
-    value."""
-    _children_props: typing.List[str] = ['renderIcon']
-    _base_nodes = ['renderIcon', 'children']
+- value (string | number; optional):
+    Current value of the search input."""
+    _children_props: typing.List[str] = ['labelText']
+    _base_nodes = ['labelText', 'children']
     _namespace = 'carbon_dash'
     _type = 'Search'
 
@@ -122,34 +76,21 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        value: typing.Optional[typing.Union[str, NumberType]] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        placeholder: typing.Optional[str] = None,
+        disabled: typing.Optional[bool] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
+        closeButtonLabelText: typing.Optional[str] = None,
+        isExpanded: typing.Optional[bool] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        autoComplete: typing.Optional[typing.Any] = None,
-        closeButtonLabelText: typing.Optional[typing.Any] = None,
-        defaultValue: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        isExpanded: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onClear: typing.Optional[typing.Any] = None,
-        onExpand: typing.Optional[typing.Any] = None,
-        onKeyDown: typing.Optional[typing.Any] = None,
-        placeholder: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[ComponentType] = None,
-        role: typing.Optional[typing.Any] = None,
-        size: typing.Optional[typing.Optional[str]] = None,
-        type: typing.Optional[typing.Any] = None,
-        value: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'autoComplete', 'className', 'closeButtonLabelText', 'debounce', 'defaultValue', 'disabled', 'isExpanded', 'labelText', 'light', 'loading_state', 'n_blur', 'n_submit', 'onChange', 'onClear', 'onExpand', 'onKeyDown', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'renderIcon', 'role', 'size', 'style', 'type', 'value']
+        self._prop_names = ['children', 'id', 'className', 'closeButtonLabelText', 'disabled', 'isExpanded', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'size', 'style', 'value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'autoComplete', 'className', 'closeButtonLabelText', 'debounce', 'defaultValue', 'disabled', 'isExpanded', 'labelText', 'light', 'loading_state', 'n_blur', 'n_submit', 'onChange', 'onClear', 'onExpand', 'onKeyDown', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'renderIcon', 'role', 'size', 'style', 'type', 'value']
+        self.available_properties = ['children', 'id', 'className', 'closeButtonLabelText', 'disabled', 'isExpanded', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'size', 'style', 'value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

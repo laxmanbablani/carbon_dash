@@ -17,54 +17,33 @@ NumberType = typing.Union[
 
 class PasswordInput(Component):
     """A PasswordInput component.
-PasswordInput is a wrapper for the Carbon PasswordInput component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- debounce (boolean | number; optional):
-    debounce.
+- disabled (boolean; default False)
 
-- defaultValue (boolean | number | string | dict | list; optional):
-    defaultValue.
+- helperText (a list of or a singular dash component, string or number; optional)
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- hideLabel (boolean; default False)
 
-- helperText (boolean | number | string | dict | list; optional):
-    helperText.
+- hidePasswordLabel (string; optional)
 
-- hideLabel (boolean | number | string | dict | list; optional):
-    hideLabel.
+- invalid (boolean; default False)
 
-- hidePasswordLabel (boolean | number | string | dict | list; optional):
-    hidePasswordLabel.
+- invalidText (a list of or a singular dash component, string or number; optional)
 
-- inline (boolean | number | string | dict | list; optional):
-    inline.
+- labelText (a list of or a singular dash component, string or number; optional)
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
+- light (boolean; optional)
 
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
-
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
-
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -74,61 +53,23 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- n_blur (number; optional):
-    n_blur.
+- persisted_props (list of strings; optional)
 
-- n_submit (number; optional):
-    n_submit.
+- persistence (boolean | string | number; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
+- placeholder (string; optional)
 
-- onTogglePasswordVisibility (boolean | number | string | dict | list; optional):
-    onTogglePasswordVisibility.
+- showPasswordLabel (string; optional)
 
-- persisted_props (list of strings; optional):
-    persisted_props.
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md')
 
-- persistence (boolean | string | number; optional):
-    persistence.
+- tooltipPosition (string; optional)
 
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- placeholder (boolean | number | string | dict | list; optional):
-    placeholder.
-
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
-
-- showPasswordLabel (boolean | number | string | dict | list; optional):
-    showPasswordLabel.
-
-- size (boolean | number | string | dict | list; optional):
-    size.
-
-- tooltipAlignment (boolean | number | string | dict | list; optional):
-    tooltipAlignment.
-
-- tooltipPosition (boolean | number | string | dict | list; optional):
-    tooltipPosition.
-
-- type (boolean | number | string | dict | list; optional):
-    type.
-
-- value (boolean | number | string | dict | list; default ''):
-    value.
-
-- warn (boolean | number | string | dict | list; optional):
-    warn.
-
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- value (string | number; optional)"""
+    _children_props: typing.List[str] = ['labelText', 'helperText', 'invalidText']
+    _base_nodes = ['labelText', 'helperText', 'invalidText', 'children']
     _namespace = 'carbon_dash'
     _type = 'PasswordInput'
 
@@ -140,40 +81,27 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        value: typing.Optional[typing.Union[str, NumberType]] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        helperText: typing.Optional[ComponentType] = None,
+        placeholder: typing.Optional[str] = None,
+        disabled: typing.Optional[bool] = None,
+        invalid: typing.Optional[bool] = None,
+        invalidText: typing.Optional[ComponentType] = None,
+        hideLabel: typing.Optional[bool] = None,
+        hidePasswordLabel: typing.Optional[str] = None,
+        showPasswordLabel: typing.Optional[str] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
+        light: typing.Optional[bool] = None,
+        tooltipPosition: typing.Optional[str] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        defaultValue: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        helperText: typing.Optional[typing.Any] = None,
-        hideLabel: typing.Optional[typing.Any] = None,
-        hidePasswordLabel: typing.Optional[typing.Any] = None,
-        inline: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        onTogglePasswordVisibility: typing.Optional[typing.Any] = None,
-        placeholder: typing.Optional[typing.Any] = None,
-        showPasswordLabel: typing.Optional[typing.Any] = None,
-        size: typing.Optional[typing.Optional[str]] = None,
-        tooltipAlignment: typing.Optional[typing.Any] = None,
-        tooltipPosition: typing.Optional[typing.Any] = None,
-        type: typing.Optional[typing.Any] = None,
-        value: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'debounce', 'defaultValue', 'disabled', 'helperText', 'hideLabel', 'hidePasswordLabel', 'inline', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'n_blur', 'n_submit', 'onChange', 'onClick', 'onTogglePasswordVisibility', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'showPasswordLabel', 'size', 'style', 'tooltipAlignment', 'tooltipPosition', 'type', 'value', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'helperText', 'hideLabel', 'hidePasswordLabel', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'showPasswordLabel', 'size', 'style', 'tooltipPosition', 'value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'debounce', 'defaultValue', 'disabled', 'helperText', 'hideLabel', 'hidePasswordLabel', 'inline', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'n_blur', 'n_submit', 'onChange', 'onClick', 'onTogglePasswordVisibility', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'showPasswordLabel', 'size', 'style', 'tooltipAlignment', 'tooltipPosition', 'type', 'value', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'helperText', 'hideLabel', 'hidePasswordLabel', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'showPasswordLabel', 'size', 'style', 'tooltipPosition', 'value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

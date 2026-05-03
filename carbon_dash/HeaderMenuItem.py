@@ -17,36 +17,17 @@ NumberType = typing.Union[
 
 class HeaderMenuItem(Component):
     """A HeaderMenuItem component.
-HeaderMenuItem is a wrapper for the Carbon HeaderMenuItem component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- as_ (boolean | number | string | dict | list; optional):
-    as.
+- className (string; optional)
 
-- className (string; default ''):
-    className.
-
-- element (boolean | number | string | dict | list; optional):
-    element.
-
-- isActive (boolean | number | string | dict | list; optional):
-    isActive.
-
-- isCurrentPage (boolean | number | string | dict | list; optional):
-    isCurrentPage.
-
-- isSideNavExpanded (boolean | number | string | dict | list; optional):
-    isSideNavExpanded.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -54,13 +35,7 @@ Keyword arguments:
 
     - prop_name (string; optional)
 
-    - component_name (string; optional)
-
-- role (boolean | number | string | dict | list; optional):
-    role.
-
-- tabIndex (boolean | number | string | dict | list; optional):
-    tabIndex."""
+    - component_name (string; optional)"""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -74,18 +49,11 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        as_: typing.Optional[typing.Any] = None,
-        element: typing.Optional[typing.Any] = None,
-        isSideNavExpanded: typing.Optional[typing.Any] = None,
-        isActive: typing.Optional[typing.Any] = None,
-        isCurrentPage: typing.Optional[typing.Any] = None,
-        role: typing.Optional[typing.Any] = None,
-        tabIndex: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'as_', 'className', 'element', 'isActive', 'isCurrentPage', 'isSideNavExpanded', 'loading_state', 'role', 'style', 'tabIndex']
+        self._prop_names = ['children', 'id', 'className', 'loading_state', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'as_', 'className', 'element', 'isActive', 'isCurrentPage', 'isSideNavExpanded', 'loading_state', 'role', 'style', 'tabIndex']
+        self.available_properties = ['children', 'id', 'className', 'loading_state', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

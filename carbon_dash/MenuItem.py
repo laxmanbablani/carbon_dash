@@ -17,81 +17,55 @@ NumberType = typing.Union[
 
 class MenuItem(Component):
     """A MenuItem component.
-MenuItem is a wrapper for the Carbon MenuItem component.
+MenuItem is a component for rendering menu items within ComboButton or OverflowMenu.
+
+Usage with ComboButton:
+<ComboButton label="Primary action">
+  <MenuItem label="Second action" />
+  <MenuItem label="Third action" />
+</ComboButton>
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
-
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- disabled (boolean; default False):
+    Specify whether the menu item is disabled.
 
-- dangerDescription (boolean | number | string | dict | list; optional):
-    dangerDescription.
+- kind (a value equal to: 'danger'; optional):
+    Specify the kind of menu item.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
-
-- kind (boolean | number | string | dict | list; optional):
-    kind.
-
-- label (boolean | number | string | dict | list; optional):
-    label.
-
-- loading_state (dict; optional):
-    loading_state.
-
-    `loading_state` is a dict with keys:
-
-    - is_loading (boolean; optional)
-
-    - prop_name (string; optional)
-
-    - component_name (string; optional)
-
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
-
-- renderIcon (a list of or a singular dash component, string or number; optional):
-    renderIcon.
-
-- shortcut (boolean | number | string | dict | list; optional):
-    shortcut."""
-    _children_props: typing.List[str] = ['renderIcon']
-    _base_nodes = ['renderIcon', 'children']
+- label (string; required):
+    Specify the label of the menu item."""
+    _children_props: typing.List[str] = []
+    _base_nodes = ['children']
     _namespace = 'carbon_dash'
     _type = 'MenuItem'
 
 
     def __init__(
         self,
-        children: typing.Optional[ComponentType] = None,
         id: typing.Optional[typing.Union[str, dict]] = None,
-        className: typing.Optional[typing.Optional[str]] = None,
-        style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        dangerDescription: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
+        label: typing.Optional[str] = None,
         kind: typing.Optional[typing.Optional[str]] = None,
-        label: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[ComponentType] = None,
-        shortcut: typing.Optional[typing.Any] = None,
+        disabled: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'dangerDescription', 'disabled', 'kind', 'label', 'loading_state', 'onClick', 'renderIcon', 'shortcut', 'style']
+        self._prop_names = ['id', 'disabled', 'kind', 'label']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'dangerDescription', 'disabled', 'kind', 'label', 'loading_state', 'onClick', 'renderIcon', 'shortcut', 'style']
+        self.available_properties = ['id', 'disabled', 'kind', 'label']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
         _locals.update(kwargs)  # For wildcard attrs and excess named props
-        args = {k: _locals[k] for k in _explicit_args if k != 'children'}
+        args = {k: _locals[k] for k in _explicit_args}
 
-        super(MenuItem, self).__init__(children=children, **args)
+        for k in ['label']:
+            if k not in args:
+                raise TypeError(
+                    'Required argument `' + k + '` was not specified.')
+
+        super(MenuItem, self).__init__(**args)
 
 setattr(MenuItem, "__init__", _explicitize_args(MenuItem.__init__))

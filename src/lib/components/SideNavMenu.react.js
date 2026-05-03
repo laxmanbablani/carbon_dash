@@ -1,89 +1,96 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { SideNavMenu as CarbonSideNavMenu } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
+import { resolveIcon } from '../utils/resolveIcon';
 
-/**
- * SideNavMenu is a wrapper for the Carbon SideNavMenu component.
- */
-export default class SideNavMenu extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
+const SideNavMenu = (props) => {
+    const {
+        id, children, className = '', style = {}, loading_state,
+        renderIcon,
+        ...others
+    } = props;
+    const iconElement = resolveIcon(renderIcon);
 
-        const RealComponent = LazyLoader['SideNavMenu'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-SideNavMenu.defaultProps = {
-    className: '',
+    return (
+        <CarbonSideNavMenu
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            renderIcon={iconElement}
+            {...others}
+        >
+            {children}
+        </CarbonSideNavMenu>
+    );
 };
 
 SideNavMenu.propTypes = {
-    /** id */
+    /**
+     * The ID used to identify this component in Dash callbacks.
+     */
     id: PropTypes.string,
 
-    /** children */
+    /**
+     * Provide SideNavMenuItem's inside of the SideNavMenu.
+     */
     children: PropTypes.node,
 
-    /** className */
+    /**
+     * Custom CSS class.
+     */
     className: PropTypes.string,
 
-    /** style */
+    /**
+     * Inline styles.
+     */
     style: PropTypes.object,
 
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
     /**
-     * defaultExpanded
+     * Dash loading state.
      */
-    defaultExpanded: PropTypes.any,
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
     /**
-     * isActive
+     * Specify whether the menu should default to expanded. By default, it will be closed.
      */
-    isActive: PropTypes.any,
+    defaultExpanded: PropTypes.bool,
 
     /**
-     * isSideNavExpanded
+     * Specify whether the SideNavMenu is "active".
+     * SideNavMenu should be considered active if one of its menu items are a link for the current page.
      */
-    isSideNavExpanded: PropTypes.any,
+    isActive: PropTypes.bool,
 
     /**
-     * large
+     * Property to indicate if the side nav container is open (or not).
+     * Use to keep local state and styling in step with the SideNav expansion state.
      */
-    large: PropTypes.any,
+    isSideNavExpanded: PropTypes.bool,
 
     /**
-     * renderIcon
+     * Specify if this is a large variation of the SideNavMenu.
+     */
+    large: PropTypes.bool,
+
+    /**
+     * An icon component to render in the menu.
+     * Accepts DashIconify, html.Div, Carbon icon name string, or any React node.
      */
     renderIcon: PropTypes.node,
 
     /**
-     * tabIndex
+     * Optional prop to specify the tabIndex of the button.
      */
-    tabIndex: PropTypes.any,
+    tabIndex: PropTypes.number,
 
     /**
-     * title
+     * Provide the text for the overall menu name.
      */
-    title: PropTypes.any,
-
+    title: PropTypes.string,
 };
+
+export default SideNavMenu;

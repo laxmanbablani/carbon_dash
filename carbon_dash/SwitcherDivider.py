@@ -17,21 +17,17 @@ NumberType = typing.Union[
 
 class SwitcherDivider(Component):
     """A SwitcherDivider component.
-SwitcherDivider is a wrapper for the Carbon SwitcherDivider component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 

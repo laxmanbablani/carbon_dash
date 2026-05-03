@@ -17,30 +17,20 @@ NumberType = typing.Union[
 
 class SelectItem(Component):
     """A SelectItem component.
-SelectItem is a wrapper for the Carbon SelectItem component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- debounce (boolean | number; optional):
-    debounce.
+- disabled (boolean; default False):
+    Whether the option is disabled.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
-
-- hidden (boolean | number | string | dict | list; optional):
-    hidden.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -50,26 +40,11 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- n_blur (number; optional):
-    n_blur.
+- text (string; required):
+    The display text.
 
-- n_submit (number; optional):
-    n_submit.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
-
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- text (string; default ''):
-    text.
-
-- value (boolean | number | string | dict | list; default ''):
-    value."""
+- value (boolean | number | string | dict | list; required):
+    The value of the option."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -83,26 +58,24 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
-        persisted_props: typing.Optional[typing.Sequence[str]] = None,
-        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        hidden: typing.Optional[typing.Any] = None,
-        text: typing.Optional[str] = None,
         value: typing.Optional[typing.Any] = None,
+        text: typing.Optional[str] = None,
+        disabled: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'debounce', 'disabled', 'hidden', 'loading_state', 'n_blur', 'n_submit', 'persisted_props', 'persistence', 'persistence_type', 'style', 'text', 'value']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'loading_state', 'style', 'text', 'value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'debounce', 'disabled', 'hidden', 'loading_state', 'n_blur', 'n_submit', 'persisted_props', 'persistence', 'persistence_type', 'style', 'text', 'value']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'loading_state', 'style', 'text', 'value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
         _locals.update(kwargs)  # For wildcard attrs and excess named props
         args = {k: _locals[k] for k in _explicit_args if k != 'children'}
+
+        for k in ['text', 'value']:
+            if k not in args:
+                raise TypeError(
+                    'Required argument `' + k + '` was not specified.')
 
         super(SelectItem, self).__init__(children=children, **args)
 

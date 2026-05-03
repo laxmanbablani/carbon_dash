@@ -17,66 +17,40 @@ NumberType = typing.Union[
 
 class FluidMultiSelect(Component):
     """A FluidMultiSelect component.
-FluidMultiSelect is a wrapper for the Carbon FluidMultiSelect component.
+FluidMultiSelect is a full-width MultiSelect component.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the multi select.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- clearSelectionDescription (boolean | number | string | dict | list; optional):
-    clearSelectionDescription.
+- disabled (boolean; default False):
+    Specify whether the control is disabled.
 
-- clearSelectionText (boolean | number | string | dict | list; optional):
-    clearSelectionText.
+- helperText (a list of or a singular dash component, string or number; optional):
+    Provide text that is used alongside the control label.
 
-- compareItems (boolean | number | string | dict | list; optional):
-    compareItems.
+- invalid (boolean; default False):
+    Specify whether the control is in an invalid state.
 
-- direction (boolean | number | string | dict | list; optional):
-    direction.
+- invalidText (a list of or a singular dash component, string or number; optional):
+    Provide the text that is displayed when the control is in an
+    invalid state.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- items (list; optional):
+    The items to display in the multi select.
 
-- downshiftProps (boolean | number | string | dict | list; optional):
-    downshiftProps.
-
-- initialSelectedItems (boolean | number | string | dict | list; optional):
-    initialSelectedItems.
-
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
-
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
-
-- isCondensed (boolean | number | string | dict | list; optional):
-    isCondensed.
-
-- isFilterable (boolean | number | string | dict | list; optional):
-    isFilterable.
-
-- itemToElement (boolean | number | string | dict | list; optional):
-    itemToElement.
-
-- itemToString (boolean | number | string | dict | list; optional):
-    itemToString.
-
-- items (boolean | number | string | dict | list; optional):
-    items.
-
-- label (boolean | number | string | dict | list; optional):
-    label.
+- label (a list of or a singular dash component, string or number; optional):
+    Provide text that is used alongside the control label.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -86,46 +60,33 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- locale (boolean | number | string | dict | list; optional):
-    locale.
+- persisted_props (list of strings; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- persistence (boolean | string | number; optional):
+    Persistence settings.
 
-- onInputValueChange (boolean | number | string | dict | list; optional):
-    onInputValueChange.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- onMenuChange (boolean | number | string | dict | list; optional):
-    onMenuChange.
+- placeholder (string; optional):
+    Provide the placeholder text.
 
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
+- selectedItems (list; optional):
+    The selected items.
 
-- selectedItems (boolean | number | string | dict | list; optional):
-    selectedItems.
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md'):
+    Specify the size of the multi select.
 
-- selectionFeedback (boolean | number | string | dict | list; optional):
-    selectionFeedback.
+- titleText (a list of or a singular dash component, string or number; optional):
+    Provide the title text for the multi select.
 
-- sortItems (boolean | number | string | dict | list; optional):
-    sortItems.
+- warn (boolean; default False):
+    Specify whether the control is in a warning state.
 
-- titleText (boolean | number | string | dict | list; optional):
-    titleText.
-
-- translateWithId (boolean | number | string | dict | list; optional):
-    translateWithId.
-
-- useTitleInItem (boolean | number | string | dict | list; optional):
-    useTitleInItem.
-
-- warn (boolean | number | string | dict | list; optional):
-    warn.
-
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- warnText (a list of or a singular dash component, string or number; optional):
+    Provide the text that is displayed when the control is in a
+    warning state."""
+    _children_props: typing.List[str] = ['label', 'titleText', 'helperText', 'invalidText', 'warnText']
+    _base_nodes = ['label', 'titleText', 'helperText', 'invalidText', 'warnText', 'children']
     _namespace = 'carbon_dash'
     _type = 'FluidMultiSelect'
 
@@ -137,39 +98,26 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        clearSelectionDescription: typing.Optional[typing.Any] = None,
-        clearSelectionText: typing.Optional[typing.Any] = None,
-        compareItems: typing.Optional[typing.Any] = None,
-        direction: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        downshiftProps: typing.Optional[typing.Any] = None,
-        initialSelectedItems: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        isCondensed: typing.Optional[typing.Any] = None,
-        isFilterable: typing.Optional[typing.Any] = None,
-        itemToElement: typing.Optional[typing.Any] = None,
-        itemToString: typing.Optional[typing.Any] = None,
-        items: typing.Optional[typing.Any] = None,
-        label: typing.Optional[typing.Any] = None,
-        locale: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onInputValueChange: typing.Optional[typing.Any] = None,
-        onMenuChange: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        selectedItems: typing.Optional[typing.Any] = None,
-        selectionFeedback: typing.Optional[typing.Any] = None,
-        sortItems: typing.Optional[typing.Any] = None,
-        titleText: typing.Optional[typing.Any] = None,
-        translateWithId: typing.Optional[typing.Any] = None,
-        useTitleInItem: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
+        items: typing.Optional[typing.Sequence] = None,
+        selectedItems: typing.Optional[typing.Sequence] = None,
+        label: typing.Optional[ComponentType] = None,
+        titleText: typing.Optional[ComponentType] = None,
+        helperText: typing.Optional[ComponentType] = None,
+        placeholder: typing.Optional[str] = None,
+        disabled: typing.Optional[bool] = None,
+        invalid: typing.Optional[bool] = None,
+        invalidText: typing.Optional[ComponentType] = None,
+        warn: typing.Optional[bool] = None,
+        warnText: typing.Optional[ComponentType] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
+        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
+        persisted_props: typing.Optional[typing.Sequence[str]] = None,
+        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'clearSelectionDescription', 'clearSelectionText', 'compareItems', 'direction', 'disabled', 'downshiftProps', 'initialSelectedItems', 'invalid', 'invalidText', 'isCondensed', 'isFilterable', 'itemToElement', 'itemToString', 'items', 'label', 'loading_state', 'locale', 'onChange', 'onInputValueChange', 'onMenuChange', 'readOnly', 'selectedItems', 'selectionFeedback', 'sortItems', 'style', 'titleText', 'translateWithId', 'useTitleInItem', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'helperText', 'invalid', 'invalidText', 'items', 'label', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'selectedItems', 'size', 'style', 'titleText', 'warn', 'warnText']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'clearSelectionDescription', 'clearSelectionText', 'compareItems', 'direction', 'disabled', 'downshiftProps', 'initialSelectedItems', 'invalid', 'invalidText', 'isCondensed', 'isFilterable', 'itemToElement', 'itemToString', 'items', 'label', 'loading_state', 'locale', 'onChange', 'onInputValueChange', 'onMenuChange', 'readOnly', 'selectedItems', 'selectionFeedback', 'sortItems', 'style', 'titleText', 'translateWithId', 'useTitleInItem', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'helperText', 'invalid', 'invalidText', 'items', 'label', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'selectedItems', 'size', 'style', 'titleText', 'warn', 'warnText']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

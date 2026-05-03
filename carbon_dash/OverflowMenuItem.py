@@ -17,48 +17,23 @@ NumberType = typing.Union[
 
 class OverflowMenuItem(Component):
     """An OverflowMenuItem component.
-OverflowMenuItem is a wrapper for the Carbon OverflowMenuItem component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- closeMenu (boolean | number | string | dict | list; optional):
-    closeMenu.
+- disabled (boolean; default False)
 
-- dangerDescription (boolean | number | string | dict | list; optional):
-    dangerDescription.
+- hasDivider (boolean; default False)
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- itemText (string; optional)
 
-- handleOverflowMenuItemFocus (boolean | number | string | dict | list; optional):
-    handleOverflowMenuItemFocus.
-
-- hasDivider (boolean | number | string | dict | list; optional):
-    hasDivider.
-
-- href (boolean | number | string | dict | list; optional):
-    href.
-
-- index (boolean | number | string | dict | list; optional):
-    index.
-
-- isDelete (boolean | number | string | dict | list; optional):
-    isDelete.
-
-- itemText (boolean | number | string | dict | list; optional):
-    itemText.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -68,41 +43,13 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onBlur (boolean | number | string | dict | list; optional):
-    onBlur.
+- n_clicks (number; default 0)
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
+- persisted_props (list of strings; optional)
 
-- onFocus (boolean | number | string | dict | list; optional):
-    onFocus.
+- persistence (boolean | string | number; optional)
 
-- onKeyDown (boolean | number | string | dict | list; optional):
-    onKeyDown.
-
-- onKeyUp (boolean | number | string | dict | list; optional):
-    onKeyUp.
-
-- onMouseDown (boolean | number | string | dict | list; optional):
-    onMouseDown.
-
-- onMouseEnter (boolean | number | string | dict | list; optional):
-    onMouseEnter.
-
-- onMouseLeave (boolean | number | string | dict | list; optional):
-    onMouseLeave.
-
-- onMouseUp (boolean | number | string | dict | list; optional):
-    onMouseUp.
-
-- requireTitle (boolean | number | string | dict | list; optional):
-    requireTitle.
-
-- title (boolean | number | string | dict | list; optional):
-    title.
-
-- wrapperClassName (boolean | number | string | dict | list; optional):
-    wrapperClassName."""
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)"""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -116,32 +63,18 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        closeMenu: typing.Optional[typing.Any] = None,
-        dangerDescription: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        handleOverflowMenuItemFocus: typing.Optional[typing.Any] = None,
-        hasDivider: typing.Optional[typing.Any] = None,
-        href: typing.Optional[typing.Any] = None,
-        index: typing.Optional[typing.Any] = None,
-        isDelete: typing.Optional[typing.Any] = None,
-        itemText: typing.Optional[typing.Any] = None,
-        onBlur: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        onFocus: typing.Optional[typing.Any] = None,
-        onKeyDown: typing.Optional[typing.Any] = None,
-        onKeyUp: typing.Optional[typing.Any] = None,
-        onMouseDown: typing.Optional[typing.Any] = None,
-        onMouseEnter: typing.Optional[typing.Any] = None,
-        onMouseLeave: typing.Optional[typing.Any] = None,
-        onMouseUp: typing.Optional[typing.Any] = None,
-        requireTitle: typing.Optional[typing.Any] = None,
-        title: typing.Optional[typing.Any] = None,
-        wrapperClassName: typing.Optional[typing.Any] = None,
+        n_clicks: typing.Optional[NumberType] = None,
+        disabled: typing.Optional[bool] = None,
+        hasDivider: typing.Optional[bool] = None,
+        itemText: typing.Optional[str] = None,
+        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
+        persisted_props: typing.Optional[typing.Sequence[str]] = None,
+        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'closeMenu', 'dangerDescription', 'disabled', 'handleOverflowMenuItemFocus', 'hasDivider', 'href', 'index', 'isDelete', 'itemText', 'loading_state', 'onBlur', 'onClick', 'onFocus', 'onKeyDown', 'onKeyUp', 'onMouseDown', 'onMouseEnter', 'onMouseLeave', 'onMouseUp', 'requireTitle', 'style', 'title', 'wrapperClassName']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'hasDivider', 'itemText', 'loading_state', 'n_clicks', 'persisted_props', 'persistence', 'persistence_type', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'closeMenu', 'dangerDescription', 'disabled', 'handleOverflowMenuItemFocus', 'hasDivider', 'href', 'index', 'isDelete', 'itemText', 'loading_state', 'onBlur', 'onClick', 'onFocus', 'onKeyDown', 'onKeyUp', 'onMouseDown', 'onMouseEnter', 'onMouseLeave', 'onMouseUp', 'requireTitle', 'style', 'title', 'wrapperClassName']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'hasDivider', 'itemText', 'loading_state', 'n_clicks', 'persisted_props', 'persistence', 'persistence_type', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

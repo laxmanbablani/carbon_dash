@@ -17,30 +17,36 @@ NumberType = typing.Union[
 
 class Tab(Component):
     """A Tab component.
-Tab is a wrapper for the Carbon Tab component.
+
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the tab.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- as_ (boolean | number | string | dict | list; optional):
-    as.
+- className (string; optional):
+    Custom CSS class.
 
-- className (string; default ''):
-    className.
+- closeButtonLabel (string; optional):
+    Optional dismissible button label.
 
 - disabled (boolean; default False):
-    disabled.
+    Whether the tab is disabled.
 
-- label (a list of or a singular dash component, string or number; default 'Tab'):
-    label.
+- dismissable (boolean; optional):
+    Whether the tab is dismissable.
+
+- href (string; optional):
+    Provide an href for the tab, making it an <a> element.
+
+- label (a list of or a singular dash component, string or number; optional):
+    The label text for the tab.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -50,22 +56,10 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
-
-- onKeyDown (boolean | number | string | dict | list; optional):
-    onKeyDown.
-
-- renderButton (boolean | number | string | dict | list; optional):
-    renderButton.
-
-- renderIcon (a list of or a singular dash component, string or number; optional):
-    renderIcon.
-
-- secondaryLabel (boolean | number | string | dict | list; optional):
-    secondaryLabel."""
-    _children_props: typing.List[str] = ['renderIcon', 'label']
-    _base_nodes = ['renderIcon', 'label', 'children']
+- selected (boolean; optional):
+    Whether the tab is selected. Overrides the parent's selectedIndex."""
+    _children_props: typing.List[str] = ['label']
+    _base_nodes = ['label', 'children']
     _namespace = 'carbon_dash'
     _type = 'Tab'
 
@@ -77,19 +71,17 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        as_: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[bool] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        onKeyDown: typing.Optional[typing.Any] = None,
-        renderButton: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[ComponentType] = None,
-        secondaryLabel: typing.Optional[typing.Any] = None,
         label: typing.Optional[ComponentType] = None,
+        disabled: typing.Optional[bool] = None,
+        selected: typing.Optional[bool] = None,
+        href: typing.Optional[str] = None,
+        closeButtonLabel: typing.Optional[str] = None,
+        dismissable: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'as_', 'className', 'disabled', 'label', 'loading_state', 'onClick', 'onKeyDown', 'renderButton', 'renderIcon', 'secondaryLabel', 'style']
+        self._prop_names = ['children', 'id', 'className', 'closeButtonLabel', 'disabled', 'dismissable', 'href', 'label', 'loading_state', 'selected', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'as_', 'className', 'disabled', 'label', 'loading_state', 'onClick', 'onKeyDown', 'renderButton', 'renderIcon', 'secondaryLabel', 'style']
+        self.available_properties = ['children', 'id', 'className', 'closeButtonLabel', 'disabled', 'dismissable', 'href', 'label', 'loading_state', 'selected', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

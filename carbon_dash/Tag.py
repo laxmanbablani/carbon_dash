@@ -17,33 +17,23 @@ NumberType = typing.Union[
 
 class Tag(Component):
     """A Tag component.
-Tag is a wrapper for the Carbon Tag component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- as_ (boolean | number | string | dict | list; optional):
-    as.
-
-- className (string; default ''):
-    className.
-
-- decorator (boolean | number | string | dict | list; optional):
-    decorator.
+- className (string; optional)
 
 - disabled (boolean; default False):
-    disabled.
+    Whether the tag is disabled.
 
-- filter (boolean | number | string | dict | list; optional):
-    filter.
+- filter (boolean; default False):
+    Filter/tag variant.
 
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -53,25 +43,15 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onClose (boolean | number | string | dict | list; optional):
-    onClose.
+- overflowMenu (a list of or a singular dash component, string or number; optional)
 
-- renderIcon (a list of or a singular dash component, string or number; optional):
-    renderIcon.
+- size (a value equal to: 'sm', 'md'; default 'md'):
+    Size.
 
-- size (string; default 'md'):
-    size.
-
-- slug (boolean | number | string | dict | list; optional):
-    slug.
-
-- title (boolean | number | string | dict | list; optional):
-    title.
-
-- type (string; default 'gray'):
-    type."""
-    _children_props: typing.List[str] = ['renderIcon']
-    _base_nodes = ['renderIcon', 'children']
+- type (a value equal to: 'red', 'magenta', 'purple', 'blue', 'cyan', 'teal', 'green', 'gray', 'cool-gray', 'warm-gray', 'high-contrast', 'outline'; default 'gray'):
+    Type of tag (determines color)."""
+    _children_props: typing.List[str] = ['overflowMenu']
+    _base_nodes = ['overflowMenu', 'children']
     _namespace = 'carbon_dash'
     _type = 'Tag'
 
@@ -83,21 +63,17 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        as_: typing.Optional[typing.Any] = None,
-        decorator: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[bool] = None,
-        filter: typing.Optional[typing.Any] = None,
-        onClose: typing.Optional[typing.Any] = None,
-        renderIcon: typing.Optional[ComponentType] = None,
+        type: typing.Optional[Literal["red", "magenta", "purple", "blue", "cyan", "teal", "green", "gray", "cool-gray", "warm-gray", "high-contrast", "outline"]] = None,
         size: typing.Optional[typing.Optional[str]] = None,
-        slug: typing.Optional[typing.Any] = None,
-        title: typing.Optional[typing.Any] = None,
-        type: typing.Optional[str] = None,
+        disabled: typing.Optional[bool] = None,
+        filter: typing.Optional[bool] = None,
+        onClose: typing.Optional[typing.Any] = None,
+        overflowMenu: typing.Optional[ComponentType] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'as_', 'className', 'decorator', 'disabled', 'filter', 'loading_state', 'onClose', 'renderIcon', 'size', 'slug', 'style', 'title', 'type']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'filter', 'loading_state', 'overflowMenu', 'size', 'style', 'type']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'as_', 'className', 'decorator', 'disabled', 'filter', 'loading_state', 'onClose', 'renderIcon', 'size', 'slug', 'style', 'title', 'type']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'filter', 'loading_state', 'overflowMenu', 'size', 'style', 'type']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

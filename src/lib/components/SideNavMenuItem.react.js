@@ -1,69 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { SideNavMenuItem as CarbonSideNavMenuItem } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * SideNavMenuItem is a wrapper for the Carbon SideNavMenuItem component.
- */
-export default class SideNavMenuItem extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['SideNavMenuItem'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-SideNavMenuItem.defaultProps = {
-    className: '',
+const SideNavMenuItem = (props) => {
+    const { id, children, className = '', style = {}, loading_state, n_clicks = 0, ...others } = props;
+    const handleClick = () => { if (props.setProps) props.setProps({ n_clicks: n_clicks + 1 }); };
+    return (
+        <CarbonSideNavMenuItem id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            onClick={handleClick} {...others}>{children}</CarbonSideNavMenuItem>
+    );
 };
 
 SideNavMenuItem.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * as
-     */
-    as_: PropTypes.any,
-
-    /**
-     * href
-     */
-    href: PropTypes.any,
-
-    /**
-     * isActive
-     */
-    isActive: PropTypes.any,
-
+    n_clicks: PropTypes.number, href: PropTypes.string, isActive: PropTypes.bool,
 };
+SideNavMenuItem.defaultProps = { n_clicks: 0 };
+export default SideNavMenuItem;

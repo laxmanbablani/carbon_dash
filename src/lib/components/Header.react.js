@@ -1,54 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { Header as CarbonHeader } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * Header is a wrapper for the Carbon Header component.
- */
-export default class Header extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['Header'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-Header.defaultProps = {
-    className: '',
+const Header = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    return (
+        <CarbonHeader
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonHeader>
+    );
 };
 
 Header.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
-
-    /** children */
+    /** The content of the header */
     children: PropTypes.node,
-
-    /** className */
+    /** Custom CSS class */
     className: PropTypes.string,
-
-    /** style */
+    /** Inline styles */
     style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 };
+
+export default Header;

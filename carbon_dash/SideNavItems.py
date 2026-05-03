@@ -17,24 +17,26 @@ NumberType = typing.Union[
 
 class SideNavItems(Component):
     """A SideNavItems component.
-SideNavItems is a wrapper for the Carbon SideNavItems component.
+
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    Provide the children to be rendered inside of the SideNavItems.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- isSideNavExpanded (boolean | number | string | dict | list; optional):
-    isSideNavExpanded.
+- isSideNavExpanded (boolean; optional):
+    Property to indicate if the side nav container is open (or not).
+    Use to keep local state and styling in step with the SideNav
+    expansion state.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -56,7 +58,7 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        isSideNavExpanded: typing.Optional[typing.Any] = None,
+        isSideNavExpanded: typing.Optional[bool] = None,
         **kwargs
     ):
         self._prop_names = ['children', 'id', 'className', 'isSideNavExpanded', 'loading_state', 'style']

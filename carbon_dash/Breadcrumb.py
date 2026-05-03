@@ -17,21 +17,19 @@ NumberType = typing.Union[
 
 class Breadcrumb(Component):
     """A Breadcrumb component.
-Breadcrumb is a wrapper for the Carbon Breadcrumb component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- ariaLabel (string; optional)
 
-- loading_state (dict; optional):
-    loading_state.
+- className (string; optional)
+
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -41,11 +39,9 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- noTrailingSlash (boolean; default False):
-    noTrailingSlash.
+- noTrailingSlash (boolean; default False)
 
-- size (boolean | number | string | dict | list; optional):
-    size."""
+- size (a value equal to: 'sm', 'md'; default 'md')"""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -61,11 +57,12 @@ Keyword arguments:
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         noTrailingSlash: typing.Optional[bool] = None,
         size: typing.Optional[typing.Optional[str]] = None,
+        ariaLabel: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'loading_state', 'noTrailingSlash', 'size', 'style']
+        self._prop_names = ['children', 'id', 'ariaLabel', 'className', 'loading_state', 'noTrailingSlash', 'size', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'loading_state', 'noTrailingSlash', 'size', 'style']
+        self.available_properties = ['children', 'id', 'ariaLabel', 'className', 'loading_state', 'noTrailingSlash', 'size', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

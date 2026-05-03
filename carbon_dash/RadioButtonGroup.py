@@ -17,48 +17,29 @@ NumberType = typing.Union[
 
 class RadioButtonGroup(Component):
     """A RadioButtonGroup component.
-RadioButtonGroup is a wrapper for the Carbon RadioButtonGroup component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- decorator (boolean | number | string | dict | list; optional):
-    decorator.
+- defaultValue (string; optional)
 
-- defaultSelected (boolean | number | string | dict | list; optional):
-    defaultSelected.
+- disabled (boolean; default False)
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- helperText (a list of or a singular dash component, string or number; optional)
 
-- helperText (boolean | number | string | dict | list; optional):
-    helperText.
+- hideLabel (boolean; optional)
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
+- labelText (a list of or a singular dash component, string or number; optional)
 
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
+- legendText (a list of or a singular dash component, string or number; optional)
 
-- label (string; default 'Radio Button Group'):
-    label.
-
-- labelPosition (boolean | number | string | dict | list; optional):
-    labelPosition.
-
-- legendText (boolean | number | string | dict | list; optional):
-    legendText.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -68,43 +49,17 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- name (boolean | number | string | dict | list; optional):
-    name.
+- orientation (a value equal to: 'horizontal', 'vertical'; default 'horizontal')
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- persisted_props (list of strings; optional)
 
-- orientation (boolean | number | string | dict | list; optional):
-    orientation.
+- persistence (boolean | string | number; optional)
 
-- persisted_props (list of strings; optional):
-    persisted_props.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
-
-- required (boolean | number | string | dict | list; optional):
-    required.
-
-- slug (boolean | number | string | dict | list; optional):
-    slug.
-
-- valueSelected (boolean | number | string | dict | list; optional):
-    valueSelected.
-
-- warn (boolean | number | string | dict | list; optional):
-    warn.
-
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- value (string; optional)"""
+    _children_props: typing.List[str] = ['labelText', 'helperText', 'legendText']
+    _base_nodes = ['labelText', 'helperText', 'legendText', 'children']
     _namespace = 'carbon_dash'
     _type = 'RadioButtonGroup'
 
@@ -116,32 +71,22 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        value: typing.Optional[str] = None,
+        defaultValue: typing.Optional[str] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        helperText: typing.Optional[ComponentType] = None,
+        legendText: typing.Optional[ComponentType] = None,
+        disabled: typing.Optional[bool] = None,
+        orientation: typing.Optional[Literal["horizontal", "vertical"]] = None,
+        hideLabel: typing.Optional[bool] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        decorator: typing.Optional[typing.Any] = None,
-        defaultSelected: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        helperText: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        labelPosition: typing.Optional[typing.Any] = None,
-        legendText: typing.Optional[typing.Any] = None,
-        name: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        orientation: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        required: typing.Optional[typing.Any] = None,
-        slug: typing.Optional[typing.Any] = None,
-        valueSelected: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
-        label: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'decorator', 'defaultSelected', 'disabled', 'helperText', 'invalid', 'invalidText', 'label', 'labelPosition', 'legendText', 'loading_state', 'name', 'onChange', 'orientation', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'required', 'slug', 'style', 'valueSelected', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'className', 'defaultValue', 'disabled', 'helperText', 'hideLabel', 'labelText', 'legendText', 'loading_state', 'orientation', 'persisted_props', 'persistence', 'persistence_type', 'style', 'value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'decorator', 'defaultSelected', 'disabled', 'helperText', 'invalid', 'invalidText', 'label', 'labelPosition', 'legendText', 'loading_state', 'name', 'onChange', 'orientation', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'required', 'slug', 'style', 'valueSelected', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'className', 'defaultValue', 'disabled', 'helperText', 'hideLabel', 'labelText', 'legendText', 'loading_state', 'orientation', 'persisted_props', 'persistence', 'persistence_type', 'style', 'value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

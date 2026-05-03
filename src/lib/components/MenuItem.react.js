@@ -1,89 +1,57 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { MenuItem as CarbonMenuItem } from '@carbon/react';
 
 /**
- * MenuItem is a wrapper for the Carbon MenuItem component.
+ * MenuItem is a component for rendering menu items within ComboButton or OverflowMenu.
+ * 
+ * Usage with ComboButton:
+ * <ComboButton label="Primary action">
+ *   <MenuItem label="Second action" />
+ *   <MenuItem label="Third action" />
+ * </ComboButton>
  */
-export default class MenuItem extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
+const MenuItem = (props) => {
+    const {
+        id,
+        label,
+        kind,
+        disabled = false,
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['MenuItem'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-MenuItem.defaultProps = {
-    className: '',
+    return (
+        <CarbonMenuItem
+            id={id}
+            label={label}
+            kind={kind}
+            disabled={disabled}
+            {...others}
+        />
+    );
 };
 
 MenuItem.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
 
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
+    /** Dash callback to update props */
     setProps: PropTypes.func,
 
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
+    /** Specify the label of the menu item */
+    label: PropTypes.string.isRequired,
 
-    /**
-     * dangerDescription
-     */
-    dangerDescription: PropTypes.any,
+    /** Specify the kind of menu item */
+    kind: PropTypes.oneOf(['danger']),
 
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * kind
-     */
-    kind: PropTypes.any,
-
-    /**
-     * label
-     */
-    label: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * renderIcon
-     */
-    renderIcon: PropTypes.node,
-
-    /**
-     * shortcut
-     */
-    shortcut: PropTypes.any,
-
+    /** Specify whether the menu item is disabled */
+    disabled: PropTypes.bool,
 };
+
+MenuItem.propTypes.description = 'MenuItem is a component for rendering menu items within ComboButton or OverflowMenu.';
+
+MenuItem.defaultProps = {
+    disabled: false,
+};
+
+export default MenuItem;

@@ -17,48 +17,21 @@ NumberType = typing.Union[
 
 class OverflowMenu(Component):
     """An OverflowMenu component.
-OverflowMenu is a wrapper for the Carbon OverflowMenu component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- align (boolean | number | string | dict | list; optional):
-    align.
+- ariaLabel (string; optional)
 
-- ariaLabel (boolean | number | string | dict | list; optional):
-    ariaLabel.
+- className (string; optional)
 
-- className (string; default ''):
-    className.
+- flipped (boolean; default False)
 
-- direction (boolean | number | string | dict | list; optional):
-    direction.
-
-- flipped (boolean | number | string | dict | list; optional):
-    flipped.
-
-- focusTrap (boolean | number | string | dict | list; optional):
-    focusTrap.
-
-- iconClass (a list of or a singular dash component, string or number; optional):
-    iconClass.
-
-- iconDescription (boolean | number | string | dict | list; optional):
-    iconDescription.
-
-- left (boolean | number | string | dict | list; optional):
-    left.
-
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -68,46 +41,13 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- menuOffset (boolean | number | string | dict | list; optional):
-    menuOffset.
+- persisted_props (list of strings; optional)
 
-- menuOffsetFlip (boolean | number | string | dict | list; optional):
-    menuOffsetFlip.
+- persistence (boolean | string | number; optional)
 
-- menuOptionsClass (boolean | number | string | dict | list; optional):
-    menuOptionsClass.
-
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
-
-- onClose (boolean | number | string | dict | list; optional):
-    onClose.
-
-- onFocus (boolean | number | string | dict | list; optional):
-    onFocus.
-
-- onKeyDown (boolean | number | string | dict | list; optional):
-    onKeyDown.
-
-- onOpen (boolean | number | string | dict | list; optional):
-    onOpen.
-
-- open (boolean; default False):
-    open.
-
-- renderIcon (a list of or a singular dash component, string or number; optional):
-    renderIcon.
-
-- selectorPrimaryFocus (boolean | number | string | dict | list; optional):
-    selectorPrimaryFocus.
-
-- size (boolean | number | string | dict | list; optional):
-    size.
-
-- top (boolean | number | string | dict | list; optional):
-    top."""
-    _children_props: typing.List[str] = ['iconClass', 'renderIcon']
-    _base_nodes = ['iconClass', 'renderIcon', 'children']
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)"""
+    _children_props: typing.List[str] = []
+    _base_nodes = ['children']
     _namespace = 'carbon_dash'
     _type = 'OverflowMenu'
 
@@ -119,33 +59,16 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        align: typing.Optional[typing.Any] = None,
-        ariaLabel: typing.Optional[typing.Any] = None,
-        direction: typing.Optional[typing.Any] = None,
-        flipped: typing.Optional[typing.Any] = None,
-        focusTrap: typing.Optional[typing.Any] = None,
-        iconClass: typing.Optional[ComponentType] = None,
-        iconDescription: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        menuOffset: typing.Optional[typing.Any] = None,
-        top: typing.Optional[typing.Any] = None,
-        left: typing.Optional[typing.Any] = None,
-        menuOffsetFlip: typing.Optional[typing.Any] = None,
-        menuOptionsClass: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        onClose: typing.Optional[typing.Any] = None,
-        onFocus: typing.Optional[typing.Any] = None,
-        onKeyDown: typing.Optional[typing.Any] = None,
-        onOpen: typing.Optional[typing.Any] = None,
-        open: typing.Optional[bool] = None,
-        renderIcon: typing.Optional[ComponentType] = None,
-        selectorPrimaryFocus: typing.Optional[typing.Any] = None,
-        size: typing.Optional[typing.Optional[str]] = None,
+        flipped: typing.Optional[bool] = None,
+        ariaLabel: typing.Optional[str] = None,
+        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
+        persisted_props: typing.Optional[typing.Sequence[str]] = None,
+        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'align', 'ariaLabel', 'className', 'direction', 'flipped', 'focusTrap', 'iconClass', 'iconDescription', 'left', 'light', 'loading_state', 'menuOffset', 'menuOffsetFlip', 'menuOptionsClass', 'onClick', 'onClose', 'onFocus', 'onKeyDown', 'onOpen', 'open', 'renderIcon', 'selectorPrimaryFocus', 'size', 'style', 'top']
+        self._prop_names = ['children', 'id', 'ariaLabel', 'className', 'flipped', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'align', 'ariaLabel', 'className', 'direction', 'flipped', 'focusTrap', 'iconClass', 'iconDescription', 'left', 'light', 'loading_state', 'menuOffset', 'menuOffsetFlip', 'menuOptionsClass', 'onClick', 'onClose', 'onFocus', 'onKeyDown', 'onOpen', 'open', 'renderIcon', 'selectorPrimaryFocus', 'size', 'style', 'top']
+        self.available_properties = ['children', 'id', 'ariaLabel', 'className', 'flipped', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

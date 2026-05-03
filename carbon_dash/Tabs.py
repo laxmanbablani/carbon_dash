@@ -18,26 +18,28 @@ NumberType = typing.Union[
 class Tabs(Component):
     """A Tabs component.
 Tabs is a wrapper for the Carbon Tabs component.
+Provides a tabbed interface for organizing content.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the tabs (should contain TabList and TabPanels).
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- defaultSelectedIndex (boolean | number | string | dict | list; optional):
-    defaultSelectedIndex.
+- defaultSelectedIndex (number; default 0):
+    Specify which content tab should be initially selected when the
+    component is first rendered.
 
-- dismissable (boolean | number | string | dict | list; optional):
-    dismissable.
+- dismissable (boolean; optional):
+    Whether the rendered Tab children should be dismissable.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -47,23 +49,8 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
-
-- onTabCloseRequest (boolean | number | string | dict | list; optional):
-    onTabCloseRequest.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
-
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- selectedIndex (number; default 0):
-    selectedIndex."""
+- selectedIndex (number; optional):
+    Control which content panel is currently selected."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -77,19 +64,14 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
-        persisted_props: typing.Optional[typing.Sequence[str]] = None,
-        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        defaultSelectedIndex: typing.Optional[typing.Any] = None,
-        dismissable: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onTabCloseRequest: typing.Optional[typing.Any] = None,
         selectedIndex: typing.Optional[NumberType] = None,
+        defaultSelectedIndex: typing.Optional[NumberType] = None,
+        dismissable: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'defaultSelectedIndex', 'dismissable', 'loading_state', 'onChange', 'onTabCloseRequest', 'persisted_props', 'persistence', 'persistence_type', 'selectedIndex', 'style']
+        self._prop_names = ['children', 'id', 'className', 'defaultSelectedIndex', 'dismissable', 'loading_state', 'selectedIndex', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'defaultSelectedIndex', 'dismissable', 'loading_state', 'onChange', 'onTabCloseRequest', 'persisted_props', 'persistence', 'persistence_type', 'selectedIndex', 'style']
+        self.available_properties = ['children', 'id', 'className', 'defaultSelectedIndex', 'dismissable', 'loading_state', 'selectedIndex', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

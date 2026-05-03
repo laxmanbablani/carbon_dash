@@ -1,201 +1,119 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { TextInput as CarbonTextInput, TextInputSkeleton as CarbonTextInputSkeleton, AILabel } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
 /**
  * TextInput is a wrapper for the Carbon TextInput component.
+ * Supports label, placeholder, helper text, invalid/warn states, and AI label decorator.
  */
-export default class TextInput extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { value } = this.props;
-        const { ai_label } = this.props;
-        const { label } = this.props;
+const TextInput = (props) => {
+    const {
+        id, children, className = '', style = {}, loading_state,
+        value, aiLabel = false, renderIcon,
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['TextInput'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    value={value}
-                    ai_label={ai_label}
-                    label={label}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonTextInputSkeleton id={id} className={className} hideLabel={false} />;
     }
-}
 
-TextInput.defaultProps = {
-    className: '',
-    value: '',
-    ai_label: false,
-    label: 'Text Input',
+    const handleChange = (e) => {
+        if (props.setProps) props.setProps({ value: e.target?.value ?? e });
+    };
+
+    const decorator = aiLabel ? React.createElement(AILabel, { size: 'xs' }) : undefined;
+
+    return (
+        <CarbonTextInput
+            id={id}
+            className={className}
+            style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            value={value}
+            onChange={handleChange}
+            decorator={decorator}
+            renderIcon={renderIcon}
+            {...others}
+        >
+            {children}
+        </CarbonTextInput>
+    );
 };
 
 TextInput.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
+    /** Dash-assigned callback for reactivity */
     setProps: PropTypes.func,
-
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
+    /** The content of the text input (used as label fallback if labelText not provided) */
+    children: PropTypes.node,
+    /** Custom CSS class */
+    className: PropTypes.string,
+    /** Inline styles */
+    style: PropTypes.object,
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
+    /** The value of the input */
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    /** Specify the label text */
+    labelText: PropTypes.node,
+    /** Placeholder text */
+    placeholder: PropTypes.string,
+    /** Input helper text */
+    helperText: PropTypes.node,
+    /** Whether the input is disabled */
+    disabled: PropTypes.bool,
+    /** Whether the input is read only */
+    readOnly: PropTypes.bool,
+    /** Whether the input is in an invalid state */
+    invalid: PropTypes.bool,
+    /** Invalid state error message */
+    invalidText: PropTypes.node,
+    /** Whether the input is in a warning state */
+    warn: PropTypes.bool,
+    /** Warning state message */
+    warnText: PropTypes.node,
+    /** Size of the input */
+    size: PropTypes.oneOf(['sm', 'md', 'lg']),
+    /** Whether to hide the label */
+    hideLabel: PropTypes.bool,
+    /** Whether to display the character counter */
+    enableCounter: PropTypes.bool,
+    /** Maximum count (used with enableCounter) */
+    maxCount: PropTypes.number,
+    /** What the input type is (e.g. 'text', 'email', 'password') */
+    type: PropTypes.string,
+    /** Default value (for uncontrolled mode) */
+    defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    /** Whether the label should be lightweight */
+    light: PropTypes.bool,
+    /** An icon component to render inside the input */
+    renderIcon: PropTypes.node,
+    /** Whether to render the AI label decorator */
+    aiLabel: PropTypes.bool,
+    /** Callback for when the input value changes */
+    onChange: PropTypes.func,
+    /** Callback for when the input loses focus */
+    onBlur: PropTypes.func,
+    /** Persistence */
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
     persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
     persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * defaultValue
-     */
-    defaultValue: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * enableCounter
-     */
-    enableCounter: PropTypes.any,
-
-    /**
-     * helperText
-     */
-    helperText: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * inline
-     */
-    inline: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * labelText
-     */
-    labelText: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * maxCount
-     */
-    maxCount: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * placeholder
-     */
-    placeholder: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.string,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
-    /**
-     * ai_label
-     */
-    ai_label: PropTypes.bool,
-
-    /**
-     * label
-     */
-    label: PropTypes.string,
-
 };
+
+TextInput.defaultProps = {
+    disabled: false,
+    invalid: false,
+    warn: false,
+    hideLabel: false,
+    readOnly: false,
+    size: 'md',
+    aiLabel: false,
+};
+
+export default TextInput;

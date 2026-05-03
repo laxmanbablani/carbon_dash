@@ -17,39 +17,33 @@ NumberType = typing.Union[
 
 class TabList(Component):
     """A TabList component.
-TabList is a wrapper for the Carbon TabList component.
+
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    Tab components rendered inside this list.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- activation (boolean | number | string | dict | list; optional):
-    activation.
+- activation (a value equal to: 'automatic', 'manual'; default 'automatic'):
+    Specify the activation mode. 'automatic' or 'manual'.
 
-- className (string; default ''):
-    className.
+- ariaLabel (string; optional):
+    Specify the label used for the tab list aria-label.
+
+- className (string; optional):
+    Custom CSS class.
 
 - contained (boolean; default False):
-    contained.
+    Specify whether the tab list should be contained.
 
-- fullWidth (boolean | number | string | dict | list; optional):
-    fullWidth.
-
-- iconSize (a list of or a singular dash component, string or number; optional):
-    iconSize.
-
-- leftOverflowButtonProps (boolean | number | string | dict | list; optional):
-    leftOverflowButtonProps.
-
-- light (boolean | number | string | dict | list; optional):
-    light.
+- fullWidth (boolean; default False):
+    Specify whether the tab list should be full width.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -57,18 +51,9 @@ Keyword arguments:
 
     - prop_name (string; optional)
 
-    - component_name (string; optional)
-
-- rightOverflowButtonProps (boolean | number | string | dict | list; optional):
-    rightOverflowButtonProps.
-
-- scrollDebounceWait (boolean | number | string | dict | list; optional):
-    scrollDebounceWait.
-
-- scrollIntoView (boolean | number | string | dict | list; optional):
-    scrollIntoView."""
-    _children_props: typing.List[str] = ['iconSize']
-    _base_nodes = ['iconSize', 'children']
+    - component_name (string; optional)"""
+    _children_props: typing.List[str] = []
+    _base_nodes = ['children']
     _namespace = 'carbon_dash'
     _type = 'TabList'
 
@@ -80,20 +65,15 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        activation: typing.Optional[typing.Any] = None,
         contained: typing.Optional[bool] = None,
-        fullWidth: typing.Optional[typing.Any] = None,
-        iconSize: typing.Optional[ComponentType] = None,
-        leftOverflowButtonProps: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        rightOverflowButtonProps: typing.Optional[typing.Any] = None,
-        scrollDebounceWait: typing.Optional[typing.Any] = None,
-        scrollIntoView: typing.Optional[typing.Any] = None,
+        fullWidth: typing.Optional[bool] = None,
+        activation: typing.Optional[Literal["automatic", "manual"]] = None,
+        ariaLabel: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'activation', 'className', 'contained', 'fullWidth', 'iconSize', 'leftOverflowButtonProps', 'light', 'loading_state', 'rightOverflowButtonProps', 'scrollDebounceWait', 'scrollIntoView', 'style']
+        self._prop_names = ['children', 'id', 'activation', 'ariaLabel', 'className', 'contained', 'fullWidth', 'loading_state', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'activation', 'className', 'contained', 'fullWidth', 'iconSize', 'leftOverflowButtonProps', 'light', 'loading_state', 'rightOverflowButtonProps', 'scrollDebounceWait', 'scrollIntoView', 'style']
+        self.available_properties = ['children', 'id', 'activation', 'ariaLabel', 'className', 'contained', 'fullWidth', 'loading_state', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

@@ -1,69 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
-
-/**
- * HeaderMenuButton is a wrapper for the Carbon HeaderMenuButton component.
- */
-export default class HeaderMenuButton extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['HeaderMenuButton'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-HeaderMenuButton.defaultProps = {
-    className: '',
+import { HeaderMenuButton as CarbonHeaderMenuButton } from '@carbon/react';
+const HeaderMenuButton = (props) => {
+    const { id, children, className, style, loading_state, ...others } = props;
+    return <CarbonHeaderMenuButton id={id} className={className} style={style} data-dash-is-loading={loading_state?.is_loading||undefined} {...others}/>;
 };
-
 HeaderMenuButton.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * isActive
-     */
-    isActive: PropTypes.any,
-
-    /**
-     * isCollapsible
-     */
-    isCollapsible: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
+    /** Label used for layer navigation with HeaderContainer */
+    menuIconDescription: PropTypes.string,
+    /** Whether the menu button is active */
+    isActive: PropTypes.bool,
 };
+export default HeaderMenuButton;

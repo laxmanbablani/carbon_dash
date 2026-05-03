@@ -17,54 +17,44 @@ NumberType = typing.Union[
 
 class Select(Component):
     """A Select component.
-Select is a wrapper for the Carbon Select component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
-
-- decorator (boolean | number | string | dict | list; optional):
-    decorator.
+- className (string; optional)
 
 - defaultValue (boolean | number | string | dict | list; optional):
-    defaultValue.
+    Default value (uncontrolled).
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- disabled (boolean; default False):
+    Whether the select is disabled.
 
-- helperText (boolean | number | string | dict | list; optional):
-    helperText.
+- helperText (a list of or a singular dash component, string or number; optional):
+    Helper text.
 
-- hideLabel (boolean | number | string | dict | list; optional):
-    hideLabel.
+- hideLabel (boolean; default False):
+    Whether the label should be visually hidden.
 
-- inline (boolean | number | string | dict | list; optional):
-    inline.
+- inline (boolean; default False):
+    Inline variant.
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
+- invalid (boolean; default False):
+    Whether the select is in invalid state.
 
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
+- invalidText (a list of or a singular dash component, string or number; optional):
+    Invalid state text.
 
-- label (string; default 'Select'):
-    label.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Label text.
 
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
+- light (boolean; optional):
+    Whether the label should be lightweight.
 
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -74,40 +64,25 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- noLabel (boolean | number | string | dict | list; optional):
-    noLabel.
+- persisted_props (list of strings; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- persistence (boolean | string | number; optional)
 
-- persisted_props (list of strings; optional):
-    persisted_props.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- persistence (boolean | string | number; optional):
-    persistence.
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md'):
+    Size.
 
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
+- value (boolean | number | string | dict | list; optional):
+    Current value of the select.
 
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
+- warn (boolean; default False):
+    Whether the select is in warning state.
 
-- size (boolean | number | string | dict | list; optional):
-    size.
-
-- slug (boolean | number | string | dict | list; optional):
-    slug.
-
-- value (boolean | number | string | dict | list; default ''):
-    value.
-
-- warn (boolean | number | string | dict | list; optional):
-    warn.
-
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- warnText (a list of or a singular dash component, string or number; optional):
+    Warning state text."""
+    _children_props: typing.List[str] = ['labelText', 'invalidText', 'warnText', 'helperText']
+    _base_nodes = ['labelText', 'invalidText', 'warnText', 'helperText', 'children']
     _namespace = 'carbon_dash'
     _type = 'Select'
 
@@ -119,33 +94,27 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        value: typing.Optional[typing.Any] = None,
+        defaultValue: typing.Optional[typing.Any] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        disabled: typing.Optional[bool] = None,
+        invalid: typing.Optional[bool] = None,
+        invalidText: typing.Optional[ComponentType] = None,
+        warn: typing.Optional[bool] = None,
+        warnText: typing.Optional[ComponentType] = None,
+        helperText: typing.Optional[ComponentType] = None,
+        hideLabel: typing.Optional[bool] = None,
+        light: typing.Optional[bool] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
+        inline: typing.Optional[bool] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        decorator: typing.Optional[typing.Any] = None,
-        defaultValue: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        helperText: typing.Optional[typing.Any] = None,
-        hideLabel: typing.Optional[typing.Any] = None,
-        inline: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        noLabel: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        size: typing.Optional[typing.Optional[str]] = None,
-        slug: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
-        value: typing.Optional[typing.Any] = None,
-        label: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'decorator', 'defaultValue', 'disabled', 'helperText', 'hideLabel', 'inline', 'invalid', 'invalidText', 'label', 'labelText', 'light', 'loading_state', 'noLabel', 'onChange', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'size', 'slug', 'style', 'value', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'className', 'defaultValue', 'disabled', 'helperText', 'hideLabel', 'inline', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'size', 'style', 'value', 'warn', 'warnText']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'decorator', 'defaultValue', 'disabled', 'helperText', 'hideLabel', 'inline', 'invalid', 'invalidText', 'label', 'labelText', 'light', 'loading_state', 'noLabel', 'onChange', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'size', 'slug', 'style', 'value', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'className', 'defaultValue', 'disabled', 'helperText', 'hideLabel', 'inline', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'size', 'style', 'value', 'warn', 'warnText']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

@@ -17,45 +17,42 @@ NumberType = typing.Union[
 
 class FluidPasswordInput(Component):
     """A FluidPasswordInput component.
-FluidPasswordInput is a wrapper for the Carbon FluidPasswordInput component.
+FluidPasswordInput is a full-width password input component.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the password input.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- debounce (boolean | number; optional):
-    debounce.
+- disabled (boolean; default False):
+    Specify whether the control is disabled.
 
-- defaultValue (boolean | number | string | dict | list; optional):
-    defaultValue.
+- helperText (a list of or a singular dash component, string or number; optional):
+    Provide text that is used alongside the control label for
+    additional help.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- hideLabel (boolean; default False):
+    Hide the label.
 
-- hidePasswordLabel (boolean | number | string | dict | list; optional):
-    hidePasswordLabel.
+- invalid (boolean; optional):
+    Specify whether the control is currently in an invalid state.
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
+- invalidText (a list of or a singular dash component, string or number; optional):
+    Provide the text that is displayed when the control is in an
+    invalid state.
 
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
-
-- isPassword (boolean | number | string | dict | list; optional):
-    isPassword.
-
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Provide text that is used alongside the control label for
+    additional help.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -65,49 +62,24 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- n_blur (number; optional):
-    n_blur.
-
-- n_submit (number; optional):
-    n_submit.
-
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
-
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
-
-- onTogglePasswordVisibility (boolean | number | string | dict | list; optional):
-    onTogglePasswordVisibility.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
+- persisted_props (list of strings; optional)
 
 - persistence (boolean | string | number; optional):
-    persistence.
+    Persistence settings.
 
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- placeholder (boolean | number | string | dict | list; optional):
-    placeholder.
+- placeholder (string; optional):
+    Provide the placeholder text for the password input.
 
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
+- warn (boolean; optional):
+    Specify whether the control is currently in a warning state.
 
-- showPasswordLabel (boolean | number | string | dict | list; optional):
-    showPasswordLabel.
-
-- value (boolean | number | string | dict | list; default ''):
-    value.
-
-- warn (boolean | number | string | dict | list; optional):
-    warn.
-
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- warnText (a list of or a singular dash component, string or number; optional):
+    Provide the text that is displayed when the control is in a
+    warning state."""
+    _children_props: typing.List[str] = ['labelText', 'helperText', 'invalidText', 'warnText']
+    _base_nodes = ['labelText', 'helperText', 'invalidText', 'warnText', 'children']
     _namespace = 'carbon_dash'
     _type = 'FluidPasswordInput'
 
@@ -119,33 +91,23 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        placeholder: typing.Optional[str] = None,
+        helperText: typing.Optional[ComponentType] = None,
+        invalid: typing.Optional[bool] = None,
+        invalidText: typing.Optional[ComponentType] = None,
+        warn: typing.Optional[bool] = None,
+        warnText: typing.Optional[ComponentType] = None,
+        disabled: typing.Optional[bool] = None,
+        hideLabel: typing.Optional[bool] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        defaultValue: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        hidePasswordLabel: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        isPassword: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        onTogglePasswordVisibility: typing.Optional[typing.Any] = None,
-        placeholder: typing.Optional[typing.Any] = None,
-        showPasswordLabel: typing.Optional[typing.Any] = None,
-        value: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'debounce', 'defaultValue', 'disabled', 'hidePasswordLabel', 'invalid', 'invalidText', 'isPassword', 'labelText', 'loading_state', 'n_blur', 'n_submit', 'onChange', 'onClick', 'onTogglePasswordVisibility', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'showPasswordLabel', 'style', 'value', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'helperText', 'hideLabel', 'invalid', 'invalidText', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'style', 'warn', 'warnText']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'debounce', 'defaultValue', 'disabled', 'hidePasswordLabel', 'invalid', 'invalidText', 'isPassword', 'labelText', 'loading_state', 'n_blur', 'n_submit', 'onChange', 'onClick', 'onTogglePasswordVisibility', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'showPasswordLabel', 'style', 'value', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'helperText', 'hideLabel', 'invalid', 'invalidText', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'style', 'warn', 'warnText']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

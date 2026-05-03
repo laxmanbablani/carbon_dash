@@ -1,149 +1,100 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { CodeSnippet as CarbonCodeSnippet } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
 /**
  * CodeSnippet is a wrapper for the Carbon CodeSnippet component.
+ * Displays a block or inline snippet of code with copy functionality.
  */
-export default class CodeSnippet extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
+const CodeSnippet = (props) => {
+    const {
+        id,
+        children,
+        className = '',
+        style = {},
+        loading_state,
+        type = 'single',
+        feedback,
+        copyButtonDescription,
+        wrapText = false,
+        maxCollapsedNumberOfRows = 15,
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['CodeSnippet'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-CodeSnippet.defaultProps = {
-    className: '',
+    return (
+        <CarbonCodeSnippet
+            id={id}
+            className={className}
+            style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            type={type}
+            feedback={feedback}
+            copyButtonDescription={copyButtonDescription}
+            wrapText={wrapText}
+            maxCollapsedNumberOfRows={maxCollapsedNumberOfRows}
+            {...others}
+        >
+            {children}
+        </CarbonCodeSnippet>
+    );
 };
 
 CodeSnippet.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
 
-    /** children */
+    /** The code content to be displayed */
     children: PropTypes.node,
 
-    /** className */
+    /** Custom CSS class */
     className: PropTypes.string,
 
-    /** style */
+    /** Inline styles */
     style: PropTypes.object,
 
-    /** setProps */
-    setProps: PropTypes.func,
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
+    /** The type of code snippet */
+    type: PropTypes.oneOf(['single', 'multi', 'inline']),
 
-    /**
-     * align
-     */
-    align: PropTypes.any,
+    /** Specify the string displayed when the snippet is copied */
+    feedback: PropTypes.string,
 
-    /**
-     * autoAlign
-     */
-    autoAlign: PropTypes.any,
+    /** Specify the description for the Copy Button */
+    copyButtonDescription: PropTypes.string,
 
-    /**
-     * ariaLabel
-     */
-    ariaLabel: PropTypes.any,
+    /** Specify whether to wrap the text */
+    wrapText: PropTypes.bool,
 
-    /**
-     * copyButtonDescription
-     */
-    copyButtonDescription: PropTypes.any,
+    /** Specify the maximum number of rows to show when collapsed */
+    maxCollapsedNumberOfRows: PropTypes.number,
 
-    /**
-     * copyText
-     */
-    copyText: PropTypes.any,
+    /** Specify the time it takes for the feedback message to timeout */
+    feedbackTimeout: PropTypes.number,
 
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
+    /** Optional text to copy. If not specified, children innerText will be used */
+    copyText: PropTypes.string,
 
-    /**
-     * feedback
-     */
-    feedback: PropTypes.any,
+    /** Specify whether or not a copy button should be rendered */
+    hideCopyButton: PropTypes.bool,
 
-    /**
-     * feedbackTimeout
-     */
-    feedbackTimeout: PropTypes.any,
+    /** Specify whether or not the CodeSnippet should be disabled */
+    disabled: PropTypes.bool,
 
-    /**
-     * hideCopyButton
-     */
-    hideCopyButton: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * maxCollapsedNumberOfRows
-     */
-    maxCollapsedNumberOfRows: PropTypes.any,
-
-    /**
-     * maxExpandedNumberOfRows
-     */
-    maxExpandedNumberOfRows: PropTypes.any,
-
-    /**
-     * minCollapsedNumberOfRows
-     */
-    minCollapsedNumberOfRows: PropTypes.any,
-
-    /**
-     * minExpandedNumberOfRows
-     */
-    minExpandedNumberOfRows: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * showLessText
-     */
-    showLessText: PropTypes.any,
-
-    /**
-     * showMoreText
-     */
-    showMoreText: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * wrapText
-     */
-    wrapText: PropTypes.any,
-
+    /** Specify the maximum number of rows to show when expanded */
+    maxExpandedNumberOfRows: PropTypes.number,
 };
+
+CodeSnippet.defaultProps = {
+    type: 'single',
+    wrapText: false,
+    maxCollapsedNumberOfRows: 15,
+};
+
+export default CodeSnippet;

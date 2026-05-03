@@ -17,39 +17,30 @@ NumberType = typing.Union[
 
 class FluidSearch(Component):
     """A FluidSearch component.
-FluidSearch is a wrapper for the Carbon FluidSearch component.
+FluidSearch is a full-width Search component.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the search.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- autoComplete (boolean | number | string | dict | list; optional):
-    autoComplete.
+- className (string; optional):
+    Custom CSS class.
 
-- className (string; default ''):
-    className.
+- disabled (boolean; default False):
+    Specify whether the search is disabled.
 
-- closeButtonLabelText (boolean | number | string | dict | list; optional):
-    closeButtonLabelText.
+- invalid (boolean; default False):
+    Specify whether the search is in an invalid state.
 
-- debounce (boolean | number; optional):
-    debounce.
-
-- defaultValue (boolean | number | string | dict | list; optional):
-    defaultValue.
-
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
-
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Provide the label text for the search.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -59,43 +50,26 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- n_blur (number; optional):
-    n_blur.
-
-- n_submit (number; optional):
-    n_submit.
-
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
-
-- onClear (boolean | number | string | dict | list; optional):
-    onClear.
-
-- onKeyDown (boolean | number | string | dict | list; optional):
-    onKeyDown.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
+- persisted_props (list of strings; optional)
 
 - persistence (boolean | string | number; optional):
-    persistence.
+    Persistence settings.
 
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- placeholder (boolean | number | string | dict | list; optional):
-    placeholder.
+- placeholder (string; optional):
+    Provide the placeholder text for the search.
 
-- role (boolean | number | string | dict | list; optional):
-    role.
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md'):
+    Specify the size of the search.
 
-- type (boolean | number | string | dict | list; optional):
-    type.
+- value (string; optional):
+    The value of the search input.
 
-- value (boolean | number | string | dict | list; default ''):
-    value."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- warn (boolean; default False):
+    Specify whether the search is in a warning state."""
+    _children_props: typing.List[str] = ['labelText']
+    _base_nodes = ['labelText', 'children']
     _namespace = 'carbon_dash'
     _type = 'FluidSearch'
 
@@ -107,29 +81,21 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        placeholder: typing.Optional[str] = None,
+        value: typing.Optional[str] = None,
+        disabled: typing.Optional[bool] = None,
+        invalid: typing.Optional[bool] = None,
+        warn: typing.Optional[bool] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        autoComplete: typing.Optional[typing.Any] = None,
-        closeButtonLabelText: typing.Optional[typing.Any] = None,
-        defaultValue: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        onClear: typing.Optional[typing.Any] = None,
-        onKeyDown: typing.Optional[typing.Any] = None,
-        placeholder: typing.Optional[typing.Any] = None,
-        role: typing.Optional[typing.Any] = None,
-        type: typing.Optional[typing.Any] = None,
-        value: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'autoComplete', 'className', 'closeButtonLabelText', 'debounce', 'defaultValue', 'disabled', 'labelText', 'loading_state', 'n_blur', 'n_submit', 'onChange', 'onClear', 'onKeyDown', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'role', 'style', 'type', 'value']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'invalid', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'size', 'style', 'value', 'warn']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'autoComplete', 'className', 'closeButtonLabelText', 'debounce', 'defaultValue', 'disabled', 'labelText', 'loading_state', 'n_blur', 'n_submit', 'onChange', 'onClear', 'onKeyDown', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'role', 'style', 'type', 'value']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'invalid', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'size', 'style', 'value', 'warn']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

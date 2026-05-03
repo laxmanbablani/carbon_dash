@@ -1,69 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { Layer as CarbonLayer } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
 /**
- * Layer is a wrapper for the Carbon Layer component.
+ * Layer provides a stacking context for Carbon components like Tooltips,
+ * Modals, and Dropdowns. Nested layers maintain correct z-index ordering.
  */
-export default class Layer extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['Layer'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-Layer.defaultProps = {
-    className: '',
+const Layer = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    return (
+        <CarbonLayer
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonLayer>
+    );
 };
 
 Layer.propTypes = {
-    /** id */
     id: PropTypes.string,
-
-    /** children */
     children: PropTypes.node,
-
-    /** className */
     className: PropTypes.string,
-
-    /** style */
     style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * as
-     */
-    as_: PropTypes.any,
-
-    /**
-     * level
-     */
-    level: PropTypes.any,
-
-    /**
-     * withBackground
-     */
-    withBackground: PropTypes.any,
-
+    /** Level of nesting for layer context */
+    level: PropTypes.number,
 };
+
+Layer.defaultProps = { level: 0 };
+
+export default Layer;

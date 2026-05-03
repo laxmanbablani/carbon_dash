@@ -17,21 +17,21 @@ NumberType = typing.Union[
 
 class TabPanels(Component):
     """A TabPanels component.
-TabPanels is a wrapper for the Carbon TabPanels component.
+
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    TabPanel components rendered inside this container.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 

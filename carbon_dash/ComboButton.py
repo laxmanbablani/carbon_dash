@@ -17,27 +17,34 @@ NumberType = typing.Union[
 
 class ComboButton(Component):
     """A ComboButton component.
-ComboButton is a wrapper for the Carbon ComboButton component.
+ComboButton is a button with a menu attached for additional actions.
+It renders a primary button with a dropdown menu of secondary actions.
+
+Children should be Carbon MenuItem components (e.g., cd.MenuItem(label="Action")).
+These can be created using carbon_dash.MenuItem in Python.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the ComboButton (MenuItem components).
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- disabled (boolean; default False):
+    Specify whether the ComboButton should be disabled.
 
-- label (boolean | number | string | dict | list; optional):
-    label.
+- kind (a value equal to: 'primary', 'secondary', 'tertiary', 'ghost', 'danger'; default 'primary'):
+    Specify the kind of button.
+
+- label (string; required):
+    The label text for the primary button.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -47,20 +54,17 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- menuAlignment (boolean | number | string | dict | list; optional):
-    menuAlignment.
+- menuAlignment (a value equal to: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'; default 'bottom'):
+    Specify the alignment of the menu relative to the button.
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
+- n_clicks (number; default 0):
+    Number of times the button has been clicked.
 
-- size (boolean | number | string | dict | list; optional):
-    size.
+- size (a value equal to: 'sm', 'md', 'lg', 'xl'; optional):
+    Specify the size of the button.
 
-- tooltipAlignment (boolean | number | string | dict | list; optional):
-    tooltipAlignment.
-
-- translateWithId (boolean | number | string | dict | list; optional):
-    translateWithId."""
+- tooltipAlignment (a value equal to: 'start', 'center', 'end'; optional):
+    Specify the alignment of the tooltip."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -74,23 +78,28 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        label: typing.Optional[typing.Any] = None,
-        menuAlignment: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
+        label: typing.Optional[str] = None,
+        menuAlignment: typing.Optional[Literal["top", "top-start", "top-end", "bottom", "bottom-start", "bottom-end"]] = None,
+        tooltipAlignment: typing.Optional[Literal["start", "center", "end"]] = None,
         size: typing.Optional[typing.Optional[str]] = None,
-        tooltipAlignment: typing.Optional[typing.Any] = None,
-        translateWithId: typing.Optional[typing.Any] = None,
+        kind: typing.Optional[typing.Optional[str]] = None,
+        disabled: typing.Optional[bool] = None,
+        n_clicks: typing.Optional[NumberType] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'disabled', 'label', 'loading_state', 'menuAlignment', 'onClick', 'size', 'style', 'tooltipAlignment', 'translateWithId']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'kind', 'label', 'loading_state', 'menuAlignment', 'n_clicks', 'size', 'style', 'tooltipAlignment']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'disabled', 'label', 'loading_state', 'menuAlignment', 'onClick', 'size', 'style', 'tooltipAlignment', 'translateWithId']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'kind', 'label', 'loading_state', 'menuAlignment', 'n_clicks', 'size', 'style', 'tooltipAlignment']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
         _locals.update(kwargs)  # For wildcard attrs and excess named props
         args = {k: _locals[k] for k in _explicit_args if k != 'children'}
+
+        for k in ['label']:
+            if k not in args:
+                raise TypeError(
+                    'Required argument `' + k + '` was not specified.')
 
         super(ComboButton, self).__init__(children=children, **args)
 

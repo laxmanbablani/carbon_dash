@@ -1,143 +1,45 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { SelectableTile as CarbonSelectableTile } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * SelectableTile is a wrapper for the Carbon SelectableTile component.
- */
-export default class SelectableTile extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { value } = this.props;
-        const { selected } = this.props;
+const SelectableTile = (props) => {
+    const { id, children, className = '', style = {}, loading_state, selected = false, ...others } = props;
 
-        const RealComponent = LazyLoader['SelectableTile'];
-        if (!RealComponent) {
-            return null;
-        }
+    const handleChange = (e) => {
+        if (props.setProps) props.setProps({ selected: e?.target?.checked ?? !selected });
+    };
 
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    value={value}
-                    selected={selected}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-SelectableTile.defaultProps = {
-    className: '',
-    value: '',
-    selected: null,
+    return (
+        <CarbonSelectableTile
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            selected={selected}
+            onChange={handleChange}
+            {...others}
+        >
+            {children}
+        </CarbonSelectableTile>
+    );
 };
 
 SelectableTile.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func,
+    children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
+    /** Whether the tile is selected */
+    selected: PropTypes.bool,
+    /** Value associated with this tile */
+    value: PropTypes.string,
+    /** Whether disabled */
+    disabled: PropTypes.bool,
+    /** Title text for accessibility */
+    title: PropTypes.string,
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
     persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
     persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * hasRoundedCorners
-     */
-    hasRoundedCorners: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * name
-     */
-    name: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * onKeyDown
-     */
-    onKeyDown: PropTypes.any,
-
-    /**
-     * selected
-     */
-    selected: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
-    /**
-     * tabIndex
-     */
-    tabIndex: PropTypes.any,
-
-    /**
-     * title
-     */
-    title: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.any,
-
 };
+
+SelectableTile.defaultProps = { selected: false, disabled: false };
+
+export default SelectableTile;

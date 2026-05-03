@@ -17,24 +17,17 @@ NumberType = typing.Union[
 
 class HeaderGlobalAction(Component):
     """A HeaderGlobalAction component.
-HeaderGlobalAction is a wrapper for the Carbon HeaderGlobalAction component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- isActive (boolean | number | string | dict | list; optional):
-    isActive.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -44,17 +37,7 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
-
-- tooltipAlignment (boolean | number | string | dict | list; optional):
-    tooltipAlignment.
-
-- tooltipDropShadow (boolean | number | string | dict | list; optional):
-    tooltipDropShadow.
-
-- tooltipHighContrast (boolean | number | string | dict | list; optional):
-    tooltipHighContrast."""
+- n_clicks (number; default 0)"""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -68,16 +51,12 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        isActive: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        tooltipAlignment: typing.Optional[typing.Any] = None,
-        tooltipDropShadow: typing.Optional[typing.Any] = None,
-        tooltipHighContrast: typing.Optional[typing.Any] = None,
+        n_clicks: typing.Optional[NumberType] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'isActive', 'loading_state', 'onClick', 'style', 'tooltipAlignment', 'tooltipDropShadow', 'tooltipHighContrast']
+        self._prop_names = ['children', 'id', 'className', 'loading_state', 'n_clicks', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'isActive', 'loading_state', 'onClick', 'style', 'tooltipAlignment', 'tooltipDropShadow', 'tooltipHighContrast']
+        self.available_properties = ['children', 'id', 'className', 'loading_state', 'n_clicks', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

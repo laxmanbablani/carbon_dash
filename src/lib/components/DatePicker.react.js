@@ -1,203 +1,60 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import {
+    DatePicker as CarbonDatePicker,
+    DatePickerSkeleton as CarbonDatePickerSkeleton,
+} from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * DatePicker is a wrapper for the Carbon DatePicker component.
- */
-export default class DatePicker extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { datePickerType } = this.props;
-        const { value } = this.props;
+const DatePicker = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
 
-        const RealComponent = LazyLoader['DatePicker'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    datePickerType={datePickerType}
-                    value={value}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonDatePickerSkeleton id={id} className={className} />;
     }
-}
 
-DatePicker.defaultProps = {
-    className: '',
-    datePickerType: 'single',
-    value: '',
+    return (
+        <CarbonDatePicker
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonDatePicker>
+    );
 };
 
 DatePicker.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func,
+    children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
+    /** Date picker type: 'single' or 'range' */
+    datePickerType: PropTypes.oneOf(['single', 'range']),
+    /** The current date value(s). For single: string. For range: [start, end] */
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
+    /** Format pattern for dates */
+    dateFormat: PropTypes.string,
+    /** Default value */
+    defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
+    /** Whether disabled */
+    disabled: PropTypes.bool,
+    /** Whether readonly */
+    readOnly: PropTypes.bool,
+    /** Light variant */
+    light: PropTypes.bool,
+    /** Short style without calendar */
+    short: PropTypes.bool,
+    /** Minimum date */
+    minDate: PropTypes.string,
+    /** Maximum date */
+    maxDate: PropTypes.string,
+    /** Locale for formatting */
+    locale: PropTypes.string,
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
     persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
     persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * allowInput
-     */
-    allowInput: PropTypes.any,
-
-    /**
-     * appendTo
-     */
-    appendTo: PropTypes.any,
-
-    /**
-     * closeOnSelect
-     */
-    closeOnSelect: PropTypes.any,
-
-    /**
-     * dateFormat
-     */
-    dateFormat: PropTypes.any,
-
-    /**
-     * datePickerType
-     */
-    datePickerType: PropTypes.string,
-
-    /**
-     * disable
-     */
-    disable: PropTypes.any,
-
-    /**
-     * enable
-     */
-    enable: PropTypes.any,
-
-    /**
-     * inline
-     */
-    inline: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * maxDate
-     */
-    maxDate: PropTypes.any,
-
-    /**
-     * minDate
-     */
-    minDate: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onClose
-     */
-    onClose: PropTypes.any,
-
-    /**
-     * onOpen
-     */
-    onOpen: PropTypes.any,
-
-    /**
-     * parseDate
-     */
-    parseDate: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * short
-     */
-    short: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.any,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * nextMonthAriaLabel
-     */
-    nextMonthAriaLabel: PropTypes.any,
-
-    /**
-     * prevMonthAriaLabel
-     */
-    prevMonthAriaLabel: PropTypes.any,
-
-    /**
-     * locale
-     */
-    locale: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
 };
+
+DatePicker.defaultProps = { datePickerType: 'single', disabled: false, readOnly: false, short: false, light: false };
+
+export default DatePicker;

@@ -1,117 +1,47 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { ExpandableTile as CarbonExpandableTile } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * ExpandableTile is a wrapper for the Carbon ExpandableTile component.
- */
-export default class ExpandableTile extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { expanded } = this.props;
+const ExpandableTile = (props) => {
+    const { id, children, className = '', style = {}, loading_state, expanded = false, ...others } = props;
 
-        const RealComponent = LazyLoader['ExpandableTile'];
-        if (!RealComponent) {
-            return null;
-        }
+    const handleBeforeClick = () => {
+        if (props.setProps) props.setProps({ expanded: !expanded });
+    };
 
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    expanded={expanded}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-ExpandableTile.defaultProps = {
-    className: '',
-    expanded: false,
+    return (
+        <CarbonExpandableTile
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            expanded={expanded}
+            onBeforeClick={handleBeforeClick}
+            {...others}
+        >
+            {children}
+        </CarbonExpandableTile>
+    );
 };
 
 ExpandableTile.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func,
+    children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * expanded
-     */
+    /** Whether the tile is expanded */
     expanded: PropTypes.bool,
-
-    /**
-     * hasRoundedCorners
-     */
-    hasRoundedCorners: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * onKeyUp
-     */
-    onKeyUp: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
-    /**
-     * tabIndex
-     */
-    tabIndex: PropTypes.any,
-
-    /**
-     * tileCollapsedIconText
-     */
-    tileCollapsedIconText: PropTypes.node,
-
-    /**
-     * tileCollapsedLabel
-     */
-    tileCollapsedLabel: PropTypes.any,
-
-    /**
-     * tileExpandedIconText
-     */
-    tileExpandedIconText: PropTypes.node,
-
-    /**
-     * tileExpandedLabel
-     */
-    tileExpandedLabel: PropTypes.any,
-
+    /** The tile's title (above fold) */
+    tileText: PropTypes.node,
+    /** Max height before expanding */
+    tileMaxHeight: PropTypes.number,
+    /** Whether to collapse on expand */
+    tileCollapsedText: PropTypes.node,
+    /** Whether this is the below-fold content */
+    belowFold: PropTypes.bool,
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
 };
+
+ExpandableTile.defaultProps = { expanded: false };
+
+export default ExpandableTile;

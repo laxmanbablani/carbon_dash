@@ -17,57 +17,32 @@ NumberType = typing.Union[
 
 class Checkbox(Component):
     """A Checkbox component.
-Checkbox is a wrapper for the Carbon Checkbox component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
 - checked (boolean; default False):
-    checked.
+    Whether the checkbox is checked.
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- debounce (boolean | number; optional):
-    debounce.
+- disabled (boolean; default False):
+    Whether the checkbox is disabled.
 
-- decorator (boolean | number | string | dict | list; optional):
-    decorator.
+- hideLabel (boolean; default False):
+    Whether to hide the label.
 
-- defaultChecked (boolean | number | string | dict | list; optional):
-    defaultChecked.
+- indeterminate (boolean; default False):
+    Whether the checkbox is in an indeterminate state.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Checkbox label text.
 
-- helperText (boolean | number | string | dict | list; optional):
-    helperText.
-
-- hideLabel (boolean | number | string | dict | list; optional):
-    hideLabel.
-
-- indeterminate (boolean | number | string | dict | list; optional):
-    indeterminate.
-
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
-
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
-
-- label (string; default 'Checkbox'):
-    label.
-
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -77,40 +52,19 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- n_blur (number; optional):
-    n_blur.
+- persisted_props (list of strings; optional)
 
-- n_submit (number; optional):
-    n_submit.
+- persistence (boolean | string | number; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- persisted_props (list of strings; optional):
-    persisted_props.
+- title (string; optional):
+    Title attribute.
 
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
-
-- slug (boolean | number | string | dict | list; optional):
-    slug.
-
-- title (boolean | number | string | dict | list; optional):
-    title.
-
-- warn (boolean | number | string | dict | list; optional):
-    warn.
-
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- value (string; optional):
+    The value submitted with the form."""
+    _children_props: typing.List[str] = ['labelText']
+    _base_nodes = ['labelText', 'children']
     _namespace = 'carbon_dash'
     _type = 'Checkbox'
 
@@ -122,34 +76,21 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        checked: typing.Optional[bool] = None,
+        disabled: typing.Optional[bool] = None,
+        indeterminate: typing.Optional[bool] = None,
+        hideLabel: typing.Optional[bool] = None,
+        value: typing.Optional[str] = None,
+        title: typing.Optional[str] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        checked: typing.Optional[bool] = None,
-        decorator: typing.Optional[typing.Any] = None,
-        defaultChecked: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        helperText: typing.Optional[typing.Any] = None,
-        hideLabel: typing.Optional[typing.Any] = None,
-        indeterminate: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        slug: typing.Optional[typing.Any] = None,
-        title: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
-        label: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'checked', 'className', 'debounce', 'decorator', 'defaultChecked', 'disabled', 'helperText', 'hideLabel', 'indeterminate', 'invalid', 'invalidText', 'label', 'labelText', 'loading_state', 'n_blur', 'n_submit', 'onChange', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'slug', 'style', 'title', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'checked', 'className', 'disabled', 'hideLabel', 'indeterminate', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style', 'title', 'value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'checked', 'className', 'debounce', 'decorator', 'defaultChecked', 'disabled', 'helperText', 'hideLabel', 'indeterminate', 'invalid', 'invalidText', 'label', 'labelText', 'loading_state', 'n_blur', 'n_submit', 'onChange', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'slug', 'style', 'title', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'checked', 'className', 'disabled', 'hideLabel', 'indeterminate', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style', 'title', 'value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

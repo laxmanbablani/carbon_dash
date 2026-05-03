@@ -1,54 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { SwitcherDivider as CarbonComponent } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * SwitcherDivider is a wrapper for the Carbon SwitcherDivider component.
- */
-export default class SwitcherDivider extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['SwitcherDivider'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-SwitcherDivider.defaultProps = {
-    className: '',
+const SwitcherDivider = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    return (
+        <CarbonComponent
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonComponent>
+    );
 };
 
 SwitcherDivider.propTypes = {
-    /** id */
     id: PropTypes.string,
-
-    /** children */
     children: PropTypes.node,
-
-    /** className */
     className: PropTypes.string,
-
-    /** style */
     style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
 };
+
+export default SwitcherDivider;

@@ -1,160 +1,53 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { Search as CarbonSearch, SearchSkeleton as CarbonSearchSkeleton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * Search is a wrapper for the Carbon Search component.
- */
-export default class Search extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { value } = this.props;
+const Search = (props) => {
+    const { id, children, className = '', style = {}, loading_state, value, ...others } = props;
 
-        const RealComponent = LazyLoader['Search'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    value={value}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonSearchSkeleton id={id} className={className} />;
     }
-}
 
-Search.defaultProps = {
-    className: '',
-    value: '',
+    const handleChange = (e) => {
+        if (props.setProps) props.setProps({ value: e.target?.value ?? e });
+    };
+
+    return (
+        <CarbonSearch
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            value={value}
+            onChange={handleChange}
+            {...others}
+        />
+    );
 };
 
 Search.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func,
+    children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
+    /** Current value of the search input */
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    /** Label text */
+    labelText: PropTypes.node,
+    /** Placeholder text */
+    placeholder: PropTypes.string,
+    /** Whether disabled */
+    disabled: PropTypes.bool,
+    /** Size */
+    size: PropTypes.oneOf(['sm', 'md', 'lg']),
+    /** Close button label */
+    closeButtonLabelText: PropTypes.string,
+    /** Whether expanded (small screens) */
+    isExpanded: PropTypes.bool,
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
     persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
     persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * autoComplete
-     */
-    autoComplete: PropTypes.any,
-
-    /**
-     * closeButtonLabelText
-     */
-    closeButtonLabelText: PropTypes.any,
-
-    /**
-     * defaultValue
-     */
-    defaultValue: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * isExpanded
-     */
-    isExpanded: PropTypes.any,
-
-    /**
-     * labelText
-     */
-    labelText: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onClear
-     */
-    onClear: PropTypes.any,
-
-    /**
-     * onExpand
-     */
-    onExpand: PropTypes.any,
-
-    /**
-     * onKeyDown
-     */
-    onKeyDown: PropTypes.any,
-
-    /**
-     * placeholder
-     */
-    placeholder: PropTypes.any,
-
-    /**
-     * renderIcon
-     */
-    renderIcon: PropTypes.node,
-
-    /**
-     * role
-     */
-    role: PropTypes.any,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.string,
-
 };
+
+Search.defaultProps = { disabled: false, size: 'md', isExpanded: true };
+
+export default Search;

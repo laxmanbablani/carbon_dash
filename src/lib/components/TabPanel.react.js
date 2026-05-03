@@ -1,54 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { TabPanel as CarbonTabPanel } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * TabPanel is a wrapper for the Carbon TabPanel component.
- */
-export default class TabPanel extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['TabPanel'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-TabPanel.defaultProps = {
-    className: '',
+const TabPanel = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    return (
+        <CarbonTabPanel
+            id={id}
+            className={className}
+            style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonTabPanel>
+    );
 };
 
 TabPanel.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
-
-    /** children */
+    /** The content of the panel */
     children: PropTypes.node,
-
-    /** className */
+    /** Custom CSS class */
     className: PropTypes.string,
-
-    /** style */
+    /** Inline styles */
     style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 };
+
+export default TabPanel;

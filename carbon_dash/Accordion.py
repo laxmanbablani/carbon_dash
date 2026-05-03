@@ -18,29 +18,31 @@ NumberType = typing.Union[
 class Accordion(Component):
     """An Accordion component.
 Accordion is a wrapper for the Carbon Accordion component.
+Used for organizing content in collapsible panels.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the accordion (AccordionItem children).
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- align (string; default 'end'):
-    align.
+- align (a value equal to: 'start', 'end'; default 'end'):
+    Specify the alignment of the accordion heading title and chevron.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- disabled (boolean; default False):
+    Specify whether an individual AccordionItem should be disabled.
 
 - isFlush (boolean; default False):
-    isFlush.
+    Specify whether Accordion text should be flush, does not work with
+    align=\"start\".
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -50,11 +52,11 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- ordered (boolean | number | string | dict | list; optional):
-    ordered.
+- ordered (boolean; default False):
+    Specify if the Accordion should be an ordered list.
 
-- size (string; default 'md'):
-    size."""
+- size (a value equal to: 'sm', 'md', 'lg'; optional):
+    Specify the size of the Accordion."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -68,10 +70,10 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        align: typing.Optional[str] = None,
-        disabled: typing.Optional[typing.Any] = None,
+        align: typing.Optional[Literal["start", "end"]] = None,
+        disabled: typing.Optional[bool] = None,
         isFlush: typing.Optional[bool] = None,
-        ordered: typing.Optional[typing.Any] = None,
+        ordered: typing.Optional[bool] = None,
         size: typing.Optional[typing.Optional[str]] = None,
         **kwargs
     ):

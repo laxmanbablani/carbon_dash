@@ -1,89 +1,111 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { ComboButton as CarbonComboButton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
 /**
- * ComboButton is a wrapper for the Carbon ComboButton component.
+ * ComboButton is a button with a menu attached for additional actions.
+ * It renders a primary button with a dropdown menu of secondary actions.
+ * 
+ * Children should be Carbon MenuItem components (e.g., cd.MenuItem(label="Action")).
+ * These can be created using carbon_dash.MenuItem in Python.
  */
-export default class ComboButton extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
+const ComboButton = (props) => {
+    const {
+        id,
+        children,
+        className = '',
+        style = {},
+        loading_state,
+        label,
+        menuAlignment = 'bottom',
+        tooltipAlignment,
+        size,
+        kind = 'primary',
+        disabled = false,
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['ComboButton'];
-        if (!RealComponent) {
-            return null;
+    const handleClick = () => {
+        if (props.setProps) {
+            props.setProps({ n_clicks: (props.n_clicks || 0) + 1 });
         }
+    };
 
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonComboButton label={label} className={className} disabled />;
     }
-}
 
-ComboButton.defaultProps = {
-    className: '',
+    return (
+        <CarbonComboButton
+            id={id}
+            className={className}
+            style={style}
+            label={label}
+            menuAlignment={menuAlignment}
+            tooltipAlignment={tooltipAlignment}
+            size={size}
+            kind={kind}
+            disabled={disabled}
+            onClick={handleClick}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonComboButton>
+    );
 };
 
 ComboButton.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
 
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
+    /** Dash callback to update props */
     setProps: PropTypes.func,
 
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
+    /** The content of the ComboButton (MenuItem components) */
+    children: PropTypes.node,
 
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
+    /** Custom CSS class */
+    className: PropTypes.string,
 
-    /**
-     * label
-     */
-    label: PropTypes.any,
+    /** Inline styles */
+    style: PropTypes.object,
 
-    /**
-     * menuAlignment
-     */
-    menuAlignment: PropTypes.any,
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
+    /** The label text for the primary button */
+    label: PropTypes.string.isRequired,
 
-    /**
-     * size
-     */
-    size: PropTypes.any,
+    /** Specify the alignment of the menu relative to the button */
+    menuAlignment: PropTypes.oneOf(['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end']),
 
-    /**
-     * tooltipAlignment
-     */
-    tooltipAlignment: PropTypes.any,
+    /** Specify the alignment of the tooltip */
+    tooltipAlignment: PropTypes.oneOf(['start', 'center', 'end']),
 
-    /**
-     * translateWithId
-     */
-    translateWithId: PropTypes.any,
+    /** Specify the size of the button */
+    size: PropTypes.oneOf(['sm', 'md', 'lg', 'xl']),
 
+    /** Specify the kind of button */
+    kind: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'ghost', 'danger']),
+
+    /** Specify whether the ComboButton should be disabled */
+    disabled: PropTypes.bool,
+
+    /** Number of times the button has been clicked */
+    n_clicks: PropTypes.number,
 };
+
+ComboButton.defaultProps = {
+    menuAlignment: 'bottom',
+    kind: 'primary',
+    disabled: false,
+    n_clicks: 0,
+};
+
+export default ComboButton;

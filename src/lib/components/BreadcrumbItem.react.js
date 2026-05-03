@@ -1,70 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { BreadcrumbItem as CarbonBreadcrumbItem } from '@carbon/react';
 
-/**
- * BreadcrumbItem is a wrapper for the Carbon BreadcrumbItem component.
- */
-export default class BreadcrumbItem extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { href } = this.props;
-        const { isCurrentPage } = this.props;
-
-        const RealComponent = LazyLoader['BreadcrumbItem'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    href={href}
-                    isCurrentPage={isCurrentPage}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-BreadcrumbItem.defaultProps = {
-    className: '',
-    href: '#',
-    isCurrentPage: false,
+const BreadcrumbItem = (props) => {
+    const { id, children, className, style, loading_state, ...others } = props;
+    return <CarbonBreadcrumbItem id={id} className={className} style={style} data-dash-is-loading={loading_state?.is_loading || undefined} {...others}>{children}</CarbonBreadcrumbItem>;
 };
-
 BreadcrumbItem.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * href
-     */
-    href: PropTypes.string,
-
-    /**
-     * isCurrentPage
-     */
-    isCurrentPage: PropTypes.bool,
-
+    href: PropTypes.string, isCurrentPage: PropTypes.bool, ariaLabel: PropTypes.string,
 };
+BreadcrumbItem.defaultProps = { isCurrentPage: false };
+export default BreadcrumbItem;

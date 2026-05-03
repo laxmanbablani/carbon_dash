@@ -17,27 +17,21 @@ NumberType = typing.Union[
 
 class InlineNotification(Component):
     """An InlineNotification component.
-InlineNotification is a wrapper for the Carbon InlineNotification component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- hideCloseButton (boolean | number | string | dict | list; optional):
-    hideCloseButton.
+- hideCloseButton (boolean; default False)
 
-- kind (boolean | number | string | dict | list; optional):
-    kind.
+- kind (a value equal to: 'error', 'info', 'info-square', 'success', 'warning'; default 'info')
 
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -47,28 +41,17 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- lowContrast (boolean | number | string | dict | list; optional):
-    lowContrast.
+- lowContrast (boolean; default False)
 
-- onClose (boolean | number | string | dict | list; optional):
-    onClose.
+- role (string; optional)
 
-- onCloseButtonClick (boolean | number | string | dict | list; optional):
-    onCloseButtonClick.
+- statusIconDescription (string; optional)
 
-- role (boolean | number | string | dict | list; optional):
-    role.
+- subtitle (a list of or a singular dash component, string or number; optional)
 
-- statusIconDescription (boolean | number | string | dict | list; optional):
-    statusIconDescription.
-
-- subtitle (boolean | number | string | dict | list; optional):
-    subtitle.
-
-- title (boolean | number | string | dict | list; optional):
-    title."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- title (string; optional)"""
+    _children_props: typing.List[str] = ['subtitle']
+    _base_nodes = ['subtitle', 'children']
     _namespace = 'carbon_dash'
     _type = 'InlineNotification'
 
@@ -80,20 +63,19 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        hideCloseButton: typing.Optional[typing.Any] = None,
+        title: typing.Optional[str] = None,
+        subtitle: typing.Optional[ComponentType] = None,
         kind: typing.Optional[typing.Optional[str]] = None,
-        lowContrast: typing.Optional[typing.Any] = None,
-        onClose: typing.Optional[typing.Any] = None,
+        lowContrast: typing.Optional[bool] = None,
+        hideCloseButton: typing.Optional[bool] = None,
+        statusIconDescription: typing.Optional[str] = None,
+        role: typing.Optional[str] = None,
         onCloseButtonClick: typing.Optional[typing.Any] = None,
-        role: typing.Optional[typing.Any] = None,
-        statusIconDescription: typing.Optional[typing.Any] = None,
-        subtitle: typing.Optional[typing.Any] = None,
-        title: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'hideCloseButton', 'kind', 'loading_state', 'lowContrast', 'onClose', 'onCloseButtonClick', 'role', 'statusIconDescription', 'style', 'subtitle', 'title']
+        self._prop_names = ['children', 'id', 'className', 'hideCloseButton', 'kind', 'loading_state', 'lowContrast', 'role', 'statusIconDescription', 'style', 'subtitle', 'title']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'hideCloseButton', 'kind', 'loading_state', 'lowContrast', 'onClose', 'onCloseButtonClick', 'role', 'statusIconDescription', 'style', 'subtitle', 'title']
+        self.available_properties = ['children', 'id', 'className', 'hideCloseButton', 'kind', 'loading_state', 'lowContrast', 'role', 'statusIconDescription', 'style', 'subtitle', 'title']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

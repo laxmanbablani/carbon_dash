@@ -18,62 +18,52 @@ NumberType = typing.Union[
 class TextInput(Component):
     """A TextInput component.
 TextInput is a wrapper for the Carbon TextInput component.
+Supports label, placeholder, helper text, invalid/warn states, and AI label decorator.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the text input (used as label fallback if labelText
+    not provided).
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- ai_label (boolean; default False):
-    ai_label.
+- aiLabel (boolean; default False):
+    Whether to render the AI label decorator.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- debounce (boolean | number; optional):
-    debounce.
+- defaultValue (string | number; optional):
+    Default value (for uncontrolled mode).
 
-- decorator (boolean | number | string | dict | list; optional):
-    decorator.
+- disabled (boolean; default False):
+    Whether the input is disabled.
 
-- defaultValue (boolean | number | string | dict | list; optional):
-    defaultValue.
+- enableCounter (boolean; optional):
+    Whether to display the character counter.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- helperText (a list of or a singular dash component, string or number; optional):
+    Input helper text.
 
-- enableCounter (boolean | number | string | dict | list; optional):
-    enableCounter.
+- hideLabel (boolean; default False):
+    Whether to hide the label.
 
-- helperText (boolean | number | string | dict | list; optional):
-    helperText.
+- invalid (boolean; default False):
+    Whether the input is in an invalid state.
 
-- hideLabel (boolean | number | string | dict | list; optional):
-    hideLabel.
+- invalidText (a list of or a singular dash component, string or number; optional):
+    Invalid state error message.
 
-- inline (boolean | number | string | dict | list; optional):
-    inline.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Specify the label text.
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
-
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
-
-- label (string; default 'Text Input'):
-    label.
-
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
-
-- light (boolean | number | string | dict | list; optional):
-    light.
+- light (boolean; optional):
+    Whether the label should be lightweight.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -83,55 +73,41 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- maxCount (boolean | number | string | dict | list; optional):
-    maxCount.
+- maxCount (number; optional):
+    Maximum count (used with enableCounter).
 
-- n_blur (number; optional):
-    n_blur.
-
-- n_submit (number; optional):
-    n_submit.
-
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
-
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
+- persisted_props (list of strings; optional)
 
 - persistence (boolean | string | number; optional):
-    persistence.
+    Persistence.
 
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- placeholder (boolean | number | string | dict | list; optional):
-    placeholder.
+- placeholder (string; optional):
+    Placeholder text.
 
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
+- readOnly (boolean; default False):
+    Whether the input is read only.
 
-- size (boolean | number | string | dict | list; optional):
-    size.
+- renderIcon (a list of or a singular dash component, string or number; optional):
+    An icon component to render inside the input.
 
-- slug (boolean | number | string | dict | list; optional):
-    slug.
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md'):
+    Size of the input.
 
-- type (boolean | number | string | dict | list; optional):
-    type.
+- type (string; optional):
+    What the input type is (e.g. 'text', 'email', 'password').
 
-- value (string; default ''):
-    value.
+- value (string | number; optional):
+    The value of the input.
 
-- warn (boolean | number | string | dict | list; optional):
-    warn.
+- warn (boolean; default False):
+    Whether the input is in a warning state.
 
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- warnText (a list of or a singular dash component, string or number; optional):
+    Warning state message."""
+    _children_props: typing.List[str] = ['labelText', 'helperText', 'invalidText', 'warnText', 'renderIcon']
+    _base_nodes = ['labelText', 'helperText', 'invalidText', 'warnText', 'renderIcon', 'children']
     _namespace = 'carbon_dash'
     _type = 'TextInput'
 
@@ -143,41 +119,35 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        value: typing.Optional[typing.Union[str, NumberType]] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        placeholder: typing.Optional[str] = None,
+        helperText: typing.Optional[ComponentType] = None,
+        disabled: typing.Optional[bool] = None,
+        readOnly: typing.Optional[bool] = None,
+        invalid: typing.Optional[bool] = None,
+        invalidText: typing.Optional[ComponentType] = None,
+        warn: typing.Optional[bool] = None,
+        warnText: typing.Optional[ComponentType] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
+        hideLabel: typing.Optional[bool] = None,
+        enableCounter: typing.Optional[bool] = None,
+        maxCount: typing.Optional[NumberType] = None,
+        type: typing.Optional[str] = None,
+        defaultValue: typing.Optional[typing.Union[str, NumberType]] = None,
+        light: typing.Optional[bool] = None,
+        renderIcon: typing.Optional[ComponentType] = None,
+        aiLabel: typing.Optional[bool] = None,
+        onChange: typing.Optional[typing.Any] = None,
+        onBlur: typing.Optional[typing.Any] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        decorator: typing.Optional[typing.Any] = None,
-        defaultValue: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        enableCounter: typing.Optional[typing.Any] = None,
-        helperText: typing.Optional[typing.Any] = None,
-        hideLabel: typing.Optional[typing.Any] = None,
-        inline: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        maxCount: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        placeholder: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        size: typing.Optional[typing.Optional[str]] = None,
-        slug: typing.Optional[typing.Any] = None,
-        type: typing.Optional[typing.Any] = None,
-        value: typing.Optional[str] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
-        ai_label: typing.Optional[bool] = None,
-        label: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'ai_label', 'className', 'debounce', 'decorator', 'defaultValue', 'disabled', 'enableCounter', 'helperText', 'hideLabel', 'inline', 'invalid', 'invalidText', 'label', 'labelText', 'light', 'loading_state', 'maxCount', 'n_blur', 'n_submit', 'onChange', 'onClick', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'size', 'slug', 'style', 'type', 'value', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'aiLabel', 'className', 'defaultValue', 'disabled', 'enableCounter', 'helperText', 'hideLabel', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'maxCount', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'renderIcon', 'size', 'style', 'type', 'value', 'warn', 'warnText']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'ai_label', 'className', 'debounce', 'decorator', 'defaultValue', 'disabled', 'enableCounter', 'helperText', 'hideLabel', 'inline', 'invalid', 'invalidText', 'label', 'labelText', 'light', 'loading_state', 'maxCount', 'n_blur', 'n_submit', 'onChange', 'onClick', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'size', 'slug', 'style', 'type', 'value', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'aiLabel', 'className', 'defaultValue', 'disabled', 'enableCounter', 'helperText', 'hideLabel', 'invalid', 'invalidText', 'labelText', 'light', 'loading_state', 'maxCount', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'renderIcon', 'size', 'style', 'type', 'value', 'warn', 'warnText']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

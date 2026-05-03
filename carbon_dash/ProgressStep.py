@@ -17,42 +17,29 @@ NumberType = typing.Union[
 
 class ProgressStep(Component):
     """A ProgressStep component.
-ProgressStep is a wrapper for the Carbon ProgressStep component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- complete (boolean | number | string | dict | list; optional):
-    complete.
+- complete (boolean; default False)
 
-- current (boolean | number | string | dict | list; optional):
-    current.
+- current (boolean; default False)
 
-- description (string; default 'Step description'):
-    description.
+- description (a list of or a singular dash component, string or number; optional)
 
-- disabled (boolean; default False):
-    disabled.
+- disabled (boolean; default False)
 
-- index (boolean | number | string | dict | list; optional):
-    index.
+- invalid (boolean; default False)
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
+- label (a list of or a singular dash component, string or number; optional)
 
-- label (a list of or a singular dash component, string or number; default 'Step'):
-    label.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -62,22 +49,9 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
-
-- overflowTooltipProps (boolean | number | string | dict | list; optional):
-    overflowTooltipProps.
-
-- secondaryLabel (string; default ''):
-    secondaryLabel.
-
-- tooltipId (boolean | number | string | dict | list; optional):
-    tooltipId.
-
-- translateWithId (boolean | number | string | dict | list; optional):
-    translateWithId."""
-    _children_props: typing.List[str] = ['label']
-    _base_nodes = ['label', 'children']
+- secondaryLabel (a list of or a singular dash component, string or number; optional)"""
+    _children_props: typing.List[str] = ['label', 'description', 'secondaryLabel']
+    _base_nodes = ['label', 'description', 'secondaryLabel', 'children']
     _namespace = 'carbon_dash'
     _type = 'ProgressStep'
 
@@ -89,23 +63,18 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        complete: typing.Optional[typing.Any] = None,
-        current: typing.Optional[typing.Any] = None,
-        description: typing.Optional[str] = None,
-        disabled: typing.Optional[bool] = None,
-        index: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
         label: typing.Optional[ComponentType] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        overflowTooltipProps: typing.Optional[typing.Any] = None,
-        secondaryLabel: typing.Optional[str] = None,
-        tooltipId: typing.Optional[typing.Any] = None,
-        translateWithId: typing.Optional[typing.Any] = None,
+        description: typing.Optional[ComponentType] = None,
+        secondaryLabel: typing.Optional[ComponentType] = None,
+        complete: typing.Optional[bool] = None,
+        current: typing.Optional[bool] = None,
+        invalid: typing.Optional[bool] = None,
+        disabled: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'complete', 'current', 'description', 'disabled', 'index', 'invalid', 'label', 'loading_state', 'onClick', 'overflowTooltipProps', 'secondaryLabel', 'style', 'tooltipId', 'translateWithId']
+        self._prop_names = ['children', 'id', 'className', 'complete', 'current', 'description', 'disabled', 'invalid', 'label', 'loading_state', 'secondaryLabel', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'complete', 'current', 'description', 'disabled', 'index', 'invalid', 'label', 'loading_state', 'onClick', 'overflowTooltipProps', 'secondaryLabel', 'style', 'tooltipId', 'translateWithId']
+        self.available_properties = ['children', 'id', 'className', 'complete', 'current', 'description', 'disabled', 'invalid', 'label', 'loading_state', 'secondaryLabel', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

@@ -17,48 +17,47 @@ NumberType = typing.Union[
 
 class Tooltip(Component):
     """A Tooltip component.
-Tooltip is a wrapper for the Carbon Tooltip component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- align (string; default 'top'):
-    align.
+- align (a value equal to: 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'; default 'top'):
+    Alignment relative to trigger.
 
-- className (string; default ''):
-    className.
+- autoAlign (boolean; optional):
+    Auto-align to viewport.
 
-- closeOnActivation (boolean | number | string | dict | list; optional):
-    closeOnActivation.
+- className (string; optional)
+
+- closeOnActivation (boolean; default False):
+    Whether to close on activation.
 
 - defaultOpen (boolean; default False):
-    defaultOpen.
+    Whether open by default.
 
-- description (string; default 'Tooltip Content'):
-    description.
+- description (a list of or a singular dash component, string or number; optional):
+    Tooltip description/content.
 
-- dropShadow (boolean | number | string | dict | list; optional):
-    dropShadow.
+- dropShadow (boolean; default False):
+    Whether to show a drop shadow.
 
-- enterDelayMs (boolean | number | string | dict | list; optional):
-    enterDelayMs.
+- enterDelayMs (number; default 100):
+    Delay before showing (ms).
 
-- highContrast (boolean | number | string | dict | list; optional):
-    highContrast.
+- highContrast (boolean; default False):
+    High contrast variant.
 
-- label (boolean | number | string | dict | list; optional):
-    label.
+- label (a list of or a singular dash component, string or number; optional):
+    Tooltip trigger label.
 
-- leaveDelayMs (boolean | number | string | dict | list; optional):
-    leaveDelayMs.
+- leaveDelayMs (number; default 300):
+    Delay before hiding (ms).
 
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -67,8 +66,8 @@ Keyword arguments:
     - prop_name (string; optional)
 
     - component_name (string; optional)"""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['label', 'description']
+    _base_nodes = ['label', 'description', 'children']
     _namespace = 'carbon_dash'
     _type = 'Tooltip'
 
@@ -80,20 +79,21 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        align: typing.Optional[str] = None,
-        closeOnActivation: typing.Optional[typing.Any] = None,
+        label: typing.Optional[ComponentType] = None,
+        description: typing.Optional[ComponentType] = None,
+        align: typing.Optional[Literal["top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"]] = None,
         defaultOpen: typing.Optional[bool] = None,
-        description: typing.Optional[str] = None,
-        dropShadow: typing.Optional[typing.Any] = None,
-        enterDelayMs: typing.Optional[typing.Any] = None,
-        highContrast: typing.Optional[typing.Any] = None,
-        label: typing.Optional[typing.Any] = None,
-        leaveDelayMs: typing.Optional[typing.Any] = None,
+        closeOnActivation: typing.Optional[bool] = None,
+        enterDelayMs: typing.Optional[NumberType] = None,
+        leaveDelayMs: typing.Optional[NumberType] = None,
+        dropShadow: typing.Optional[bool] = None,
+        highContrast: typing.Optional[bool] = None,
+        autoAlign: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'align', 'className', 'closeOnActivation', 'defaultOpen', 'description', 'dropShadow', 'enterDelayMs', 'highContrast', 'label', 'leaveDelayMs', 'loading_state', 'style']
+        self._prop_names = ['children', 'id', 'align', 'autoAlign', 'className', 'closeOnActivation', 'defaultOpen', 'description', 'dropShadow', 'enterDelayMs', 'highContrast', 'label', 'leaveDelayMs', 'loading_state', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'align', 'className', 'closeOnActivation', 'defaultOpen', 'description', 'dropShadow', 'enterDelayMs', 'highContrast', 'label', 'leaveDelayMs', 'loading_state', 'style']
+        self.available_properties = ['children', 'id', 'align', 'autoAlign', 'className', 'closeOnActivation', 'defaultOpen', 'description', 'dropShadow', 'enterDelayMs', 'highContrast', 'label', 'leaveDelayMs', 'loading_state', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

@@ -17,36 +17,33 @@ NumberType = typing.Union[
 
 class SideNavLink(Component):
     """A SideNavLink component.
-SideNavLink is a wrapper for the Carbon SideNavLink component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- as_ (boolean | number | string | dict | list; optional):
-    as.
+- ariaLabel (string; optional)
 
-- className (string; default ''):
-    className.
+- ariaLabelledBy (string; optional)
 
-- element (boolean | number | string | dict | list; optional):
-    element.
+- as (optional)
 
-- isActive (boolean | number | string | dict | list; optional):
-    isActive.
+- className (string; optional)
 
-- isSideNavExpanded (boolean | number | string | dict | list; optional):
-    isSideNavExpanded.
+- element (optional)
 
-- large (boolean | number | string | dict | list; optional):
-    large.
+- href (string; optional)
 
-- loading_state (dict; optional):
-    loading_state.
+- isActive (boolean; optional)
+
+- isSideNavExpanded (boolean; optional)
+
+- large (boolean; default False)
+
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -56,11 +53,11 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- renderIcon (a list of or a singular dash component, string or number; optional):
-    renderIcon.
+- n_clicks (number; default 0)
 
-- tabIndex (boolean | number | string | dict | list; optional):
-    tabIndex."""
+- renderIcon (a list of or a singular dash component, string or number; optional)
+
+- tabIndex (number; optional)"""
     _children_props: typing.List[str] = ['renderIcon']
     _base_nodes = ['renderIcon', 'children']
     _namespace = 'carbon_dash'
@@ -74,18 +71,21 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        as_: typing.Optional[typing.Any] = None,
-        element: typing.Optional[typing.Any] = None,
-        isSideNavExpanded: typing.Optional[typing.Any] = None,
-        isActive: typing.Optional[typing.Any] = None,
-        large: typing.Optional[typing.Any] = None,
         renderIcon: typing.Optional[ComponentType] = None,
-        tabIndex: typing.Optional[typing.Any] = None,
+        n_clicks: typing.Optional[NumberType] = None,
+        href: typing.Optional[str] = None,
+        isActive: typing.Optional[bool] = None,
+        isSideNavExpanded: typing.Optional[bool] = None,
+        large: typing.Optional[bool] = None,
+        tabIndex: typing.Optional[NumberType] = None,
+        ariaLabel: typing.Optional[str] = None,
+        ariaLabelledBy: typing.Optional[str] = None,
+        element: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'as_', 'className', 'element', 'isActive', 'isSideNavExpanded', 'large', 'loading_state', 'renderIcon', 'style', 'tabIndex']
+        self._prop_names = ['children', 'id', 'ariaLabel', 'ariaLabelledBy', 'as', 'className', 'element', 'href', 'isActive', 'isSideNavExpanded', 'large', 'loading_state', 'n_clicks', 'renderIcon', 'style', 'tabIndex']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'as_', 'className', 'element', 'isActive', 'isSideNavExpanded', 'large', 'loading_state', 'renderIcon', 'style', 'tabIndex']
+        self.available_properties = ['children', 'id', 'ariaLabel', 'ariaLabelledBy', 'as', 'className', 'element', 'href', 'isActive', 'isSideNavExpanded', 'large', 'loading_state', 'n_clicks', 'renderIcon', 'style', 'tabIndex']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

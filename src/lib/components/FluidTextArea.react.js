@@ -1,170 +1,149 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { FluidTextArea as CarbonFluidTextArea, FluidTextAreaSkeleton as CarbonFluidTextAreaSkeleton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
 /**
- * FluidTextArea is a wrapper for the Carbon FluidTextArea component.
+ * FluidTextArea is a full-width TextArea component.
  */
-export default class FluidTextArea extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { value } = this.props;
+const FluidTextArea = (props) => {
+    const {
+        id,
+        children,
+        className = '',
+        style = {},
+        loading_state,
+        value,
+        labelText,
+        placeholder,
+        helperText,
+        invalid,
+        invalidText,
+        warn,
+        warnText,
+        disabled = false,
+        readOnly = false,
+        hideLabel = false,
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['FluidTextArea'];
-        if (!RealComponent) {
-            return null;
+    const handleChange = (e) => {
+        if (props.setProps) {
+            const target = e && e.target;
+            props.setProps({ value: target ? target.value : e });
         }
+    };
 
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    value={value}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonFluidTextAreaSkeleton id={id} className={className} />;
     }
-}
 
-FluidTextArea.defaultProps = {
-    className: '',
-    value: '',
+    return (
+        <CarbonFluidTextArea
+            id={id}
+            className={className}
+            style={style}
+            value={value}
+            labelText={labelText}
+            placeholder={placeholder}
+            helperText={helperText}
+            invalid={invalid}
+            invalidText={invalidText}
+            warn={warn}
+            warnText={warnText}
+            disabled={disabled}
+            readOnly={readOnly}
+            hideLabel={hideLabel}
+            onChange={handleChange}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonFluidTextArea>
+    );
 };
 
 FluidTextArea.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
 
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
+    /** Dash callback to update props */
     setProps: PropTypes.func,
 
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
+    /** The content of the text area */
+    children: PropTypes.node,
 
-    /** persistence */
+    /** Custom CSS class */
+    className: PropTypes.string,
+
+    /** Inline styles */
+    style: PropTypes.object,
+
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
+
+    /** The value of the text area */
+    value: PropTypes.string,
+
+    /** Provide text that is used alongside the control label for additional help */
+    labelText: PropTypes.node,
+
+    /** Provide the placeholder text for the text area */
+    placeholder: PropTypes.string,
+
+    /** Provide text that is used alongside the control label for additional help */
+    helperText: PropTypes.node,
+
+    /** Specify whether the control is currently in an invalid state */
+    invalid: PropTypes.bool,
+
+    /** Provide the text that is displayed when the control is in an invalid state */
+    invalidText: PropTypes.node,
+
+    /** Specify whether the control is currently in a warning state */
+    warn: PropTypes.bool,
+
+    /** Provide the text that is displayed when the control is in a warning state */
+    warnText: PropTypes.node,
+
+    /** Specify whether the control is disabled */
+    disabled: PropTypes.bool,
+
+    /** Specify whether the control is read-only */
+    readOnly: PropTypes.bool,
+
+    /** Hide the label */
+    hideLabel: PropTypes.bool,
+
+    /** Specify the number of rows */
+    rows: PropTypes.number,
+
+    /** Specify the number of cols */
+    cols: PropTypes.number,
+
+    /** Enable the counter */
+    enableCounter: PropTypes.bool,
+
+    /** Max count for the counter */
+    maxCount: PropTypes.number,
+
+    /** Persistence settings */
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
     persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
     persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * cols
-     */
-    cols: PropTypes.any,
-
-    /**
-     * defaultValue
-     */
-    defaultValue: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * enableCounter
-     */
-    enableCounter: PropTypes.any,
-
-    /**
-     * helperText
-     */
-    helperText: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * labelText
-     */
-    labelText: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * maxCount
-     */
-    maxCount: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * placeholder
-     */
-    placeholder: PropTypes.any,
-
-    /**
-     * rows
-     */
-    rows: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.any,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
 };
+
+FluidTextArea.defaultProps = {
+    disabled: false,
+    readOnly: false,
+    hideLabel: false,
+    rows: 4,
+    cols: 50,
+    enableCounter: false,
+};
+
+export default FluidTextArea;

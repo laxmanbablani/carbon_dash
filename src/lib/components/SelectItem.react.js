@@ -1,98 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { SelectItem as CarbonSelectItem } from '@carbon/react';
 
-/**
- * SelectItem is a wrapper for the Carbon SelectItem component.
- */
-export default class SelectItem extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { value } = this.props;
-        const { text } = this.props;
-
-        const RealComponent = LazyLoader['SelectItem'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    value={value}
-                    text={text}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-SelectItem.defaultProps = {
-    className: '',
-    value: '',
-    text: '',
+const SelectItem = (props) => {
+    const { id, children, className, style, loading_state, ...others } = props;
+    return (
+        <CarbonSelectItem
+            id={id} className={className} style={style}
+            data-dash-is-loading={loading_state?.is_loading || undefined}
+            {...others}
+        />
+    );
 };
 
 SelectItem.propTypes = {
-    /** id */
     id: PropTypes.string,
-
-    /** children */
     children: PropTypes.node,
-
-    /** className */
     className: PropTypes.string,
-
-    /** style */
     style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
-    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * hidden
-     */
-    hidden: PropTypes.any,
-
-    /**
-     * text
-     */
-    text: PropTypes.string,
-
-    /**
-     * value
-     */
-    value: PropTypes.any,
-
+    /** The value of the option */
+    value: PropTypes.any.isRequired,
+    /** The display text */
+    text: PropTypes.string.isRequired,
+    /** Whether the option is disabled */
+    disabled: PropTypes.bool,
 };
+
+SelectItem.defaultProps = { disabled: false };
+
+export default SelectItem;

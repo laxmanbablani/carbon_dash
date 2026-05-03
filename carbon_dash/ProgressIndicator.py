@@ -17,24 +17,19 @@ NumberType = typing.Union[
 
 class ProgressIndicator(Component):
     """A ProgressIndicator component.
-ProgressIndicator is a wrapper for the Carbon ProgressIndicator component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- currentIndex (number; default 0):
-    currentIndex.
+- currentIndex (number; default 0)
 
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -44,14 +39,15 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- persisted_props (list of strings; optional)
 
-- spaceEqually (boolean; default False):
-    spaceEqually.
+- persistence (boolean | string | number; optional)
 
-- vertical (boolean; default False):
-    vertical."""
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
+
+- spaceEqually (boolean; default False)
+
+- vertical (boolean; default False)"""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -66,14 +62,16 @@ Keyword arguments:
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         currentIndex: typing.Optional[NumberType] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        spaceEqually: typing.Optional[bool] = None,
         vertical: typing.Optional[bool] = None,
+        spaceEqually: typing.Optional[bool] = None,
+        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
+        persisted_props: typing.Optional[typing.Sequence[str]] = None,
+        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'currentIndex', 'loading_state', 'onChange', 'spaceEqually', 'style', 'vertical']
+        self._prop_names = ['children', 'id', 'className', 'currentIndex', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'spaceEqually', 'style', 'vertical']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'currentIndex', 'loading_state', 'onChange', 'spaceEqually', 'style', 'vertical']
+        self.available_properties = ['children', 'id', 'className', 'currentIndex', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'spaceEqually', 'style', 'vertical']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

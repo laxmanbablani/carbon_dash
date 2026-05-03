@@ -17,72 +17,35 @@ NumberType = typing.Union[
 
 class ComboBox(Component):
     """A ComboBox component.
-ComboBox is a wrapper for the Carbon ComboBox component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- allowCustomValue (boolean | number | string | dict | list; optional):
-    allowCustomValue.
+- allowCustomValue (boolean; default False)
 
-- ariaLabel (boolean | number | string | dict | list; optional):
-    ariaLabel.
+- className (string; optional)
 
-- autoAlign (boolean | number | string | dict | list; optional):
-    autoAlign.
+- direction (a value equal to: 'top', 'bottom'; default 'bottom')
 
-- className (string; default ''):
-    className.
+- disabled (boolean; default False)
 
-- decorator (boolean | number | string | dict | list; optional):
-    decorator.
+- helperText (a list of or a singular dash component, string or number; optional)
 
-- direction (boolean | number | string | dict | list; optional):
-    direction.
+- invalid (boolean; default False)
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- invalidText (a list of or a singular dash component, string or number; optional)
 
-- downshiftActions (boolean | number | string | dict | list; optional):
-    downshiftActions.
+- items (list; optional)
 
-- downshiftProps (boolean | number | string | dict | list; optional):
-    downshiftProps.
+- labelText (a list of or a singular dash component, string or number; optional)
 
-- helperText (boolean | number | string | dict | list; optional):
-    helperText.
+- light (boolean; optional)
 
-- initialSelectedItem (boolean | number | string | dict | list; optional):
-    initialSelectedItem.
-
-- inputProps (boolean | number | string | dict | list; optional):
-    inputProps.
-
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
-
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
-
-- itemToElement (boolean | number | string | dict | list; optional):
-    itemToElement.
-
-- itemToString (boolean | number | string | dict | list; optional):
-    itemToString.
-
-- items (boolean | number | string | dict | list; optional):
-    items.
-
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -92,49 +55,25 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- persisted_props (list of strings; optional)
 
-- onInputChange (boolean | number | string | dict | list; optional):
-    onInputChange.
+- persistence (boolean | string | number; optional)
 
-- onToggleClick (boolean | number | string | dict | list; optional):
-    onToggleClick.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- placeholder (boolean | number | string | dict | list; optional):
-    placeholder.
+- placeholder (string; optional)
 
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
+- selectedItem (boolean | number | string | dict | list; optional)
 
-- selectedItem (boolean | number | string | dict | list; optional):
-    selectedItem.
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md')
 
-- shouldFilterItem (boolean | number | string | dict | list; optional):
-    shouldFilterItem.
+- titleText (a list of or a singular dash component, string or number; optional)
 
-- size (boolean | number | string | dict | list; optional):
-    size.
+- warn (boolean; default False)
 
-- slug (boolean | number | string | dict | list; optional):
-    slug.
-
-- titleText (boolean | number | string | dict | list; optional):
-    titleText.
-
-- translateWithId (boolean | number | string | dict | list; optional):
-    translateWithId.
-
-- typeahead (boolean | number | string | dict | list; optional):
-    typeahead.
-
-- warn (boolean | number | string | dict | list; optional):
-    warn.
-
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- warnText (a list of or a singular dash component, string or number; optional)"""
+    _children_props: typing.List[str] = ['labelText', 'titleText', 'helperText', 'invalidText', 'warnText']
+    _base_nodes = ['labelText', 'titleText', 'helperText', 'invalidText', 'warnText', 'children']
     _namespace = 'carbon_dash'
     _type = 'ComboBox'
 
@@ -146,42 +85,29 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        allowCustomValue: typing.Optional[typing.Any] = None,
-        ariaLabel: typing.Optional[typing.Any] = None,
-        autoAlign: typing.Optional[typing.Any] = None,
-        decorator: typing.Optional[typing.Any] = None,
-        direction: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        downshiftProps: typing.Optional[typing.Any] = None,
-        downshiftActions: typing.Optional[typing.Any] = None,
-        helperText: typing.Optional[typing.Any] = None,
-        initialSelectedItem: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        itemToElement: typing.Optional[typing.Any] = None,
-        itemToString: typing.Optional[typing.Any] = None,
-        items: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onInputChange: typing.Optional[typing.Any] = None,
-        onToggleClick: typing.Optional[typing.Any] = None,
-        placeholder: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
+        items: typing.Optional[typing.Sequence] = None,
         selectedItem: typing.Optional[typing.Any] = None,
-        shouldFilterItem: typing.Optional[typing.Any] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        titleText: typing.Optional[ComponentType] = None,
+        helperText: typing.Optional[ComponentType] = None,
+        placeholder: typing.Optional[str] = None,
+        disabled: typing.Optional[bool] = None,
+        invalid: typing.Optional[bool] = None,
+        invalidText: typing.Optional[ComponentType] = None,
+        warn: typing.Optional[bool] = None,
+        warnText: typing.Optional[ComponentType] = None,
+        allowCustomValue: typing.Optional[bool] = None,
         size: typing.Optional[typing.Optional[str]] = None,
-        slug: typing.Optional[typing.Any] = None,
-        titleText: typing.Optional[typing.Any] = None,
-        translateWithId: typing.Optional[typing.Any] = None,
-        typeahead: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
-        inputProps: typing.Optional[typing.Any] = None,
+        light: typing.Optional[bool] = None,
+        direction: typing.Optional[Literal["top", "bottom"]] = None,
+        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
+        persisted_props: typing.Optional[typing.Sequence[str]] = None,
+        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'allowCustomValue', 'ariaLabel', 'autoAlign', 'className', 'decorator', 'direction', 'disabled', 'downshiftActions', 'downshiftProps', 'helperText', 'initialSelectedItem', 'inputProps', 'invalid', 'invalidText', 'itemToElement', 'itemToString', 'items', 'light', 'loading_state', 'onChange', 'onInputChange', 'onToggleClick', 'placeholder', 'readOnly', 'selectedItem', 'shouldFilterItem', 'size', 'slug', 'style', 'titleText', 'translateWithId', 'typeahead', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'allowCustomValue', 'className', 'direction', 'disabled', 'helperText', 'invalid', 'invalidText', 'items', 'labelText', 'light', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'selectedItem', 'size', 'style', 'titleText', 'warn', 'warnText']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'allowCustomValue', 'ariaLabel', 'autoAlign', 'className', 'decorator', 'direction', 'disabled', 'downshiftActions', 'downshiftProps', 'helperText', 'initialSelectedItem', 'inputProps', 'invalid', 'invalidText', 'itemToElement', 'itemToString', 'items', 'light', 'loading_state', 'onChange', 'onInputChange', 'onToggleClick', 'placeholder', 'readOnly', 'selectedItem', 'shouldFilterItem', 'size', 'slug', 'style', 'titleText', 'translateWithId', 'typeahead', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'allowCustomValue', 'className', 'direction', 'disabled', 'helperText', 'invalid', 'invalidText', 'items', 'labelText', 'light', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'selectedItem', 'size', 'style', 'titleText', 'warn', 'warnText']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

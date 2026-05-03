@@ -17,30 +17,21 @@ NumberType = typing.Union[
 
 class SideNavMenuItem(Component):
     """A SideNavMenuItem component.
-SideNavMenuItem is a wrapper for the Carbon SideNavMenuItem component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- as_ (boolean | number | string | dict | list; optional):
-    as.
+- className (string; optional)
 
-- className (string; default ''):
-    className.
+- href (string; optional)
 
-- href (boolean | number | string | dict | list; optional):
-    href.
+- isActive (boolean; optional)
 
-- isActive (boolean | number | string | dict | list; optional):
-    isActive.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -48,7 +39,9 @@ Keyword arguments:
 
     - prop_name (string; optional)
 
-    - component_name (string; optional)"""
+    - component_name (string; optional)
+
+- n_clicks (number; default 0)"""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -62,14 +55,14 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        as_: typing.Optional[typing.Any] = None,
-        href: typing.Optional[typing.Any] = None,
-        isActive: typing.Optional[typing.Any] = None,
+        n_clicks: typing.Optional[NumberType] = None,
+        href: typing.Optional[str] = None,
+        isActive: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'as_', 'className', 'href', 'isActive', 'loading_state', 'style']
+        self._prop_names = ['children', 'id', 'className', 'href', 'isActive', 'loading_state', 'n_clicks', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'as_', 'className', 'href', 'isActive', 'loading_state', 'style']
+        self.available_properties = ['children', 'id', 'className', 'href', 'isActive', 'loading_state', 'n_clicks', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

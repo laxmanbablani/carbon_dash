@@ -1,79 +1,77 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { FluidDatePicker as CarbonFluidDatePicker, FluidDatePickerSkeleton as CarbonFluidDatePickerSkeleton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
 /**
- * FluidDatePicker is a wrapper for the Carbon FluidDatePicker component.
+ * FluidDatePicker is a full-width DatePicker component.
  */
-export default class FluidDatePicker extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
+const FluidDatePicker = (props) => {
+    const {
+        id,
+        children,
+        className = '',
+        style = {},
+        loading_state,
+        datePickerType = 'simple',
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['FluidDatePicker'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonFluidDatePickerSkeleton id={id} className={className} datePickerType={datePickerType} />;
     }
-}
 
-FluidDatePicker.defaultProps = {
-    className: '',
+    return (
+        <CarbonFluidDatePicker
+            id={id}
+            className={className}
+            style={style}
+            datePickerType={datePickerType}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonFluidDatePicker>
+    );
 };
 
 FluidDatePicker.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
 
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
+    /** Dash callback to update props */
     setProps: PropTypes.func,
 
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
+    /** The content of the date picker (DatePickerInput components) */
+    children: PropTypes.node,
 
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
+    /** Custom CSS class */
+    className: PropTypes.string,
 
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
+    /** Inline styles */
+    style: PropTypes.object,
 
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
+    /** Specify the type of date picker */
+    datePickerType: PropTypes.oneOf(['simple', 'single', 'range']),
 
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
+    /** Callback for date change */
+    onChange: PropTypes.func,
 
+    /** Persistence settings */
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
 };
+
+FluidDatePicker.defaultProps = {
+    datePickerType: 'simple',
+};
+
+export default FluidDatePicker;

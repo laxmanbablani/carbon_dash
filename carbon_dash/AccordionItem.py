@@ -18,23 +18,24 @@ NumberType = typing.Union[
 class AccordionItem(Component):
     """An AccordionItem component.
 AccordionItem is a wrapper for the Carbon AccordionItem component.
+Represents a single collapsible section within an Accordion.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the accordion item.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- disabled (boolean; optional):
+    Specify whether an individual AccordionItem should be disabled.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -44,32 +45,11 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
-
-- onHeadingClick (boolean | number | string | dict | list; optional):
-    onHeadingClick.
-
 - open (boolean; default False):
-    open.
+    Whether the accordion item is open.
 
-- persisted_props (list of strings; optional):
-    persisted_props.
-
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- renderExpando (boolean | number | string | dict | list; optional):
-    renderExpando.
-
-- renderToggle (boolean | number | string | dict | list; optional):
-    renderToggle.
-
-- title (a list of or a singular dash component, string or number; default 'Accordion Title'):
-    title."""
+- title (a list of or a singular dash component, string or number; default 'title'):
+    The accordion title."""
     _children_props: typing.List[str] = ['title']
     _base_nodes = ['title', 'children']
     _namespace = 'carbon_dash'
@@ -83,21 +63,14 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
-        persisted_props: typing.Optional[typing.Sequence[str]] = None,
-        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        onHeadingClick: typing.Optional[typing.Any] = None,
-        open: typing.Optional[bool] = None,
-        renderExpando: typing.Optional[typing.Any] = None,
-        renderToggle: typing.Optional[typing.Any] = None,
         title: typing.Optional[ComponentType] = None,
+        open: typing.Optional[bool] = None,
+        disabled: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'disabled', 'loading_state', 'onClick', 'onHeadingClick', 'open', 'persisted_props', 'persistence', 'persistence_type', 'renderExpando', 'renderToggle', 'style', 'title']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'loading_state', 'open', 'style', 'title']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'disabled', 'loading_state', 'onClick', 'onHeadingClick', 'open', 'persisted_props', 'persistence', 'persistence_type', 'renderExpando', 'renderToggle', 'style', 'title']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'loading_state', 'open', 'style', 'title']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

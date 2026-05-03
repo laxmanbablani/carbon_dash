@@ -1,99 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { InlineNotification as CarbonInlineNotification } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * InlineNotification is a wrapper for the Carbon InlineNotification component.
- */
-export default class InlineNotification extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['InlineNotification'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-InlineNotification.defaultProps = {
-    className: '',
+const InlineNotification = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    return <CarbonInlineNotification id={id} className={className} style={style} data-dash-is-loading={getLoadingState(loading_state) || undefined} {...others}>{children}</CarbonInlineNotification>;
 };
-
 InlineNotification.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * hideCloseButton
-     */
-    hideCloseButton: PropTypes.any,
-
-    /**
-     * kind
-     */
-    kind: PropTypes.any,
-
-    /**
-     * lowContrast
-     */
-    lowContrast: PropTypes.any,
-
-    /**
-     * onClose
-     */
-    onClose: PropTypes.any,
-
-    /**
-     * onCloseButtonClick
-     */
-    onCloseButtonClick: PropTypes.any,
-
-    /**
-     * role
-     */
-    role: PropTypes.any,
-
-    /**
-     * statusIconDescription
-     */
-    statusIconDescription: PropTypes.any,
-
-    /**
-     * subtitle
-     */
-    subtitle: PropTypes.any,
-
-    /**
-     * title
-     */
-    title: PropTypes.any,
-
+    title: PropTypes.string, subtitle: PropTypes.node, kind: PropTypes.oneOf(['error','info','info-square','success','warning']),
+    lowContrast: PropTypes.bool, hideCloseButton: PropTypes.bool, statusIconDescription: PropTypes.string,
+    role: PropTypes.string, onCloseButtonClick: PropTypes.func,
 };
+InlineNotification.defaultProps = { kind: 'info', lowContrast: false, hideCloseButton: false };
+export default InlineNotification;

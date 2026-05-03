@@ -1,230 +1,60 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { Modal as CarbonModal } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * Modal is a wrapper for the Carbon Modal component.
- */
-export default class Modal extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { open } = this.props;
-        const { modalHeading } = this.props;
-        const { primaryButtonText } = this.props;
-        const { secondaryButtonText } = this.props;
+const Modal = (props) => {
+    const { id, children, className = '', style = {}, loading_state, open, ...others } = props;
 
-        const RealComponent = LazyLoader['Modal'];
-        if (!RealComponent) {
-            return null;
-        }
+    const handleRequestClose = () => {
+        if (props.setProps) props.setProps({ open: false });
+    };
 
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    open={open}
-                    modalHeading={modalHeading}
-                    primaryButtonText={primaryButtonText}
-                    secondaryButtonText={secondaryButtonText}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-Modal.defaultProps = {
-    className: '',
-    open: false,
-    modalHeading: 'Modal Heading',
-    primaryButtonText: 'Primary Button',
-    secondaryButtonText: 'Secondary Button',
+    return (
+        <CarbonModal
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            open={open}
+            onRequestClose={handleRequestClose}
+            {...others}
+        >
+            {children}
+        </CarbonModal>
+    );
 };
 
 Modal.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func,
+    children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
-    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /**
-     * alert
-     */
-    alert: PropTypes.any,
-
-    /**
-     * closeButtonLabel
-     */
-    closeButtonLabel: PropTypes.any,
-
-    /**
-     * danger
-     */
-    danger: PropTypes.any,
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * hasScrollingContent
-     */
-    hasScrollingContent: PropTypes.any,
-
-    /**
-     * isFullWidth
-     */
-    isFullWidth: PropTypes.any,
-
-    /**
-     * launcherButtonRef
-     */
-    launcherButtonRef: PropTypes.any,
-
-    /**
-     * current
-     */
-    current: PropTypes.any,
-
-    /**
-     * loadingDescription
-     */
-    loadingDescription: PropTypes.any,
-
-    /**
-     * loadingIconDescription
-     */
-    loadingIconDescription: PropTypes.any,
-
-    /**
-     * loadingStatus
-     */
-    loadingStatus: PropTypes.any,
-
-    /**
-     * modalAriaLabel
-     */
-    modalAriaLabel: PropTypes.any,
-
-    /**
-     * modalHeading
-     */
-    modalHeading: PropTypes.string,
-
-    /**
-     * modalLabel
-     */
-    modalLabel: PropTypes.any,
-
-    /**
-     * onKeyDown
-     */
-    onKeyDown: PropTypes.any,
-
-    /**
-     * onLoadingSuccess
-     */
-    onLoadingSuccess: PropTypes.any,
-
-    /**
-     * onRequestClose
-     */
-    onRequestClose: PropTypes.any,
-
-    /**
-     * onRequestSubmit
-     */
-    onRequestSubmit: PropTypes.any,
-
-    /**
-     * onSecondarySubmit
-     */
-    onSecondarySubmit: PropTypes.any,
-
-    /**
-     * open
-     */
+    /** Whether the modal is open */
     open: PropTypes.bool,
-
-    /**
-     * passiveModal
-     */
-    passiveModal: PropTypes.any,
-
-    /**
-     * preventCloseOnClickOutside
-     */
-    preventCloseOnClickOutside: PropTypes.any,
-
-    /**
-     * primaryButtonDisabled
-     */
-    primaryButtonDisabled: PropTypes.any,
-
-    /**
-     * primaryButtonText
-     */
+    /** Modal heading */
+    modalHeading: PropTypes.node,
+    /** Primary button text */
     primaryButtonText: PropTypes.string,
-
-    /**
-     * secondaryButtonText
-     */
+    /** Secondary button text */
     secondaryButtonText: PropTypes.string,
-
-    /**
-     * secondaryButtons
-     */
-    secondaryButtons: PropTypes.any,
-
-    /**
-     * selectorPrimaryFocus
-     */
-    selectorPrimaryFocus: PropTypes.any,
-
-    /**
-     * selectorsFloatingMenus
-     */
-    selectorsFloatingMenus: PropTypes.any,
-
-    /**
-     * shouldSubmitOnEnter
-     */
-    shouldSubmitOnEnter: PropTypes.any,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
+    /** Whether the modal is a danger modal */
+    danger: PropTypes.bool,
+    /** Whether the modal should be full width */
+    fullWidth: PropTypes.bool,
+    /** Whether the modal should be passive */
+    passiveModal: PropTypes.bool,
+    /** Whether to show the close button */
+    preventCloseOnClickOutside: PropTypes.bool,
+    /** Size */
+    size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg']),
+    /** Whether to alert the user */
+    alert: PropTypes.bool,
+    /** Whether the modal should be displayed with a slider */
+    shouldSubmitOnEnter: PropTypes.bool,
+    /** Primary button disabled */
+    primaryButtonDisabled: PropTypes.bool,
+    /** Selector for focus on modal open */
+    selectorPrimaryFocus: PropTypes.string,
 };
+
+Modal.defaultProps = { open: false, danger: false, fullWidth: false, passiveModal: false, alert: false };
+
+export default Modal;

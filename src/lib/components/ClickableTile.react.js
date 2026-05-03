@@ -1,104 +1,44 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { ClickableTile as CarbonClickableTile } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * ClickableTile is a wrapper for the Carbon ClickableTile component.
- */
-export default class ClickableTile extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
+const ClickableTile = (props) => {
+    const { id, children, className = '', style = {}, loading_state, clicked = false, ...others } = props;
 
-        const RealComponent = LazyLoader['ClickableTile'];
-        if (!RealComponent) {
-            return null;
-        }
+    const handleClick = () => {
+        if (props.setProps) props.setProps({ clicked: !clicked, n_clicks: (props.n_clicks || 0) + 1 });
+    };
 
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-ClickableTile.defaultProps = {
-    className: '',
+    return (
+        <CarbonClickableTile
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            onClick={handleClick}
+            {...others}
+        >
+            {children}
+        </CarbonClickableTile>
+    );
 };
 
 ClickableTile.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func,
+    children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * clicked
-     */
-    clicked: PropTypes.any,
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * hasRoundedCorners
-     */
-    hasRoundedCorners: PropTypes.any,
-
-    /**
-     * href
-     */
-    href: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * onKeyDown
-     */
-    onKeyDown: PropTypes.any,
-
-    /**
-     * rel
-     */
-    rel: PropTypes.any,
-
-    /**
-     * renderIcon
-     */
-    renderIcon: PropTypes.node,
-
+    /** Whether the tile has been clicked */
+    clicked: PropTypes.bool,
+    /** Click counter */
+    n_clicks: PropTypes.number,
+    /** Whether the tile is disabled */
+    disabled: PropTypes.bool,
+    /** href to render as a link */
+    href: PropTypes.string,
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
 };
+
+ClickableTile.defaultProps = { clicked: false, disabled: false, n_clicks: 0 };
+
+export default ClickableTile;

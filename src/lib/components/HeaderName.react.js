@@ -1,79 +1,81 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { HeaderName as CarbonHeaderName } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * HeaderName is a wrapper for the Carbon HeaderName component.
- */
-export default class HeaderName extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['HeaderName'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-HeaderName.defaultProps = {
-    className: '',
+const HeaderName = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    return (
+        <CarbonHeaderName
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonHeaderName>
+    );
 };
 
 HeaderName.propTypes = {
-    /** id */
+    /**
+     * The ID used to identify this component in Dash callbacks.
+     */
     id: PropTypes.string,
 
-    /** children */
+    /**
+     * The content of the header name.
+     */
     children: PropTypes.node,
 
-    /** className */
+    /**
+     * Custom CSS class.
+     */
     className: PropTypes.string,
 
-    /** style */
+    /**
+     * Inline styles.
+     */
     style: PropTypes.object,
 
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
+    /**
+     * Dash loading state.
+     */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
     /**
-     * as
+     * Provide an href for the name to link to.
      */
-    as_: PropTypes.any,
+    href: PropTypes.string,
 
     /**
-     * element
+     * Optionally specify a prefix to your header name.
+     * Useful for companies, for example: IBM [Product Name] versus solely [Product Name].
      */
-    element: PropTypes.any,
+    prefix: PropTypes.string,
 
     /**
-     * isSideNavExpanded
+     * Provide a custom element or component to render the top-level node for the component.
      */
-    isSideNavExpanded: PropTypes.any,
+    as: PropTypes.elementType,
 
     /**
-     * href
+     * The base element to use to build the link. Defaults to `a`.
+     * @deprecated Use `as` instead.
      */
-    href: PropTypes.any,
+    element: PropTypes.elementType,
 
     /**
-     * prefix
+     * Property to indicate if the side nav container is open (or not).
      */
-    prefix: PropTypes.any,
-
+    isSideNavExpanded: PropTypes.bool,
 };
+
+HeaderName.defaultProps = {
+    prefix: 'IBM',
+};
+
+export default HeaderName;

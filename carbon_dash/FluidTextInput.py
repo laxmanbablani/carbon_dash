@@ -17,45 +17,48 @@ NumberType = typing.Union[
 
 class FluidTextInput(Component):
     """A FluidTextInput component.
-FluidTextInput is a wrapper for the Carbon FluidTextInput component.
+FluidTextInput is a full-width text input component from Carbon's Fluid components.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the text input.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- debounce (boolean | number; optional):
-    debounce.
+- defaultValue (string | number; optional):
+    Default value for the text input.
 
-- defaultValue (boolean | number | string | dict | list; optional):
-    defaultValue.
+- disabled (boolean; default False):
+    Specify whether the control is disabled.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- enableCounter (boolean; default False):
+    Enable the counter.
 
-- enableCounter (boolean | number | string | dict | list; optional):
-    enableCounter.
+- helperText (a list of or a singular dash component, string or number; optional):
+    Provide text that is used alongside the control label for
+    additional help.
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
+- hideLabel (boolean; default False):
+    Hide the label.
 
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
+- invalid (boolean; optional):
+    Specify whether the control is currently in an invalid state.
 
-- isPassword (boolean | number | string | dict | list; optional):
-    isPassword.
+- invalidText (a list of or a singular dash component, string or number; optional):
+    Provide the text that is displayed when the control is in an
+    invalid state.
 
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Provide text that is used alongside the control label for
+    additional help.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -65,46 +68,39 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- maxCount (boolean | number | string | dict | list; optional):
-    maxCount.
+- maxCount (number; optional):
+    Max count for the counter.
 
-- n_blur (number; optional):
-    n_blur.
-
-- n_submit (number; optional):
-    n_submit.
-
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
-
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
+- persisted_props (list of strings; optional)
 
 - persistence (boolean | string | number; optional):
-    persistence.
+    Persistence settings.
 
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- placeholder (boolean | number | string | dict | list; optional):
-    placeholder.
+- placeholder (string; optional):
+    Provide the placeholder text for the text input.
 
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
+- readOnly (boolean; default False):
+    Specify whether the control is read-only.
 
-- value (boolean | number | string | dict | list; default ''):
-    value.
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md'):
+    Specify the size of the text input.
 
-- warn (boolean | number | string | dict | list; optional):
-    warn.
+- type (string; default 'text'):
+    Specify the type of the text input.
 
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- value (string | number; optional):
+    The value of the text input.
+
+- warn (boolean; optional):
+    Specify whether the control is currently in a warning state.
+
+- warnText (a list of or a singular dash component, string or number; optional):
+    Provide the text that is displayed when the control is in a
+    warning state."""
+    _children_props: typing.List[str] = ['labelText', 'helperText', 'invalidText', 'warnText']
+    _base_nodes = ['labelText', 'helperText', 'invalidText', 'warnText', 'children']
     _namespace = 'carbon_dash'
     _type = 'FluidTextInput'
 
@@ -116,32 +112,30 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        value: typing.Optional[typing.Union[str, NumberType]] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        placeholder: typing.Optional[str] = None,
+        helperText: typing.Optional[ComponentType] = None,
+        invalid: typing.Optional[bool] = None,
+        invalidText: typing.Optional[ComponentType] = None,
+        warn: typing.Optional[bool] = None,
+        warnText: typing.Optional[ComponentType] = None,
+        disabled: typing.Optional[bool] = None,
+        readOnly: typing.Optional[bool] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
+        hideLabel: typing.Optional[bool] = None,
+        enableCounter: typing.Optional[bool] = None,
+        maxCount: typing.Optional[NumberType] = None,
+        type: typing.Optional[str] = None,
+        defaultValue: typing.Optional[typing.Union[str, NumberType]] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        defaultValue: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        isPassword: typing.Optional[typing.Any] = None,
-        maxCount: typing.Optional[typing.Any] = None,
-        enableCounter: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        placeholder: typing.Optional[typing.Any] = None,
-        value: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'debounce', 'defaultValue', 'disabled', 'enableCounter', 'invalid', 'invalidText', 'isPassword', 'labelText', 'loading_state', 'maxCount', 'n_blur', 'n_submit', 'onChange', 'onClick', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'style', 'value', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'className', 'defaultValue', 'disabled', 'enableCounter', 'helperText', 'hideLabel', 'invalid', 'invalidText', 'labelText', 'loading_state', 'maxCount', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'size', 'style', 'type', 'value', 'warn', 'warnText']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'debounce', 'defaultValue', 'disabled', 'enableCounter', 'invalid', 'invalidText', 'isPassword', 'labelText', 'loading_state', 'maxCount', 'n_blur', 'n_submit', 'onChange', 'onClick', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'style', 'value', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'className', 'defaultValue', 'disabled', 'enableCounter', 'helperText', 'hideLabel', 'invalid', 'invalidText', 'labelText', 'loading_state', 'maxCount', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'size', 'style', 'type', 'value', 'warn', 'warnText']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

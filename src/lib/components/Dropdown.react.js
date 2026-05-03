@@ -1,215 +1,76 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { Dropdown as CarbonDropdown, DropdownSkeleton as CarbonDropdownSkeleton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * Dropdown is a wrapper for the Carbon Dropdown component.
- */
-export default class Dropdown extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { selectedItem } = this.props;
-        const { items } = this.props;
-        const { label } = this.props;
-        const { title } = this.props;
+const Dropdown = (props) => {
+    const { id, children, className = '', style = {}, loading_state, items, selectedItem, ...others } = props;
 
-        const RealComponent = LazyLoader['Dropdown'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    selectedItem={selectedItem}
-                    items={items}
-                    label={label}
-                    title={title}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonDropdownSkeleton id={id} className={className} />;
     }
-}
 
-Dropdown.defaultProps = {
-    className: '',
-    selectedItem: null,
-    items: [],
-    label: 'Dropdown',
-    title: 'Dropdown Title',
+    const handleChange = ({ selectedItem: item }) => {
+        if (props.setProps) props.setProps({ selectedItem: item });
+    };
+
+    return (
+        <CarbonDropdown
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            items={items || []}
+            selectedItem={selectedItem}
+            onChange={handleChange}
+            {...others}
+        />
+    );
 };
 
 Dropdown.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node,
+    className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
-    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /**
-     * ariaLabel
-     */
-    ariaLabel: PropTypes.any,
-
-    /**
-     * autoAlign
-     */
-    autoAlign: PropTypes.any,
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * direction
-     */
-    direction: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * downshiftProps
-     */
-    downshiftProps: PropTypes.any,
-
-    /**
-     * helperText
-     */
-    helperText: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * initialSelectedItem
-     */
-    initialSelectedItem: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * itemToElement
-     */
-    itemToElement: PropTypes.any,
-
-    /**
-     * itemToString
-     */
-    itemToString: PropTypes.any,
-
-    /**
-     * items
-     */
+    /** List of items to show in the dropdown */
     items: PropTypes.array,
-
-    /**
-     * label
-     */
-    label: PropTypes.string,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * renderSelectedItem
-     */
-    renderSelectedItem: PropTypes.any,
-
-    /**
-     * selectedItem
-     */
+    /** Currently selected item */
     selectedItem: PropTypes.any,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
-    /**
-     * titleText
-     */
-    titleText: PropTypes.any,
-
-    /**
-     * translateWithId
-     */
-    translateWithId: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
-    /**
-     * title
-     */
-    title: PropTypes.string,
-
+    /** Label text displayed above */
+    label: PropTypes.node,
+    /** Title text */
+    titleText: PropTypes.node,
+    /** Helper text */
+    helperText: PropTypes.node,
+    /** Whether disabled */
+    disabled: PropTypes.bool,
+    /** Direction: top or bottom */
+    direction: PropTypes.oneOf(['top', 'bottom']),
+    /** Size */
+    size: PropTypes.oneOf(['sm', 'md', 'lg']),
+    /** Inline variant */
+    inline: PropTypes.bool,
+    /** Whether invalid */
+    invalid: PropTypes.bool,
+    /** Invalid text */
+    invalidText: PropTypes.node,
+    /** Whether warn */
+    warn: PropTypes.bool,
+    /** Warn text */
+    warnText: PropTypes.node,
+    /** Light variant */
+    light: PropTypes.bool,
+    /** Type: default or inline */
+    type: PropTypes.oneOf(['default', 'inline']),
+    /** Whether to show AI label decorator */
+    decorator: PropTypes.node,
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
 };
+
+Dropdown.defaultProps = {
+    items: [], disabled: false, invalid: false, warn: false,
+    direction: 'bottom', size: 'md', inline: false,
+    type: 'default',
+};
+
+export default Dropdown;

@@ -1,122 +1,156 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { SideNav as CarbonSideNav } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * SideNav is a wrapper for the Carbon SideNav component.
- */
-export default class SideNav extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { expanded } = this.props;
+const SideNav = (props) => {
+    const {
+        id, children, className = '', style = {}, loading_state,
+        ariaLabel, ariaLabelledBy,
+        expanded, isFixedNav, isRail, isPersistent,
+        addFocusListeners, addMouseListeners,
+        ...others
+    } = props;
+    const ariaProps = {};
+    if (ariaLabel !== undefined) ariaProps['aria-label'] = ariaLabel;
+    if (ariaLabelledBy !== undefined) ariaProps['aria-labelledby'] = ariaLabelledBy;
 
-        const RealComponent = LazyLoader['SideNav'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    expanded={expanded}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-SideNav.defaultProps = {
-    className: '',
-    expanded: false,
+    return (
+        <CarbonSideNav
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            expanded={expanded}
+            isFixedNav={isFixedNav}
+            isRail={isRail}
+            isPersistent={isPersistent}
+            addFocusListeners={addFocusListeners}
+            addMouseListeners={addMouseListeners}
+            {...ariaProps}
+            {...others}
+        >
+            {children}
+        </CarbonSideNav>
+    );
 };
 
 SideNav.propTypes = {
-    /** id */
+    /**
+     * The ID used to identify this component in Dash callbacks.
+     */
     id: PropTypes.string,
 
-    /** children */
+    /**
+     * The content of the side navigation.
+     */
     children: PropTypes.node,
 
-    /** className */
+    /**
+     * Custom CSS class.
+     */
     className: PropTypes.string,
 
-    /** style */
+    /**
+     * Inline styles.
+     */
     style: PropTypes.object,
 
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
     /**
-     * addFocusListeners
+     * Dash loading state.
      */
-    addFocusListeners: PropTypes.any,
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
     /**
-     * addMouseListeners
+     * Required props for accessibility label on the underlying menu.
+     * Provide an aria-label.
      */
-    addMouseListeners: PropTypes.any,
+    ariaLabel: PropTypes.string,
 
     /**
-     * defaultExpanded
+     * Required props for accessibility label on the underlying menu.
+     * Provide an aria-labelledby.
      */
-    defaultExpanded: PropTypes.any,
+    ariaLabelledBy: PropTypes.string,
 
     /**
-     * enterDelayMs
+     * Specify whether focus and blur listeners are added. They are by default.
      */
-    enterDelayMs: PropTypes.any,
+    addFocusListeners: PropTypes.bool,
 
     /**
-     * expanded
+     * Specify whether mouse entry/exit listeners are added. They are by default.
+     */
+    addMouseListeners: PropTypes.bool,
+
+    /**
+     * If `true`, the SideNav will be open on initial render.
+     */
+    defaultExpanded: PropTypes.bool,
+
+    /**
+     * Specify the duration in milliseconds to delay before displaying the side navigation.
+     */
+    enterDelayMs: PropTypes.number,
+
+    /**
+     * If `true`, the SideNav will be expanded, otherwise it will be collapsed.
+     * Using this prop causes SideNav to become a controlled component.
      */
     expanded: PropTypes.bool,
 
     /**
-     * href
+     * Provide the `href` to the id of the element on your package that is the main content.
      */
-    href: PropTypes.any,
+    href: PropTypes.string,
 
     /**
-     * isChildOfHeader
+     * Specify if sideNav is a child of the header.
      */
-    isChildOfHeader: PropTypes.any,
+    isChildOfHeader: PropTypes.bool,
 
     /**
-     * isFixedNav
+     * Specify if sideNav is standalone.
      */
-    isFixedNav: PropTypes.any,
+    isFixedNav: PropTypes.bool,
 
     /**
-     * isPersistent
+     * Specify if the sideNav will be persistent above the lg breakpoint.
      */
-    isPersistent: PropTypes.any,
+    isPersistent: PropTypes.bool,
 
     /**
-     * isRail
+     * Optional prop to display the side nav rail.
      */
-    isRail: PropTypes.any,
+    isRail: PropTypes.bool,
 
     /**
-     * onOverlayClick
+     * An optional listener that is called when the SideNav overlay is clicked.
      */
-    onOverlayClick: PropTypes.any,
+    onOverlayClick: PropTypes.func,
 
     /**
-     * onSideNavBlur
+     * An optional listener that is called as a callback to collapse the SideNav.
      */
-    onSideNavBlur: PropTypes.any,
+    onSideNavBlur: PropTypes.func,
 
     /**
-     * onToggle
+     * An optional listener that is called when an event that would cause
+     * toggling the SideNav occurs.
      */
-    onToggle: PropTypes.any,
-
+    onToggle: PropTypes.func,
 };
+
+SideNav.defaultProps = {
+    expanded: true,
+    isFixedNav: false,
+    isRail: false,
+    isPersistent: true,
+    addFocusListeners: true,
+    addMouseListeners: true,
+    isChildOfHeader: true,
+};
+
+export default SideNav;

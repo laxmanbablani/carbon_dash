@@ -1,91 +1,71 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { Tabs as CarbonTabs } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
 /**
  * Tabs is a wrapper for the Carbon Tabs component.
+ * Provides a tabbed interface for organizing content.
  */
-export default class Tabs extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { selectedIndex } = this.props;
+const Tabs = (props) => {
+    const {
+        id,
+        children,
+        className = '',
+        style = {},
+        loading_state,
+        selectedIndex,
+        defaultSelectedIndex = 0,
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['Tabs'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    selectedIndex={selectedIndex}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-Tabs.defaultProps = {
-    className: '',
-    selectedIndex: 0,
+    return (
+        <CarbonTabs
+            id={id}
+            className={className}
+            style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            selectedIndex={selectedIndex}
+            defaultSelectedIndex={defaultSelectedIndex}
+            {...others}
+        >
+            {children}
+        </CarbonTabs>
+    );
 };
 
 Tabs.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
 
-    /** children */
+    /** The content of the tabs (should contain TabList and TabPanels) */
     children: PropTypes.node,
 
-    /** className */
+    /** Custom CSS class */
     className: PropTypes.string,
 
-    /** style */
+    /** Inline styles */
     style: PropTypes.object,
 
-    /** setProps */
-    setProps: PropTypes.func,
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
-    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /**
-     * defaultSelectedIndex
-     */
-    defaultSelectedIndex: PropTypes.any,
-
-    /**
-     * dismissable
-     */
-    dismissable: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onTabCloseRequest
-     */
-    onTabCloseRequest: PropTypes.any,
-
-    /**
-     * selectedIndex
-     */
+    /** Control which content panel is currently selected */
     selectedIndex: PropTypes.number,
 
+    /** Specify which content tab should be initially selected when the component is first rendered */
+    defaultSelectedIndex: PropTypes.number,
+
+    /** Whether the rendered Tab children should be dismissable */
+    dismissable: PropTypes.bool,
 };
+
+Tabs.defaultProps = {
+    defaultSelectedIndex: 0,
+};
+
+export default Tabs;

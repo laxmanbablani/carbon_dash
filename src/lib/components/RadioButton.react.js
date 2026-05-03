@@ -1,176 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { RadioButton as CarbonRadioButton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * RadioButton is a wrapper for the Carbon RadioButton component.
- */
-export default class RadioButton extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { checked } = this.props;
-        const { label } = this.props;
-        const { value } = this.props;
-
-        const RealComponent = LazyLoader['RadioButton'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    checked={checked}
-                    label={label}
-                    value={value}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-RadioButton.defaultProps = {
-    className: '',
-    checked: false,
-    label: 'Radio Button',
-    value: '',
+const RadioButton = (props) => {
+    const { id, children, className = '', style = {}, loading_state, checked = false, ...others } = props;
+    const handleChange = (e) => { if (props.setProps) props.setProps({ checked: e?.target?.checked ?? !checked }); };
+    return <CarbonRadioButton id={id} className={className} style={style} checked={checked} onChange={handleChange} data-dash-is-loading={getLoadingState(loading_state) || undefined} {...others}>{children}</CarbonRadioButton>;
 };
-
 RadioButton.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
+    checked: PropTypes.bool, labelText: PropTypes.node, disabled: PropTypes.bool, hideLabel: PropTypes.bool, value: PropTypes.string,
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * checked
-     */
-    checked: PropTypes.bool,
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * defaultChecked
-     */
-    defaultChecked: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * labelPosition
-     */
-    labelPosition: PropTypes.any,
-
-    /**
-     * labelText
-     */
-    labelText: PropTypes.any,
-
-    /**
-     * name
-     */
-    name: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * required
-     */
-    required: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.any,
-
-    /**
-     * label
-     */
-    label: PropTypes.string,
-
+    persisted_props: PropTypes.arrayOf(PropTypes.string), persistence_type: PropTypes.oneOf(['local','session','memory']),
 };
+RadioButton.defaultProps = { checked: false, disabled: false };
+export default RadioButton;

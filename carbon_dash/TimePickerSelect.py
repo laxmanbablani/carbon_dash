@@ -17,27 +17,26 @@ NumberType = typing.Union[
 
 class TimePickerSelect(Component):
     """A TimePickerSelect component.
-TimePickerSelect is a wrapper for the Carbon TimePickerSelect component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- defaultValue (boolean | number | string | dict | list; optional):
-    defaultValue.
+- disabled (boolean; optional):
+    Whether disabled.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- hideLabel (boolean; optional):
+    Whether to hide label.
 
-- loading_state (dict; optional):
-    loading_state.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Label text.
+
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -46,8 +45,8 @@ Keyword arguments:
     - prop_name (string; optional)
 
     - component_name (string; optional)"""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    _children_props: typing.List[str] = ['labelText']
+    _base_nodes = ['labelText', 'children']
     _namespace = 'carbon_dash'
     _type = 'TimePickerSelect'
 
@@ -59,13 +58,14 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        defaultValue: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        disabled: typing.Optional[bool] = None,
+        hideLabel: typing.Optional[bool] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'defaultValue', 'disabled', 'loading_state', 'style']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'hideLabel', 'labelText', 'loading_state', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'defaultValue', 'disabled', 'loading_state', 'style']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'hideLabel', 'labelText', 'loading_state', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

@@ -1,198 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { TextArea as CarbonTextArea, TextAreaSkeleton as CarbonSkeleton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * TextArea is a wrapper for the Carbon TextArea component.
- */
-export default class TextArea extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { value } = this.props;
-        const { label } = this.props;
-
-        const RealComponent = LazyLoader['TextArea'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    value={value}
-                    label={label}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-TextArea.defaultProps = {
-    className: '',
-    value: '',
-    label: 'Text Area',
+const TextArea = (props) => {
+    const { id, children, className = '', style = {}, loading_state, value, rows = 4, cols = 50, ...others } = props;
+    if (loading_state && loading_state.is_loading) return <CarbonSkeleton id={id} className={className} />;
+    const handleChange = (e) => { if (props.setProps) props.setProps({ value: e.target?.value ?? e }); };
+    return <CarbonTextArea id={id} className={className} style={style} value={value} rows={rows} cols={cols} onChange={handleChange} data-dash-is-loading={getLoadingState(loading_state) || undefined} {...others}>{children}</CarbonTextArea>;
 };
-
 TextArea.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
+    value: PropTypes.string, labelText: PropTypes.node, helperText: PropTypes.node, placeholder: PropTypes.string,
+    rows: PropTypes.number, cols: PropTypes.number, disabled: PropTypes.bool, readOnly: PropTypes.bool,
+    invalid: PropTypes.bool, invalidText: PropTypes.node, warn: PropTypes.bool, warnText: PropTypes.node,
+    enableCounter: PropTypes.bool, maxCount: PropTypes.number, hideLabel: PropTypes.bool, size: PropTypes.oneOf(['sm','md','lg']),
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * cols
-     */
-    cols: PropTypes.any,
-
-    /**
-     * counterMode
-     */
-    counterMode: PropTypes.any,
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * defaultValue
-     */
-    defaultValue: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * enableCounter
-     */
-    enableCounter: PropTypes.any,
-
-    /**
-     * helperText
-     */
-    helperText: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * labelText
-     */
-    labelText: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * maxCount
-     */
-    maxCount: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * onKeyDown
-     */
-    onKeyDown: PropTypes.any,
-
-    /**
-     * placeholder
-     */
-    placeholder: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * rows
-     */
-    rows: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.string,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
-    /**
-     * label
-     */
-    label: PropTypes.string,
-
+    persisted_props: PropTypes.arrayOf(PropTypes.string), persistence_type: PropTypes.oneOf(['local','session','memory']),
 };
+TextArea.defaultProps = { disabled: false, rows: 4, cols: 50, size: 'md' };
+export default TextArea;

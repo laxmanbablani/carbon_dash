@@ -1,163 +1,67 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { Checkbox as CarbonCheckbox, CheckboxSkeleton as CarbonCheckboxSkeleton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * Checkbox is a wrapper for the Carbon Checkbox component.
- */
-export default class Checkbox extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { checked } = this.props;
-        const { label } = this.props;
+const Checkbox = (props) => {
+    const { id, children, className = '', style = {}, loading_state, checked = false, ...others } = props;
 
-        const RealComponent = LazyLoader['Checkbox'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    checked={checked}
-                    label={label}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonCheckboxSkeleton id={id} className={className} />;
     }
-}
 
-Checkbox.defaultProps = {
-    className: '',
-    checked: false,
-    label: 'Checkbox',
+    const handleChange = (e) => {
+        if (props.setProps) props.setProps({ checked: e?.checked ?? e?.target?.checked });
+    };
+
+    return (
+        <CarbonCheckbox
+            id={id}
+            className={className}
+            style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            checked={checked}
+            onChange={handleChange}
+            {...others}
+        >
+            {children}
+        </CarbonCheckbox>
+    );
 };
 
 Checkbox.propTypes = {
-    /** id */
     id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
     setProps: PropTypes.func,
-
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
-    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * checked
-     */
+    children: PropTypes.node,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string,
+    }),
+    /** Checkbox label text */
+    labelText: PropTypes.node,
+    /** Whether the checkbox is checked */
     checked: PropTypes.bool,
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * defaultChecked
-     */
-    defaultChecked: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * helperText
-     */
-    helperText: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * indeterminate
-     */
-    indeterminate: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * labelText
-     */
-    labelText: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
-    /**
-     * title
-     */
-    title: PropTypes.any,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
-    /**
-     * label
-     */
-    label: PropTypes.string,
-
+    /** Whether the checkbox is disabled */
+    disabled: PropTypes.bool,
+    /** Whether the checkbox is in an indeterminate state */
+    indeterminate: PropTypes.bool,
+    /** Whether to hide the label */
+    hideLabel: PropTypes.bool,
+    /** The value submitted with the form */
+    value: PropTypes.string,
+    /** Title attribute */
+    title: PropTypes.string,
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
 };
+
+Checkbox.defaultProps = {
+    checked: false,
+    disabled: false,
+    indeterminate: false,
+    hideLabel: false,
+};
+
+export default Checkbox;

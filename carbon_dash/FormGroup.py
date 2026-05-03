@@ -17,33 +17,25 @@ NumberType = typing.Union[
 
 class FormGroup(Component):
     """A FormGroup component.
-FormGroup is a wrapper for the Carbon FormGroup component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- disabled (boolean; default False)
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
+- invalid (boolean; default False)
 
-- legendId (boolean | number | string | dict | list; optional):
-    legendId.
+- legendId (a list of or a singular dash component, string or number; optional)
 
-- legendText (boolean | number | string | dict | list; optional):
-    legendText.
+- legendText (a list of or a singular dash component, string or number; required)
 
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -53,13 +45,11 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- message (boolean | number | string | dict | list; optional):
-    message.
+- message (boolean; default False)
 
-- messageText (boolean | number | string | dict | list; optional):
-    messageText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- messageText (string; default '')"""
+    _children_props: typing.List[str] = ['legendText', 'legendId']
+    _base_nodes = ['legendText', 'legendId', 'children']
     _namespace = 'carbon_dash'
     _type = 'FormGroup'
 
@@ -71,12 +61,12 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        legendId: typing.Optional[typing.Any] = None,
-        legendText: typing.Optional[typing.Any] = None,
-        message: typing.Optional[typing.Any] = None,
-        messageText: typing.Optional[typing.Any] = None,
+        legendText: typing.Optional[ComponentType] = None,
+        legendId: typing.Optional[ComponentType] = None,
+        message: typing.Optional[bool] = None,
+        messageText: typing.Optional[str] = None,
+        invalid: typing.Optional[bool] = None,
+        disabled: typing.Optional[bool] = None,
         **kwargs
     ):
         self._prop_names = ['children', 'id', 'className', 'disabled', 'invalid', 'legendId', 'legendText', 'loading_state', 'message', 'messageText', 'style']
@@ -87,6 +77,11 @@ Keyword arguments:
         _locals = locals()
         _locals.update(kwargs)  # For wildcard attrs and excess named props
         args = {k: _locals[k] for k in _explicit_args if k != 'children'}
+
+        for k in ['legendText']:
+            if k not in args:
+                raise TypeError(
+                    'Required argument `' + k + '` was not specified.')
 
         super(FormGroup, self).__init__(children=children, **args)
 

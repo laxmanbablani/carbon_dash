@@ -17,42 +17,32 @@ NumberType = typing.Union[
 
 class Toggle(Component):
     """A Toggle component.
-Toggle is a wrapper for the Carbon Toggle component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- defaultToggled (boolean | number | string | dict | list; optional):
-    defaultToggled.
+- disabled (boolean; default False):
+    Whether the toggle is disabled.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- hideLabel (boolean; optional):
+    Whether to hide the label.
 
-- hideLabel (boolean | number | string | dict | list; optional):
-    hideLabel.
+- labelA (a list of or a singular dash component, string or number; optional):
+    Label for A (off) position.
 
-- label (string; default 'Toggle'):
-    label.
+- labelB (a list of or a singular dash component, string or number; optional):
+    Label for B (on) position.
 
-- labelA (boolean | number | string | dict | list; optional):
-    labelA.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Toggle label text.
 
-- labelB (boolean | number | string | dict | list; optional):
-    labelB.
-
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -62,31 +52,19 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
+- persisted_props (list of strings; optional)
 
-- onToggle (boolean | number | string | dict | list; optional):
-    onToggle.
+- persistence (boolean | string | number; optional)
 
-- persisted_props (list of strings; optional):
-    persisted_props.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
-
-- size (boolean | number | string | dict | list; optional):
-    size.
+- size (a value equal to: 'sm', 'md'; default 'md'):
+    Size of the toggle.
 
 - toggled (boolean; default False):
-    toggled."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+    Whether the toggle is on."""
+    _children_props: typing.List[str] = ['labelText', 'labelA', 'labelB']
+    _base_nodes = ['labelText', 'labelA', 'labelB', 'children']
     _namespace = 'carbon_dash'
     _type = 'Toggle'
 
@@ -98,26 +76,21 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        labelA: typing.Optional[ComponentType] = None,
+        labelB: typing.Optional[ComponentType] = None,
+        toggled: typing.Optional[bool] = None,
+        disabled: typing.Optional[bool] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
+        hideLabel: typing.Optional[bool] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        defaultToggled: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        hideLabel: typing.Optional[typing.Any] = None,
-        labelA: typing.Optional[typing.Any] = None,
-        labelB: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        onToggle: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        size: typing.Optional[typing.Optional[str]] = None,
-        toggled: typing.Optional[bool] = None,
-        label: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'defaultToggled', 'disabled', 'hideLabel', 'label', 'labelA', 'labelB', 'labelText', 'loading_state', 'onClick', 'onToggle', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'size', 'style', 'toggled']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'hideLabel', 'labelA', 'labelB', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'size', 'style', 'toggled']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'defaultToggled', 'disabled', 'hideLabel', 'label', 'labelA', 'labelB', 'labelText', 'loading_state', 'onClick', 'onToggle', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'size', 'style', 'toggled']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'hideLabel', 'labelA', 'labelB', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'size', 'style', 'toggled']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

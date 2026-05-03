@@ -17,57 +17,26 @@ NumberType = typing.Union[
 
 class Slider(Component):
     """A Slider component.
-Slider is a wrapper for the Carbon Slider component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- ariaLabelInput (boolean | number | string | dict | list; optional):
-    ariaLabelInput.
+- className (string; optional)
 
-- className (string; default ''):
-    className.
+- disabled (boolean; default False):
+    Whether disabled.
 
-- debounce (boolean | number; optional):
-    debounce.
+- hideTextInput (boolean; default False):
+    Whether to hide text inputs.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- labelText (a list of or a singular dash component, string or number; optional):
+    Label text.
 
-- formatLabel (boolean | number | string | dict | list; optional):
-    formatLabel.
-
-- hideLabel (boolean | number | string | dict | list; optional):
-    hideLabel.
-
-- hideTextInput (boolean | number | string | dict | list; optional):
-    hideTextInput.
-
-- inputType (boolean | number | string | dict | list; optional):
-    inputType.
-
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
-
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
-
-- label (string; default 'Slider'):
-    label.
-
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
-
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -78,81 +47,36 @@ Keyword arguments:
     - component_name (string; optional)
 
 - max (number; default 100):
-    max.
+    Maximum value.
 
-- maxLabel (boolean | number | string | dict | list; optional):
-    maxLabel.
+- maxLabel (string; optional):
+    Maximum label.
 
 - min (number; default 0):
-    min.
+    Minimum value.
 
-- minLabel (boolean | number | string | dict | list; optional):
-    minLabel.
+- minLabel (string; optional):
+    Minimum label.
 
-- n_blur (number; optional):
-    n_blur.
+- persisted_props (list of strings; optional)
 
-- n_submit (number; optional):
-    n_submit.
+- persistence (boolean | string | number; optional)
 
-- name (boolean | number | string | dict | list; optional):
-    name.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- onBlur (boolean | number | string | dict | list; optional):
-    onBlur.
+- step (number; default 1):
+    Step interval.
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- stepMultiplier (number; optional):
+    Step multipliers array.
 
-- onInputKeyUp (boolean | number | string | dict | list; optional):
-    onInputKeyUp.
+- value (number; optional):
+    Current value.
 
-- onRelease (boolean | number | string | dict | list; optional):
-    onRelease.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
-
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
-
-- required (boolean | number | string | dict | list; optional):
-    required.
-
-- step (boolean | number | string | dict | list; optional):
-    step.
-
-- stepMultiplier (boolean | number | string | dict | list; optional):
-    stepMultiplier.
-
-- translateWithId (boolean | number | string | dict | list; optional):
-    translateWithId.
-
-- unstable_ariaLabelInputUpper (boolean | number | string | dict | list; optional):
-    unstable_ariaLabelInputUpper.
-
-- unstable_nameUpper (boolean | number | string | dict | list; optional):
-    unstable_nameUpper.
-
-- unstable_valueUpper (boolean | number | string | dict | list; optional):
-    unstable_valueUpper.
-
-- value (number; default 0):
-    value.
-
-- warn (boolean | number | string | dict | list; optional):
-    warn.
-
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- valueLabel (string; optional):
+    Label for current value."""
+    _children_props: typing.List[str] = ['labelText']
+    _base_nodes = ['labelText', 'children']
     _namespace = 'carbon_dash'
     _type = 'Slider'
 
@@ -164,48 +88,26 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        value: typing.Optional[NumberType] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        min: typing.Optional[NumberType] = None,
+        max: typing.Optional[NumberType] = None,
+        step: typing.Optional[NumberType] = None,
+        stepMultiplier: typing.Optional[NumberType] = None,
+        disabled: typing.Optional[bool] = None,
+        hideTextInput: typing.Optional[bool] = None,
+        minLabel: typing.Optional[str] = None,
+        maxLabel: typing.Optional[str] = None,
+        valueLabel: typing.Optional[str] = None,
+        formatLabel: typing.Optional[typing.Any] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        ariaLabelInput: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        formatLabel: typing.Optional[typing.Any] = None,
-        hideTextInput: typing.Optional[typing.Any] = None,
-        inputType: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        hideLabel: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        max: typing.Optional[NumberType] = None,
-        maxLabel: typing.Optional[typing.Any] = None,
-        min: typing.Optional[NumberType] = None,
-        minLabel: typing.Optional[typing.Any] = None,
-        name: typing.Optional[typing.Any] = None,
-        onBlur: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onInputKeyUp: typing.Optional[typing.Any] = None,
-        onRelease: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        required: typing.Optional[typing.Any] = None,
-        step: typing.Optional[typing.Any] = None,
-        stepMultiplier: typing.Optional[typing.Any] = None,
-        translateWithId: typing.Optional[typing.Any] = None,
-        unstable_ariaLabelInputUpper: typing.Optional[typing.Any] = None,
-        unstable_nameUpper: typing.Optional[typing.Any] = None,
-        unstable_valueUpper: typing.Optional[typing.Any] = None,
-        value: typing.Optional[NumberType] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
-        label: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'ariaLabelInput', 'className', 'debounce', 'disabled', 'formatLabel', 'hideLabel', 'hideTextInput', 'inputType', 'invalid', 'invalidText', 'label', 'labelText', 'light', 'loading_state', 'max', 'maxLabel', 'min', 'minLabel', 'n_blur', 'n_submit', 'name', 'onBlur', 'onChange', 'onInputKeyUp', 'onRelease', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'required', 'step', 'stepMultiplier', 'style', 'translateWithId', 'unstable_ariaLabelInputUpper', 'unstable_nameUpper', 'unstable_valueUpper', 'value', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'hideTextInput', 'labelText', 'loading_state', 'max', 'maxLabel', 'min', 'minLabel', 'persisted_props', 'persistence', 'persistence_type', 'step', 'stepMultiplier', 'style', 'value', 'valueLabel']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'ariaLabelInput', 'className', 'debounce', 'disabled', 'formatLabel', 'hideLabel', 'hideTextInput', 'inputType', 'invalid', 'invalidText', 'label', 'labelText', 'light', 'loading_state', 'max', 'maxLabel', 'min', 'minLabel', 'n_blur', 'n_submit', 'name', 'onBlur', 'onChange', 'onInputKeyUp', 'onRelease', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'required', 'step', 'stepMultiplier', 'style', 'translateWithId', 'unstable_ariaLabelInputUpper', 'unstable_nameUpper', 'unstable_valueUpper', 'value', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'hideTextInput', 'labelText', 'loading_state', 'max', 'maxLabel', 'min', 'minLabel', 'persisted_props', 'persistence', 'persistence_type', 'step', 'stepMultiplier', 'style', 'value', 'valueLabel']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

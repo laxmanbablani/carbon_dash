@@ -17,21 +17,19 @@ NumberType = typing.Union[
 
 class Heading(Component):
     """A Heading component.
-Heading is a wrapper for the Carbon Heading component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- loading_state (dict; optional):
-    loading_state.
+- level (a value equal to: 1, 2, 3, 4, 5, 6; optional)
+
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -53,11 +51,12 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        level: typing.Optional[Literal[1, 2, 3, 4, 5, 6]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'loading_state', 'style']
+        self._prop_names = ['children', 'id', 'className', 'level', 'loading_state', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'loading_state', 'style']
+        self.available_properties = ['children', 'id', 'className', 'level', 'loading_state', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

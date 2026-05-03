@@ -17,54 +17,25 @@ NumberType = typing.Union[
 
 class RadioButton(Component):
     """A RadioButton component.
-RadioButton is a wrapper for the Carbon RadioButton component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- checked (boolean; default False):
-    checked.
+- checked (boolean; default False)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- debounce (boolean | number; optional):
-    debounce.
+- disabled (boolean; default False)
 
-- decorator (boolean | number | string | dict | list; optional):
-    decorator.
+- hideLabel (boolean; optional)
 
-- defaultChecked (boolean | number | string | dict | list; optional):
-    defaultChecked.
+- labelText (a list of or a singular dash component, string or number; optional)
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
-
-- hideLabel (boolean | number | string | dict | list; optional):
-    hideLabel.
-
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
-
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
-
-- label (string; default 'Radio Button'):
-    label.
-
-- labelPosition (boolean | number | string | dict | list; optional):
-    labelPosition.
-
-- labelText (boolean | number | string | dict | list; optional):
-    labelText.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -74,49 +45,15 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- n_blur (number; optional):
-    n_blur.
+- persisted_props (list of strings; optional)
 
-- n_submit (number; optional):
-    n_submit.
+- persistence (boolean | string | number; optional)
 
-- name (boolean | number | string | dict | list; optional):
-    name.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
-
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
-
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
-
-- required (boolean | number | string | dict | list; optional):
-    required.
-
-- slug (boolean | number | string | dict | list; optional):
-    slug.
-
-- value (boolean | number | string | dict | list; default ''):
-    value.
-
-- warn (boolean | number | string | dict | list; optional):
-    warn.
-
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- value (string; optional)"""
+    _children_props: typing.List[str] = ['labelText']
+    _base_nodes = ['labelText', 'children']
     _namespace = 'carbon_dash'
     _type = 'RadioButton'
 
@@ -128,36 +65,19 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        checked: typing.Optional[bool] = None,
+        labelText: typing.Optional[ComponentType] = None,
+        disabled: typing.Optional[bool] = None,
+        hideLabel: typing.Optional[bool] = None,
+        value: typing.Optional[str] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        checked: typing.Optional[bool] = None,
-        decorator: typing.Optional[typing.Any] = None,
-        defaultChecked: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        hideLabel: typing.Optional[typing.Any] = None,
-        labelPosition: typing.Optional[typing.Any] = None,
-        labelText: typing.Optional[typing.Any] = None,
-        name: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        required: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        slug: typing.Optional[typing.Any] = None,
-        value: typing.Optional[typing.Any] = None,
-        label: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'checked', 'className', 'debounce', 'decorator', 'defaultChecked', 'disabled', 'hideLabel', 'invalid', 'invalidText', 'label', 'labelPosition', 'labelText', 'loading_state', 'n_blur', 'n_submit', 'name', 'onChange', 'onClick', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'required', 'slug', 'style', 'value', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'checked', 'className', 'disabled', 'hideLabel', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style', 'value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'checked', 'className', 'debounce', 'decorator', 'defaultChecked', 'disabled', 'hideLabel', 'invalid', 'invalidText', 'label', 'labelPosition', 'labelText', 'loading_state', 'n_blur', 'n_submit', 'name', 'onChange', 'onClick', 'persisted_props', 'persistence', 'persistence_type', 'readOnly', 'required', 'slug', 'style', 'value', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'checked', 'className', 'disabled', 'hideLabel', 'labelText', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style', 'value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

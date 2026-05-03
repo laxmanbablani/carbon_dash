@@ -17,21 +17,17 @@ NumberType = typing.Union[
 
 class TileAboveTheFoldContent(Component):
     """A TileAboveTheFoldContent component.
-TileAboveTheFoldContent is a wrapper for the Carbon TileAboveTheFoldContent component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 

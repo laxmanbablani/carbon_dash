@@ -1,194 +1,120 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { FluidMultiSelect as CarbonFluidMultiSelect, FluidMultiSelectSkeleton as CarbonFluidMultiSelectSkeleton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
 /**
- * FluidMultiSelect is a wrapper for the Carbon FluidMultiSelect component.
+ * FluidMultiSelect is a full-width MultiSelect component.
  */
-export default class FluidMultiSelect extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
+const FluidMultiSelect = (props) => {
+    const {
+        id,
+        children,
+        className = '',
+        style = {},
+        loading_state,
+        items = [],
+        selectedItems,
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['FluidMultiSelect'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonFluidMultiSelectSkeleton id={id} className={className} />;
     }
-}
 
-FluidMultiSelect.defaultProps = {
-    className: '',
+    const handleChange = ({ selectedItems: items }) => {
+        if (props.setProps) {
+            props.setProps({ selectedItems: items });
+        }
+    };
+
+    return (
+        <CarbonFluidMultiSelect
+            id={id}
+            className={className}
+            style={style}
+            items={items}
+            selectedItems={selectedItems}
+            onChange={handleChange}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonFluidMultiSelect>
+    );
 };
 
 FluidMultiSelect.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
 
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
+    /** Dash callback to update props */
     setProps: PropTypes.func,
 
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
+    /** The content of the multi select */
+    children: PropTypes.node,
 
-    /**
-     * clearSelectionDescription
-     */
-    clearSelectionDescription: PropTypes.any,
+    /** Custom CSS class */
+    className: PropTypes.string,
 
-    /**
-     * clearSelectionText
-     */
-    clearSelectionText: PropTypes.any,
+    /** Inline styles */
+    style: PropTypes.object,
 
-    /**
-     * compareItems
-     */
-    compareItems: PropTypes.any,
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
-    /**
-     * direction
-     */
-    direction: PropTypes.any,
+    /** The items to display in the multi select */
+    items: PropTypes.array,
 
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
+    /** The selected items */
+    selectedItems: PropTypes.array,
 
-    /**
-     * downshiftProps
-     */
-    downshiftProps: PropTypes.any,
+    /** Provide text that is used alongside the control label */
+    label: PropTypes.node,
 
-    /**
-     * initialSelectedItems
-     */
-    initialSelectedItems: PropTypes.any,
+    /** Provide the title text for the multi select */
+    titleText: PropTypes.node,
 
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
+    /** Provide text that is used alongside the control label */
+    helperText: PropTypes.node,
 
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
+    /** Provide the placeholder text */
+    placeholder: PropTypes.string,
 
-    /**
-     * isCondensed
-     */
-    isCondensed: PropTypes.any,
+    /** Specify whether the control is disabled */
+    disabled: PropTypes.bool,
 
-    /**
-     * isFilterable
-     */
-    isFilterable: PropTypes.any,
+    /** Specify whether the control is in an invalid state */
+    invalid: PropTypes.bool,
 
-    /**
-     * itemToElement
-     */
-    itemToElement: PropTypes.any,
+    /** Provide the text that is displayed when the control is in an invalid state */
+    invalidText: PropTypes.node,
 
-    /**
-     * itemToString
-     */
-    itemToString: PropTypes.any,
+    /** Specify whether the control is in a warning state */
+    warn: PropTypes.bool,
 
-    /**
-     * items
-     */
-    items: PropTypes.any,
+    /** Provide the text that is displayed when the control is in a warning state */
+    warnText: PropTypes.node,
 
-    /**
-     * label
-     */
-    label: PropTypes.any,
+    /** Specify the size of the multi select */
+    size: PropTypes.oneOf(['sm', 'md', 'lg']),
 
-    /**
-     * locale
-     */
-    locale: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onInputValueChange
-     */
-    onInputValueChange: PropTypes.any,
-
-    /**
-     * onMenuChange
-     */
-    onMenuChange: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * selectedItems
-     */
-    selectedItems: PropTypes.any,
-
-    /**
-     * selectionFeedback
-     */
-    selectionFeedback: PropTypes.any,
-
-    /**
-     * sortItems
-     */
-    sortItems: PropTypes.any,
-
-    /**
-     * titleText
-     */
-    titleText: PropTypes.any,
-
-    /**
-     * translateWithId
-     */
-    translateWithId: PropTypes.any,
-
-    /**
-     * useTitleInItem
-     */
-    useTitleInItem: PropTypes.any,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
+    /** Persistence settings */
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
 };
+
+FluidMultiSelect.defaultProps = {
+    items: [],
+    disabled: false,
+    invalid: false,
+    warn: false,
+    size: 'md',
+};
+
+export default FluidMultiSelect;

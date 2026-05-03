@@ -1,83 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { ProgressIndicator as CarbonProgressIndicator, ProgressIndicatorSkeleton as CarbonSkeleton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * ProgressIndicator is a wrapper for the Carbon ProgressIndicator component.
- */
-export default class ProgressIndicator extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { currentIndex } = this.props;
-        const { vertical } = this.props;
-        const { spaceEqually } = this.props;
-
-        const RealComponent = LazyLoader['ProgressIndicator'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    currentIndex={currentIndex}
-                    vertical={vertical}
-                    spaceEqually={spaceEqually}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-ProgressIndicator.defaultProps = {
-    className: '',
-    currentIndex: 0,
-    vertical: false,
-    spaceEqually: false,
+const ProgressIndicator = (props) => {
+    const { id, children, className = '', style = {}, loading_state, currentIndex = 0, ...others } = props;
+    if (loading_state && loading_state.is_loading) return <CarbonSkeleton id={id} className={className} />;
+    return <CarbonProgressIndicator id={id} className={className} style={style} currentIndex={currentIndex} data-dash-is-loading={getLoadingState(loading_state) || undefined} {...others}>{children}</CarbonProgressIndicator>;
 };
-
 ProgressIndicator.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * currentIndex
-     */
-    currentIndex: PropTypes.number,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * spaceEqually
-     */
-    spaceEqually: PropTypes.bool,
-
-    /**
-     * vertical
-     */
-    vertical: PropTypes.bool,
-
+    currentIndex: PropTypes.number, vertical: PropTypes.bool, spaceEqually: PropTypes.bool,
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string), persistence_type: PropTypes.oneOf(['local','session','memory']),
 };
+ProgressIndicator.defaultProps = { currentIndex: 0, vertical: false, spaceEqually: false };
+export default ProgressIndicator;

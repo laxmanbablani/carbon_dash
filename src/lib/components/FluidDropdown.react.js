@@ -1,142 +1,133 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { FluidDropdown as CarbonFluidDropdown, FluidDropdownSkeleton as CarbonFluidDropdownSkeleton } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
 /**
- * FluidDropdown is a wrapper for the Carbon FluidDropdown component.
+ * FluidDropdown is a full-width Dropdown component.
  */
-export default class FluidDropdown extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { selectedItem } = this.props;
+const FluidDropdown = (props) => {
+    const {
+        id,
+        children,
+        className = '',
+        style = {},
+        loading_state,
+        items = [],
+        selectedItem,
+        label,
+        titleText,
+        helperText,
+        invalid,
+        invalidText,
+        warn,
+        warnText,
+        disabled = false,
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['FluidDropdown'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    selectedItem={selectedItem}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
+    if (loading_state && loading_state.is_loading) {
+        return <CarbonFluidDropdownSkeleton id={id} className={className} />;
     }
-}
 
-FluidDropdown.defaultProps = {
-    className: '',
-    selectedItem: null,
+    const handleChange = ({ selectedItem: item }) => {
+        if (props.setProps) {
+            props.setProps({ selectedItem: item });
+        }
+    };
+
+    return (
+        <CarbonFluidDropdown
+            id={id}
+            className={className}
+            style={style}
+            items={items}
+            selectedItem={selectedItem}
+            label={label}
+            titleText={titleText}
+            helperText={helperText}
+            invalid={invalid}
+            invalidText={invalidText}
+            warn={warn}
+            warnText={warnText}
+            disabled={disabled}
+            onChange={handleChange}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            {...others}
+        >
+            {children}
+        </CarbonFluidDropdown>
+    );
 };
 
 FluidDropdown.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
 
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
+    /** Dash callback to update props */
     setProps: PropTypes.func,
 
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
+    /** The content of the dropdown */
+    children: PropTypes.node,
 
-    /**
-     * direction
-     */
-    direction: PropTypes.any,
+    /** Custom CSS class */
+    className: PropTypes.string,
 
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
+    /** Inline styles */
+    style: PropTypes.object,
 
-    /**
-     * initialSelectedItem
-     */
-    initialSelectedItem: PropTypes.any,
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
+    /** The items to display in the dropdown */
+    items: PropTypes.array,
 
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * isCondensed
-     */
-    isCondensed: PropTypes.any,
-
-    /**
-     * itemToElement
-     */
-    itemToElement: PropTypes.any,
-
-    /**
-     * itemToString
-     */
-    itemToString: PropTypes.any,
-
-    /**
-     * items
-     */
-    items: PropTypes.any,
-
-    /**
-     * label
-     */
-    label: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * renderSelectedItem
-     */
-    renderSelectedItem: PropTypes.any,
-
-    /**
-     * selectedItem
-     */
+    /** The selected item */
     selectedItem: PropTypes.any,
 
-    /**
-     * titleText
-     */
-    titleText: PropTypes.any,
+    /** Provide text that is used alongside the control label */
+    label: PropTypes.node,
 
-    /**
-     * translateWithId
-     */
-    translateWithId: PropTypes.any,
+    /** Provide the title text for the dropdown */
+    titleText: PropTypes.node,
 
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
+    /** Provide text that is used alongside the control label */
+    helperText: PropTypes.node,
 
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
+    /** Specify whether the control is currently in an invalid state */
+    invalid: PropTypes.bool,
 
+    /** Provide the text that is displayed when the control is in an invalid state */
+    invalidText: PropTypes.node,
+
+    /** Specify whether the control is currently in a warning state */
+    warn: PropTypes.bool,
+
+    /** Provide the text that is displayed when the control is in a warning state */
+    warnText: PropTypes.node,
+
+    /** Specify whether the control is disabled */
+    disabled: PropTypes.bool,
+
+    /** Specify the size of the dropdown */
+    size: PropTypes.oneOf(['sm', 'md', 'lg']),
+
+    /** Persistence settings */
+    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+    persisted_props: PropTypes.arrayOf(PropTypes.string),
+    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
 };
+
+FluidDropdown.defaultProps = {
+    items: [],
+    disabled: false,
+    invalid: false,
+    warn: false,
+    size: 'md',
+};
+
+export default FluidDropdown;

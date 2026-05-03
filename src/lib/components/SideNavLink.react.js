@@ -1,89 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { SideNavLink as CarbonSideNavLink } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
+import { resolveIcon } from '../utils/resolveIcon';
 
-/**
- * SideNavLink is a wrapper for the Carbon SideNavLink component.
- */
-export default class SideNavLink extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['SideNavLink'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-SideNavLink.defaultProps = {
-    className: '',
+const SideNavLink = (props) => {
+    const { id, children, className = '', style = {}, loading_state, renderIcon, n_clicks = 0, ...others } = props;
+    const iconElement = resolveIcon(renderIcon);
+    const handleClick = () => { if (props.setProps) props.setProps({ n_clicks: n_clicks + 1 }); };
+    return (
+        <CarbonSideNavLink id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            renderIcon={iconElement} onClick={handleClick} {...others}>{children}</CarbonSideNavLink>
+    );
 };
 
 SideNavLink.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node,
+    className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /**
-     * as
-     */
-    as_: PropTypes.any,
-
-    /**
-     * element
-     */
-    element: PropTypes.any,
-
-    /**
-     * isSideNavExpanded
-     */
-    isSideNavExpanded: PropTypes.any,
-
-    /**
-     * isActive
-     */
-    isActive: PropTypes.any,
-
-    /**
-     * large
-     */
-    large: PropTypes.any,
-
-    /**
-     * renderIcon
-     */
-    renderIcon: PropTypes.node,
-
-    /**
-     * tabIndex
-     */
-    tabIndex: PropTypes.any,
-
+    renderIcon: PropTypes.node, n_clicks: PropTypes.number, href: PropTypes.string, isActive: PropTypes.bool,
+    isSideNavExpanded: PropTypes.bool, large: PropTypes.bool, tabIndex: PropTypes.number,
+    ariaLabel: PropTypes.string, ariaLabelledBy: PropTypes.string,
+    as: PropTypes.elementType, element: PropTypes.elementType,
 };
+SideNavLink.defaultProps = { n_clicks: 0, large: false };
+
+export default SideNavLink;

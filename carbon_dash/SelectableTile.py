@@ -17,36 +17,20 @@ NumberType = typing.Union[
 
 class SelectableTile(Component):
     """A SelectableTile component.
-SelectableTile is a wrapper for the Carbon SelectableTile component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- debounce (boolean | number; optional):
-    debounce.
+- disabled (boolean; default False):
+    Whether disabled.
 
-- decorator (boolean | number | string | dict | list; optional):
-    decorator.
-
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
-
-- hasRoundedCorners (boolean | number | string | dict | list; optional):
-    hasRoundedCorners.
-
-- light (boolean | number | string | dict | list; optional):
-    light.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -56,47 +40,20 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- n_blur (number; optional):
-    n_blur.
+- persisted_props (list of strings; optional)
 
-- n_submit (number; optional):
-    n_submit.
+- persistence (boolean | string | number; optional)
 
-- name (boolean | number | string | dict | list; optional):
-    name.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- selected (boolean; default False):
+    Whether the tile is selected.
 
-- onClick (boolean | number | string | dict | list; optional):
-    onClick.
+- title (string; optional):
+    Title text for accessibility.
 
-- onKeyDown (boolean | number | string | dict | list; optional):
-    onKeyDown.
-
-- persisted_props (list of strings; optional):
-    persisted_props.
-
-- persistence (boolean | string | number; optional):
-    persistence.
-
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- selected (boolean | number | string | dict | list; optional):
-    selected.
-
-- slug (boolean | number | string | dict | list; optional):
-    slug.
-
-- tabIndex (boolean | number | string | dict | list; optional):
-    tabIndex.
-
-- title (boolean | number | string | dict | list; optional):
-    title.
-
-- value (boolean | number | string | dict | list; default ''):
-    value."""
+- value (string; optional):
+    Value associated with this tile."""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -110,30 +67,18 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        selected: typing.Optional[bool] = None,
+        value: typing.Optional[str] = None,
+        disabled: typing.Optional[bool] = None,
+        title: typing.Optional[str] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        decorator: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        hasRoundedCorners: typing.Optional[typing.Any] = None,
-        light: typing.Optional[typing.Any] = None,
-        name: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        onClick: typing.Optional[typing.Any] = None,
-        onKeyDown: typing.Optional[typing.Any] = None,
-        selected: typing.Optional[typing.Any] = None,
-        slug: typing.Optional[typing.Any] = None,
-        tabIndex: typing.Optional[typing.Any] = None,
-        title: typing.Optional[typing.Any] = None,
-        value: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'debounce', 'decorator', 'disabled', 'hasRoundedCorners', 'light', 'loading_state', 'n_blur', 'n_submit', 'name', 'onChange', 'onClick', 'onKeyDown', 'persisted_props', 'persistence', 'persistence_type', 'selected', 'slug', 'style', 'tabIndex', 'title', 'value']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'selected', 'style', 'title', 'value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'debounce', 'decorator', 'disabled', 'hasRoundedCorners', 'light', 'loading_state', 'n_blur', 'n_submit', 'name', 'onChange', 'onClick', 'onKeyDown', 'persisted_props', 'persistence', 'persistence_type', 'selected', 'slug', 'style', 'tabIndex', 'title', 'value']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'selected', 'style', 'title', 'value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

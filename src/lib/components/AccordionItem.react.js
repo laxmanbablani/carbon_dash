@@ -1,104 +1,72 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { AccordionItem as CarbonAccordionItem } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
 /**
  * AccordionItem is a wrapper for the Carbon AccordionItem component.
+ * Represents a single collapsible section within an Accordion.
  */
-export default class AccordionItem extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { title } = this.props;
-        const { open } = this.props;
+const AccordionItem = (props) => {
+    const {
+        id,
+        children,
+        className = '',
+        style = {},
+        loading_state,
+        title = 'title',
+        open = false,
+        ...others
+    } = props;
 
-        const RealComponent = LazyLoader['AccordionItem'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    title={title}
-                    open={open}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-AccordionItem.defaultProps = {
-    className: '',
-    title: 'Accordion Title',
-    open: false,
+    return (
+        <CarbonAccordionItem
+            id={id}
+            className={className}
+            style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            title={title}
+            open={open}
+            {...others}
+        >
+            {children}
+        </CarbonAccordionItem>
+    );
 };
 
 AccordionItem.propTypes = {
-    /** id */
+    /** The ID used to identify this component in Dash callbacks */
     id: PropTypes.string,
 
-    /** children */
+    /** The content of the accordion item */
     children: PropTypes.node,
 
-    /** className */
+    /** Custom CSS class */
     className: PropTypes.string,
 
-    /** style */
+    /** Inline styles */
     style: PropTypes.object,
 
-    /** setProps */
-    setProps: PropTypes.func,
+    /** Dash loading state */
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
-    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * onHeadingClick
-     */
-    onHeadingClick: PropTypes.any,
-
-    /**
-     * open
-     */
-    open: PropTypes.bool,
-
-    /**
-     * renderExpando
-     */
-    renderExpando: PropTypes.any,
-
-    /**
-     * renderToggle
-     */
-    renderToggle: PropTypes.any,
-
-    /**
-     * title
-     */
+    /** The accordion title */
     title: PropTypes.node,
 
+    /** Whether the accordion item is open */
+    open: PropTypes.bool,
+
+    /** Specify whether an individual AccordionItem should be disabled */
+    disabled: PropTypes.bool,
 };
+
+AccordionItem.defaultProps = {
+    title: 'title',
+    open: false,
+};
+
+export default AccordionItem;

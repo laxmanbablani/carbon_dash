@@ -1,54 +1,37 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { FormLabel as CarbonFormLabel } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * FormLabel is a wrapper for the Carbon FormLabel component.
- */
-export default class FormLabel extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-
-        const RealComponent = LazyLoader['FormLabel'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-FormLabel.defaultProps = {
-    className: '',
+const FormLabel = (props) => {
+    const { id, children, className = '', style = {}, loading_state, ...others } = props;
+    return (
+        <span
+            id={id}
+            className={className}
+            style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+        >
+            <CarbonFormLabel {...others}>
+                {children}
+            </CarbonFormLabel>
+        </span>
+    );
 };
 
 FormLabel.propTypes = {
-    /** id */
     id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
     setProps: PropTypes.func,
-
-    /** loading_state */
-    loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
+    children: PropTypes.node,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    loading_state: PropTypes.shape({
+        is_loading: PropTypes.bool,
+        prop_name: PropTypes.string,
+        component_name: PropTypes.string,
+    }),
 };
+
+FormLabel.defaultProps = {};
+
+export default FormLabel;

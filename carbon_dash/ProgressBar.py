@@ -17,33 +17,23 @@ NumberType = typing.Union[
 
 class ProgressBar(Component):
     """A ProgressBar component.
-ProgressBar is a wrapper for the Carbon ProgressBar component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- debounce (boolean | number; optional):
-    debounce.
+- helperText (a list of or a singular dash component, string or number; optional)
 
-- helperText (boolean | number | string | dict | list; optional):
-    helperText.
+- hideLabel (boolean; optional)
 
-- hideLabel (boolean | number | string | dict | list; optional):
-    hideLabel.
+- label (a list of or a singular dash component, string or number; optional)
 
-- label (boolean | number | string | dict | list; optional):
-    label.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -53,37 +43,19 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- max (boolean | number | string | dict | list; optional):
-    max.
+- max (number; default 100)
 
-- n_blur (number; optional):
-    n_blur.
+- persisted_props (list of strings; optional)
 
-- n_submit (number; optional):
-    n_submit.
+- persistence (boolean | string | number; optional)
 
-- persisted_props (list of strings; optional):
-    persisted_props.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
-- persistence (boolean | string | number; optional):
-    persistence.
+- size (a value equal to: 'big', 'small'; default 'big')
 
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
-
-- size (boolean | number | string | dict | list; optional):
-    size.
-
-- status (boolean | number | string | dict | list; optional):
-    status.
-
-- type (boolean | number | string | dict | list; optional):
-    type.
-
-- value (boolean | number | string | dict | list; default ''):
-    value."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- value (number; default 0)"""
+    _children_props: typing.List[str] = ['label', 'helperText']
+    _base_nodes = ['label', 'helperText', 'children']
     _namespace = 'carbon_dash'
     _type = 'ProgressBar'
 
@@ -95,25 +67,20 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
+        value: typing.Optional[NumberType] = None,
+        max: typing.Optional[NumberType] = None,
+        label: typing.Optional[ComponentType] = None,
+        helperText: typing.Optional[ComponentType] = None,
+        hideLabel: typing.Optional[bool] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
         persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
         persisted_props: typing.Optional[typing.Sequence[str]] = None,
         persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        n_blur: typing.Optional[NumberType] = None,
-        n_submit: typing.Optional[NumberType] = None,
-        debounce: typing.Optional[typing.Union[bool, NumberType]] = None,
-        helperText: typing.Optional[typing.Any] = None,
-        hideLabel: typing.Optional[typing.Any] = None,
-        label: typing.Optional[typing.Any] = None,
-        max: typing.Optional[typing.Any] = None,
-        size: typing.Optional[typing.Optional[str]] = None,
-        status: typing.Optional[typing.Any] = None,
-        type: typing.Optional[typing.Any] = None,
-        value: typing.Optional[typing.Any] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'debounce', 'helperText', 'hideLabel', 'label', 'loading_state', 'max', 'n_blur', 'n_submit', 'persisted_props', 'persistence', 'persistence_type', 'size', 'status', 'style', 'type', 'value']
+        self._prop_names = ['children', 'id', 'className', 'helperText', 'hideLabel', 'label', 'loading_state', 'max', 'persisted_props', 'persistence', 'persistence_type', 'size', 'style', 'value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'debounce', 'helperText', 'hideLabel', 'label', 'loading_state', 'max', 'n_blur', 'n_submit', 'persisted_props', 'persistence', 'persistence_type', 'size', 'status', 'style', 'type', 'value']
+        self.available_properties = ['children', 'id', 'className', 'helperText', 'hideLabel', 'label', 'loading_state', 'max', 'persisted_props', 'persistence', 'persistence_type', 'size', 'style', 'value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

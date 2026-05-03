@@ -17,54 +17,26 @@ NumberType = typing.Union[
 
 class Modal(Component):
     """A Modal component.
-Modal is a wrapper for the Carbon Modal component.
+
 
 Keyword arguments:
 
-- children (a list of or a singular dash component, string or number; optional):
-    children.
+- children (a list of or a singular dash component, string or number; optional)
 
-- id (string; optional):
-    id.
+- id (string; optional)
 
-- alert (boolean | number | string | dict | list; optional):
-    alert.
+- alert (boolean; default False):
+    Whether to alert the user.
 
-- className (string; default ''):
-    className.
+- className (string; optional)
 
-- closeButtonLabel (boolean | number | string | dict | list; optional):
-    closeButtonLabel.
+- danger (boolean; default False):
+    Whether the modal is a danger modal.
 
-- current (boolean | number | string | dict | list; optional):
-    current.
+- fullWidth (boolean; default False):
+    Whether the modal should be full width.
 
-- danger (boolean | number | string | dict | list; optional):
-    danger.
-
-- decorator (boolean | number | string | dict | list; optional):
-    decorator.
-
-- hasScrollingContent (boolean | number | string | dict | list; optional):
-    hasScrollingContent.
-
-- isFullWidth (boolean | number | string | dict | list; optional):
-    isFullWidth.
-
-- launcherButtonRef (boolean | number | string | dict | list; optional):
-    launcherButtonRef.
-
-- loadingDescription (boolean | number | string | dict | list; optional):
-    loadingDescription.
-
-- loadingIconDescription (boolean | number | string | dict | list; optional):
-    loadingIconDescription.
-
-- loadingStatus (boolean | number | string | dict | list; optional):
-    loadingStatus.
-
-- loading_state (dict; optional):
-    loading_state.
+- loading_state (dict; optional)
 
     `loading_state` is a dict with keys:
 
@@ -74,76 +46,37 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- modalAriaLabel (boolean | number | string | dict | list; optional):
-    modalAriaLabel.
-
-- modalHeading (string; default 'Modal Heading'):
-    modalHeading.
-
-- modalLabel (boolean | number | string | dict | list; optional):
-    modalLabel.
-
-- onKeyDown (boolean | number | string | dict | list; optional):
-    onKeyDown.
-
-- onLoadingSuccess (boolean | number | string | dict | list; optional):
-    onLoadingSuccess.
-
-- onRequestClose (boolean | number | string | dict | list; optional):
-    onRequestClose.
-
-- onRequestSubmit (boolean | number | string | dict | list; optional):
-    onRequestSubmit.
-
-- onSecondarySubmit (boolean | number | string | dict | list; optional):
-    onSecondarySubmit.
+- modalHeading (a list of or a singular dash component, string or number; optional):
+    Modal heading.
 
 - open (boolean; default False):
-    open.
+    Whether the modal is open.
 
-- passiveModal (boolean | number | string | dict | list; optional):
-    passiveModal.
+- passiveModal (boolean; default False):
+    Whether the modal should be passive.
 
-- persisted_props (list of strings; optional):
-    persisted_props.
+- preventCloseOnClickOutside (boolean; optional):
+    Whether to show the close button.
 
-- persistence (boolean | string | number; optional):
-    persistence.
+- primaryButtonDisabled (boolean; optional):
+    Primary button disabled.
 
-- persistence_type (a value equal to: 'local', 'session', 'memory'; optional):
-    persistence_type.
+- primaryButtonText (string; optional):
+    Primary button text.
 
-- preventCloseOnClickOutside (boolean | number | string | dict | list; optional):
-    preventCloseOnClickOutside.
+- secondaryButtonText (string; optional):
+    Secondary button text.
 
-- primaryButtonDisabled (boolean | number | string | dict | list; optional):
-    primaryButtonDisabled.
+- selectorPrimaryFocus (string; optional):
+    Selector for focus on modal open.
 
-- primaryButtonText (string; default 'Primary Button'):
-    primaryButtonText.
+- shouldSubmitOnEnter (boolean; optional):
+    Whether the modal should be displayed with a slider.
 
-- secondaryButtonText (string; default 'Secondary Button'):
-    secondaryButtonText.
-
-- secondaryButtons (boolean | number | string | dict | list; optional):
-    secondaryButtons.
-
-- selectorPrimaryFocus (boolean | number | string | dict | list; optional):
-    selectorPrimaryFocus.
-
-- selectorsFloatingMenus (boolean | number | string | dict | list; optional):
-    selectorsFloatingMenus.
-
-- shouldSubmitOnEnter (boolean | number | string | dict | list; optional):
-    shouldSubmitOnEnter.
-
-- size (boolean | number | string | dict | list; optional):
-    size.
-
-- slug (boolean | number | string | dict | list; optional):
-    slug."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- size (a value equal to: 'xs', 'sm', 'md', 'lg'; optional):
+    Size."""
+    _children_props: typing.List[str] = ['modalHeading']
+    _base_nodes = ['modalHeading', 'children']
     _namespace = 'carbon_dash'
     _type = 'Modal'
 
@@ -155,45 +88,24 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
-        persisted_props: typing.Optional[typing.Sequence[str]] = None,
-        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
-        alert: typing.Optional[typing.Any] = None,
-        closeButtonLabel: typing.Optional[typing.Any] = None,
-        danger: typing.Optional[typing.Any] = None,
-        decorator: typing.Optional[typing.Any] = None,
-        hasScrollingContent: typing.Optional[typing.Any] = None,
-        isFullWidth: typing.Optional[typing.Any] = None,
-        launcherButtonRef: typing.Optional[typing.Any] = None,
-        current: typing.Optional[typing.Any] = None,
-        loadingDescription: typing.Optional[typing.Any] = None,
-        loadingIconDescription: typing.Optional[typing.Any] = None,
-        loadingStatus: typing.Optional[typing.Any] = None,
-        modalAriaLabel: typing.Optional[typing.Any] = None,
-        modalHeading: typing.Optional[str] = None,
-        modalLabel: typing.Optional[typing.Any] = None,
-        onKeyDown: typing.Optional[typing.Any] = None,
-        onLoadingSuccess: typing.Optional[typing.Any] = None,
-        onRequestClose: typing.Optional[typing.Any] = None,
-        onRequestSubmit: typing.Optional[typing.Any] = None,
-        onSecondarySubmit: typing.Optional[typing.Any] = None,
         open: typing.Optional[bool] = None,
-        passiveModal: typing.Optional[typing.Any] = None,
-        preventCloseOnClickOutside: typing.Optional[typing.Any] = None,
-        primaryButtonDisabled: typing.Optional[typing.Any] = None,
+        modalHeading: typing.Optional[ComponentType] = None,
         primaryButtonText: typing.Optional[str] = None,
         secondaryButtonText: typing.Optional[str] = None,
-        secondaryButtons: typing.Optional[typing.Any] = None,
-        selectorPrimaryFocus: typing.Optional[typing.Any] = None,
-        selectorsFloatingMenus: typing.Optional[typing.Any] = None,
-        shouldSubmitOnEnter: typing.Optional[typing.Any] = None,
+        danger: typing.Optional[bool] = None,
+        fullWidth: typing.Optional[bool] = None,
+        passiveModal: typing.Optional[bool] = None,
+        preventCloseOnClickOutside: typing.Optional[bool] = None,
         size: typing.Optional[typing.Optional[str]] = None,
-        slug: typing.Optional[typing.Any] = None,
+        alert: typing.Optional[bool] = None,
+        shouldSubmitOnEnter: typing.Optional[bool] = None,
+        primaryButtonDisabled: typing.Optional[bool] = None,
+        selectorPrimaryFocus: typing.Optional[str] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'alert', 'className', 'closeButtonLabel', 'current', 'danger', 'decorator', 'hasScrollingContent', 'isFullWidth', 'launcherButtonRef', 'loadingDescription', 'loadingIconDescription', 'loadingStatus', 'loading_state', 'modalAriaLabel', 'modalHeading', 'modalLabel', 'onKeyDown', 'onLoadingSuccess', 'onRequestClose', 'onRequestSubmit', 'onSecondarySubmit', 'open', 'passiveModal', 'persisted_props', 'persistence', 'persistence_type', 'preventCloseOnClickOutside', 'primaryButtonDisabled', 'primaryButtonText', 'secondaryButtonText', 'secondaryButtons', 'selectorPrimaryFocus', 'selectorsFloatingMenus', 'shouldSubmitOnEnter', 'size', 'slug', 'style']
+        self._prop_names = ['children', 'id', 'alert', 'className', 'danger', 'fullWidth', 'loading_state', 'modalHeading', 'open', 'passiveModal', 'preventCloseOnClickOutside', 'primaryButtonDisabled', 'primaryButtonText', 'secondaryButtonText', 'selectorPrimaryFocus', 'shouldSubmitOnEnter', 'size', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'alert', 'className', 'closeButtonLabel', 'current', 'danger', 'decorator', 'hasScrollingContent', 'isFullWidth', 'launcherButtonRef', 'loadingDescription', 'loadingIconDescription', 'loadingStatus', 'loading_state', 'modalAriaLabel', 'modalHeading', 'modalLabel', 'onKeyDown', 'onLoadingSuccess', 'onRequestClose', 'onRequestSubmit', 'onSecondarySubmit', 'open', 'passiveModal', 'persisted_props', 'persistence', 'persistence_type', 'preventCloseOnClickOutside', 'primaryButtonDisabled', 'primaryButtonText', 'secondaryButtonText', 'secondaryButtons', 'selectorPrimaryFocus', 'selectorsFloatingMenus', 'shouldSubmitOnEnter', 'size', 'slug', 'style']
+        self.available_properties = ['children', 'id', 'alert', 'className', 'danger', 'fullWidth', 'loading_state', 'modalHeading', 'open', 'passiveModal', 'preventCloseOnClickOutside', 'primaryButtonDisabled', 'primaryButtonText', 'secondaryButtonText', 'selectorPrimaryFocus', 'shouldSubmitOnEnter', 'size', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

@@ -17,51 +17,40 @@ NumberType = typing.Union[
 
 class FluidDropdown(Component):
     """A FluidDropdown component.
-FluidDropdown is a wrapper for the Carbon FluidDropdown component.
+FluidDropdown is a full-width Dropdown component.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the dropdown.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- direction (boolean | number | string | dict | list; optional):
-    direction.
+- disabled (boolean; default False):
+    Specify whether the control is disabled.
 
-- disabled (boolean | number | string | dict | list; optional):
-    disabled.
+- helperText (a list of or a singular dash component, string or number; optional):
+    Provide text that is used alongside the control label.
 
-- initialSelectedItem (boolean | number | string | dict | list; optional):
-    initialSelectedItem.
+- invalid (boolean; default False):
+    Specify whether the control is currently in an invalid state.
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
+- invalidText (a list of or a singular dash component, string or number; optional):
+    Provide the text that is displayed when the control is in an
+    invalid state.
 
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
+- items (list; optional):
+    The items to display in the dropdown.
 
-- isCondensed (boolean | number | string | dict | list; optional):
-    isCondensed.
-
-- itemToElement (boolean | number | string | dict | list; optional):
-    itemToElement.
-
-- itemToString (boolean | number | string | dict | list; optional):
-    itemToString.
-
-- items (boolean | number | string | dict | list; optional):
-    items.
-
-- label (boolean | number | string | dict | list; optional):
-    label.
+- label (a list of or a singular dash component, string or number; optional):
+    Provide text that is used alongside the control label.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -71,28 +60,30 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- onChange (boolean | number | string | dict | list; optional):
-    onChange.
+- persisted_props (list of strings; optional)
 
-- renderSelectedItem (boolean | number | string | dict | list; optional):
-    renderSelectedItem.
+- persistence (boolean | string | number; optional):
+    Persistence settings.
+
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)
 
 - selectedItem (boolean | number | string | dict | list; optional):
-    selectedItem.
+    The selected item.
 
-- titleText (boolean | number | string | dict | list; optional):
-    titleText.
+- size (a value equal to: 'sm', 'md', 'lg'; default 'md'):
+    Specify the size of the dropdown.
 
-- translateWithId (boolean | number | string | dict | list; optional):
-    translateWithId.
+- titleText (a list of or a singular dash component, string or number; optional):
+    Provide the title text for the dropdown.
 
-- warn (boolean | number | string | dict | list; optional):
-    warn.
+- warn (boolean; default False):
+    Specify whether the control is currently in a warning state.
 
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
-    _children_props: typing.List[str] = []
-    _base_nodes = ['children']
+- warnText (a list of or a singular dash component, string or number; optional):
+    Provide the text that is displayed when the control is in a
+    warning state."""
+    _children_props: typing.List[str] = ['label', 'titleText', 'helperText', 'invalidText', 'warnText']
+    _base_nodes = ['label', 'titleText', 'helperText', 'invalidText', 'warnText', 'children']
     _namespace = 'carbon_dash'
     _type = 'FluidDropdown'
 
@@ -104,28 +95,25 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        direction: typing.Optional[typing.Any] = None,
-        disabled: typing.Optional[typing.Any] = None,
-        initialSelectedItem: typing.Optional[typing.Any] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        isCondensed: typing.Optional[typing.Any] = None,
-        itemToElement: typing.Optional[typing.Any] = None,
-        itemToString: typing.Optional[typing.Any] = None,
-        items: typing.Optional[typing.Any] = None,
-        label: typing.Optional[typing.Any] = None,
-        onChange: typing.Optional[typing.Any] = None,
-        renderSelectedItem: typing.Optional[typing.Any] = None,
+        items: typing.Optional[typing.Sequence] = None,
         selectedItem: typing.Optional[typing.Any] = None,
-        titleText: typing.Optional[typing.Any] = None,
-        translateWithId: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
+        label: typing.Optional[ComponentType] = None,
+        titleText: typing.Optional[ComponentType] = None,
+        helperText: typing.Optional[ComponentType] = None,
+        invalid: typing.Optional[bool] = None,
+        invalidText: typing.Optional[ComponentType] = None,
+        warn: typing.Optional[bool] = None,
+        warnText: typing.Optional[ComponentType] = None,
+        disabled: typing.Optional[bool] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
+        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
+        persisted_props: typing.Optional[typing.Sequence[str]] = None,
+        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'direction', 'disabled', 'initialSelectedItem', 'invalid', 'invalidText', 'isCondensed', 'itemToElement', 'itemToString', 'items', 'label', 'loading_state', 'onChange', 'renderSelectedItem', 'selectedItem', 'style', 'titleText', 'translateWithId', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'className', 'disabled', 'helperText', 'invalid', 'invalidText', 'items', 'label', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'selectedItem', 'size', 'style', 'titleText', 'warn', 'warnText']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'direction', 'disabled', 'initialSelectedItem', 'invalid', 'invalidText', 'isCondensed', 'itemToElement', 'itemToString', 'items', 'label', 'loading_state', 'onChange', 'renderSelectedItem', 'selectedItem', 'style', 'titleText', 'translateWithId', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'className', 'disabled', 'helperText', 'invalid', 'invalidText', 'items', 'label', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'selectedItem', 'size', 'style', 'titleText', 'warn', 'warnText']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

@@ -1,165 +1,66 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import {
+    TimePicker as CarbonTimePicker,
+    TimePickerSelect as CarbonTimePickerSelect,
+} from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * TimePicker is a wrapper for the Carbon TimePicker component.
- */
-export default class TimePicker extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { value } = this.props;
+const TimePicker = (props) => {
+    const { id, children, className = '', style = {}, loading_state, value, ...others } = props;
 
-        const RealComponent = LazyLoader['TimePicker'];
-        if (!RealComponent) {
-            return null;
-        }
+    const handleChange = (e) => {
+        if (props.setProps) props.setProps({ value: e.target?.value ?? e });
+    };
 
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    value={value}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-TimePicker.defaultProps = {
-    className: '',
-    value: '',
+    return (
+        <CarbonTimePicker
+            id={id} className={className} style={style}
+            data-dash-is-loading={getLoadingState(loading_state) || undefined}
+            value={value}
+            onChange={handleChange}
+            {...others}
+        >
+            {children}
+        </CarbonTimePicker>
+    );
 };
 
 TimePicker.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func,
+    children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
+    /** Current time value */
+    value: PropTypes.string,
+    /** Label text */
+    labelText: PropTypes.node,
+    /** Placeholder */
+    placeholder: PropTypes.string,
+    /** Whether disabled */
+    disabled: PropTypes.bool,
+    /** Whether invalid */
+    invalid: PropTypes.bool,
+    /** Invalid text */
+    invalidText: PropTypes.node,
+    /** Size */
+    size: PropTypes.oneOf(['sm', 'md', 'lg']),
+    /** Light variant */
+    light: PropTypes.bool,
+    /** Hide label */
+    hideLabel: PropTypes.bool,
+    /** Whether readonly */
+    readOnly: PropTypes.bool,
+    /** Format pattern */
+    pattern: PropTypes.string,
+    /** Type */
+    type: PropTypes.string,
+    /** Time format: '12' or '24' */
+    timeFormat: PropTypes.oneOf(['12', '24']),
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
     persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
     persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /** n_blur */
-    n_blur: PropTypes.number,
-
-    /** n_submit */
-    n_submit: PropTypes.number,
-
-    /** debounce */
-    debounce: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * hideLabel
-     */
-    hideLabel: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * labelText
-     */
-    labelText: PropTypes.any,
-
-    /**
-     * light
-     */
-    light: PropTypes.any,
-
-    /**
-     * maxLength
-     */
-    maxLength: PropTypes.any,
-
-    /**
-     * onBlur
-     */
-    onBlur: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * onClick
-     */
-    onClick: PropTypes.any,
-
-    /**
-     * pattern
-     */
-    pattern: PropTypes.any,
-
-    /**
-     * placeholder
-     */
-    placeholder: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * size
-     */
-    size: PropTypes.any,
-
-    /**
-     * type
-     */
-    type: PropTypes.any,
-
-    /**
-     * value
-     */
-    value: PropTypes.any,
-
-    /**
-     * warning
-     */
-    warning: PropTypes.any,
-
-    /**
-     * warningText
-     */
-    warningText: PropTypes.any,
-
 };
+
+TimePicker.defaultProps = { disabled: false, size: 'md', timeFormat: '12' };
+
+export default TimePicker;

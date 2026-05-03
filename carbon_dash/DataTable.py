@@ -17,42 +17,38 @@ NumberType = typing.Union[
 
 class DataTable(Component):
     """A DataTable component.
-DataTable is a wrapper for the Carbon DataTable component.
+
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    Alternative content.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- description (string; default ''):
-    description.
+- description (string; optional):
+    Table description.
 
-- experimentalAutoAlign (boolean | number | string | dict | list; optional):
-    experimentalAutoAlign.
+- headers (list of dicts; optional):
+    Array of header configs: {key: string, header: string}.
 
-- filterRows (boolean | number | string | dict | list; optional):
-    filterRows.
+    `headers` is a list of dicts with keys:
 
-- header (boolean | number | string | dict | list; optional):
-    header.
+    - key (string; required)
 
-- headers (list; optional):
-    headers.
+    - header (a list of or a singular dash component, string or number; required)
+
+    - isSortable (boolean; optional)
 
 - isSortable (boolean; default False):
-    isSortable.
-
-- key (boolean | number | string | dict | list; optional):
-    key.
+    Allow sorting by clicking column headers.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -62,51 +58,41 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- locale (boolean | number | string | dict | list; optional):
-    locale.
+- rows (list of dicts; optional):
+    Array of row objects. Each row MUST have a unique `id` string.
 
-- overflowMenuOnHover (boolean | number | string | dict | list; optional):
-    overflowMenuOnHover.
+- selectedRows (list of strings; optional):
+    Array of selected row IDs (read via Dash callback).
 
-- radio (boolean | number | string | dict | list; optional):
-    radio.
+- size (a value equal to: 'xs', 'sm', 'md', 'lg', 'xl', '2xl'; optional):
+    Table size.
 
-- render (boolean | number | string | dict | list; optional):
-    render.
+- stickyHeader (boolean; optional):
+    Make header sticky.
 
-- rows (list; optional):
-    rows.
-
-- size (string; default 'lg'):
-    size.
-
-- sortRow (boolean | number | string | dict | list; optional):
-    sortRow.
-
-- stickyHeader (boolean | number | string | dict | list; optional):
-    stickyHeader.
-
-- title (string; default ''):
-    title.
-
-- translateWithId (boolean | number | string | dict | list; optional):
-    translateWithId.
-
-- useStaticWidth (boolean | number | string | dict | list; optional):
-    useStaticWidth.
+- title (string; optional):
+    Table title.
 
 - useZebraStyles (boolean; default False):
-    useZebraStyles.
-
-- withExpansion (boolean; default False):
-    withExpansion.
+    Add zebra striping.
 
 - withSelection (boolean; default False):
-    withSelection."""
-    _children_props: typing.List[str] = []
+    Show row selection checkboxes.
+
+- withToolbar (boolean; default False):
+    Show toolbar with search/filter."""
+    _children_props: typing.List[str] = ['headers[].header']
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
     _type = 'DataTable'
+    Headers = TypedDict(
+        "Headers",
+            {
+            "key": str,
+            "header": ComponentType,
+            "isSortable": NotRequired[bool]
+        }
+    )
 
 
     def __init__(
@@ -116,32 +102,22 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        experimentalAutoAlign: typing.Optional[typing.Any] = None,
-        filterRows: typing.Optional[typing.Any] = None,
-        headers: typing.Optional[typing.Sequence] = None,
-        key: typing.Optional[typing.Any] = None,
-        header: typing.Optional[typing.Any] = None,
+        rows: typing.Optional[typing.Sequence[dict]] = None,
+        headers: typing.Optional[typing.Sequence["Headers"]] = None,
         isSortable: typing.Optional[bool] = None,
-        locale: typing.Optional[typing.Any] = None,
-        overflowMenuOnHover: typing.Optional[typing.Any] = None,
-        radio: typing.Optional[typing.Any] = None,
-        render: typing.Optional[typing.Any] = None,
-        rows: typing.Optional[typing.Sequence] = None,
-        size: typing.Optional[typing.Optional[str]] = None,
-        sortRow: typing.Optional[typing.Any] = None,
-        stickyHeader: typing.Optional[typing.Any] = None,
-        translateWithId: typing.Optional[typing.Any] = None,
-        useStaticWidth: typing.Optional[typing.Any] = None,
+        withSelection: typing.Optional[bool] = None,
+        withToolbar: typing.Optional[bool] = None,
+        selectedRows: typing.Optional[typing.Sequence[str]] = None,
         useZebraStyles: typing.Optional[bool] = None,
         title: typing.Optional[str] = None,
         description: typing.Optional[str] = None,
-        withSelection: typing.Optional[bool] = None,
-        withExpansion: typing.Optional[bool] = None,
+        stickyHeader: typing.Optional[bool] = None,
+        size: typing.Optional[typing.Optional[str]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'description', 'experimentalAutoAlign', 'filterRows', 'header', 'headers', 'isSortable', 'key', 'loading_state', 'locale', 'overflowMenuOnHover', 'radio', 'render', 'rows', 'size', 'sortRow', 'stickyHeader', 'style', 'title', 'translateWithId', 'useStaticWidth', 'useZebraStyles', 'withExpansion', 'withSelection']
+        self._prop_names = ['children', 'id', 'className', 'description', 'headers', 'isSortable', 'loading_state', 'rows', 'selectedRows', 'size', 'stickyHeader', 'style', 'title', 'useZebraStyles', 'withSelection', 'withToolbar']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'description', 'experimentalAutoAlign', 'filterRows', 'header', 'headers', 'isSortable', 'key', 'loading_state', 'locale', 'overflowMenuOnHover', 'radio', 'render', 'rows', 'size', 'sortRow', 'stickyHeader', 'style', 'title', 'translateWithId', 'useStaticWidth', 'useZebraStyles', 'withExpansion', 'withSelection']
+        self.available_properties = ['children', 'id', 'className', 'description', 'headers', 'isSortable', 'loading_state', 'rows', 'selectedRows', 'size', 'stickyHeader', 'style', 'title', 'useZebraStyles', 'withSelection', 'withToolbar']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

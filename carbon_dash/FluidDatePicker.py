@@ -17,27 +17,24 @@ NumberType = typing.Union[
 
 class FluidDatePicker(Component):
     """A FluidDatePicker component.
-FluidDatePicker is a wrapper for the Carbon FluidDatePicker component.
+FluidDatePicker is a full-width DatePicker component.
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    The content of the date picker (DatePickerInput components).
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- invalid (boolean | number | string | dict | list; optional):
-    invalid.
-
-- invalidText (boolean | number | string | dict | list; optional):
-    invalidText.
+- datePickerType (a value equal to: 'simple', 'single', 'range'; default 'simple'):
+    Specify the type of date picker.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -47,14 +44,12 @@ Keyword arguments:
 
     - component_name (string; optional)
 
-- readOnly (boolean | number | string | dict | list; optional):
-    readOnly.
+- persisted_props (list of strings; optional)
 
-- warn (boolean | number | string | dict | list; optional):
-    warn.
+- persistence (boolean | string | number; optional):
+    Persistence settings.
 
-- warnText (boolean | number | string | dict | list; optional):
-    warnText."""
+- persistence_type (a value equal to: 'local', 'session', 'memory'; optional)"""
     _children_props: typing.List[str] = []
     _base_nodes = ['children']
     _namespace = 'carbon_dash'
@@ -68,16 +63,16 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        invalid: typing.Optional[typing.Any] = None,
-        invalidText: typing.Optional[typing.Any] = None,
-        readOnly: typing.Optional[typing.Any] = None,
-        warn: typing.Optional[typing.Any] = None,
-        warnText: typing.Optional[typing.Any] = None,
+        datePickerType: typing.Optional[Literal["simple", "single", "range"]] = None,
+        onChange: typing.Optional[typing.Any] = None,
+        persistence: typing.Optional[typing.Union[bool, str, NumberType]] = None,
+        persisted_props: typing.Optional[typing.Sequence[str]] = None,
+        persistence_type: typing.Optional[Literal["local", "session", "memory"]] = None,
         **kwargs
     ):
-        self._prop_names = ['children', 'id', 'className', 'invalid', 'invalidText', 'loading_state', 'readOnly', 'style', 'warn', 'warnText']
+        self._prop_names = ['children', 'id', 'className', 'datePickerType', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['children', 'id', 'className', 'invalid', 'invalidText', 'loading_state', 'readOnly', 'style', 'warn', 'warnText']
+        self.available_properties = ['children', 'id', 'className', 'datePickerType', 'loading_state', 'persisted_props', 'persistence', 'persistence_type', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

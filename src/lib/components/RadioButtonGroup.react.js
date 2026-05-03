@@ -1,159 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as LazyLoader from '../LazyLoader';
+import { RadioButtonGroup as CarbonRadioButtonGroup } from '@carbon/react';
+import { getLoadingState } from '../utils/dash';
 
-/**
- * RadioButtonGroup is a wrapper for the Carbon RadioButtonGroup component.
- */
-export default class RadioButtonGroup extends Component {
-    render() {
-        const {
-            className,
-            ...otherProps
-        } = this.props;
-        const { valueSelected } = this.props;
-        const { label } = this.props;
-
-        const RealComponent = LazyLoader['RadioButtonGroup'];
-        if (!RealComponent) {
-            return null;
-        }
-
-        return (
-            <React.Suspense fallback={null}>
-                <RealComponent 
-                    className={className}
-                    valueSelected={valueSelected}
-                    label={label}
-                    {...otherProps}
-                />
-            </React.Suspense>
-        );
-    }
-}
-
-RadioButtonGroup.defaultProps = {
-    className: '',
-    valueSelected: null,
-    label: 'Radio Button Group',
+const RadioButtonGroup = (props) => {
+    const { id, children, className = '', style = {}, loading_state, value, ...others } = props;
+    const handleChange = (e) => { if (props.setProps) props.setProps({ value: e?.target?.value ?? e ?? arguments[0] }); };
+    return <CarbonRadioButtonGroup id={id} className={className} style={style} value={value} onChange={handleChange} data-dash-is-loading={getLoadingState(loading_state) || undefined} {...others}>{children}</CarbonRadioButtonGroup>;
 };
-
 RadioButtonGroup.propTypes = {
-    /** id */
-    id: PropTypes.string,
-
-    /** children */
-    children: PropTypes.node,
-
-    /** className */
-    className: PropTypes.string,
-
-    /** style */
-    style: PropTypes.object,
-
-    /** setProps */
-    setProps: PropTypes.func,
-
-    /** loading_state */
+    id: PropTypes.string, setProps: PropTypes.func, children: PropTypes.node, className: PropTypes.string, style: PropTypes.object,
     loading_state: PropTypes.shape({ is_loading: PropTypes.bool, prop_name: PropTypes.string, component_name: PropTypes.string }),
-
-    /** persistence */
+    value: PropTypes.string, defaultValue: PropTypes.string, labelText: PropTypes.node, helperText: PropTypes.node, legendText: PropTypes.node,
+    disabled: PropTypes.bool, orientation: PropTypes.oneOf(['horizontal','vertical']), hideLabel: PropTypes.bool,
     persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-
-    /** persisted_props */
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-
-    /** persistence_type */
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-
-    /**
-     * decorator
-     */
-    decorator: PropTypes.any,
-
-    /**
-     * defaultSelected
-     */
-    defaultSelected: PropTypes.any,
-
-    /**
-     * disabled
-     */
-    disabled: PropTypes.any,
-
-    /**
-     * helperText
-     */
-    helperText: PropTypes.any,
-
-    /**
-     * invalid
-     */
-    invalid: PropTypes.any,
-
-    /**
-     * invalidText
-     */
-    invalidText: PropTypes.any,
-
-    /**
-     * labelPosition
-     */
-    labelPosition: PropTypes.any,
-
-    /**
-     * legendText
-     */
-    legendText: PropTypes.any,
-
-    /**
-     * name
-     */
-    name: PropTypes.any,
-
-    /**
-     * onChange
-     */
-    onChange: PropTypes.any,
-
-    /**
-     * orientation
-     */
-    orientation: PropTypes.any,
-
-    /**
-     * readOnly
-     */
-    readOnly: PropTypes.any,
-
-    /**
-     * required
-     */
-    required: PropTypes.any,
-
-    /**
-     * slug
-     */
-    slug: PropTypes.any,
-
-    /**
-     * valueSelected
-     */
-    valueSelected: PropTypes.any,
-
-    /**
-     * warn
-     */
-    warn: PropTypes.any,
-
-    /**
-     * warnText
-     */
-    warnText: PropTypes.any,
-
-    /**
-     * label
-     */
-    label: PropTypes.string,
-
+    persisted_props: PropTypes.arrayOf(PropTypes.string), persistence_type: PropTypes.oneOf(['local','session','memory']),
 };
+RadioButtonGroup.defaultProps = { disabled: false, orientation: 'horizontal' };
+export default RadioButtonGroup;

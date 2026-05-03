@@ -17,33 +17,38 @@ NumberType = typing.Union[
 
 class SideNavMenu(Component):
     """A SideNavMenu component.
-SideNavMenu is a wrapper for the Carbon SideNavMenu component.
+
 
 Keyword arguments:
 
 - children (a list of or a singular dash component, string or number; optional):
-    children.
+    Provide SideNavMenuItem's inside of the SideNavMenu.
 
 - id (string; optional):
-    id.
+    The ID used to identify this component in Dash callbacks.
 
-- className (string; default ''):
-    className.
+- className (string; optional):
+    Custom CSS class.
 
-- defaultExpanded (boolean | number | string | dict | list; optional):
-    defaultExpanded.
+- defaultExpanded (boolean; optional):
+    Specify whether the menu should default to expanded. By default,
+    it will be closed.
 
-- isActive (boolean | number | string | dict | list; optional):
-    isActive.
+- isActive (boolean; optional):
+    Specify whether the SideNavMenu is \"active\". SideNavMenu should
+    be considered active if one of its menu items are a link for the
+    current page.
 
-- isSideNavExpanded (boolean | number | string | dict | list; optional):
-    isSideNavExpanded.
+- isSideNavExpanded (boolean; optional):
+    Property to indicate if the side nav container is open (or not).
+    Use to keep local state and styling in step with the SideNav
+    expansion state.
 
-- large (boolean | number | string | dict | list; optional):
-    large.
+- large (boolean; optional):
+    Specify if this is a large variation of the SideNavMenu.
 
 - loading_state (dict; optional):
-    loading_state.
+    Dash loading state.
 
     `loading_state` is a dict with keys:
 
@@ -54,13 +59,14 @@ Keyword arguments:
     - component_name (string; optional)
 
 - renderIcon (a list of or a singular dash component, string or number; optional):
-    renderIcon.
+    An icon component to render in the menu. Accepts DashIconify,
+    html.Div, Carbon icon name string, or any React node.
 
-- tabIndex (boolean | number | string | dict | list; optional):
-    tabIndex.
+- tabIndex (number; optional):
+    Optional prop to specify the tabIndex of the button.
 
-- title (boolean | number | string | dict | list; optional):
-    title."""
+- title (string; optional):
+    Provide the text for the overall menu name."""
     _children_props: typing.List[str] = ['renderIcon']
     _base_nodes = ['renderIcon', 'children']
     _namespace = 'carbon_dash'
@@ -74,13 +80,13 @@ Keyword arguments:
         className: typing.Optional[typing.Optional[str]] = None,
         style: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
         loading_state: typing.Optional[typing.Optional[typing.Dict[str, typing.Any]]] = None,
-        defaultExpanded: typing.Optional[typing.Any] = None,
-        isActive: typing.Optional[typing.Any] = None,
-        isSideNavExpanded: typing.Optional[typing.Any] = None,
-        large: typing.Optional[typing.Any] = None,
+        defaultExpanded: typing.Optional[bool] = None,
+        isActive: typing.Optional[bool] = None,
+        isSideNavExpanded: typing.Optional[bool] = None,
+        large: typing.Optional[bool] = None,
         renderIcon: typing.Optional[ComponentType] = None,
-        tabIndex: typing.Optional[typing.Any] = None,
-        title: typing.Optional[typing.Any] = None,
+        tabIndex: typing.Optional[NumberType] = None,
+        title: typing.Optional[str] = None,
         **kwargs
     ):
         self._prop_names = ['children', 'id', 'className', 'defaultExpanded', 'isActive', 'isSideNavExpanded', 'large', 'loading_state', 'renderIcon', 'style', 'tabIndex', 'title']

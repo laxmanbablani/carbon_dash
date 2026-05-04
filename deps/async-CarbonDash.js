@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkcarbon_dash=self.webpackChunkcarbon_dash||[]).push([[233],{4947(e,n,a){a.r(n),a.d(n,{default:()=>i});var t=a(1609),r=a.n(t),s=a(6120),u=a.n(s),l=function(e){var n=e.id,a=e.label,t=e.setProps,s=e.value;return r().createElement("div",{id:n},"ExampleComponent: ",a," ",r().createElement("input",{value:s,onChange:function(e){t({value:e.target.value})}}))};l.defaultProps={},l.propTypes={id:u().string,label:u().string.isRequired,value:u().string,setProps:u().func};const i=l}}]);
-//# sourceMappingURL=async-CarbonDash.js.map

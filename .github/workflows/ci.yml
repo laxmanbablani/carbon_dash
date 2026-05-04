@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.12']
 
     steps:
       - uses: actions/checkout@v4
@@ -52,7 +52,7 @@ jobs:
         run: npm run build:js
 
       - name: Generate Python backends
-        run: ./venv/bin/dash-generate-components generate ./src/lib/components carbon_dash -p package-info.json --ignore '\.test\.'
+        run:
 
       - name: Run tests
         run: |
@@ -62,4 +62,4 @@ jobs:
         run: |
           ./venv/bin/pip install --upgrade build twine wheel
           ./venv/bin/python -m build --sdist --wheel
-          ./venv/bin/twine check dist/*
+          ./venv/bin/twine check dist/* ./venv/bin/dash-generate-components  ./src/lib/components carbon_dash -p package-info.json --ignore '\.test\.'

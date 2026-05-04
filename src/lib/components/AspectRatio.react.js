@@ -10,16 +10,16 @@ import { getLoadingState } from '../utils/dash';
 const AspectRatio = (props) => {
     const { id, children, className = '', style = {}, loading_state, ratio = '1x1', ...others } = props;
     return (
-        <CarbonAspectRatio
-            id={id}
-            className={className}
-            style={style}
-            data-dash-is-loading={getLoadingState(loading_state) || undefined}
-            ratio={ratio}
-            {...others}
-        >
-            {children}
-        </CarbonAspectRatio>
+        <div id={id} data-dash-is-loading={getLoadingState(loading_state) || undefined}>
+            <CarbonAspectRatio
+                className={className}
+                style={style}
+                ratio={ratio}
+                {...others}
+            >
+                {children}
+            </CarbonAspectRatio>
+        </div>
     );
 };
 

@@ -13,6 +13,7 @@ import ButtonSet from './components/ButtonSet.react.js';
 import Checkbox from './components/Checkbox.react.js';
 import ChoroplethChart from './components/ChoroplethChart.react.js';
 import CirclePackChart from './components/CirclePackChart.react.js';
+import AspectRatio from './components/AspectRatio.react.js';
 import ClickableTile from './components/ClickableTile.react.js';
 import CodeSnippet from './components/CodeSnippet.react.js';
 import Column from './components/Column.react.js';
@@ -133,6 +134,7 @@ export {
     AlluvialChart,
     AreaChart,
     BoxplotChart,
+    AspectRatio,
     Breadcrumb,
     BreadcrumbItem,
     BubbleChart,

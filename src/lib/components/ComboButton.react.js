@@ -37,22 +37,25 @@ const ComboButton = (props) => {
     }
 
     return (
-        <CarbonComboButton
-            id={id}
-            className={className}
-            style={style}
-            label={label}
-            menuAlignment={menuAlignment}
-            tooltipAlignment={tooltipAlignment}
-            size={size}
-            kind={kind}
-            disabled={disabled}
-            onClick={handleClick}
+        <div 
+            id={id} 
             data-dash-is-loading={getLoadingState(loading_state) || undefined}
-            {...others}
+            onClick={() => !disabled && handleClick()}
         >
-            {children}
-        </CarbonComboButton>
+            <CarbonComboButton
+                className={className}
+                style={style}
+                label={label}
+                menuAlignment={menuAlignment}
+                tooltipAlignment={tooltipAlignment}
+                size={size}
+                kind={kind}
+                disabled={disabled}
+                {...others}
+            >
+                {children}
+            </CarbonComboButton>
+        </div>
     );
 };
 

@@ -39,7 +39,7 @@ def test_combobutton_click(dash_duo):
         return f"Clicked {n_clicks} times"
 
     dash_duo.start_server(app)
-    dash_duo.wait_for_text_to_equal("#output", "Not clicked")
+    dash_duo.wait_for_text_to_equal("#combo-btn", "Click me")
     dash_duo.click_at_coord_fractions("#combo-btn", 0.5, 0.5)
     dash_duo.wait_for_text_to_equal("#output", "Clicked 1 times")
     assert dash_duo.get_logs() == []
@@ -84,5 +84,5 @@ def test_combobutton_disabled(dash_duo):
         return f"Clicked {n_clicks} times"
 
     dash_duo.start_server(app)
-    dash_duo.wait_for_text_to_equal("#output", "Not clicked")
+    dash_duo.wait_for_text_to_equal("#combo-btn", "Disabled")
     assert dash_duo.get_logs() == []

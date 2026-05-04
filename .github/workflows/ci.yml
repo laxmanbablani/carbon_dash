@@ -46,7 +46,7 @@ jobs:
 
       - name: Install test dependencies
         run: |
-          ./venv/bin/pip install pytest pytest-xdist selenium webdriver-manager
+          ./venv/bin/pip install pytest pytest-xdist selenium webdriver-manager "dash[testing]>=2.0.0"
 
       - name: Build JavaScript bundles
         run: npm run build:js

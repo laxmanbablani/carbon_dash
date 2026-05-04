@@ -52,7 +52,7 @@ jobs:
         run: npm run build:js
 
       - name: Generate Python backends
-        run: npm run build:backends
+        run: ./venv/bin/dash-generate-components generate ./src/lib/components carbon_dash -p package-info.json --ignore '\.test\.'
 
       - name: Run tests
         run: |

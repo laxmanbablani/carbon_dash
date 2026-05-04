@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "description": "Carbon React Components wrapped for Dash",
   "main": "build/index.js",
-  "scripts": {
-    "build:js": "webpack --mode production",
-    "build:backends": "dash-generate-components ./src/lib/components carbon_dash -p package-info.json --ignore \\.test\\.",
-    "build": "npm run build:js && npm run build:backends",
-    "build:wheel": "python setup.py sdist bdist_wheel"
-  },
+   "scripts": {
+     "build:js": "webpack --mode production",
+     "build:backends": "python -m dash.development.component_generator generate --components-folder ./src/lib/components --package-name carbon_dash --package-info package-info.json --ignore '\\.test\\.'",
+     "build": "npm run build:js && npm run build:backends",
+     "build:wheel": "python setup.py sdist bdist_wheel"
+   },
   "author": "Laxman Bablani <laxman@bablani.org>",
   "license": "MIT",
   "dependencies": {

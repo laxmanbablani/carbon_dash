@@ -44,7 +44,12 @@ jobs:
         run: npm run build:js
 
       - name: Generate Python backends
-        run: npm run build:backends
+        run: |
+          if [ -f "./venv/bin/dash-generate-components" ]; then
+            ./venv/bin/dash-generate-components ./src/lib/components carbon_dash -p package-info.json --ignore '\.test\.'
+          else
+            python -m dash.development.build generate --components-folder ./src/lib/components --package-name carbon_dash --package-info package-info.json --ignore-pattern '\.test\.'
+          fi
 
       - name: Build package
         run: |

@@ -32,21 +32,24 @@ module.exports = (env, argv) => {
         filename = `${dashLibraryName}.${modeSuffix}.js`;
     }
 
-    const entry = overrides.entry || {main: './src/lib/index.js'};
+     const entry = overrides.entry || {main: './src/lib/index.js'};
 
-    const devtool = overrides.devtool || 'source-map';
+     const devtool = overrides.devtool || 'source-map';
 
-    const externals = ('externals' in overrides) ? overrides.externals : ({
-        react: 'React',
-        'react-dom': 'ReactDOM',
-        'plotly.js': 'Plotly',
-        'prop-types': 'PropTypes',
-    });
+     const externals = ('externals' in overrides) ? overrides.externals : ({
+         react: 'React',
+         'react-dom': 'ReactDOM',
+         'plotly.js': 'Plotly',
+         'prop-types': 'PropTypes',
+     });
 
-    return {
-        mode,
-        entry,
-        output: {
+     return {
+         mode,
+         entry,
+         resolve: {
+             extensions: ['.js', '.jsx', '.react.js']
+         },
+         output: {
             path: path.resolve(__dirname, dashLibraryName),
             chunkFilename: '[name].js',
             filename,
@@ -60,15 +63,15 @@ module.exports = (env, argv) => {
             }
         },
         externals,
-        module: {
-            rules: [
-                {
-                    test: /\.jsx?$/,
-                    exclude: /node_modules/,
-                    use: {
-                        loader: 'babel-loader',
-                    },
-                },
+         module: {
+             rules: [
+                 {
+                     test: /\.(?:react\.)?jsx?$/,
+                     exclude: /node_modules/,
+                     use: {
+                         loader: 'babel-loader',
+                     },
+                 },
                 {
                     test: /\.css$/,
                     use: [

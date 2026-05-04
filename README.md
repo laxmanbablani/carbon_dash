@@ -197,6 +197,15 @@ cd.Button(
 )
 ```
 
+## Publishing
+
+To publish a new version to PyPI:
+
+1. Bump the version in `package.json` (and optionally `carbon_dash/__init__.py` if needed).
+2. Commit and push to GitHub.
+3. Create a GitHub Release with a tag `vX.Y.Z` matching the version. The release will automatically trigger the `Publish to PyPI` workflow.
+4. The workflow builds the JavaScript bundles, generates Python backends, and publishes the package to PyPI using trusted publishing.
+
 ## License
 
 MIT License

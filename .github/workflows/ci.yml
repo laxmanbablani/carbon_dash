@@ -62,13 +62,6 @@ jobs:
         run: |
           ./venv/bin/pip install pytest pytest-xdist selenium webdriver-manager "dash[testing]>=2.0.0"
 
-      - name: Setup ChromeDriver
-        run: |
-          CHROMIUM_VERSION=$(google-chrome --version | awk '{print $3}')
-          echo "Chrome version: $CHROMIUM_VERSION"
-          ./venv/bin/webdriver-manager update --versions.chrome $CHROMIUM_VERSION
-          ./venv/bin/webdriver-manager status
-
       - name: Build JavaScript bundles
         run: npm run build:js
 

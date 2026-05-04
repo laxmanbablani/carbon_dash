@@ -1,98 +1,228 @@
-# Carbon Components for Dash
+# Carbon Dash
 
-Carbon Components for Dash is a Dash component library.
+Carbon Dash is a Dash component library wrapping IBM's [Carbon Design System](https://carbondesignsystem.com/) React components for Python. Build Dash applications with Carbon's enterprise-grade UI components including buttons, forms, navigation, data tables, and charts.
 
-Carbon React Components wrapped for Dash
+## Installation
 
-Get started with:
-1. Install Dash and its dependencies: https://dash.plotly.com/installation
-2. Run `python usage.py`
-3. Visit http://localhost:8050 in your web browser
+```bash
+pip install carbon_dash
+```
 
-## Contributing
+## Quick Start
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md)
+```python
+from dash import Dash, html, Input, Output
+import carbon_dash as cd
 
-### Install dependencies
+app = Dash(__name__)
 
-If you have selected install_dependencies during the prompt, you can skip this part.
+app.layout = html.Div([
+    cd.Button(id="btn", children="Click me", kind="primary"),
+    html.Div(id="output"),
+])
 
-1. Install npm packages
-    ```
-    $ npm install
-    ```
-2. Create a virtual env and activate.
-    ```
-    $ virtualenv venv
-    $ . venv/bin/activate
-    ```
-    _Note: venv\Scripts\activate for windows_
+@app.callback(
+    Output("output", "children"),
+    Input("btn", "n_clicks")
+)
+def update_output(n_clicks):
+    return f"Button clicked {n_clicks} times"
 
-3. Install python packages required to build components.
-    ```
-    $ pip install -r requirements.txt
-    ```
-4. Install the python packages for testing (optional)
-    ```
-    $ pip install -r tests/requirements.txt
-    ```
+if __name__ == "__main__":
+    app.run_server(debug=True)
+```
 
-### Write your component code in `src/lib/components/CarbonDash.react.js`.
+## Available Components
 
-- The demo app is in `src/demo` and you will import your example component code into your demo app.
-- Test your code in a Python environment:
-    1. Build your code
-        ```
-        $ npm run build
-        ```
-    2. Run and modify the `usage.py` sample dash app:
-        ```
-        $ python usage.py
-        ```
-- Write tests for your component.
-    - A sample test is available in `tests/test_usage.py`, it will load `usage.py` and you can then automate interactions with selenium.
-    - Run the tests with `$ pytest tests`.
-    - The Dash team uses these types of integration tests extensively. Browse the Dash component code on GitHub for more examples of testing (e.g. https://github.com/plotly/dash-core-components)
-- Add custom styles to your component by putting your custom CSS files into your distribution folder (`carbon_dash`).
-    - Make sure that they are referenced in `MANIFEST.in` so that they get properly included when you're ready to publish your component.
-    - Make sure the stylesheets are added to the `_css_dist` dict in `carbon_dash/__init__.py` so dash will serve them automatically when the component suite is requested.
-- [Review your code](./review_checklist.md)
+### Layout & Structure
+- **Grid**, **Row**, **Column** - CSS Grid-based layout system
+- **Stack** - Vertical/horizontal stacking utility
+- **Layer** - Layering utility for z-index management
 
-### Create a production build and publish:
+### Navigation
+- **Breadcrumb**, **BreadcrumbItem** - Hierarchical navigation
+- **Tabs**, **Tab**, **TabList**, **TabPanel**, **TabPanels** - Tabbed content
+- **SideNav**, **SideNavLink**, **SideNavMenu**, **SideNavMenuItem** - Side navigation
+- **Header**, **HeaderName**, **HeaderNavigation**, **HeaderMenu** - Application header
+- **Pagination** - Data pagination controls
+- **SkipToContent** - Accessibility skip link
 
-1. Build your code:
-    ```
-    $ npm run build
-    ```
-2. Create a Python distribution
-    ```
-    $ python setup.py sdist bdist_wheel
-    ```
-    This will create source and wheel distribution in the generated the `dist/` folder.
-    See [PyPA](https://packaging.python.org/guides/distributing-packages-using-setuptools/#packaging-your-project)
-    for more information.
+### Forms & Inputs
+- **Button**, **ButtonSet**, **IconButton**, **ComboButton** - Action buttons
+- **TextInput**, **TextArea**, **NumberInput** - Text inputs
+- **Select**, **SelectItem**, **MultiSelect** - Selection inputs
+- **Dropdown**, **ComboBox** - Dropdown/select components
+- **DatePicker**, **DatePickerInput**, **TimePicker** - Date/time pickers
+- **Checkbox**, **CheckboxGroup**, **RadioButton**, **RadioButtonGroup** - Selection controls
+- **Switch**, **Toggle** - Toggle switches
+- **Search** - Search input
+- **Slider** - Range slider
 
-3. Test your tarball by copying it into a new environment and installing it locally:
-    ```
-    $ pip install carbon_dash-0.0.1.tar.gz
-    ```
+### Fluid Components
+- **FluidTextInput**, **FluidTextArea**, **FluidNumberInput**
+- **FluidSelect**, **FluidMultiSelect**, **FluidComboBox**
+- **FluidDatePicker**, **FluidDatePickerInput**
+- **FluidSearch**, **FluidDropdown**, **FluidPasswordInput**
 
-4. If it works, then you can publish the component to NPM and PyPI:
-    1. Publish on PyPI
-        ```
-        $ twine upload dist/*
-        ```
-    2. Cleanup the dist folder (optional)
-        ```
-        $ rm -rf dist
-        ```
-    3. Publish on NPM (Optional if chosen False in `publish_on_npm`)
-        ```
-        $ npm publish
-        ```
-        _Publishing your component to NPM will make the JavaScript bundles available on the unpkg CDN. By default, Dash serves the component library's CSS and JS locally, but if you choose to publish the package to NPM you can set `serve_locally` to `False` and you may see faster load times._
+### Data Display
+- **DataTable** - Interactive data tables
+- **CodeSnippet** - Code display with copy
+- **Tag** - Label/tags display
+- **Text** - Text component
+- **Heading** - Heading text
 
-5. Share your component with the community! https://community.plotly.com/c/dash
-    1. Publish this repository to GitHub
-    2. Tag your GitHub repository with the plotly-dash tag so that it appears here: https://github.com/topics/plotly-dash
-    3. Create a post in the Dash community forum: https://community.plotly.com/c/dash
+### Feedback & Overlays
+- **Modal** - Dialog overlays
+- **Loading** - Loading indicators
+- **ProgressIndicator**, **ProgressBar** - Progress displays
+- **Toast**, **InlineNotification** - Notifications
+
+### Tiles & Media
+- **Tile**, **ClickableTile**, **SelectableTile**, **ExpandableTile** - Content tiles
+- **TileAboveTheFoldContent**, **TileBelowTheFoldContent** - Tile content sections
+
+### Charts
+- **AreaChart**, **LineChart**, **BarChart**, **GroupedBarChart**, **StackedBarChart**
+- **PieChart**, **DonutChart** - Pie/donut charts
+- **GaugeChart**, **MeterChart** - Gauge/meter charts
+- **HistogramChart**, **BoxplotChart**, **ScatterChart**
+- **BubbleChart**, **LollipopChart**, **RadarChart**, **HeatmapChart**
+- **ChoroplethChart**, **TreemapChart**, **CirclePackChart**, **TreeChart**
+- **AlluvialChart**, **WordCloudChart**
+
+### Utility Components
+- **Form**, **FormGroup**, **FormItem**, **FormLabel** - Form structure
+- **Content**, **ContentSwitcher** - Content containers
+- **OverflowMenu**, **OverflowMenuItem** - Overflow menus
+- **Tooltip**, **Link** - Helper components
+
+## Development
+
+### Prerequisites
+- Python 3.8+
+- Node.js 14+
+- npm
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/your-org/carbon_dash.git
+cd carbon_dash
+
+# Install npm dependencies
+npm install
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install Python dependencies
+pip install -r requirements.txt
+```
+
+### Build
+
+```bash
+# Build JavaScript and generate Python backends
+npm run build
+
+# Or run separately:
+npm run build:js        # Webpack bundle
+npm run build:backends  # Generate Python components
+```
+
+### Testing
+
+```bash
+# Run all tests
+pytest tests/ -v
+
+# Run specific test file
+pytest tests/test_button.py -v
+
+# Run tests in parallel
+pytest tests/ -n auto
+```
+
+## Component Pattern
+
+Each component follows the standard Dash pattern:
+
+```python
+import carbon_dash as cd
+
+# Basic usage
+cd.Button(id="primary-btn", children="Submit", kind="primary")
+
+# With icon
+cd.Button(
+    id="icon-btn",
+    children="Launch",
+    renderIcon={"icon": "launch"},
+    hasIconOnly=True
+)
+
+# Loading state
+cd.Button(id="loading-btn", children="Saving...", loading_state={"is_loading": True})
+
+# Click callback
+@app.callback(
+    Output("output", "children"),
+    Input("primary-btn", "n_clicks")
+)
+def handle_click(n_clicks):
+    return f"Clicked {n_clicks} times"
+```
+
+## AI Label Support
+
+Components that support AI labeling expose an `aiLabel` prop:
+
+```python
+cd.Button(id="ai-btn", children="AI Action", aiLabel=True)
+```
+
+## Icon Support
+
+Icons can be rendered using `dash_iconify` or Carbon icon names:
+
+```python
+import dash_iconify
+
+cd.Button(
+    id="icon-btn",
+    children="Add item",
+    renderIcon=dash_iconify.DashIconify(icon="carbon:add")
+)
+```
+
+## License
+
+MIT License
+
+Copyright (c) 2024 Laxman Bablani
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Links
+
+- [Carbon Design System](https://carbondesignsystem.com/)
+- [Dash Documentation](https://dash.plotly.com/)
+- [IBM Carbon React](https://github.com/carbon-design-system/carbon/tree/main/packages/react)

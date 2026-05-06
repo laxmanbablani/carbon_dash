@@ -1,6 +1,6 @@
 """Checkbox and Toggle component tests — covers Carbon story variants."""
 from dash import Dash, html
-import carbon_dash as cd
+import carbon_dash_components as cd
 
 
 def test_checkbox_default(dash_duo):

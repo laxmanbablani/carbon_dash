@@ -1,8 +1,8 @@
 # Include JS bundles and source maps
-recursive-include carbon_dash *.js
-recursive-include carbon_dash *.js.map
-recursive-include carbon_dash *.json
-recursive-include carbon_dash *.LICENSE.txt
+recursive-include carbon_dash_components *.js
+recursive-include carbon_dash_components *.js.map
+recursive-include carbon_dash_components *.json
+recursive-include carbon_dash_components *.LICENSE.txt
 
 # Include license and readme
 include README.md

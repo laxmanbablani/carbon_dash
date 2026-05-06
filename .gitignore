@@ -22,8 +22,14 @@ docs/pages/*.py
 # src/lib/index.js
 
 # Python compiled cache
-carbon_dash/__pycache__/
-carbon_dash/*.pyc
+carbon_dash_components/__pycache__/
+carbon_dash_components/*.pyc
+
+# Auto-generated Python backends (dash-generate-components)
+# All component .py files and helper files are regenerated from JS sources.
+carbon_dash_components/*.py
+!carbon_dash_components/__init__.py
+carbon_dash_components/metadata.json
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Webpack

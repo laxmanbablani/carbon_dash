@@ -5,14 +5,14 @@ Carbon Dash is a Dash component library wrapping IBM's [Carbon Design System](ht
 ## Installation
 
 ```bash
-pip install carbon_dash
+pip install carbon-dash-components
 ```
 
 ## Quick Start
 
 ```python
 from dash import Dash, html, Input, Output
-import carbon_dash as cd
+import carbon_dash_components as cd
 
 app = Dash(__name__)
 
@@ -150,7 +150,7 @@ pytest tests/ -n auto
 Each component follows the standard Dash pattern:
 
 ```python
-import carbon_dash as cd
+import carbon_dash_components as cd
 
 # Basic usage
 cd.Button(id="primary-btn", children="Submit", kind="primary")
@@ -201,7 +201,7 @@ cd.Button(
 
 To publish a new version to PyPI:
 
-1. Bump the version in `package.json` (and optionally `carbon_dash/__init__.py` if needed).
+1. Bump the version in `package.json` (and optionally `carbon_dash_components/__init__.py` if needed).
 2. Commit and push to GitHub.
 3. Create a GitHub Release with a tag `vX.Y.Z` matching the version. The release will automatically trigger the `Publish to PyPI` workflow.
 4. The workflow builds the JavaScript bundles, generates Python backends, and publishes the package to PyPI using trusted publishing.

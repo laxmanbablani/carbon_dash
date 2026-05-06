@@ -1,7 +1,7 @@
 """Carbon Dash Demo — Dashboard with all 25 charts, routing, and components."""
 import dash
 from dash import html, dcc, Output, Input, callback, State
-import carbon_dash as cd
+import carbon_dash_components as cd
 
 app = dash.Dash(__name__, suppress_callback_exceptions=True)
 

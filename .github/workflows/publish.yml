@@ -13,7 +13,7 @@ jobs:
       id-token: write
     environment:
       name: testpypi
-      url: https://test.pypi.org/project/carbon-dash/
+      url: https://test.pypi.org/project/carbon-dash-components/
 
     steps:
       - uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
         run: npm run build:js
 
       - name: Generate Python backends
-        run: dash-generate-components ./src/lib/components carbon_dash -p package-info.json --ignore '\.test\.'
+        run: dash-generate-components ./src/lib/components carbon_dash_components -p package-info.json --ignore '\.test\.'
 
       - name: Build package
         run: |

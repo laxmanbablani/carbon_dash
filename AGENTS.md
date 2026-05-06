@@ -1,106 +1,29 @@
 # Carbon Dash — Agent Instructions
 
-`carbon_dash` is a Dash wrapper for IBM Carbon Design System components. Each component is hand-authored as a single React/JSX file following the dash-mantine-components pattern.
+`carbon_dash_components` is a Dash wrapper for IBM Carbon Design System components. Each component is hand-authored as a single React/JSX file following the dash-mantine-components pattern.
 
 ## Project Structure
 
 ```
-carbon_dash/
+carbon_dash_components/
 ├── src/lib/
 │   ├── components/          # Hand-authored React component wrappers (.jsx)
 │   └── utils/
 │       └── dash.js          # getLoadingState + shared props
-├── carbon_dash/             # Generated Python backends (NEVER manually edit)
+├── carbon_dash_components/             # Generated Python backends (NEVER manually edit)
 │   └── __init__.py          # Package init (manual)
 ├── docs/                    # Standalone Dash Pages docs app (future)
 │   └── run.py               # Entry point
 ├── tests/                   # dash_duo render tests per component
-├── _ref/
-│   ├── carbon-design-system/    # Carbon React source (for PropTypes reference)
-│   └── carbon-charts/          # Carbon Charts source
-├── webpack.config.js        # Webpack build config
-├── package.json             # NPM scripts + dependencies
-└── setup.py                 # Python package config
-```
-
+...
 ## Build Pipeline (2 steps)
 
 ```bash
 npm run build:js          # Webpack bundles JS
-npm run build:backends    # dash-generate-components reads src/lib/components/ → carbon_dash/
+npm run build:backends    # dash-generate-components reads src/lib/components/ → carbon_dash_components/
 ```
-
-No generation scripts. No overrides. No config.json. Each component is a single hand-authored file.
-
-## Component Pattern
-
-Every component follows this structure:
-
-```jsx
-// src/lib/components/Button.jsx
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button as CarbonButton } from '@carbon/react';
-
-const Button = (props) => {
-    const { id, setProps, children, className, style, loading_state, ...others } = props;
-    const isLoading = loading_state && loading_state.is_loading;
-    
-    const handleClick = () => {
-        if (setProps) setProps({ n_clicks: (props.n_clicks || 0) + 1 });
-    };
-
-    return (
-        <CarbonButton
-            id={id}
-            className={className}
-            style={style}
-            data-dash-is-loading={isLoading || undefined}
-            onClick={handleClick}
-            {...others}
-        >
-            {children}
-        </CarbonButton>
-    );
-};
-
-Button.propTypes = {
-    id: PropTypes.string,
-    children: PropTypes.node,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    loading_state: PropTypes.shape({
-        is_loading: PropTypes.bool,
-        prop_name: PropTypes.string,
-        component_name: PropTypes.string,
-    }),
-    n_clicks: PropTypes.number,
-    kind: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'ghost', 'danger']),
-    size: PropTypes.oneOf(['sm', 'md', 'lg', 'xl']),
-    disabled: PropTypes.bool,
-    persistence: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
-    persisted_props: PropTypes.arrayOf(PropTypes.string),
-    persistence_type: PropTypes.oneOf(['local', 'session', 'memory']),
-};
-
-Button.defaultProps = {
-    kind: 'primary',
-    size: 'lg',
-    disabled: false,
-    n_clicks: 0,
-};
-
-export default Button;
-```
-
-## Key Rules
-
-1. **Every component must have full PropTypes and defaultProps** — this is what dash-generate-components reads to produce Python backends.
-2. **Props come from Carbon's source** — reference `_ref/carbon-design-system/packages/react/src/components/<Name>/` for the real PropTypes of each component.
-3. **Interactive components (onClick, onChange) must call setProps** — use inline handlers.
-4. **No generate.js, no config.json, no overrides** — each component is hand-authored directly.
-5. **Tests live in `tests/test_<name>.py`** — one dash_duo test per component.
-6. **NEVER edit `carbon_dash/*.py`** — they regenerate from PropTypes via `npm run build:backends`.
+...
+6. **NEVER edit `carbon_dash_components/*.py`** — they regenerate from PropTypes via `npm run build:backends`.
 
 ### Loading State Pattern
 
@@ -217,7 +140,7 @@ For each component, write tests covering:
 
 ```python
 from dash import Dash, html
-import carbon_dash as cd
+import carbon_dash_components as cd
 
 def test_button_basic(dash_duo):
     app = Dash(__name__)

@@ -8,7 +8,7 @@ import { getLoadingState } from '../utils/dash';
  * It renders a primary button with a dropdown menu of secondary actions.
  * 
  * Children should be Carbon MenuItem components (e.g., cd.MenuItem(label="Action")).
- * These can be created using carbon_dash.MenuItem in Python.
+ * These can be created using carbon_dash_components.MenuItem in Python.
  */
 const ComboButton = (props) => {
     const {

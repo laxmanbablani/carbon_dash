@@ -1,5 +1,5 @@
 from dash import Dash, html, dependencies
-import carbon_dash as cd
+import carbon_dash_components as cd
 
 
 def test_combobutton_basic(dash_duo):

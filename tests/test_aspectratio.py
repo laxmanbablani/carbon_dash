@@ -1,5 +1,5 @@
 from dash import Dash, html
-import carbon_dash as cd
+import carbon_dash_components as cd
 
 
 def test_aspectratio_basic(dash_duo):
@@ -10,7 +10,7 @@ def test_aspectratio_basic(dash_duo):
     dash_duo.start_server(app)
     dash_duo.wait_for_element("body")
     logs = dash_duo.get_logs()
-    if any('Component AspectRatio not found in carbon_dash' in entry.get('message', '') for entry in logs):
+    if any('Component AspectRatio not found in carbon_dash_components' in entry.get('message', '') for entry in logs):
         import pytest
         pytest.skip('AspectRatio not found in frontend bundle')
     assert logs == [], "JS errors: %s" % logs
@@ -24,7 +24,7 @@ def test_aspectratio_16x9(dash_duo):
     dash_duo.start_server(app)
     dash_duo.wait_for_element("body")
     logs = dash_duo.get_logs()
-    if any('Component AspectRatio not found in carbon_dash' in entry.get('message', '') for entry in logs):
+    if any('Component AspectRatio not found in carbon_dash_components' in entry.get('message', '') for entry in logs):
         import pytest
         pytest.skip('AspectRatio not found in frontend bundle')
     assert logs == [], "JS errors: %s" % logs
@@ -38,7 +38,7 @@ def test_aspectratio_4x3(dash_duo):
     dash_duo.start_server(app)
     dash_duo.wait_for_element("body")
     logs = dash_duo.get_logs()
-    if any('Component AspectRatio not found in carbon_dash' in entry.get('message', '') for entry in logs):
+    if any('Component AspectRatio not found in carbon_dash_components' in entry.get('message', '') for entry in logs):
         import pytest
         pytest.skip('AspectRatio not found in frontend bundle')
     assert logs == [], "JS errors: %s" % logs

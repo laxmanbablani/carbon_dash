@@ -1,5 +1,5 @@
 from dash import Dash, html
-import carbon_dash as cd
+import carbon_dash_components as cd
 
 
 def test_contentswitcher_basic(dash_duo):

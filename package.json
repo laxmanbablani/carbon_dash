@@ -1,11 +1,11 @@
 {
-  "name": "carbon_dash",
+  "name": "carbon-dash-components",
   "version": "0.0.1",
   "description": "Carbon React Components wrapped for Dash",
   "main": "build/index.js",
    "scripts": {
      "build:js": "webpack --mode production",
-     "build:backends": "dash-generate-components ./src/lib/components carbon_dash -p package-info.json --ignore '\\.test\\.'",
+      "build:backends": "dash-generate-components ./src/lib/components carbon_dash_components -p package-info.json --ignore '\\.test\\.'",
      "build": "npm run build:js && npm run build:backends",
      "build:wheel": "python setup.py sdist bdist_wheel"
    },

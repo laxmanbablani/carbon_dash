@@ -8,9 +8,10 @@ with open('package.json') as f:
 long_description = (here / 'README.md').read_text()
 
 package_name = package["name"].replace(" ", "_").replace("-", "_")
+dist_name = package["name"]
 
 setup(
-    name=package_name,
+    name=dist_name,
     version=package["version"],
     author=package['author'],
     packages=[package_name],

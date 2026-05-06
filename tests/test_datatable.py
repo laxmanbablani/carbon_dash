@@ -1,6 +1,6 @@
 """DataTable tests — basic, sorting, selection, skeleton."""
 from dash import Dash, html
-import carbon_dash as cd
+import carbon_dash_components as cd
 
 ROWS = [
     {"id": "a", "name": "Alpha", "score": 95},

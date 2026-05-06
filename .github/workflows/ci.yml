@@ -66,7 +66,7 @@ jobs:
         run: npm run build:js
 
       - name: Generate Python backends
-        run: ./venv/bin/dash-generate-components ./src/lib/components carbon_dash -p package-info.json --ignore '\.test\.'
+        run: ./venv/bin/dash-generate-components ./src/lib/components carbon_dash_components -p package-info.json --ignore '\.test\.'
 
       - name: Install package
         run: ./venv/bin/pip install -e .

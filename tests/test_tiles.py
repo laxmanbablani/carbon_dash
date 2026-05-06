@@ -1,6 +1,6 @@
 """Tile component tests."""
 from dash import Dash, html
-import carbon_dash as cd
+import carbon_dash_components as cd
 
 def test_tile_basic(dash_duo):
     app = Dash(__name__)

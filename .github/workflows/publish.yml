@@ -6,11 +6,14 @@ on:
       - 'v*'      # Production releases → PyPI
       - 'test-v*' # Pre-releases → TestPyPI
 
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
+ jobs:
+   publish:
+     runs-on: ubuntu-latest
+     permissions:
+       id-token: write
+     environment:
+       name: testpypi
+       url: https://test.pypi.org/project/carbon-dash/
 
     steps:
       - uses: actions/checkout@v4
@@ -39,7 +42,6 @@ jobs:
       - name: Install Python build tools
         run: |
           python -m pip install --upgrade build twine dash[dev]
-          python -m pip install pytest pytest-xdist selenium webdriver-manager "dash[testing]>=2.0.0"
 
       - name: Build JavaScript bundles
         run: npm run build:js

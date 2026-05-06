@@ -6,14 +6,14 @@ on:
       - 'v*'      # Production releases → PyPI
       - 'test-v*' # Pre-releases → TestPyPI
 
- jobs:
-   publish:
-     runs-on: ubuntu-latest
-     permissions:
-       id-token: write
-     environment:
-       name: testpypi
-       url: https://test.pypi.org/project/carbon-dash/
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/project/carbon-dash/
 
     steps:
       - uses: actions/checkout@v4
